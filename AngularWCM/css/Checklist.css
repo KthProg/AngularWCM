@@ -1,0 +1,124 @@
+﻿*{
+	font-family: 'Ubuntu', Calibri, Arial, Serif;
+	font-size: 1em;
+	color: rgb(40,40,40);
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-family: sans-serif, Serif;
+}
+
+body{
+	background-color: white;
+}
+
+table, td, tr, h1, h2, h3, strong, body{
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	border-collapse: collapse;
+}
+
+#ID{
+	background-color: black;
+	border: 0px solid black;
+	color: white;
+	text-indent: 1em;
+	font-size: 1em;
+}
+
+tr:nth-of-type(2n + 4) {
+	background-color: white;
+}
+
+tr:nth-of-type(2n + 3) {
+	background-color: lightgrey;
+}
+
+td{
+	font-size: 1.5em;
+}
+
+h1{ 
+	font-size: 2em;
+	text-align: center;
+	margin-bottom: 10px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	background-color: rgb(40,40,40);
+}
+
+h2{
+	font-size: 1.5em;
+	background-color: rgb(40,40,40);
+	color: #fff;
+}
+
+h3{
+	font-size: 1.2em;
+}
+
+form{
+	display:inline;
+}
+/*
+#images img{
+	height:80px;
+	width:80px;
+	float:right;
+}
+*/
+img[src*="download"], img[src*="upload"]{
+	height: 32px;
+	float: right;
+	cursor: pointer;
+}
+input[type=file]{
+	display: none;
+	float: right;
+}
+
+select, input{
+	width: 10em;
+}
+
+label{
+	float: right;
+}
+
+textarea{
+	resize: none;
+	width: 85%;
+}
+
+button{
+	height: 3.5em;
+	width: 5em;
+	margin: 5px;
+}
+
+img{
+	/*width: 50%;*/
+}
+
+strong{
+	display: block;
+	width: 10em;
+	border-radius: 0.1em;
+}
+
+.inputPlusLabel{
+    float: left;
+    margin: 5px;
+}
+
+.inputPlusLabel input, .inputPlusLabel select{
+        height: 2em;
+        border-width:1px;
+        padding: 0px;
+        margin: 0px;
+}
+
+.inputPlusLabel input[type=date]{
+    height: 1.9em;
+}

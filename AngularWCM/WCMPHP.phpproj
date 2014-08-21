@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>WCMPHP</Name>
+    <ProjectGuid>cf57f6f4-fea3-45d1-8296-49bbfb9d4259</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PHPWebProject1</RootNamespace>
+    <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <AssemblyName>PHPWebProject1</AssemblyName>
+    <ProjectHome />
+    <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+    <Server>PHPDev</Server>
+    <PublishEvent>None</PublishEvent>
+    <PHPDevAutoPort>True</PHPDevAutoPort>
+    <PHPDevPort>57840</PHPDevPort>
+    <PHPDevHostName>localhost</PHPDevHostName>
+    <IISProjectUrl>http://localhost:57840/</IISProjectUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Issues.php" />
+    <Compile Include="EHS.php" />
+    <Compile Include="Form.php" />
+    <Compile Include="scripts\php\Form.php" />
+    <Compile Include="scripts\php\Pipe.php" />
+    <Compile Include="scripts\php\Utilities.php" />
+    <Compile Include="ToolRepair.html" />
+    <Compile Include="WCC.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="css\" />
+    <Folder Include="Dashboard\" />
+    <Folder Include="scripts\js\chart\" />
+    <Folder Include="scripts\js\forms\" />
+    <Folder Include="scripts\js\wcm\" />
+    <Folder Include="xml\" />
+    <Folder Include="res\" />
+    <Folder Include="scripts\" />
+    <Folder Include="scripts\js\" />
+    <Folder Include="scripts\php\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueTag.html" />
+    <Content Include="Dashboard\Chart.php" />
+    <Content Include="css\Checklist.css" />
+    <Content Include="css\dashboard.css" />
+    <Content Include="css\issues.css" />
+    <Content Include="css\EHS.css" />
+    <Content Include="css\FormClasses.css" />
+    <Content Include="css\h3normalize.css" />
+    <Content Include="css\Media.css" />
+    <Content Include="css\normalize.css" />
+    <Content Include="css\SEWO.css" />
+    <Content Include="css\WCC.css" />
+    <Content Include="Dashboard\PM.html" />
+    <Content Include="Dashboard\SA.html" />
+    <Content Include="Dashboard.html" />
+    <Content Include="EWO.html" />
+    <Content Include="PMTag.html" />
+    <Content Include="QuickKaizen.html" />
+    <Content Include="res\arrow_left.png" />
+    <Content Include="res\arrow_right.png" />
+    <Content Include="res\bodychart.bmp" />
+    <Content Include="res\BodyChart.png" />
+    <Content Include="res\btn_ehs.gif" />
+    <Content Include="res\btn_ewo.gif" />
+    <Content Include="res\btn_kaizen.gif" />
+    <Content Include="res\btn_pm.gif" />
+    <Content Include="res\btn_pmtag.gif" />
+    <Content Include="res\btn_pm_reporting.gif" />
+    <Content Include="res\btn_sa.gif" />
+    <Content Include="res\btn_sewo.gif" />
+    <Content Include="res\btn_ua.gif" />
+    <Content Include="res\btn_ucan.gif" />
+    <Content Include="res\btn_wcc.gif" />
+    <Content Include="res\download.png" />
+    <Content Include="res\downloadgreen.png" />
+    <Content Include="res\mayco.png" />
+    <Content Include="res\mayco_safety_header.jpg" />
+    <Content Include="res\menubutton.png" />
+    <Content Include="res\pm_dashboard.jpg" />
+    <Content Include="res\safety_reporting.gif" />
+    <Content Include="res\upload.png" />
+    <Content Include="res\uploadgreen.png" />
+    <Content Include="res\wcm_logo.jpg" />
+    <Content Include="res\x.png" />
+    <Content Include="scripts\js\chart\chartFuncs.js" />
+    <Content Include="scripts\js\forms\EWO.js" />
+    <Content Include="scripts\js\wcm\issue.js" />
+    <Content Include="scripts\js\wcm\form.js" />
+    <Content Include="scripts\js\forms\checklist.js" />
+    <Content Include="SAFE.html" />
+    <Content Include="scripts\js\wcm\pipe.js" />
+    <Content Include="scripts\js\wcm\wcm.js" />
+    <Content Include="UCAN.html" />
+    <Content Include="xml\connections.xml" />
+    <Content Include="xml\ehslabels.xml" />
+    <Content Include="xml\queries.xml" />
+    <Content Include="xml\wcclabels.xml" />
+  </ItemGroup>
+</Project>

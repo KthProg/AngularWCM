@@ -1,0 +1,237 @@
+@viewport{
+    zoom: 1.0;
+    width: device-width;
+}
+@-ms-viewport{
+    width: extend-to-zoom;
+    zoom: 1.0;
+}
+.filter{
+    float: left;
+}
+
+select{
+    width: 10em;
+}
+
+#details{
+    position: absolute;
+    height: auto;
+    width: 50%;
+    background-color: white;
+    border: 1px solid grey;
+    padding: 15px;
+    display: none;
+}
+.toggleButton{
+    float: left;
+    clear: left;
+}
+.btnGroup{
+    float: right;
+}
+h1,h2,h3,p,span{
+    padding: 15px;
+}
+h3{
+    margin: 0px;
+    font-weight: normal;
+    font-size: 1em;
+    overflow: hidden;
+}
+header h3{
+    color: rgb(240,240,240);
+}
+
+body{
+    background-color: rgb(240, 240, 240);
+}
+header{
+    background-color: rgb(80, 80, 80);
+    color: white;
+    overflow: hidden; /*Creates new 'BFC', so it aligns properly with the left-floated nav*/
+}
+
+header a{
+    text-decoration: none;
+    color: rgb(80,80,80);
+}
+
+li, a, p, span{
+    font-size: 0.75em;
+}
+
+#logo{
+    width: 100%;
+}
+
+#buttons li, ul{
+    display: inline;
+}
+#buttons li{
+    background-color: rgb(240,240,240);
+    border-top-left-radius: 0.25em;
+    border-top-right-radius: 0.25em;
+    color: rgb(80,80,80);
+    padding: 8px;
+}
+
+#menubutton{
+    display: none;
+}
+
+#left_nav{
+    height: 1200px;
+}
+#issues{
+    height: auto;
+}
+
+#left_nav{
+    background-color:rgb(30, 30, 30);
+    color: white;
+    float: left;
+}
+#left_nav *{
+    margin-left: 5px;
+}
+#left_nav li{
+    border: none;
+    padding: 5px;
+}
+
+#left_nav a{
+    color: white;
+    text-decoration: none;
+    margin: 0px;
+    display: block;
+    padding: 0.75em;
+    font-size: 1em;
+}
+#left_nav ul{
+    list-style-type: none;
+    padding: 0px;
+}
+input[name=formSearch]{
+    background-color: rgb(80,80,80);
+    border: none;
+    border-radius: 0.25em;
+    height: 35px;
+    color: white;
+    width: 90%;
+    margin-left: 5%;
+    margin-bottom: 15px;
+}
+
+*[onclick]:hover, *[href]:hover, .activated{
+    cursor: pointer;
+    opacity: 0.5;
+    background-color: white;
+    color: black;
+}
+
+#issues, form, #current_issue{
+    float: left;
+    margin: 2%;
+    clear: right;
+}
+#open_issues .issue{
+    background-color: rgba(150,150,220,0.5);
+    color: black;
+}
+#closed_issues .issue{
+    background-color: rgba(220,150,150,0.5);
+    color: grey;
+}
+#open_issues, #closed_issues, #detailspane{
+    background-color: white;
+}
+#open_issues, #closed_issues{
+    margin-bottom: 20px;
+}
+.issue{
+    padding: 15px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+.issue{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.issue span{
+    padding-left: 10px;
+    vertical-align: middle;
+}
+.issue button{
+    height: 25px;
+    width: 25px;
+    padding: 5px;
+}
+input[type=checkbox]{
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2);        /* IE */
+    -moz-transform: scale(2);       /* FF */
+    -webkit-transform: scale(2);    /* Safari and Chrome */
+    -o-transform: scale(2);         /* Opera */
+}
+
+@media (min-width: 800px){
+    #left_nav{
+        width: 20%;
+    }
+    #issues, form, #current_issue{
+        width: 76%;
+    }
+}
+
+@media (max-width: 799px), handheld{
+    #left_nav{
+        display: none;
+    } 
+    #issues, form, #current_issue{
+        width: 96%;
+    }
+    #menubutton{
+        display: inline;
+    }
+    #left_nav{
+        float: none;
+        height: auto;
+    }
+    #logo{
+        width: 256px;
+    }
+    #left_nav li{
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 400px), handheld{
+    #issues, form, #current_issue{
+        width: 96%;
+    }
+    #menubutton{
+        display: inline;
+    }
+    header h3{
+        font-size: 0.9em;
+    }
+    #left_nav li{
+        font-size: 1.5em;
+    }
+}
+
+*{
+    /* For Safari 3.1 to 6.0 */
+    -webkit-transition-property: width;
+    -webkit-transition-duration: 0.5s;
+    -webkit-transition-timing-function: linear;
+    -webkit-transition-delay: 0s;
+    /* Standard syntax */
+    transition-property: width;
+    transition-duration: 0.5s;
+    transition-timing-function: linear;
+    transition-delay: 0s;
+}

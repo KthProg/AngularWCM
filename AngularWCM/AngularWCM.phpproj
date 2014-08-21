@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>AngularWCM</Name>
+    <ProjectGuid>1196d7a0-20cf-4e03-9037-e9d81392c3ff</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>AngularWCM</RootNamespace>
+    <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <AssemblyName>AngularWCM</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Dashboard\Chart.php" />
+    <Compile Include="DevForm.php" />
+    <Compile Include="EHS.php" />
+    <Compile Include="scripts\php\Open.php" />
+    <Compile Include="scripts\php\Query.php" />
+    <Compile Include="scripts\php\SaveImage.php" />
+    <Compile Include="scripts\php\Submit.php" />
+    <Compile Include="scripts\php\Update.php" />
+    <Compile Include="scripts\php\Utilities.php" />
+    <Compile Include="WCC.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="css\" />
+    <Folder Include="Dashboard\" />
+    <Folder Include="json\" />
+    <Folder Include="res\" />
+    <Folder Include="xml\" />
+    <Folder Include="scripts\" />
+    <Folder Include="scripts\js\" />
+    <Folder Include="scripts\php\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BlueTag.html" />
+    <Content Include="css\Checklist.css" />
+    <Content Include="css\dashboard.css" />
+    <Content Include="css\EHS.css" />
+    <Content Include="css\FormClasses.css" />
+    <Content Include="css\h3normalize.css" />
+    <Content Include="css\issues.css" />
+    <Content Include="css\Media.css" />
+    <Content Include="css\normalize.css" />
+    <Content Include="css\SEWO.css" />
+    <Content Include="css\WCC.css" />
+    <Content Include="Dashboard.html" />
+    <Content Include="Dashboard\PM.html" />
+    <Content Include="Dashboard\SA.html" />
+    <Content Include="EWO.html" />
+    <Content Include="json\FormData.json" />
+    <Content Include="PMTag.html" />
+    <Content Include="QuickKaizen.html" />
+    <Content Include="res\arrow_left.png" />
+    <Content Include="res\arrow_right.png" />
+    <Content Include="res\bodychart.bmp" />
+    <Content Include="res\BodyChart.png" />
+    <Content Include="res\btn_ehs.gif" />
+    <Content Include="res\btn_ewo.gif" />
+    <Content Include="res\btn_kaizen.gif" />
+    <Content Include="res\btn_pm.gif" />
+    <Content Include="res\btn_pmtag.gif" />
+    <Content Include="res\btn_pm_reporting.gif" />
+    <Content Include="res\btn_sa.gif" />
+    <Content Include="res\btn_sewo.gif" />
+    <Content Include="res\btn_ua.gif" />
+    <Content Include="res\btn_ucan.gif" />
+    <Content Include="res\btn_wcc.gif" />
+    <Content Include="res\download.png" />
+    <Content Include="res\downloadgreen.png" />
+    <Content Include="res\mayco.png" />
+    <Content Include="res\mayco_safety_header.jpg" />
+    <Content Include="res\menubutton.png" />
+    <Content Include="res\pm_dashboard.jpg" />
+    <Content Include="res\safety_reporting.gif" />
+    <Content Include="res\upload.png" />
+    <Content Include="res\uploadgreen.png" />
+    <Content Include="res\wcm_logo.jpg" />
+    <Content Include="res\x.png" />
+    <Content Include="SAFE.html" />
+    <Content Include="scripts\js\form.js" />
+    <Content Include="scripts\js\ToolRepair.js" />
+    <Content Include="ToolRepair.html" />
+    <Content Include="UCAN.html" />
+    <Content Include="UnsafeAct.html" />
+    <Content Include="xml\connections.xml" />
+    <Content Include="xml\ehslabels.xml" />
+    <Content Include="xml\queries.xml" />
+    <Content Include="xml\wcclabels.xml" />
+  </ItemGroup>
+</Project>

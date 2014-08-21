@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta ng-model="fields['viewport" content="width=device-width, initial-scale=1">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="scripts/js/wcm/wcm.js"></script>
+    <script src="scripts/js/wcm/form.js"></script>
+    
+
+    <link rel="stylesheet" href="css/Normalize.css" />
+    <link rel="stylesheet" href="css/FormClasses.css" />
+    <link rel="stylesheet" href="css/h3normalize.css" />
+
+    <title>PM Tag</title>
+</head>
+
+<body>
+        <table>
+            <tr>
+                <td colspan="3" class="dkgrey whitetext"><h1>PM Tag Form</h1></td>
+                <td class="ltgrey"><h2>Tag No <input id="ID" ng-model="fields['TagNo']' type="text" value="" style="width: auto; background-color: inherit;" readonly /></h2></td>
+            </tr>
+            <tr class="ltgrey">
+                <td>Original Tag No</td>
+                <td>Date</td>
+                <td>Department</td>
+                <td>Problem</td>
+            </tr>
+            <tr>
+                <td><input type="number" ng-model="fields['OldTagNo']" /></td>
+                <td><input type="date" ng-model="fields['Date']" /></td>
+                <td>
+                    <select ng-model="fields['Location']" ng-options='{ "Query" : "Departments", "Params" : ["Merrill"]'></select>
+                </td>
+                <td rowspan="7">
+                    <textarea ng-model="fields['Problem']"></textarea>
+                </td>
+            </tr>
+            <tr class="ltgrey">
+                <td>Reported By</td>
+                <td>Notes</td>
+                <td>Zone</td>
+            </tr>
+            <tr>
+                <td><input type="text" ng-model="fields['SignedBy']" /></td>
+                <td rowspan="5"><textarea ng-model="fields['Notes']"></textarea></td>
+                <td>
+                    <select ng-model="fields['ZZone']" ng-options='{ "Query" : "Zones", "Params" : ["Merrill", "$Location$"]'></select>
+                </td>
+            </tr>
+            <tr class="ltgrey">
+                <td>Completed By</td>
+                <td>Machine</td>
+            </tr>
+            <tr>
+                <td><input type="text" ng-model="fields['WorkCompletedBy']" /></td>
+                <td>
+                    <select ng-model="fields['EquipmentID']" ng-options='{ "Query" : "Machines", "Params" : ["Merrill", "$Location$", "$ZZone$"]'></select>
+                </td>
+            </tr>
+            <tr class="ltgrey">
+                <td>Status</td>
+                <td>Date Completed</td>
+            </tr>
+            <tr>
+                <td><select ng-model="fields['Status']'" ng-options='{"list" : ["Open","Closed"]' data-default="Open"></select></td>
+                <td><input type="date" ng-model="fields['WorkCompletedDate" /></td>
+            </tr>
+            <tr class="ltgrey">
+                <td colspan="4">Repair Description</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <textarea ng-model="fields['RepairDescription']"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <button ng-click="open()">Open</button>
+                    <button ng-click="clear()">Clear</button>
+                    <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
+                    <button ng-click="update()" ng-show="hasRecord">Update</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

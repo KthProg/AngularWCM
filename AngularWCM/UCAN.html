@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta ng-model="fields['viewport" content="width=device-width, initial-scale=1">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
+    <script src="/scripts/js/form.js"></script>
+
+    <link rel="stylesheet" href="css/Normalize.css" />
+    <link rel="stylesheet" href="css/FormClasses.css" />
+    <link rel="stylesheet" href="css/h3normalize.css" />
+
+    <title>Blue Tag</title>
+</head>
+
+<body ng-app="wcm"
+      ng-controller="Form"
+      ng-init="setFormData('UCAN');">
+    <table>
+        <tr>
+            <td colspan="3" class="dkgrey whitetext"><h1>Unsafe Conditions And Acts Form</h1></td>
+            <td class="ltgrey"><h2>UCAN Number {{hasRecord ? id  + " (Updating)" : " (New Form)"}}</h2></td>
+        </tr>
+        <tr>
+            <td class="ltgrey"><h3>Type</h3></td>
+            <td class="ltgrey"><h3>Plant</h3></td>
+            <td class="ltgrey"><h3>Department</h3></td>
+            <td class="ltgrey"><h3>Description of Incident</h3></td>
+        </tr>
+        <tr>
+            <td>
+                <select ng-model="fields['UCANType']" ng-options='v as v for (k,v) in ["Unsafe Condition","Unsafe Act"]' required>
+                    <option value="">UCAN Type</option>
+                </select>
+            </td>
+            <td>
+                <select ng-model="fields['Plant']" ng-options="v as v for (k,v) in queries['Plant'].options" required></select>
+            </td>
+            <td>
+                <select ng-model="fields['UCANDept']" id="dept" ng-options="v as v for (k,v) in queries['UCANDept'].options" required></select>
+            </td>
+            <td rowspan="7"><textarea ng-model="fields['UCANDescription']" placeholder="Description" required="required"></textarea></td>
+        </tr>
+        <tr>
+            <td class="ltgrey"><h3>Reported By</h3></td>
+            <td class="ltgrey"><h3>Location/Persons</h3></td>
+            <td class="ltgrey"><h3>Zone</h3></td>
+        </tr>
+        <tr>
+            <td><input type="text" ng-model="fields['UCANReportedBy']" placeholder="Reported By" required="required" /></td>
+            <td rowspan="3"><textarea ng-model="fields['UCANPersons']" placeholder="Location/Persons" required="required"></textarea></td>
+            <td>
+                <select ng-model="fields['UCANZone']" ng-options="v as v for (k,v) in queries['UCANZone'].options" required></select>
+            </td>
+        </tr>
+        <tr>
+            <td class="ltgrey"><h3>Safety Tag</h3></td>
+            <td class="ltgrey"><h3>Machine</h3></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" ng-model="fields['IsSafetyTag']" ng-true-value="1" ng-false-value="0" />
+            </td>
+            <td>
+                <select ng-model="fields['UCANEquip']" ng-options="v as v for (k,v) in queries['UCANEquip'].options"></select>
+            </td>
+        </tr>
+        <tr>
+            <td class="ltgrey"><h3>Completed</h3></td>
+            <td class="ltgrey"><h3>Date</h3></td>
+            <td class="ltgrey"><h3>Notes/Tag No.</h3></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" ng-model="fields['UCANCompleted']" ng-true-value="1" ng-false-value="0" />
+            </td>
+            <td><input type="date" ng-model="fields['UCANDate']" placeholder="Date Submitted" required="required" /></td>
+            <td><input type="text" ng-model="fields['Notes']" placeholder="Notes" /></td>
+        </tr>
+        <tr>
+            <td colspan="4" class="ltgrey"><h3>Action Plan</h3></td>
+        </tr>
+        <tr>
+            <td colspan="4" height="100px"><textarea ng-model="fields['UCANActionPlan']" placeholder="Action plan" required="required"></textarea></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button ng-click="open()">Open</button>
+                <button ng-click="clear()">Clear</button>
+                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
+                <button ng-click="update()" ng-show="hasRecord">Update</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

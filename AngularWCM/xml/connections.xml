@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<connections>
+  <connection name="Safety">
+    <host>10.1.10.50\SQL2008</host>
+    <user>safety1</user>
+    <password>Safety</password>
+    <database>Safety</database>
+  </connection>
+  <connection name="Mattec">
+    <host>192.9.200.26</host>
+    <user>datanat1</user>
+    <password>datanat1</password>
+    <database>Mattec_Prohelp</database>
+  </connection>
+</connections>

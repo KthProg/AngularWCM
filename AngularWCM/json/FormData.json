@@ -1,0 +1,368 @@
+﻿{
+	"Blue Tag" : {
+		"Queries" : {
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["Merrill"],
+				"options": []
+			},
+			"Zone" : {
+				"name" : "Zones",
+				"params" : ["Merrill","_Department_"],
+				"options": []
+			},
+			"Machine" : {
+				"name" : "Machines",
+				"params" : ["Merrill","_Department_","_Zone_"],
+				"options": []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "BlueTags",
+		"Connection" : "Safety"
+	},
+	"Development Form" : {
+		"Queries" : {
+			"ToolNumber" : {
+				"name" : "Tools",
+				"params" : [],
+				"options": []
+			},
+			"Plant" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["_Plant_"],
+				"options": []
+			},
+			"Zone" : {
+				"name" : "Zones",
+				"params" : ["_Plant_","_Department_"],
+				"options": []
+			},
+			"Machine" : {
+				"name" : "Machines",
+				"params" : ["_Plant_","_Department_","_Zone_"],
+				"options": []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "DevForm",
+		"Connection" : "Safety"
+	},
+	"EHS" : {
+		"Queries" : {
+			"Plant" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["_Plant_"],
+				"options": []
+			},
+			"Zone" : {
+				"name" : "Zones",
+				"params" : ["_Plant_","_Department_"],
+				"options": []
+			},
+			"MachID" : {
+				"name" : "Machines",
+				"params" : ["_Plant_","_Department_","_Zone_"],
+				"options": []
+			},
+			"AuditorName": {
+				"name" : "Auditors",
+				"params" : [],
+				"options" : []
+			},
+			"WorkCell": {
+				"name" : "WorkCells",
+				"params" : ["_Plant_", "_Department_"],
+				"options" : []
+			},
+			"PartNum": {
+				"name" : "Tools",
+				"params" : [],
+				"options" : []
+			},
+			"Supervisor": {
+				"name" : "Supervisors",
+				"params" : [],
+				"options" : []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "EHS",
+		"Connection" : "Safety"
+	},
+	"EWO" : {
+		"Queries" : {
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["Merrill"],
+				"options": []
+			},
+			"Zone" : {
+				"name" : "Zones",
+				"params" : ["Merrill","_Department_"],
+				"options": []
+			},
+			"Machine" : {
+				"name" : "Machines",
+				"params" : ["Merrill","_Department_","_Zone_"],
+				"options": []
+			},
+			"SubSystem" : {
+				"name" : "SubSystems",
+				"params" : ["Merrill","_Department_","_Zone_","_Machine_"],
+				"options" : []
+			},
+			"RootCause": {
+				"name" : "EWORootCauses",
+				"params" : [],
+				"options" : []
+			},
+			"SecondaryRootCause" : {
+				"name" : "EWOSecondaryCauses",
+				"params" : ["_RootCause_"],
+				"options" : []
+			},
+			"ActionType" : {
+				"name" : "EWOActions",
+				"params" : ["_RootCause_","_SecondaryRootCause_"],
+				"options" : []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "EWO",
+		"Connection" : "Safety"
+	},
+	"PM Tag" : {
+		"Queries" : [
+			
+		],
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "TagNo",
+		"Table" : "PMTags",
+		"Connection" : "Safety"
+	},
+	"Kaizen" : {
+		"Queries" : [
+			
+		],
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "KaizenNumber",
+		"Table" : "Kaizens",
+		"Connection" : "Safety"
+	},
+	"SAFE" : {
+		"Queries" : {
+			"Plant" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["_Plant_"],
+				"options": []
+			},
+			"ZZone" : {
+				"name" : "Zones",
+				"params" : ["_Plant_","_Department_"],
+				"options": []
+			},
+			"Machine" : {
+				"name" : "Machines",
+				"params" : ["_Plant_","_Department_","_ZZone_"],
+				"options": []
+			},
+			"AccidentType" : {
+				"name" : "AccidentTypes",
+				"params" : [],
+				"options" : []
+			},
+			"InjuryType" : {
+				"name" : "InjuryTypes",
+				"params" : [],
+				"options" : []
+			},
+			"BodyPart" : {
+				"name" : "BodyParts",
+				"params" : [],
+				"options" : []
+			},
+			"RootCause": {
+				"name" : "RootCauses",
+				"params" : [],
+				"options" : []
+			},
+			"SecondaryCause" : {
+				"name" : "SecondaryCauses",
+				"params" : ["_RootCause_"],
+				"options" : []
+			},
+			"MicroCause" : {
+				"name" : "MicroCauses",
+				"params" : ["_RootCause_","_SecondaryCause_"],
+				"options" : []
+			},
+			"Action" : {
+				"name" : "Actions",
+				"params" : ["_RootCause_","_SecondaryCause_"],
+				"options" : []
+			}
+			},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "SEWONumber",
+		"Table" : "ESEWOs",
+		"Connection" : "Safety"
+	},
+	"Tool Repair" : {
+		"Queries" : {
+			"ToolNumber" : {
+				"name" : "Tools",
+				"params" : [],
+				"options": []
+			},
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["Merrill"],
+				"options": []
+			},
+			"Zone" : {
+				"name" : "Zones",
+				"params" : ["Merrill","_Department_"],
+				"options": []
+			},
+			"Machine" : {
+				"name" : "Machines",
+				"params" : ["Merrill","_Department_","_Zone_"],
+				"options": []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "ToolIssues",
+		"Connection" : "Safety"
+	},
+	"UCAN" : {
+		"Queries" : {
+			"Plant" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"UCANDept" : {
+				"name" : "Departments",
+				"params" : ["_Plant_"],
+				"options": []
+			},
+			"UCANZone" : {
+				"name" : "Zones",
+				"params" : ["_Plant_","_UCANDept_"],
+				"options": []
+			},
+			"UCANEquip" : {
+				"name" : "Machines",
+				"params" : ["_Plant_","_UCANDept_","_UCANZone_"],
+				"options": []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "UCANs",
+		"Connection" : "Safety"
+	},
+	"Unsafe Act" : {
+		"Queries" : {
+			"Plant" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["_Plant_"],
+				"options": []
+			},
+			"Zone" : {
+				"name" : "Zones",
+				"params" : ["_Plant_","_Department_"],
+				"options": []
+			},
+			"UAType" : {
+				"name" : "UATypes",
+				"params" : [],
+				"options": []
+			}
+			,
+			"UATypeMicro" : {
+				"name" : "UAMicroTypes",
+				"params" : ["_UAType_"],
+				"options": []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "UnsafeActs",
+		"Connection" : "Safety"
+	},
+	"WCC" : {
+		"Queries" : {
+			"Plant" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"Department" : {
+				"name" : "Departments",
+				"params" : ["_Plant_"],
+				"options": []
+			},
+			"Zone" : {
+				"name" : "Zones",
+				"params" : ["_Plant_","_Department_"],
+				"options": []
+			},
+			"MachID" : {
+				"name" : "Machines",
+				"params" : ["_Plant_","_Department_","_Zone_"],
+				"options": []
+			},
+			"AuditorName": {
+				"name" : "Auditors",
+				"params" : [],
+				"options" : []
+			},
+			"WorkCell": {
+				"name" : "WorkCells",
+				"params" : ["_Plant_", "_Department_"],
+				"options" : []
+			},
+			"PartNum": {
+				"name" : "Tools",
+				"params" : [],
+				"options" : []
+			},
+			"Supervisor": {
+				"name" : "Supervisors",
+				"params" : [],
+				"options" : []
+			}
+		},
+		"Emails" : "hooks@njt-na.com",
+		"PK" : "ID",
+		"Table" : "WCC",
+		"Connection" : "Safety"
+	}
+}

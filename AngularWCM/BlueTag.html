@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta ng-model="fields['viewport" content="width=device-width, initial-scale=1">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
+    <script src="/scripts/js/form.js"></script>
+
+    <link rel="stylesheet" href="css/Normalize.css" />
+    <link rel="stylesheet" href="css/FormClasses.css" />
+    <link rel="stylesheet" href="css/h3normalize.css" />
+
+    <title>Blue Tag</title>
+</head>
+
+<body ng-app="wcm"
+      ng-controller="Form"
+      ng-init="setFormData('Blue Tag');">
+    <table>
+        <tr>
+            <td colspan="5" class="dkblue whitetext"><h1>Blue Tag Number {{hasRecord ? id  + " (Updating)" : " (New Form)"}}</h1></td>
+        </tr>
+        <tr>
+            <td class="ltgrey">Tag#</td>
+            <td class="ltgrey">WO#</td>
+            <td class="ltgrey">Tag Type</td>
+            <td class="ltgrey">Name</td>
+        </tr>
+        <tr>
+            <td><input type="number" ng-model="fields['TagNo']" placeholder="Tag Number" value="" required="required" /></td>
+            <td><input type="number" ng-model="fields['WONo']" value="" /></td>
+            <td>
+                <select ng-model="fields['TagType']" ng-options="v as v for (k,v) in ['WO','AM']">
+                    <option value="">Tag Type</option>
+                </select>
+            </td>
+            <td><input type="text" ng-model="fields['Name']" placeholder="Name" value="" /></td>
+        </tr>
+        <tr>
+            <td class="ltgrey">Date Opened</td>
+            <td class="ltgrey">Shift</td>
+            <td class="ltgrey">Department</td>
+            <td class="ltgrey">Zone</td>
+        </tr>
+        <tr>
+            <td><input type="date" ng-model="fields['OpenDate']" placeholder="yyyy-mm-dd" value="" required="required" /></td>
+            <td>
+                <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in ["1","2","3"]'></select>
+            </td>
+            <td>
+                <select ng-model="fields['Department']" ng-options="v as v for (k,v) in queries['Department'].options"></select>
+            </td>
+            <td>
+                <select ng-model="fields['Zone']" ng-options="v as v for (k,v) in queries['Zone'].options"></select>
+            </td>
+        </tr>
+        <tr>
+            <td class="ltgrey">Machine</td>
+            <td class="ltgrey">Problem Type</td>
+            <td class="ltgrey">Date Completed</td>
+            <td class="ltgrey">Completed By</td>
+        </tr>
+        <tr>
+            <td>
+                <select ng-model="fields['Machine']" ng-options="v as v for (k,v) in queries['Machine'].options"></select>
+            </td>
+            <td>
+                <select ng-model="fields['ProblemType']" ng-options="v as v for (k,v) in ['Oil leak','Water leak','Grease/lube leak','Air leak','Contamination','Out of operating range','Vibration','Wrong temperature','Wrong pressure','Difficult to lube','Difficult to clean','Irregular function','Loose/missing fastener','Other']"></select>
+            </td>
+            <td><input type="date" ng-model="fields['CompletedDate']" placeholder="Completed Date" /></td>
+            <td><input type="text" ng-model="fields['CompletedBy']" placeholder="Completed By" /></td>
+        </tr>
+        <tr>
+            <td colspan="4" class="ltgrey">Details</td>
+        </tr>
+        <tr>
+            <td colspan="4" height="100"><input type="text" ng-model="fields['Details']" placeholder="Details" value="" /></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button ng-click="open()">Open</button>
+                <button ng-click="clear()">Clear</button>
+                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
+                <button ng-click="update()" ng-show="hasRecord">Update</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

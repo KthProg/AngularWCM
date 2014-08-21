@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<queries>
+  <query name="Plants">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Plant FROM PlantLayout</qstring>
+  </query>
+  <query name="Departments">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Department FROM PlantLayout WHERE Plant=?</qstring>
+  </query>
+  <query name="Zones">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Zone FROM PlantLayout WHERE Plant=? AND Department=?</qstring>
+  </query>
+  <query name="WorkCells">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT WorkCell FROM PlantLayout WHERE Plant=? AND Department=?</qstring>
+  </query>
+  <query name="Machines">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Machine FROM PlantLayout WHERE Plant=? AND Department=? AND Zone=?</qstring>
+  </query>
+  <query name="Subsystems">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Part FROM PlantLayout WHERE Plant=? AND Department=? AND Zone=? AND Machine=?</qstring>
+  </query>
+  <query name="Auditors">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT AuditorName FROM Auditor</qstring>
+  </query>
+  <query name="Supervisors">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT SupervisorName FROM Supervisor</qstring>
+  </query>
+  <query name="AccidentTypes">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT AccidentType FROM AccidentTypes</qstring>
+  </query>
+  <query name="InjuryTypes">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT InjuryType FROM InjuryTypes</qstring>
+  </query>
+  <query name="BodyParts">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT BodyPart FROM BodyParts</qstring>
+  </query>
+  <query name="Tools">
+    <connection>Mattec</connection>
+    <qstring>SELECT DISTINCT MoldID FROM MoldIDs</qstring>
+  </query>
+  <query name="RootCauses">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT RootCause FROM vRootCause</qstring>
+  </query>
+  <query name="SecondaryCauses">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT SecondaryRootCause FROM vRootCause WHERE RootCause=?</qstring>
+  </query>
+  <query name="MicroCauses">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT MicroRootCause FROM vRootCause WHERE RootCause=? AND SecondaryRootCause=?</qstring>
+  </query>
+  <query name="Actions">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Action FROM vRootCause WHERE RootCause=? AND SecondaryRootCause=?</qstring>
+  </query>
+  <query name="EWORootCauses">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT RootCause FROM vEWO_RootCause</qstring>
+  </query>
+  <query name="EWOSecondaryCauses">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT SecondaryRootCause FROM vEWO_RootCause WHERE RootCause=?</qstring>
+  </query>
+  <query name="EWOActions">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Action FROM vEWO_RootCause WHERE RootCause=? AND SecondaryRootCause=?</qstring>
+  </query>
+  <query name="CloseIssue">
+    <connection>Safety</connection>
+    <qstring>INSERT INTO ClosedIssues (FormName, FormNum, LineNum, ActionTaken) VALUES (?, ?, ?, ?)</qstring>
+  </query>
+  <query name="OpenIssue">
+    <connection>Safety</connection>
+    <qstring>DELETE FROM ClosedIssues WHERE FormName=? AND FormNum=? AND LineNum=?</qstring>
+  </query>
+  <query name="GetOpenIssues">
+    <connection>Safety</connection>
+    <qstring>SELECT * FROM OpenIssues</qstring>
+  </query>
+  <query name="GetClosedIssues">
+    <connection>Safety</connection>
+    <qstring>SELECT * FROM ClosedIssueDetails</qstring>
+  </query>
+  <query name="UATypes">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT UAType FROM vUATypes</qstring>
+  </query>
+  <query name="UAMicroTypes">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT UAMicroType FROM vUATypes WHERE UAType=?</qstring>
+  </query>
+  <!-- Chart Queries -->
+  <query name="MachMTBF">
+    <connection>Mattec</connection>
+    <qstring>EXEC pMachMTBF @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="MachMTTR">
+    <connection>Mattec</connection>
+    <qstring>EXEC pMachMTTR @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="MachDowntime">
+    <connection>Mattec</connection>
+    <qstring>EXEC pMachDowntime @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="MachScrap">
+    <connection>Mattec</connection>
+    <qstring>EXEC pMachScrap @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="MoldOEE">
+    <connection>Mattec</connection>
+    <qstring>EXEC pMoldOEE @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="MachOEE">
+    <connection>Mattec</connection>
+    <qstring>EXEC pMachOEE @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="PMDue">
+    <connection>Mattec</connection>
+    <qstring>SELECT * FROM HoursToNextPM</qstring>
+  </query>
+  <query name="AuditsPerAuditor">
+    <connection>Safety</connection>
+    <qstring>SELECT AuditorName, COUNT(*) AS Audits FROM WCC GROUP BY AuditorName ORDER BY Audits DESC</qstring>
+  </query>
+  <query name="AuditsPerWorkCell">
+    <connection>Safety</connection>
+    <qstring>SELECT WorkCell, COUNT(*) AS Audits FROM WCC GROUP BY WorkCell ORDER BY Audits DESC</qstring>
+  </query>
+  <query name="AuditsPerZone">
+    <connection>Safety</connection>
+    <qstring>SELECT Department + ' ' + Zone AS DeptZone, COUNT(*) AS Audits FROM WCC GROUP BY Department, Zone ORDER BY Audits DESC</qstring>
+  </query>
+  <query name="AgingReport">
+    <connection>Safety</connection>
+    <qstring>SELECT Name + '#' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM OpenIssues WHERE DaysOpen>0 ORDER By DaysOpen</qstring>
+  </query>
+  <query name="SeverityReport">
+    <connection>Safety</connection>
+    <qstring>SELECT Severity, COUNT(*) AS [Open] FROM OpenIssues GROUP BY Severity</qstring>
+  </query>
+</queries>

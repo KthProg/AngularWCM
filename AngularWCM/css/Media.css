@@ -1,0 +1,28 @@
+﻿@viewport{
+    zoom: 1.0;
+    width: device-width;
+}
+@-ms-viewport{
+    width: extend-to-zoom;
+    zoom: 1.0;
+}
+@media (max-width: 799px){
+    input:optional, textarea:optional, select:optional{
+        display: none;
+    }
+    input:required, textarea:required, select:required="required"/*td*/{
+        height: 2em;
+    }
+    td{
+        width: 100%;
+        float: left;
+        border: 1px solid grey;
+    }
+    table{
+        border-collapse:collapse;
+    }
+    button{
+        height: 3em;
+        width: 31%;
+    }
+}
