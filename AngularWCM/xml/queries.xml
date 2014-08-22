@@ -197,4 +197,16 @@
     <connection>Safety</connection>
     <qstring>SELECT Severity, COUNT(*) AS [Open] FROM OpenIssues GROUP BY Severity</qstring>
   </query>
+  <query name="ZonesNotAudited">
+    <connection>Safety</connection>
+    <qstring>SELECT Zone FROM Zones WHERE Zone NOT IN (SELECT DISTINCT Zone FROM WCC)</qstring>
+  </query>
+  <query name="WorkCellsNotAudited">
+    <connection>Safety</connection>
+    <qstring>SELECT WorkCell FROM WorkCells WHERE WorkCell NOT IN (SELECT DISTINCT WorkCell FROM WCC)</qstring>
+  </query>
+  <query name="AuditorsWithoutAudits">
+    <connection>Safety</connection>
+    <qstring>SELECT AuditorName FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM WCC)</qstring>
+  </query>
 </queries>

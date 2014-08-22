@@ -17,7 +17,7 @@
     <title>Blue Tag</title>
 </head>
 
-<body onload="watchSelects()"
+<body
       ng-app="wcm"
       ng-controller="Form"
       ng-init="setFormData('EWO');">
@@ -46,9 +46,9 @@
             <td>Machine</td>
             <td colspan="2">Type of Failure</td>
             <td>Shift</td>
-            <td colspan="2">Date Occurred</td>
-            <td>Date Started</td>
-            <td colspan="2">Date Finished</td>
+            <td colspan="2">Date/Time Occurred</td>
+            <td>Date/Time Started</td>
+            <td colspan="2">Date/Time Finished</td>
         </tr>
         <tr>
             <td colspan="3">{{hasRecord ? id  + " (Updating)" : " (New Form)"}}</td>
@@ -64,18 +64,18 @@
             <td>
                 <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"]'></select>
             </td>
-            <td colspan="2"><input type="date" id="dateocc" onchange="concatDateTimes()" /></td> <!-- date occurred -->
-            <td><input type="date" id="datestart" onchange="concatDateTimes()" /></td><!-- date started -->
-            <td colspan="2"><input type="date" id="datecomp" onchange="concatDateTimes()" /></td><!-- date completed -->
+            <td colspan="2"><input ng-model="fields['DateTimeOccurred']" type="datetime-local" placeholder="yyyy-mm-dd hh:mm:ss" /></td>
+            <td><input ng-model="fields['DateTimeStarted']" type="datetime-local" placeholder="yyyy-mm-dd hh:mm:ss" /></td>
+            <td colspan="2"><input ng-model="fields['DateTimeCompleted']" type="datetime-local" placeholder="yyyy-mm-dd hh:mm:ss" /></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="3" height="10px">Maintenance Person(s)</td>
             <td>Operation</td>
             <td>Sub-system</td>
             <td colspan="3">Component</td>
-            <td colspan="2">Time Occurred</td>
-            <td>Time Started</td>
-            <td colspan="2">Time Finished</td>
+            <td colspan="2"></td>
+            <td></td>
+            <td colspan="2"></td>
         </tr>
         <tr>
             <td colspan="3"><input ng-model="fields['MaintenancePersons']" type="text" /></td>
@@ -88,9 +88,9 @@
             <td colspan="3">
                 <select ng-model="fields['Component']"></select>
             </td>
-            <td colspan="2"><input type="time" id="timeocc" onchange="concatDateTimes()" /></td> <!-- time occurred -->
-            <td><input type="time" id="timestart" onchange="concatDateTimes()" /></td><!-- time started -->
-            <td colspan="2"><input type="time" id="timecomp" onchange="concatDateTimes()" /></td><!-- time completed -->
+            <td colspan="2"></td> <!-- time occurred -->
+            <td></td><!-- time started -->
+            <td colspan="2"></td><!-- time completed -->
         </tr>
         <tr>
             <td colspan="6" rowspan="2" height="150px"><textarea ng-model="fields['ProblemDescription']" placeholder="Description of failure"></textarea><!-- Description of failure and sketch (if possible) --></td>
@@ -170,11 +170,10 @@
             <td colspan="5"><input ng-model="fields['CheckCause4']" type="text" /></td>
             <td colspan="6" rowspan="19">
                 <button type="button" onclick="clearSketch()">Clear</button>
-                <input type="color" id="colorPicker" value="#000000" style="width: 30px; height: 20px; border: 1px solid grey;" />
+                <input type="color" id="colorPicker" style="width: 30px; height: 20px;" />
                 <label for="brushSize">Brush Size:</label>
                 <input type="text" id="brushSize" placeholder="Size" value="2" />
-                <canvas id="sketchArea" onmousemove="drawSketch()" onmouseout="saveSketch()" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>
-                <input type="hidden" ng-model="fields['SketchURL']" id="sketchUrl" onchange="showSketch($(this).val())" />
+                <canvas id="sketchArea" onmousemove="drawSketch()" ng-mouseleave="saveSketch($event);" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>
             </td>
         </tr>
         <tr>

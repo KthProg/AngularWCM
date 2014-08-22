@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="css/FormClasses.css" />
     <link rel="stylesheet" href="css/SEWO.css" />
 
+    <script>
+        $(document.body).load(function () {
+            var scope = angular.element($("[ng-app='wcm']")).scope();
+            scope.$apply(function () {
+                scope.$watch("fields['SketchURL']", function (n, o) {
+                    console.log(n);
+                });
+            });
+        });
+    </script>
+
     <title>Blue Tag</title>
 </head>
 
@@ -128,8 +139,7 @@
                 <input type="color" id="colorPicker" style="width: 30px; height: 20px;" />
                 <label for="brushSize">Brush Size:</label>
                 <input type="text" id="brushSize" placeholder="Size" value="2" />
-                <canvas id="sketchArea" onmousemove="drawSketch()" onmouseout="saveSketch()" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>
-                <input type="hidden" ng-model="fields['SketchURL']" id="sketchUrl" onchange="showSketch($(this).val())" />
+                <canvas id="sketchArea" onmousemove="drawSketch()" ng-mouseleave="saveSketch($event);" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>
             </td>
             <td rowspan="6">
                 <textarea ng-model="fields['ActionDescription']" placeholder="Action Description"></textarea><!-- corrective action -->

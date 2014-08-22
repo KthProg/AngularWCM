@@ -19,6 +19,7 @@
     <Compile Include="Dashboard\Chart.php" />
     <Compile Include="DevForm.php" />
     <Compile Include="EHS.php" />
+    <Compile Include="scripts\php\getParams.php" />
     <Compile Include="scripts\php\Open.php" />
     <Compile Include="scripts\php\Query.php" />
     <Compile Include="scripts\php\SaveImage.php" />
@@ -83,6 +84,7 @@
     <Content Include="res\wcm_logo.jpg" />
     <Content Include="res\x.png" />
     <Content Include="SAFE.html" />
+    <Content Include="scripts\js\chartFuncs.js" />
     <Content Include="scripts\js\form.js" />
     <Content Include="scripts\js\ToolRepair.js" />
     <Content Include="ToolRepair.html" />

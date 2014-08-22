@@ -102,6 +102,10 @@ app.controller("Form",
                             $scope.fields[v] = resp[v];
                         }
                     }
+                    if (resp["SketchURL"] != undefined) {
+                        $scope.fields["SketchURL"] = resp["SketchURL"];
+                        $scope.showSketch($scope.fields["SketchURL"]);
+                    }
                     $scope.formatSrvToClient();
                 } else {
                     alert($scope.name + " number " + $scope.id + " does not exist!");
@@ -129,6 +133,7 @@ app.controller("Form",
                 if (scopeField = $scope.getFieldEl(f)) {
                     switch (scopeField.attr("type")) {
                         case "date":
+                        case "datetime-local":
                             $scope.fields[f] = new Date(Date.parse($scope.fields[f]));
                             break;
                         case "number":
@@ -178,6 +183,7 @@ app.controller("Form",
                 if (scopeField = $scope.getFieldEl(f)) {
                     switch (scopeField.attr("type")) {
                         case "date":
+                        case "datetime-local":
                             try {
                                 $scope.fields[f] = $scope.fields[f].toISOString().replace("T", " ").replace("Z", "");
                             } catch (e) {
@@ -240,6 +246,26 @@ app.controller("Form",
                 }
             }
         };
+
+        $scope.saveSketch = function (e) {
+            // string is invalid URL is spaces are not
+            // replaced with +
+            $scope.fields["SketchURL"] = e.target.toDataURL().replace(/ /g, "+");;
+           //console.log($scope.fields["SketchURL"]);
+        };
+
+        $scope.showSketch = function (sketchURL) {
+            var sketchArea = $("canvas");
+            var sketchCtx = sketchArea[0].getContext("2d");
+
+            var img = new Image();
+            // string is invalid URL is spaces are not
+            // replaced with +
+            img.src = sketchURL.replace(/ /g, "+");
+            img.onload = function () {
+                sketchCtx.drawImage(img, 0, 0);
+            }
+        };
     });
 
 //
@@ -293,26 +319,10 @@ function drawSketch() {
     //console.log("X: " + relX + ", Y: " + relY);
 }
 
-function showSketch(sketchURL) {
-    var sketchArea = $("#sketchArea");
-    var sketchCtx = sketchArea[0].getContext("2d");
-
-    var img = new Image();
-    img.src = sketchURL;
-    img.onload = function () {
-        sketchCtx.drawImage(img, 0, 0);
-    }
-}
-
 function clearSketch() {
     var sketchArea = $("#sketchArea");
     var sketchCtx = sketchArea[0].getContext("2d");
     sketchCtx.clearRect(0, 0, sketchArea.width(), sketchArea.height());
-}
-
-function saveSketch() {
-    var dataURL = $("#sketchArea")[0].toDataURL();
-    $("#sketchUrl").val(dataURL);
 }
 
 var mouse = { x: 0, y: 0, left: false };

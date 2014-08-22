@@ -3,17 +3,16 @@
 	<head>
 		<title>Bar Chart</title>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-        <script src="/scripts/js/wcm/wcm.js"></script>
-        <script src="/scripts/js/wcm/pipe.js"></script>
-        <script src="/scripts/js/chart/chartFuncs.js"></script>
+        <script src="/scripts/js/chartFuncs.js"></script>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
             google.load("visualization", "1", { packages: ["corechart"] });
+            google.load("visualization", "1", { packages: ["table"] });
         </script>
 	</head>
 	<body>
         <select name="Query" onchange="getParams($(this).val())">
-            <option value=""></option>
+            <option value="" selected="selected">Select a Query</option>
             <?php if(isset($_GET["Pillar"])){ ?>
                 <?php if($_GET["Pillar"] == "PM"){ ?>
             <option value="MachMTBF">MTBF by Machine</option>
@@ -30,10 +29,18 @@
             <option value="AuditsPerAuditor">Number of Audits by Auditor</option>
             <option value="AuditsPerWorkCell">Number of Audits by Work Cell</option>
             <option value="AuditsPerZone">Number of Audits by Zone</option>
+            <option value="AuditorsWithoutAudits">Auditors With No Audits</option>
+            <option value="WorkCellsNotAudited">Work Cells Without Audits</option>
+            <option value="ZonesNotAudited">Zones Without Audits</option>
             <option value="AgingReport">Days Open per Issue</option>
             <option value="SeverityReport">Number of Issues By Severity</option>
                 <?php } ?>
             <?php } ?>
+        </select>
+        <select name="ChartAs">
+            <option value="" selected="selected">Choose a Chart Type</option>
+            <option value="table">Table</option>
+            <option value="bar">Chart</option>
         </select>
         <div id="ParamDiv"></div>
         <button onclick="chartData()">Chart</button>
