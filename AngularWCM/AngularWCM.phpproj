@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Dashboard\Chart.php" />
+    <Compile Include="Dashboard\Issues.php" />
     <Compile Include="DevForm.php" />
     <Compile Include="EHS.php" />
     <Compile Include="scripts\php\getParams.php" />
@@ -85,7 +86,9 @@
     <Content Include="res\x.png" />
     <Content Include="SAFE.html" />
     <Content Include="scripts\js\chartFuncs.js" />
+    <Content Include="scripts\js\wcm.js" />
     <Content Include="scripts\js\form.js" />
+    <Content Include="scripts\js\issue.js" />
     <Content Include="scripts\js\ToolRepair.js" />
     <Content Include="ToolRepair.html" />
     <Content Include="UCAN.html" />

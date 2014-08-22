@@ -364,5 +364,38 @@
 		"PK" : "ID",
 		"Table" : "WCC",
 		"Connection" : "Safety"
+	},
+	"Issues Filter" : {
+		"Queries" : {
+			"plants" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"departments" : {
+				"name" : "Departments",
+				"params" : ["_plants_"],
+				"options": []
+			},
+			"zones" : {
+				"name" : "Zones",
+				"params" : ["_plants_","_departments_"],
+				"options": []
+			},
+			"machines" : {
+				"name" : "Machines",
+				"params" : ["_plants_","_departments_","_zones_"],
+				"options": []
+			},
+			"supervisors": {
+				"name" : "Supervisors",
+				"params" : [],
+				"options" : []
+			}
+		},
+		"Emails" : "",
+		"PK" : "",
+		"Table" : "",
+		"Connection" : ""
 	}
 }
