@@ -20,6 +20,7 @@
             <option value="MachDowntime">Downtime Reasons by Machine</option>
             <option value="MachScrap">Machine Scrap</option>
             <option value="MachOEE">Machine OEE</option>
+            <option value="OilPerPress">Oil per Press</option>
                 <?php }?>
                 <?php if($_GET["Pillar"] == "TR"){ ?>
             <option value="MoldOEE">Tool OEE</option>

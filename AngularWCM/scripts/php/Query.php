@@ -3,7 +3,7 @@ if(isset($_POST)){
 
 require_once("Utilities.php");
 
-$xml = simplexml_load_file("http://192.9.200.62/xml/queries.xml");
+$xml = simplexml_load_file("http://192.9.200.62:8080/xml/queries.xml");
 $query = $xml->xpath("/queries/query[@name='".$_GET["Query"]."']");
 $query_string = $query[0]->qstring;  
 $connection_string = $query[0]->connection;

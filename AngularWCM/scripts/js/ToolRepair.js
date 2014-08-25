@@ -116,7 +116,7 @@
         };
         scope.updateContacts = function () {
             var moundContacts = "jmurphy@venturecorporation.net; pillars@ventureglobalengineering.com; thomason@mayco-mi.com; dharper@mayco-mi.com; hooks@njt-na.com";
-            var maycoContacts = "thomason@mayco-mi.com; hooks@njt-na.com; mbommarito@mayco-mi.com";
+            var maycoContacts = "thomason@mayco-mi.com; hooks@njt-na.com;";
             if (scope.fields['RepairedLocation'] == "Mound") {
                 scope.contacts = moundContacts + ";" + maycoContacts;
             } else {

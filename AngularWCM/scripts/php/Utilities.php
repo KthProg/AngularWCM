@@ -1,8 +1,8 @@
 <?php
-  function get_connection($connection_name){
+function get_connection($connection_name){
     $con = (string)$connection_name;
         
-    $xml = simplexml_load_file("http://192.9.200.62/xml/connections.xml");
+    $xml = simplexml_load_file("http://192.9.200.62:8080/xml/connections.xml");
     $con_nodes = $xml->xpath("/connections/connection[@name='".$con."']");
     $con_data = $con_nodes[0];
 
@@ -81,7 +81,7 @@ function upload_files(){
 function notify($subject){
     $conn = get_connection("Safety");
     $stmt = $conn->prepare("INSERT INTO Emails (Contacts, Subj, Body) VALUES(?, ?, ?)");
-    if($stmt->execute(array($_GET["Contacts"], $subject, $_GET["EmailBody"]))){
+    if($stmt->execute(array($_GET["Contacts"], $subject, $subject."<br>".$_GET["EmailBody"]))){
         echo "Email query executed (Email will send in 0-5 minutes)<br>";
     }else{
         echo "Email query not executed<br>";

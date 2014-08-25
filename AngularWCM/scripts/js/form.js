@@ -46,7 +46,8 @@
     };
 
     $scope.getOptions = function (field) {
-        replaceParamsWithValues = function (params) {
+
+        var vals = (function replaceParamsWithValues(params) {
             var results = [];
             for (var i = 0, l = params.length; i < l; ++i) {
                 var refName = $scope.paramToRefName(params[i]);
@@ -58,9 +59,8 @@
                 }
             }
             return results;
-        }
+        })($scope.queries[field].params);
 
-        var vals = replaceParamsWithValues($scope.queries[field].params);
         $http.get("/scripts/php/Query.php?Query=" + $scope.queries[field].name + "&Params=" + JSON.stringify(vals))
         .success(
         function (resp) {

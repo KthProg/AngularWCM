@@ -209,4 +209,8 @@
     <connection>Safety</connection>
     <qstring>SELECT AuditorName FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM WCC)</qstring>
   </query>
+  <query name="OilPerPress">
+    <connection>Safety</connection>
+    <qstring>SELECT Press, SUM(Qty) AS OilQty FROM ODL GROUP BY Press ORDER BY OilQty</qstring>
+  </query>
 </queries>
