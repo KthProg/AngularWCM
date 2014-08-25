@@ -179,15 +179,15 @@
   </query>
   <query name="AuditsPerAuditor">
     <connection>Safety</connection>
-    <qstring>SELECT AuditorName, COUNT(*) AS Audits FROM WCC GROUP BY AuditorName ORDER BY Audits DESC</qstring>
+    <qstring>SELECT AuditorName, COUNT(*) AS Audits FROM vWCC GROUP BY AuditorName ORDER BY Audits DESC</qstring>
   </query>
   <query name="AuditsPerWorkCell">
     <connection>Safety</connection>
-    <qstring>SELECT WorkCell, COUNT(*) AS Audits FROM WCC GROUP BY WorkCell ORDER BY Audits DESC</qstring>
+    <qstring>SELECT WorkCell, COUNT(*) AS Audits FROM vWCC GROUP BY WorkCell ORDER BY Audits DESC</qstring>
   </query>
   <query name="AuditsPerZone">
     <connection>Safety</connection>
-    <qstring>SELECT Department + ' ' + Zone AS DeptZone, COUNT(*) AS Audits FROM WCC GROUP BY Department, Zone ORDER BY Audits DESC</qstring>
+    <qstring>SELECT Department + ' ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vWCC GROUP BY Department, Zone ORDER BY Audits DESC</qstring>
   </query>
   <query name="AgingReport">
     <connection>Safety</connection>
@@ -199,15 +199,15 @@
   </query>
   <query name="ZonesNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT Zone FROM Zones WHERE Zone NOT IN (SELECT DISTINCT Zone FROM WCC)</qstring>
+    <qstring>SELECT Zone FROM Zones WHERE Zone NOT IN (SELECT DISTINCT Zone FROM vWCC)</qstring>
   </query>
   <query name="WorkCellsNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT WorkCell FROM WorkCells WHERE WorkCell NOT IN (SELECT DISTINCT WorkCell FROM WCC)</qstring>
+    <qstring>SELECT WorkCell FROM WorkCells WHERE WorkCell NOT IN (SELECT DISTINCT WorkCell FROM vWCC)</qstring>
   </query>
   <query name="AuditorsWithoutAudits">
     <connection>Safety</connection>
-    <qstring>SELECT AuditorName FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM WCC)</qstring>
+    <qstring>SELECT AuditorName FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vWCC)</qstring>
   </query>
   <query name="OilPerPress">
     <connection>Safety</connection>

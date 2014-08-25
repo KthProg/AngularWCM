@@ -17,6 +17,7 @@
     $scope.getClosedIssues = function () {
         $http.get("/scripts/php/Query.php?Query=GetClosedIssues&ASSOC=true&Params=[]")
         .success(function (resp) {
+            console.log(resp);
             var formatted = $scope.formatResponse(resp);
             $scope.closedIssues = formatted;
         });
