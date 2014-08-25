@@ -1,7 +1,10 @@
 <!doctype html>
 <html>
 	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<title>Bar Chart</title>
+
         <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
         <script src="/scripts/js/chartFuncs.js"></script>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
