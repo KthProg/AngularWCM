@@ -45,17 +45,17 @@
     <h1>Unsafe Act Form</h1>
     <h2>UA Number {{hasRecord ? id  + " (Updating)" : " (New Form)"}}</h2>
     <label>Plant</label>
-    <select ng-model="fields['Plant']" ng-options="k as v for (k,v) in queries['Plant'].options" required></select>
+    <select ng-model="fields['PlantID']" ng-options="k as v for (k,v) in queries['PlantID'].options" required></select>
     <label>Department</label>
-    <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options" required></select>
+    <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options" required></select>
     <label>Zone</label>
-    <select ng-model="fields['Zone']" ng-options="k as v for (k,v) in queries['Zone'].options" required></select>
+    <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options" required></select>
     <label>Shift</label>
     <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"]'></select>
     <label>Type</label>
-    <select ng-model="fields['UAType']" ng-options="k as v for (k,v) in queries['UAType'].options"></select>
+    <select ng-model="fields['UATypeID']" ng-options="k as v for (k,v) in queries['UATypeID'].options"></select>
     <label>Micro Type</label>
-    <select ng-model="fields['UATypeMicro']" ng-options="k as v for (k,v) in queries['UATypeMicro'].options"></select>
+    <select ng-model="fields['UAMicroTypeID']" ng-options="k as v for (k,v) in queries['UAMicroTypeID'].options"></select>
     <label>Reviewed</label>
     <input type="checkbox" ng-model="fields['Reviewed']" ng-true-value="1" ng-false-value="0" />
     <label>Comments</label>

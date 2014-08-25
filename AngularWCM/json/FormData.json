@@ -57,42 +57,42 @@
 	},
 	"EHS" : {
 		"Queries" : {
-			"Plant" : {
+			"PlantID" : {
 				"name" : "Plants",
 				"params" : [],
 				"options": []
 			},
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_Plant_"],
+				"params" : ["_PlantID_"],
 				"options": []
 			},
-			"Zone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_Plant_","_Department_"],
+				"params" : ["_PlantID_","_DepartmentID_"],
 				"options": []
 			},
-			"MachID" : {
+			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_Plant_","_Department_","_Zone_"],
+				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
 				"options": []
 			},
-			"AuditorName": {
+			"AuditorID": {
 				"name" : "Auditors",
 				"params" : [],
 				"options" : []
 			},
-			"WorkCell": {
+			"WorkCellID": {
 				"name" : "WorkCells",
-				"params" : ["_Plant_", "_Department_"],
+				"params" : ["_PlantID_", "_DepartmentID_"],
 				"options" : []
 			},
-			"PartNum": {
+			"MoldNo": {
 				"name" : "Tools",
 				"params" : [],
 				"options" : []
 			},
-			"Supervisor": {
+			"SupervisorID": {
 				"name" : "Supervisors",
 				"params" : [],
 				"options" : []
@@ -166,59 +166,59 @@
 	},
 	"SAFE" : {
 		"Queries" : {
-			"Plant" : {
+			"PlantID" : {
 				"name" : "Plants",
 				"params" : [],
 				"options": []
 			},
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_Plant_"],
+				"params" : ["_PlantID_"],
 				"options": []
 			},
-			"ZZone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_Plant_","_Department_"],
+				"params" : ["_PlantID_","_DepartmentID_"],
 				"options": []
 			},
-			"Machine" : {
+			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_Plant_","_Department_","_ZZone_"],
+				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
 				"options": []
 			},
-			"AccidentType" : {
+			"AccidentTypeID" : {
 				"name" : "AccidentTypes",
 				"params" : [],
 				"options" : []
 			},
-			"InjuryType" : {
+			"InjuryTypeID" : {
 				"name" : "InjuryTypes",
 				"params" : [],
 				"options" : []
 			},
-			"BodyPart" : {
+			"BodyPartID" : {
 				"name" : "BodyParts",
 				"params" : [],
 				"options" : []
 			},
-			"RootCause": {
+			"RootCauseID": {
 				"name" : "RootCauses",
 				"params" : [],
 				"options" : []
 			},
-			"SecondaryCause" : {
+			"SecondaryCauseID" : {
 				"name" : "SecondaryCauses",
-				"params" : ["_RootCause_"],
+				"params" : ["_RootCauseID_"],
 				"options" : []
 			},
-			"MicroCause" : {
+			"MicroCauseID" : {
 				"name" : "MicroCauses",
-				"params" : ["_RootCause_","_SecondaryCause_"],
+				"params" : ["_RootCauseID_","_SecondaryCauseID_"],
 				"options" : []
 			},
-			"Action" : {
+			"ActionID" : {
 				"name" : "Actions",
-				"params" : ["_RootCause_","_SecondaryCause_"],
+				"params" : ["_RootCauseID_","_SecondaryCauseID_"],
 				"options" : []
 			}
 			},
@@ -257,24 +257,24 @@
 	},
 	"UCAN" : {
 		"Queries" : {
-			"Plant" : {
+			"PlantID" : {
 				"name" : "Plants",
 				"params" : [],
 				"options": []
 			},
-			"UCANDept" : {
+			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_Plant_"],
+				"params" : ["_PlantID_"],
 				"options": []
 			},
-			"UCANZone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_Plant_","_UCANDept_"],
+				"params" : ["_PlantID_","_DepartmentID_"],
 				"options": []
 			},
-			"UCANEquip" : {
+			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_Plant_","_UCANDept_","_UCANZone_"],
+				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
 				"options": []
 			}
 		},
@@ -285,30 +285,30 @@
 	},
 	"Unsafe Act" : {
 		"Queries" : {
-			"Plant" : {
+			"PlantID" : {
 				"name" : "Plants",
 				"params" : [],
 				"options": []
 			},
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_Plant_"],
+				"params" : ["_PlantID_"],
 				"options": []
 			},
-			"Zone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_Plant_","_Department_"],
+				"params" : ["_PlantID_","_DepartmentID_"],
 				"options": []
 			},
-			"UAType" : {
+			"UATypeID" : {
 				"name" : "UATypes",
 				"params" : [],
 				"options": []
 			}
 			,
-			"UATypeMicro" : {
+			"UAMicroTypeID" : {
 				"name" : "UAMicroTypes",
-				"params" : ["_UAType_"],
+				"params" : ["_UATypeID_"],
 				"options": []
 			}
 		},
@@ -319,42 +319,42 @@
 	},
 	"WCC" : {
 		"Queries" : {
-			"Plant" : {
+			"PlantID" : {
 				"name" : "Plants",
 				"params" : [],
 				"options": []
 			},
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_Plant_"],
+				"params" : ["_PlantID_"],
 				"options": []
 			},
-			"Zone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_Plant_","_Department_"],
+				"params" : ["_PlantID_","_DepartmentID_"],
 				"options": []
 			},
-			"MachID" : {
+			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_Plant_","_Department_","_Zone_"],
+				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
 				"options": []
 			},
-			"AuditorName": {
+			"AuditorID": {
 				"name" : "Auditors",
 				"params" : [],
 				"options" : []
 			},
-			"WorkCell": {
+			"WorkCellID": {
 				"name" : "WorkCells",
-				"params" : ["_Plant_", "_Department_"],
+				"params" : ["_PlantID_", "_DepartmentID_"],
 				"options" : []
 			},
-			"PartNum": {
+			"MoldNo": {
 				"name" : "Tools",
 				"params" : [],
 				"options" : []
 			},
-			"Supervisor": {
+			"SupervisorID": {
 				"name" : "Supervisors",
 				"params" : [],
 				"options" : []
