@@ -100,9 +100,7 @@
                 <input type="text" ng-model="fields['ReportedBy']" placeholder="Report made by" />
             </td>
             <td>
-                <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"] ' required>
-                    <option value="">Shift</option>
-                </select>
+                <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"]' required></select>
             </td>
             <td>
                 <input type="date" ng-model="fields['InjuryDate']" placeholder="Injury Date" required />

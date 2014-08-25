@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>WCM Application Dashboard</title>
+    <title>Safety Issues Dashboard</title>
 
     <link rel="stylesheet" type="text/css" href="/css/normalize.css">
     <link rel="stylesheet" type="text/css" href="/css/issues.css">
@@ -27,7 +27,7 @@
                 <a id="newForm" target="_blank" href="#">
                     <li>+ New Form</li>
                 </a>
-                <a id="viewCharts" target="_blank" href="Chart.html">
+                <a id="viewCharts" target="_blank" href="Chart.php?Pillar=SA">
                     <li>O View Charts</li>
                 </a>
             </ul>
