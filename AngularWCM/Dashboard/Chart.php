@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Bar Chart</title>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+        <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
         <script src="/scripts/js/chartFuncs.js"></script>
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
@@ -10,6 +10,29 @@
             google.load("visualization", "1", { packages: ["table"] });
         </script>
 	</head>
+    <style>
+        @media screen and (max-width: 809px) {
+            input, select, textarea, label {
+                width: 100%;
+                height: 50px;
+            }
+
+            textarea {
+                height: 200px;
+            }
+
+            h2, h1 {
+                width: 100%;
+                font-family: Calibri;
+                text-align: center;
+            }
+
+            button {
+                width: 30%;
+                height: 50px;
+            }
+        }
+    </style>
 	<body>
         <select name="Query" onchange="getParams($(this).val())">
             <option value="" selected="selected">Select a Query</option>
