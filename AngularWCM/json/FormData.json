@@ -3,17 +3,17 @@
 		"Queries" : {
 			"Department" : {
 				"name" : "Departments",
-				"params" : ["Merrill"],
+				"params" : [1],
 				"options": []
 			},
 			"Zone" : {
 				"name" : "Zones",
-				"params" : ["Merrill","_Department_"],
+				"params" : [1,"_Department_"],
 				"options": []
 			},
 			"Machine" : {
 				"name" : "Machines",
-				"params" : ["Merrill","_Department_","_Zone_"],
+				"params" : [1,"_Department_","_Zone_"],
 				"options": []
 			}
 		},
@@ -107,22 +107,22 @@
 		"Queries" : {
 			"Department" : {
 				"name" : "Departments",
-				"params" : ["Merrill"],
+				"params" : [1],
 				"options": []
 			},
 			"Zone" : {
 				"name" : "Zones",
-				"params" : ["Merrill","_Department_"],
+				"params" : [1,"_Department_"],
 				"options": []
 			},
 			"Machine" : {
 				"name" : "Machines",
-				"params" : ["Merrill","_Department_","_Zone_"],
+				"params" : [1,"_Department_","_Zone_"],
 				"options": []
 			},
 			"SubSystem" : {
 				"name" : "SubSystems",
-				"params" : ["Merrill","_Department_","_Zone_","_Machine_"],
+				"params" : [1,"_Department_","_Zone_","_Machine_"],
 				"options" : []
 			},
 			"RootCause": {
@@ -147,18 +147,46 @@
 		"Connection" : "Safety"
 	},
 	"PM Tag" : {
-		"Queries" : [
-			
-		],
+		"Queries" : {
+			"Location" : {
+				"name" : "Departments",
+				"params" : [1],
+				"options": []
+			},
+			"ZZone" : {
+				"name" : "Zones",
+				"params" : [1,"_Location_"],
+				"options": []
+			},
+			"EquipmentID" : {
+				"name" : "Machines",
+				"params" : [1,"_Location_","_ZZone_"],
+				"options": []
+			}
+		},
 		"Emails" : "hooks@njt-na.com",
 		"PK" : "TagNo",
 		"Table" : "PMTags",
 		"Connection" : "Safety"
 	},
 	"Kaizen" : {
-		"Queries" : [
-			
-		],
+		"Queries" : {
+			"Department" : {
+				"name" : "Departments",
+				"params" : [1],
+				"options": []
+			},
+			"ZZone" : {
+				"name" : "Zones",
+				"params" : [1,"_Department_"],
+				"options": []
+			},
+			"Machine" : {
+				"name" : "Machines",
+				"params" : [1,"_Department_","_ZZone_"],
+				"options": []
+			}
+		},
 		"Emails" : "hooks@njt-na.com",
 		"PK" : "KaizenNumber",
 		"Table" : "Kaizens",
@@ -236,17 +264,17 @@
 			},
 			"Department" : {
 				"name" : "Departments",
-				"params" : ["Merrill"],
+				"params" : [1],
 				"options": []
 			},
 			"Zone" : {
 				"name" : "Zones",
-				"params" : ["Merrill","_Department_"],
+				"params" : [1,"_Department_"],
 				"options": []
 			},
 			"Machine" : {
 				"name" : "Machines",
-				"params" : ["Merrill","_Department_","_Zone_"],
+				"params" : [1,"_Department_","_Zone_"],
 				"options": []
 			}
 		},
