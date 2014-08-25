@@ -91,7 +91,7 @@ img[src*="BodyChart"]{
     height: 78%;
 }
 
-select[ng-model="fields['BodyPart']"]{
+select[ng-model="fields['BodyPartID']"]{
     height: 20%;
 }
 
