@@ -2,79 +2,79 @@
 <queries>
   <query name="Plants">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant FROM PlantLayout</qstring>
+    <qstring>SELECT DISTINCT PlantID, Plant FROM PlantLayout</qstring>
   </query>
   <query name="Departments">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Department FROM PlantLayout WHERE Plant=?</qstring>
+    <qstring>SELECT DISTINCT DepartmentID, Department FROM PlantLayout WHERE PlantID=?</qstring>
   </query>
   <query name="Zones">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Zone FROM PlantLayout WHERE Plant=? AND Department=?</qstring>
+    <qstring>SELECT DISTINCT ZoneID, Zone FROM PlantLayout WHERE PlantID=? AND DepartmentID=?</qstring>
   </query>
   <query name="WorkCells">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT WorkCell FROM PlantLayout WHERE Plant=? AND Department=?</qstring>
+    <qstring>SELECT DISTINCT WorkCellID, WorkCell FROM PlantLayout WHERE PlantID=? AND DepartmentID=?</qstring>
   </query>
   <query name="Machines">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Machine FROM PlantLayout WHERE Plant=? AND Department=? AND Zone=?</qstring>
+    <qstring>SELECT DISTINCT MachineID, Machine FROM PlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?</qstring>
   </query>
   <query name="Subsystems">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Part FROM PlantLayout WHERE Plant=? AND Department=? AND Zone=? AND Machine=?</qstring>
+    <qstring>SELECT DISTINCT PartID, Part FROM PlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=? AND MachineID=?</qstring>
   </query>
   <query name="Auditors">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT AuditorName FROM Auditor</qstring>
+    <qstring>SELECT DISTINCT ID, AuditorName FROM Auditor</qstring>
   </query>
   <query name="Supervisors">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT SupervisorName FROM Supervisor</qstring>
+    <qstring>SELECT DISTINCT ID, SupervisorName FROM Supervisor</qstring>
   </query>
   <query name="AccidentTypes">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT AccidentType FROM AccidentTypes</qstring>
+    <qstring>SELECT DISTINCT ID, AccidentType FROM AccidentTypes</qstring>
   </query>
   <query name="InjuryTypes">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT InjuryType FROM InjuryTypes</qstring>
+    <qstring>SELECT DISTINCT ID, InjuryType FROM InjuryTypes</qstring>
   </query>
   <query name="BodyParts">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT BodyPart FROM BodyParts</qstring>
+    <qstring>SELECT DISTINCT ID, BodyPart FROM BodyParts</qstring>
   </query>
   <query name="Tools">
     <connection>Mattec</connection>
-    <qstring>SELECT DISTINCT MoldID FROM MoldIDs</qstring>
+    <qstring>SELECT DISTINCT MoldNo, MoldID FROM MoldIDs</qstring>
   </query>
   <query name="RootCauses">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT RootCause FROM vRootCause</qstring>
+    <qstring>SELECT DISTINCT RCID, RootCause FROM vRootCause</qstring>
   </query>
   <query name="SecondaryCauses">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT SecondaryRootCause FROM vRootCause WHERE RootCause=?</qstring>
+    <qstring>SELECT DISTINCT SRCID, SecondaryRootCause FROM vRootCause WHERE RCID=?</qstring>
   </query>
   <query name="MicroCauses">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT MicroRootCause FROM vRootCause WHERE RootCause=? AND SecondaryRootCause=?</qstring>
+    <qstring>SELECT DISTINCT MRCID, MicroRootCause FROM vRootCause WHERE RCID=? AND SRCID=?</qstring>
   </query>
   <query name="Actions">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Action FROM vRootCause WHERE RootCause=? AND SecondaryRootCause=?</qstring>
+    <qstring>SELECT DISTINCT ActionID, Action FROM vRootCause WHERE RCID=? AND SRCID=?</qstring>
   </query>
   <query name="EWORootCauses">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT RootCause FROM vEWO_RootCause</qstring>
+    <qstring>SELECT DISTINCT RCID, RootCause FROM vEWO_RootCause</qstring>
   </query>
   <query name="EWOSecondaryCauses">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT SecondaryRootCause FROM vEWO_RootCause WHERE RootCause=?</qstring>
+    <qstring>SELECT DISTINCT SRCID, SecondaryRootCause FROM vEWO_RootCause WHERE RCID=?</qstring>
   </query>
   <query name="EWOActions">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Action FROM vEWO_RootCause WHERE RootCause=? AND SecondaryRootCause=?</qstring>
+    <qstring>SELECT DISTINCT ActionID, Action FROM vEWO_RootCause WHERE RCID=? AND SRCID=?</qstring>
   </query>
   <query name="CloseIssue">
     <connection>Safety</connection>
@@ -94,11 +94,11 @@
   </query>
   <query name="UATypes">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT UAType FROM vUATypes</qstring>
+    <qstring>SELECT DISTINCT UATID, UAType FROM vUATypes</qstring>
   </query>
   <query name="UAMicroTypes">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT UAMicroType FROM vUATypes WHERE UAType=?</qstring>
+    <qstring>SELECT DISTINCT UAMTID, UAMicroType FROM vUATypes WHERE UATID=?</qstring>
   </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">

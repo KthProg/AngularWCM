@@ -37,10 +37,10 @@
                 </select>
             </td>
             <td>
-                <select ng-model="fields['Plant']" ng-options="v as v for (k,v) in queries['Plant'].options" required></select>
+                <select ng-model="fields['Plant']" ng-options="k as v for (k,v) in queries['Plant'].options" required></select>
             </td>
             <td>
-                <select ng-model="fields['UCANDept']" id="dept" ng-options="v as v for (k,v) in queries['UCANDept'].options" required></select>
+                <select ng-model="fields['UCANDept']" id="dept" ng-options="k as v for (k,v) in queries['UCANDept'].options" required></select>
             </td>
             <td rowspan="7"><textarea ng-model="fields['UCANDescription']" placeholder="Description" required="required"></textarea></td>
         </tr>
@@ -53,7 +53,7 @@
             <td><input type="text" ng-model="fields['UCANReportedBy']" placeholder="Reported By" required="required" /></td>
             <td rowspan="3"><textarea ng-model="fields['UCANPersons']" placeholder="Location/Persons" required="required"></textarea></td>
             <td>
-                <select ng-model="fields['UCANZone']" ng-options="v as v for (k,v) in queries['UCANZone'].options" required></select>
+                <select ng-model="fields['UCANZone']" ng-options="k as v for (k,v) in queries['UCANZone'].options" required></select>
             </td>
         </tr>
         <tr>
@@ -65,7 +65,7 @@
                 <input type="checkbox" ng-model="fields['IsSafetyTag']" ng-true-value="1" ng-false-value="0" />
             </td>
             <td>
-                <select ng-model="fields['UCANEquip']" ng-options="v as v for (k,v) in queries['UCANEquip'].options"></select>
+                <select ng-model="fields['UCANEquip']" ng-options="k as v for (k,v) in queries['UCANEquip'].options"></select>
             </td>
         </tr>
         <tr>

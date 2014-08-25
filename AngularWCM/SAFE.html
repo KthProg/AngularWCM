@@ -49,19 +49,19 @@
             </td>
             <td class="ltgrey">Accident Type</td>
             <td>
-                <select ng-model="fields['AccidentType']" ng-options="v as v for (k,v) in queries['AccidentType'].options" required>
+                <select ng-model="fields['AccidentType']" ng-options="k as v for (k,v) in queries['AccidentType'].options" required>
                     <option value="">Accident Type</option>
                 </select>
             </td>
             <td class="ltgrey">Sex</td>
             <td class="ltgrey">Position Type</td>
             <td>
-                <select ng-model="fields['Plant']" ng-options="v as v for (k,v) in queries['Plant'].options" required>
+                <select ng-model="fields['Plant']" ng-options="k as v for (k,v) in queries['Plant'].options" required>
                     <option value="">Plant</option>
                 </select>
             </td>
             <td>
-                <select ng-model="fields['Department']" ng-options="v as v for (k,v) in queries['Department'].options" required></select>
+                <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options" required></select>
             </td>
         </tr>
         <tr>
@@ -79,10 +79,10 @@
                 </select>
             </td>
             <td>
-                <select ng-model="fields['ZZone']" ng-options="v as v for (k,v) in queries['ZZone'].options" required></select>
+                <select ng-model="fields['ZZone']" ng-options="k as v for (k,v) in queries['ZZone'].options" required></select>
             </td>
             <td>
-                <select ng-model="fields['Machine']" ng-options="v as v for (k,v) in queries['Machine'].options"></select>
+                <select ng-model="fields['Machine']" ng-options="k as v for (k,v) in queries['Machine'].options"></select>
             </td>
         </tr>
         <tr class="ltgrey">
@@ -123,7 +123,7 @@
                 <textarea ng-model="fields['WWhat']" placeholder="WHAT(Nature and body part)"></textarea>
             </td>
             <td>
-                <select ng-model="fields['InjuryType']" ng-options="v as v for (k,v) in queries['InjuryType'].options" required>
+                <select ng-model="fields['InjuryType']" ng-options="k as v for (k,v) in queries['InjuryType'].options" required>
                     <option value=" ">
                         Injury Type
                     </option>
@@ -131,7 +131,7 @@
             </td>
             <td colspan="2" rowspan="6">
                 <img src="res/BodyChart.png" style="width: 200px; height: 200px;" />
-                <select ng-model="fields['BodyPart']" ng-options="v as v for (k,v) in queries['BodyPart'].options" required>
+                <select ng-model="fields['BodyPart']" ng-options="k as v for (k,v) in queries['BodyPart'].options" required>
                     <option value="">Body Part</option>
                 </select>
             </td>
@@ -223,28 +223,28 @@
         </tr>
         <tr>
             <td colspan="7">
-                <select ng-model="fields['RootCause']" ng-options="v as v for (k,v) in queries['RootCause'].options" required>
+                <select ng-model="fields['RootCause']" ng-options="k as v for (k,v) in queries['RootCause'].options" required>
                     <option value="">Root Cause Type</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td colspan="7">
-                <select ng-model="fields['SecondaryCause']" ng-options="v as v for (k,v) in queries['SecondaryCause'].options" required>
+                <select ng-model="fields['SecondaryCause']" ng-options="k as v for (k,v) in queries['SecondaryCause'].options" required>
                     <option value="">Secondary Root Cause</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td colspan="7">
-                <select ng-model="fields['MicroCause']" ng-options="v as v for (k,v) in queries['MicroCause'].options" required>
+                <select ng-model="fields['MicroCause']" ng-options="k as v for (k,v) in queries['MicroCause'].options" required>
                     <option value="">Micro Root Cause</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td colspan="7">
-                <select ng-model="fields['Action']" ng-options="v as v for (k,v) in queries['Action'].options" required>
+                <select ng-model="fields['Action']" ng-options="k as v for (k,v) in queries['Action'].options" required>
                     <option value="">Action</option>
                 </select>
             </td>

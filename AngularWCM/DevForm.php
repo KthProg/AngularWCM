@@ -14,11 +14,11 @@
         <h2>Development form number {{hasRecord ? id  + " (Updating)" : " (New Form)"}}</h2>
         <input type="text" ng-model="fields['ToolName']" />
         <textarea ng-model="fields['Problems']"></textarea>
-        <select ng-model="fields['ToolNumber']" ng-options="v as v for (k,v) in queries['ToolNumber'].options" required></select>
-        <select ng-model="fields['Plant']" ng-options="v as v for (k,v) in queries['Plant'].options" required></select>
-        <select ng-model="fields['Department']" ng-options="v as v for (k,v) in queries['Department'].options" required></select>
-        <select ng-model="fields['Zone']" ng-options="v as v for (k,v) in queries['Zone'].options" required></select>
-        <select ng-model="fields['Machine']" ng-options="v as v for (k,v) in queries['Machine'].options"></select>
+        <select ng-model="fields['ToolNumber']" ng-options="k as v for (k,v) in queries['ToolNumber'].options" required></select>
+        <select ng-model="fields['Plant']" ng-options="k as v for (k,v) in queries['Plant'].options" required></select>
+        <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options" required></select>
+        <select ng-model="fields['Zone']" ng-options="k as v for (k,v) in queries['Zone'].options" required></select>
+        <select ng-model="fields['Machine']" ng-options="k as v for (k,v) in queries['Machine'].options"></select>
         <input type="text" ng-model="fields['ReportedBy']" />
         <input type="date" ng-model="fields['DateShipped']" />
         <select ng-model="fields['RepairedLocation']" ng-options="v as v for (k,v) in ['Mayco', 'Mound']"></select>

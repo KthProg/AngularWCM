@@ -54,13 +54,13 @@
         <tr>
             <td colspan="3">{{hasRecord ? id  + " (Updating)" : " (New Form)"}}</td>
             <td>
-                <select ng-model="fields['Department']" ng-options="v as v for (k,v) in queries['Department'].options"></select>
+                <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options"></select>
             </td>
             <td>
-                <select ng-model="fields['Machine']" ng-options="v as v for (k,v) in queries['Machine'].options"></select>
+                <select ng-model="fields['Machine']" ng-options="k as v for (k,v) in queries['Machine'].options"></select>
             </td>
             <td colspan="2">
-                <select ng-model="fields['FailureType']" ng-options='v as v for (k,v) in  ["Electrical","Mechanical","Both"]'></select>
+                <select ng-model="fields['FailureType']" ng-options='k as v for (k,v) in  ["Electrical","Mechanical","Both"]'></select>
             </td>
             <td>
                 <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"]'></select>
@@ -81,10 +81,10 @@
         <tr>
             <td colspan="3"><input ng-model="fields['MaintenancePersons']" type="text" /></td>
             <td>
-                <select ng-model="fields['Zone']" ng-options="v as v for (k,v) in queries['Zone'].options"></select>
+                <select ng-model="fields['Zone']" ng-options="k as v for (k,v) in queries['Zone'].options"></select>
             </td>
             <td>
-                <select ng-model="fields['SubSystem']" ng-options="v as v for (k,v) in queries['SubSystem'].options"></select>
+                <select ng-model="fields['SubSystem']" ng-options="k as v for (k,v) in queries['SubSystem'].options"></select>
             </td>
             <td colspan="3">
                 <select ng-model="fields['Component']"></select>
@@ -149,21 +149,21 @@
             <td class="ltgrey" height="30px">1</td>
             <td colspan="5"><input ng-model="fields['CheckCause1']" type="text" /></td>
             <td colspan="6">
-                <select ng-model="fields['RootCause']" ng-options="v as v for (k,v) in queries['RootCause'].options"></select>
+                <select ng-model="fields['RootCause']" ng-options="k as v for (k,v) in queries['RootCause'].options"></select>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">2</td>
             <td colspan="5"><input ng-model="fields['CheckCause2']" type="text" /></td>
             <td colspan="6">
-                <select ng-model="fields['SecondaryRootCause']" ng-options="v as v for (k,v) in queries['SecondaryRootCause'].options"></select>
+                <select ng-model="fields['SecondaryRootCause']" ng-options="k as v for (k,v) in queries['SecondaryRootCause'].options"></select>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">3</td>
             <td colspan="5"><input ng-model="fields['CheckCause3']" type="text" /></td>
             <td colspan="6">
-                <select ng-model="fields['ActionType']" ng-options="v as v for (k,v) in queries['ActionType'].options"></select>
+                <select ng-model="fields['ActionType']" ng-options="k as v for (k,v) in queries['ActionType'].options"></select>
             </td>
         </tr>
         <tr>

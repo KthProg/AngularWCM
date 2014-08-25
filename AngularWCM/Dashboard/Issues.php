@@ -41,19 +41,19 @@
                     <tr>
                         <td>Plant:</td>
                         <td>
-                            <select ng-model="fields['plants']" ng-options="v as v for (k,v) in queries['plants'].options">
+                            <select ng-model="fields['plants']" ng-options="k as v for (k,v) in queries['plants'].options">
                                 <option value=""></option>
                             </select>
                         </td>
                         <td>Department:</td>
                         <td>
-                            <select ng-model="fields['departments']" ng-options="v as v for (k,v) in queries['departments'].options">
+                            <select ng-model="fields['departments']" ng-options="k as v for (k,v) in queries['departments'].options">
                                 <option value=""></option>
                             </select>
                         </td>
                         <td>Zone:</td>
                         <td>
-                            <select ng-model="fields['zones']" ng-options="v as v for (k,v) in queries['zones'].options">
+                            <select ng-model="fields['zones']" ng-options="k as v for (k,v) in queries['zones'].options">
                                 <option value=""></option>
                             </select>
                         </td>
@@ -61,13 +61,13 @@
                     <tr>
                         <td>Machine:</td>
                         <td>
-                            <select ng-model="fields['machines']" ng-options="v as v for (k,v) in queries['machines'].options">
+                            <select ng-model="fields['machines']" ng-options="k as v for (k,v) in queries['machines'].options">
                                 <option value=""></option>
                             </select>
                         </td>
                         <td>Supervisor:</td>
                         <td>
-                            <select ng-model="fields['supervisors']" ng-options="v as v for (k,v) in queries['supervisors'].options">
+                            <select ng-model="fields['supervisors']" ng-options="k as v for (k,v) in queries['supervisors'].options">
                                 <option value=""></option>
                             </select>
                         </td>

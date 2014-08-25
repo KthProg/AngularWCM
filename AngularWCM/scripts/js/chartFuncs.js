@@ -85,6 +85,8 @@ function chartData() {
 }
 
 function renderChartData(data) {
+    console.log(data);
+
     var options = {
         title: $("[name='Query'] option:selected").text()
     };

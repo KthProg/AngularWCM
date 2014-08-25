@@ -47,7 +47,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['ToolNumber']" ng-options="v as v for (k,v) in queries['ToolNumber'].options" required></select>
+                <select ng-model="fields['ToolNumber']" ng-options="k as v for (k,v) in queries['ToolNumber'].options" required></select>
             </td>
         </tr>
         <tr>
@@ -55,7 +55,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['Department']" ng-options="v as v for (k,v) in queries['Department'].options" required></select>
+                <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options" required></select>
             </td>
         </tr>
         <tr>
@@ -63,7 +63,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['Zone']" ng-options="v as v for (k,v) in queries['Zone'].options" required></select>
+                <select ng-model="fields['Zone']" ng-options="k as v for (k,v) in queries['Zone'].options" required></select>
             </td>
         </tr>
         <tr>
@@ -71,7 +71,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['Machine']" ng-options="v as v for (k,v) in queries['Machine'].options"></select>
+                <select ng-model="fields['Machine']" ng-options="k as v for (k,v) in queries['Machine'].options"></select>
             </td>
         </tr>
         <tr>

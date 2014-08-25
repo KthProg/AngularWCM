@@ -37,35 +37,35 @@
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Auditor's Name</strong>
-                    <select ng-model="fields['AuditorName']" ng-options="v as v for (k,v) in queries['AuditorName'].options" required></select>
+                    <select ng-model="fields['AuditorName']" ng-options="k as v for (k,v) in queries['AuditorName'].options" required></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Plant</strong>
-                    <select ng-model="fields['Plant']" ng-options="v as v for (k,v) in queries['Plant'].options" required></select>
+                    <select ng-model="fields['Plant']" ng-options="k as v for (k,v) in queries['Plant'].options" required></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Department</strong>
-                    <select ng-model="fields['Department']" ng-options="v as v for (k,v) in queries['Department'].options" required></select>
+                    <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options" required></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Zone</strong>
-                    <select ng-model="fields['Zone']" ng-options="v as v for (k,v) in queries['Zone'].options" required></select>
+                    <select ng-model="fields['Zone']" ng-options="k as v for (k,v) in queries['Zone'].options" required></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Machine</strong>
-                    <select ng-model="fields['MachID']" ng-options="v as v for (k,v) in queries['MachID'].options" ></select>
+                    <select ng-model="fields['MachID']" ng-options="k as v for (k,v) in queries['MachID'].options" ></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Work Cell</strong>
-                    <select ng-model="fields['WorkCell']" ng-options="v as v for (k,v) in queries['WorkCell'].options" required></select>
+                    <select ng-model="fields['WorkCell']" ng-options="k as v for (k,v) in queries['WorkCell'].options" required></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Tool No.</strong>
-                    <select ng-model="fields['PartNum']" ng-options="v as v for (k,v) in queries['PartNum'].options" ></select>
+                    <select ng-model="fields['PartNum']" ng-options="k as v for (k,v) in queries['PartNum'].options" ></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Supervisor</strong>
-                    <select ng-model="fields['Supervisor']" ng-options="v as v for (k,v) in queries['Supervisor'].options" required></select>
+                    <select ng-model="fields['Supervisor']" ng-options="k as v for (k,v) in queries['Supervisor'].options" required></select>
                 </div>
             </td>
         </tr>
