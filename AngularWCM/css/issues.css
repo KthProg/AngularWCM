@@ -235,3 +235,22 @@ input[type=checkbox]{
     transition-timing-function: linear;
     transition-delay: 0s;
 }
+
+[ng-switch='i.Severity'] > div{
+    width: 10px; 
+    height: 10px; 
+    border-radius: 50%; 
+    float: right;
+}
+
+[ng-switch-when='Low'] {
+    background-color: green;
+}
+
+[ng-switch-when='Medium'] {
+    background-color: yellow;
+}
+
+[ng-switch-when='High'] {
+    background-color: red;
+}

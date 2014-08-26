@@ -99,14 +99,14 @@
         <div id="issues" ng-controller="Issues">
             <div id="open_issues">
                 <span class="toggleButton" ng-click="showOpen = !showOpen">{{showOpen ? '-' : '+'}}</span><h3>Open Issues</h3>
-                <div id="open_issues_div" ng-repeat="i in openIssues | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showOpen">
+                <div id="open_issues_div" ng-repeat="i in openIssues | orderBy : ['Severity', 'Name', 'ID', 'LineNum', 'Compliancy']" ng-show="showOpen">
                     <div class="issue" onclick="$(this).next().toggle()">
                         {{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} 
                         <button ng-click="closeIssue(i.Name,i.ID,i.LineNum)" style="float: right;">X</button>
                         <span ng-switch="i.Severity">
-                            <div ng-switch-when="Low" style="width: 10px; height: 10px; border-radius: 50%; background-color: green; float: right;"> </div>
-                            <div ng-switch-when="Medium" style="width: 10px; height: 10px; border-radius: 50%; background-color: yellow; float: right;"> </div>
-                            <div ng-switch-when="High" style="width: 10px; height: 10px; border-radius: 50%; background-color: red; float: right;"> </div>
+                            <div ng-switch-when="Low"> </div>
+                            <div ng-switch-when="Medium"> </div>
+                            <div ng-switch-when="High"> </div>
                         </span>
                     </div>
                     <div style="display: none;">
@@ -120,14 +120,14 @@
             </div>
             <div id="closed_issues">
                 <span class="toggleButton" ng-click="showClosed = !showClosed">{{showClosed ? '-' : '+'}}</span><h3>Closed Issues</h3>
-                <div id="closed_issues_div" ng-repeat="i in closedIssues | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showClosed">
+                <div id="closed_issues_div" ng-repeat="i in closedIssues | orderBy : ['Severity', 'Name', 'ID', 'LineNum', 'Compliancy']" ng-show="showClosed">
                     <div class="issue" onclick="$(this).next().toggle()">
                         {{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} 
                         <button ng-click="openIssue(i.Name,i.ID,i.LineNum)" style="float: right;">O</button>
                         <span ng-switch="i.Severity">
-                            <div ng-switch-when="Low" style="width: 10px; height: 10px; border-radius: 50%; background-color: green; float: right;"> </div>
-                            <div ng-switch-when="Medium" style="width: 10px; height: 10px; border-radius: 50%; background-color: yellow; float: right;"> </div>
-                            <div ng-switch-when="High" style="width: 10px; height: 10px; border-radius: 50%; background-color: red; float: right;"> </div>
+                            <div ng-switch-when="Low"> </div>
+                            <div ng-switch-when="Medium"> </div>
+                            <div ng-switch-when="High"> </div>
                         </span>
                     </div>
                     <div style="display: none;">
