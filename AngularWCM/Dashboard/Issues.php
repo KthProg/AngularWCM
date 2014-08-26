@@ -21,13 +21,13 @@
     </nav>
     <header>
         <h3>
-            <img id="menubutton" src="/res/menubutton.png" onclick="$('#left_nav').slideToggle()" alt="Menu">WCM Application Dashboard</h3>
+            <img id="menubutton" src="/res/menubutton.png" onclick="$('#left_nav').slideToggle()" alt="Menu">Safety Issues Dashboard</h3>
         <nav id="buttons">
             <ul>
-                <a id="newForm" target="_blank" href="#">
+                <a id="newForm" href="/Dashboard/SA.html">
                     <li>+ New Form</li>
                 </a>
-                <a id="viewCharts" target="_blank" href="Chart.php?Pillar=SA">
+                <a id="viewCharts" href="Chart.php?Pillar=SA">
                     <li>O View Charts</li>
                 </a>
             </ul>
@@ -99,8 +99,8 @@
         <div id="issues" ng-controller="Issues">
             <div id="open_issues">
                 <span class="toggleButton" ng-click="showOpen = !showOpen">{{showOpen ? '-' : '+'}}</span><h3>Open Issues</h3>
-                <div id="open_issues_div" ng-repeat="i in openIssues track by $index | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showOpen">
-                    <div class="issue" onclick="$(this).next().toggle()">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}} <button ng-click="closeIssue(i.Name,i.ID,i.LineNum)">X</button></div>
+                <div id="open_issues_div" ng-repeat="i in openIssues | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showOpen">
+                    <div class="issue" onclick="$(this).next().toggle()">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}} <button ng-click="closeIssue(i.Name,i.ID,i.LineNum)" style="float: right;">X</button></div>
                     <div style="display: none;">
                         Category:  {{i.Category}}<br />
                         Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />
@@ -112,8 +112,8 @@
             </div>
             <div id="closed_issues">
                 <span class="toggleButton" ng-click="showClosed = !showClosed">{{showClosed ? '-' : '+'}}</span><h3>Closed Issues</h3>
-                <div id="closed_issues_div" ng-repeat="i in closedIssues track by $index | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showClosed">
-                    <div class="issue" onclick="$(this).next().toggle()">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}} <button ng-click="openIssue(i.Name,i.ID,i.LineNum)">O</button></div>
+                <div id="closed_issues_div" ng-repeat="i in closedIssues | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showClosed">
+                    <div class="issue" onclick="$(this).next().toggle()">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}} <button ng-click="openIssue(i.Name,i.ID,i.LineNum)" style="float: right;">O</button></div>
                     <div style="display: none;">
                         Category:  {{i.Category}}<br />
                         Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />

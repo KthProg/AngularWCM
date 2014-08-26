@@ -14,26 +14,28 @@
         </script>
 	</head>
     <style>
-        @media screen and (max-width: 809px) {
+        @media screen and (min-device-width : 320px) and (max-device-width : 480px) {
             input, select, textarea, label {
                 width: 100%;
                 height: 50px;
-            }
-
-            textarea {
-                height: 200px;
-            }
-
-            h2, h1 {
-                width: 100%;
-                font-family: Calibri;
-                text-align: center;
             }
 
             button {
                 width: 30%;
                 height: 50px;
             }
+        }
+        @media screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+            input, select, textarea, label {
+                width: 100%;
+                height: 50px;
+            }
+
+            button {
+                width: 30%;
+                height: 50px;
+            }
+        }
         }
     </style>
 	<body>
