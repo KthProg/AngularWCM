@@ -1,5 +1,6 @@
 ﻿function Issues($scope, $http) {
 
+    $scope.XML = {};
     $scope.filter = {};
 
     $scope.$on('filter', function (event, args) {
@@ -18,20 +19,64 @@
     $scope.closedIssues = [{ Name: "Initializing"}];
 
     $scope.getOpenIssues = function () {
-        $http.get("/scripts/php/Query.php?Query=GetOpenIssues&ASSOC=true&Params=[]")
-        .success(function (resp) {
-            var formatted = $scope.formatResponse(resp);
-            var filtered = $scope.filterResponse(formatted);
-            $scope.openIssues = filtered;
-        });
+        $scope.getIssues("GetOpenIssues", "openIssues");
     };
 
     $scope.getClosedIssues = function () {
-        $http.get("/scripts/php/Query.php?Query=GetClosedIssues&ASSOC=true&Params=[]")
+        $scope.getIssues("GetClosedIssues", "closedIssues");
+    };
+
+    $scope.getAllIssues = function () {
+        $scope.getOpenIssues();
+        $scope.getClosedIssues();
+    };
+
+    $scope.getIssues = function (query, assignTo) {
+        $http.get("/scripts/php/Query.php?Query=" + query + "&ASSOC=true&Params=[]")
         .success(function (resp) {
             var formatted = $scope.formatResponse(resp);
             var filtered = $scope.filterResponse(formatted);
-            $scope.closedIssues = filtered;
+            var lineItemsAdded = $scope.addLineItems(filtered);
+            $scope[assignTo] = lineItemsAdded;
+        });
+    };
+
+    $scope.addLineItems = function (resp) {
+        for (k in $scope.XML) {
+            var count = 0;
+            var groups = $($scope.XML[k]).find("group");
+            groups.each(function () {
+                //var header = $(this).filter("header");
+                var labels = $(this).children("label");
+                labels.each(function () {
+                    ++count;
+                    for (var i = 0, l = resp.length; i < l; ++i) {
+                        if (resp[i].LineNum == count && resp[i]["LineItem"] == undefined && resp[i].Name == k) {
+                            resp[i]["LineItem"] = $(this).text();
+                        }
+                    }
+                });
+            });
+        }
+        return resp;
+    };
+
+    $scope.getLineItemsXML = function () {
+        $.ajax({
+            url: "/xml/ehslabels.xml",
+            dataType: "xml",
+            async: false,
+            success: function (data){
+                $scope.XML["EHS"] = data;
+            }
+        });
+        $.ajax({
+            url: "/xml/wcclabels.xml",
+            dataType: "xml",
+            async: false,
+            success: function (data) {
+                $scope.XML["WCC"] = data;
+            }
         });
     };
 
@@ -67,8 +112,7 @@
     $scope.openIssue = function (name, id, line) {
         $http.get("/scripts/php/Query.php?Query=OpenIssue&Params=" + JSON.stringify([name, id, line]))
         .success(function (resp) {
-            $scope.getOpenIssues();
-            $scope.getClosedIssues();
+            $scope.getAllIssues();
         });
     };
 
@@ -77,28 +121,16 @@
         if (actionTaken) {
             $http.get("/scripts/php/Query.php?Query=CloseIssue&Params=" + JSON.stringify([name, id, line, actionTaken]))
             .success(function (resp) {
-                $scope.getOpenIssues();
-                $scope.getClosedIssues();
+                $scope.getAllIssues();
             });
         } else {
             alert("Action taken is invalid.");
         }
     };
-    
-    /*$scope.getUniqueIssue = function (name, id, line) {
-        var issueArr = resp.filter(function (n) {
-            return 
-            n.Name == name && 
-            n.ID == id &&
-            n.LineNum == line;
-        });
-        var issueObj = issueArr[0];
-        return issueObj;
-    };*/
 
-    $scope.getOpenIssues();
-    $scope.getClosedIssues();
+    $scope.getLineItemsXML();
 
+    $scope.getAllIssues();
 }
 
 app.controller("Issues", Issues);

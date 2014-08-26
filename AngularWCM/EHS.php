@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/Checklist.css" />
     <link rel="stylesheet" href="css/EHS.css" />
 
-    <title>WCC</title>
+    <title>EHS</title>
 </head>
 
 <body
@@ -22,7 +22,7 @@
     ng-init="setFormData('EHS');">
     <table>
         <tr>
-            <td colspan="3"><h1>Work Cell Observation Checklist No. {{hasRecord ? id  + " (Updating)" : "(New Form)"}}</h1></td>
+            <td colspan="3"><h1>EHS No. {{hasRecord ? id  + " (Updating)" : "(New Form)"}}</h1></td>
         </tr>
         <tr>
             <td colspan="3">

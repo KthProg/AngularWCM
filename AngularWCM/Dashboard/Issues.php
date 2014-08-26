@@ -110,6 +110,7 @@
                         </span>
                     </div>
                     <div style="display: none;">
+                        Line Item: {{i.LineItem}}<br />
                         Category:  {{i.Category}}<br />
                         Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />
                         Created: {{i.OpenDate}}<br />
@@ -131,6 +132,7 @@
                         </span>
                     </div>
                     <div style="display: none;">
+                        Line Item: {{i.LineItem}}<br />
                         Category:  {{i.Category}}<br />
                         Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />
                         Created: {{i.OpenDate}}<br />
