@@ -40,8 +40,8 @@ if($stmt->execute(json_decode($_GET["Params"]))){
         echo "[]";
     }
 }else{
-    //$err = $stmt->errorInfo();
-    //echo $err;
+    $err = $stmt->errorInfo();
+    echo $err;
     echo "[]";
 }
 

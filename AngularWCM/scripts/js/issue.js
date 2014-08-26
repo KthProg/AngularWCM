@@ -3,20 +3,18 @@
     $scope.XML = {};
     $scope.filter = {};
 
-    $scope.$on('filter', function (event, args) {
-        $("select option:selected").each(function () {
-            $scope.filter[$(this).parent().attr("name")] = $(this).text();
-        });
-        //console.log($scope.filter);
-        $scope.getOpenIssues();
-        $scope.getClosedIssues();
-    });
-
     $scope.showOpen = true;
     $scope.showClosed = true;
 
     $scope.openIssues = [{ Name: "Initializing" }];
-    $scope.closedIssues = [{ Name: "Initializing"}];
+    $scope.closedIssues = [{ Name: "Initializing" }];
+
+    $scope.$on('filter', function (event, args) {
+        $("select option:selected").each(function () {
+            $scope.filter[$(this).parent().attr("name")] = $(this).text();
+        });
+        $scope.getAllIssues();
+    });
 
     $scope.getOpenIssues = function () {
         $scope.getIssues("GetOpenIssues", "openIssues");
@@ -34,29 +32,25 @@
     $scope.getIssues = function (query, assignTo) {
         $http.get("/scripts/php/Query.php?Query=" + query + "&ASSOC=true&Params=[]")
         .success(function (resp) {
+            console.log(resp);
             var formatted = $scope.formatResponse(resp);
-            var filtered = $scope.filterResponse(formatted);
-            var lineItemsAdded = $scope.addLineItems(filtered);
-            $scope[assignTo] = lineItemsAdded;
+            var lineItemsAdded = $scope.addLineItems(formatted);
+            var filtered = $scope.filterResponse(lineItemsAdded);
+            $scope[assignTo] = filtered;
         });
     };
 
     $scope.addLineItems = function (resp) {
-        for (k in $scope.XML) {
-            var count = 0;
-            var groups = $($scope.XML[k]).find("group");
-            groups.each(function () {
-                //var header = $(this).filter("header");
-                var labels = $(this).children("label");
-                labels.each(function () {
-                    ++count;
-                    for (var i = 0, l = resp.length; i < l; ++i) {
-                        if (resp[i].LineNum == count && resp[i]["LineItem"] == undefined && resp[i].Name == k) {
-                            resp[i]["LineItem"] = $(this).text();
-                        }
+        for (var k in $scope.XML) {
+            if ($scope.XML.hasOwnProperty(k)) {
+                var labels = $($scope.XML[k]).find("label");
+                for (var i = 0, l = resp.length; i < l; ++i) {
+                    if (resp[i].Name == k) {
+                        resp[i]["LineItem"] = labels.eq(resp[i].LineNum - 1).text();
+                        resp[i]["Category"] = labels.eq(resp[i].LineNum - 1).parent().children("header").text();
                     }
-                });
-            });
+                }
+            }
         }
         return resp;
     };
