@@ -79,6 +79,7 @@
     <Content Include="res\mayco_safety_header.jpg" />
     <Content Include="res\menubutton.png" />
     <Content Include="res\pm_dashboard.jpg" />
+    <Content Include="res\safety_issues.gif" />
     <Content Include="res\safety_reporting.gif" />
     <Content Include="res\upload.png" />
     <Content Include="res\uploadgreen.png" />
