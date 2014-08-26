@@ -71,9 +71,9 @@
         </select>
         <div id="ParamDiv"></div>
         <button onclick="chartData()">Chart</button>
-        <input type="hidden" name="Data" value="" />
         <button onclick="download(getByName('Query').val() + '.csv',getByName('Data').val())">Export Data</button>
         <button id="print">Printable Chart</button>
+        <input type="hidden" name="Data" value="" />
 		<div id="chartDiv" style="width: 100%; height: 500px;">
 		</div>
 	</body>

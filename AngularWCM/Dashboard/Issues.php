@@ -17,7 +17,7 @@
 </head>
 <body ng-app="wcm">
     <nav id="left_nav">
-        <img id="logo" src="/res/mayco.png" alt="Mayco International">
+        <a href="/Dashboard.html"><img id="logo" src="/res/mayco.png" alt="Mayco International"></a>
     </nav>
     <header>
         <h3>
@@ -41,19 +41,19 @@
                     <tr>
                         <td>Plant:</td>
                         <td>
-                            <select ng-model="fields['plants']" ng-options="k as v for (k,v) in queries['plants'].options">
+                            <select name="Plant" ng-model="fields['plants']" ng-options="k as v for (k,v) in queries['plants'].options">
                                 <option value=""></option>
                             </select>
                         </td>
                         <td>Department:</td>
                         <td>
-                            <select ng-model="fields['departments']" ng-options="k as v for (k,v) in queries['departments'].options">
+                            <select name="Department" ng-model="fields['departments']" ng-options="k as v for (k,v) in queries['departments'].options">
                                 <option value=""></option>
                             </select>
                         </td>
                         <td>Zone:</td>
                         <td>
-                            <select ng-model="fields['zones']" ng-options="k as v for (k,v) in queries['zones'].options">
+                            <select name="Zone" ng-model="fields['zones']" ng-options="k as v for (k,v) in queries['zones'].options">
                                 <option value=""></option>
                             </select>
                         </td>
@@ -61,35 +61,35 @@
                     <tr>
                         <td>Machine:</td>
                         <td>
-                            <select ng-model="fields['machines']" ng-options="k as v for (k,v) in queries['machines'].options">
+                            <select name="Machine" ng-model="fields['machines']" ng-options="k as v for (k,v) in queries['machines'].options">
                                 <option value=""></option>
                             </select>
                         </td>
                         <td>Supervisor:</td>
                         <td>
-                            <select ng-model="fields['supervisors']" ng-options="k as v for (k,v) in queries['supervisors'].options">
+                            <select name="SupervisorName" ng-model="fields['supervisors']" ng-options="k as v for (k,v) in queries['supervisors'].options">
                                 <option value=""></option>
                             </select>
                         </td>
                         <td>Shift:</td>
                         <td>
-                            <select ng-model="fields['shifts']" ng-options='v as v for (k,v) in [1,2,3]'>
+                            <select name="Shift" ng-model="fields['shifts']" ng-options='v as v for (k,v) in [1,2,3]'>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td>Severity:</td>
                         <td>
-                            <select ng-model="fields['severities']" ng-options='v as v for (k,v) in ["Low","Medium","High"]'></select>
+                            <select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["Low","Medium","High"]'></select>
                         </td>
                         <td>Category:</td>
                         <td>
-                            <select ng-model="fields['categories']" ng-options='v as v for (k,v) in ["Housekeeping","None","Crane","Ergonomics","Emergency Evacuation Routes/Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></select>
+                            <select name="Category" ng-model="fields['categories']" ng-options='v as v for (k,v) in ["Housekeeping","None","Crane","Ergonomics","Emergency Evacuation Routes/Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></select>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="button">Apply</button></td>
+                            <button type="button" onclick="angular.element('[ng-app]').injector().get('$rootScope').$broadcast('filter');">Apply</button></td>
                         <td>
                             <button type="reset">Clear</button></td>
                     </tr>
@@ -98,15 +98,29 @@
         </div>
         <div id="issues" ng-controller="Issues">
             <div id="open_issues">
-                <span class="toggleButton" ng-click="showOpen = !showOpen">v</span><h3>Open Issues</h3>
-                <div id="open_issues_div" ng-repeat="i in openIssues | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showOpen">
-                    <div class="issue">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}}</div>
+                <span class="toggleButton" ng-click="showOpen = !showOpen">{{showOpen ? '-' : '+'}}</span><h3>Open Issues</h3>
+                <div id="open_issues_div" ng-repeat="i in openIssues track by $index | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showOpen">
+                    <div class="issue" onclick="$(this).next().toggle()">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}} <button ng-click="closeIssue(i.Name,i.ID,i.LineNum)">X</button></div>
+                    <div style="display: none;">
+                        Category:  {{i.Category}}<br />
+                        Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />
+                        Created: {{i.OpenDate}}<br />
+                        Days Open: {{i.DaysOpen}}<br />
+                        Details: {{i.Details}}
+                    </div>
                 </div>
             </div>
             <div id="closed_issues">
-                <span class="toggleButton" ng-click="showClosed = !showClosed">v</span><h3>Closed Issues</h3>
-                <div id="closed_issues_div" ng-repeat="i in closedIssues | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showClosed">
-                    <div class="issue">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}}</div>
+                <span class="toggleButton" ng-click="showClosed = !showClosed">{{showClosed ? '-' : '+'}}</span><h3>Closed Issues</h3>
+                <div id="closed_issues_div" ng-repeat="i in closedIssues track by $index | orderBy : ['Name', 'ID', 'LineNum']" ng-show="showClosed">
+                    <div class="issue" onclick="$(this).next().toggle()">{{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} {{i.Severity}} <button ng-click="openIssue(i.Name,i.ID,i.LineNum)">O</button></div>
+                    <div style="display: none;">
+                        Category:  {{i.Category}}<br />
+                        Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />
+                        Created: {{i.OpenDate}}<br />
+                        Days Open: {{i.DaysOpen}}<br />
+                        Details: {{i.Details}}
+                    </div>
                 </div>
             </div>
         </div>
