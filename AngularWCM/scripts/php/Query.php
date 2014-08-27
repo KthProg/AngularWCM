@@ -1,8 +1,8 @@
 <?php
 if(isset($_POST)){
 
-//$_GET["Query"] = "Plants";
-//$_GET["Params"] = json_encode(array());
+//$_GET["Query"] = "WorkCells";
+//$_GET["Params"] = json_encode(array(1, 1, 16));
     
 require_once("Utilities.php");
 
@@ -40,8 +40,8 @@ if($stmt->execute(json_decode($_GET["Params"]))){
         echo "[]";
     }
 }else{
-    $err = $stmt->errorInfo();
-    echo $err;
+    echo $query_string;
+    print_r($stmt->errorInfo());
     echo "[]";
 }
 

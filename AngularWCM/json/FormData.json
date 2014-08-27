@@ -84,7 +84,7 @@
 			},
 			"WorkCellID": {
 				"name" : "WorkCells",
-				"params" : ["_PlantID_", "_DepartmentID_"],
+				"params" : ["_PlantID_", "_DepartmentID_","_ZoneID_"],
 				"options" : []
 			},
 			"MoldNo": {
@@ -374,7 +374,7 @@
 			},
 			"WorkCellID": {
 				"name" : "WorkCells",
-				"params" : ["_PlantID_", "_DepartmentID_"],
+				"params" : ["_PlantID_", "_DepartmentID_","_ZoneID_"],
 				"options" : []
 			},
 			"MoldNo": {

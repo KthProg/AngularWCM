@@ -14,7 +14,7 @@
   </query>
   <query name="WorkCells">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT WorkCellID, WorkCell FROM PlantLayout WHERE PlantID=? AND DepartmentID=?</qstring>
+    <qstring>SELECT DISTINCT WorkCellID, WorkCell FROM PlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?</qstring>
   </query>
   <query name="Machines">
     <connection>Safety</connection>
