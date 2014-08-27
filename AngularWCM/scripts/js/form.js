@@ -60,13 +60,13 @@
     };
 
     $scope.getOptions = function (field) {
-
+        console.log(field);
         var vals = (function replaceParamsWithValues(params) {
             var results = [];
             for (var i = 0, l = params.length; i < l; ++i) {
                 var refName = $scope.paramToRefName(params[i]);
                 if (refName !== false) {
-                    var refVal = $scope.fields[refName];
+                    refVal = $scope.refNameToValue(params[i][0], refName);
                     results.push(refVal);
                 } else {
                     results.push(params[i]);
@@ -74,7 +74,7 @@
             }
             return results;
         })($scope.queries[field].params);
-
+        console.log(vals);
         $http.get("/scripts/php/Query.php?Query=" + $scope.queries[field].name + "&Params=" + JSON.stringify(vals))
         .success(
         function (resp) {
@@ -82,9 +82,25 @@
         });
     };
 
+    $scope.refNameToValue  = function (type, refName){
+        switch (type) {
+            case 'v':
+            case '_':
+            default:
+                var refVal = $scope.fields[refName];
+                break;
+            case 't':
+                var refEl = $scope.getFieldEl(refName).find('option:selected');
+                var refVal = refEl.text();
+                break;
+        }
+        return refVal;
+    };
+
     $scope.paramToRefName = function (param) {
-        if (param[0] == "_") {
-            var refName = param.substr(1, param.length - 2);
+        var firstUnderscore = param.search("_");
+        if (firstUnderscore == 0 || firstUnderscore == 1) {
+            var refName = param.substring(firstUnderscore + 1, param.length - 1);
             return refName;
         } else {
             return false;

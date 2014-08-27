@@ -44,6 +44,10 @@
     <connection>Safety</connection>
     <qstring>SELECT DISTINCT ID, BodyPart FROM BodyParts</qstring>
   </query>
+  <query name="CurrentTools">
+    <connection>Mattec</connection>
+    <qstring>SELECT DISTINCT MoldNo, MoldID FROM vPSProd WHERE MachID=?</qstring>
+  </query>
   <query name="Tools">
     <connection>Mattec</connection>
     <qstring>SELECT DISTINCT MoldNo, MoldID FROM MoldIDs</qstring>
