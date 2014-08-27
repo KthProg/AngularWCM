@@ -1,5 +1,5 @@
 <?php
-if(isset($_POST["Image"], $_POST["FileName"], $_GET["Name"])){
+if(isset($_POST["Image"], $_POST["FileName"], $_GET["Name"], $_GET["ID"], $_POST["Line"])){
     $upload_dir = "..\\..\\uploads\\";
     $is_dir = is_dir($upload_dir);
     $is_writeable = is_writable($upload_dir);
@@ -7,7 +7,7 @@ if(isset($_POST["Image"], $_POST["FileName"], $_GET["Name"])){
     if($is_dir && $is_writeable){
         $data = get_image_data_from_js_base64($_POST["Image"]);
         
-        $file = $upload_dir.$_GET["Name"]."_".$_POST["FileName"];
+        $file = $upload_dir.$_GET["Name"]."_".$_GET["ID"]."_".$_POST["Line"]."_".$_POST["FileName"];
         $file = str_replace(" ", "_", $file);
         
         $success = file_put_contents($file, $data);

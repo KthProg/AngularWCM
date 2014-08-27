@@ -14,7 +14,7 @@ function changeImage(input, imgEl) {
 }
 
 
-function imgToBase64(imgEl, hiddenEl) {
+function imgToBase64(imgEl, line) {
 
     var scope = angular.element($("[ng-app='wcm']")).scope();
     var fileReader = new FileReader();
@@ -22,9 +22,13 @@ function imgToBase64(imgEl, hiddenEl) {
     fileReader.onload = function (e) {
         scope.lastImage.URI = e.target.result;
         scope.$apply();
+        //TODO: change to use broadcast
+        //capture image uplaod event in controller
+        //same with sketches
     }
 
     scope.lastImage.name = imgEl.files[0].fileName || imgEl.files[0].name;
+    scope.lastImage.line = line;
     fileReader.readAsDataURL(imgEl.files[0]);
 }
 

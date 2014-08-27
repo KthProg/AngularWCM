@@ -93,7 +93,7 @@
                     <label for="file<?php echo $i; ?>">
                         <img id="uploadimg<?php echo $i; ?>" src="res/upload.png" alt="Upload">
                     </label>
-                    <input type="file" id="file<?php echo $i; ?>" onchange="changeImage($(this), $('#uploadimg<?php echo $i; ?>')); imgToBase64(this, $('#FileURL<?php echo $i; ?>'));">
+                    <input type="file" id="file<?php echo $i; ?>" onchange="changeImage($(this), $('#uploadimg<?php echo $i; ?>')); imgToBase64(this, <?php echo $i; ?>);">
                 </td>
                 <td>
                     <select ng-model="fields['Compliant<?php echo $i; ?>']" ng-options="v as v for (k,v) in ['Satisfactory','Unsafe Condition','Unsafe Act','Both']" ng-init="fields['Compliant<?php echo $i; ?>'] = 'Satisfactory'" required></select>

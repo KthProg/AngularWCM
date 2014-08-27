@@ -6,7 +6,8 @@
 
     $scope.lastImage = {
         name: "",
-        URI: ""
+        URI: "",
+        line: 0
     };
 
     $scope.fields = {};
@@ -46,7 +47,7 @@
         })
         .success(
         function (resp) {
-            $scope.id = Number(resp);
+            $scope.id = Number(++resp);
         });
     };
 
@@ -259,7 +260,7 @@
             $http({
                 method: "POST",
                 url: "/scripts/php/SaveImage.php?" + $scope.getFormDataString(),
-                data: "Image=" + $scope.lastImage.URI + "&FileName=" + $scope.lastImage.name,
+                data: "Image=" + $scope.lastImage.URI + "&FileName=" + $scope.lastImage.name + "&Line=" + $scope.lastImage.line,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(alert);
