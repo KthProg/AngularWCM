@@ -35,7 +35,7 @@
             $scope.queries = resp[name]["Queries"];
             $scope.getMaxID();
             $scope.getInitialOptions();
-            $scope.watchSelects();
+            $scope.watchSelects(); 
         });
     };
 

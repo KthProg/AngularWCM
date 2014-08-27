@@ -46,7 +46,7 @@
   </query>
   <query name="CurrentTools">
     <connection>Mattec</connection>
-    <qstring>SELECT DISTINCT MoldNo, MoldID FROM vPSProd WHERE MachID=?</qstring>
+    <qstring>SELECT DISTINCT MoldIDs.MoldNo, MoldIDs.MoldID FROM vJobProd JOIN MoldIDs ON MoldIDs.MoldNo=vJobProd.MoldNo WHERE MachID=?</qstring>
   </query>
   <query name="Tools">
     <connection>Mattec</connection>
