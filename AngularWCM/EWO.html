@@ -51,7 +51,7 @@
             <td colspan="2">Date/Time Finished</td>
         </tr>
         <tr>
-            <td colspan="3">{{hasRecord ? id  + " (Updating)" : " (New Form)"}}</td>
+            <td colspan="3">{{id + (hasRecord ?" (Updating)" : "(New Form)")}}</td>
             <td>
                 <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options"></select>
             </td>

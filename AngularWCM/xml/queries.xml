@@ -191,11 +191,15 @@
   </query>
   <query name="AgingReport">
     <connection>Safety</connection>
-    <qstring>SELECT Name + '#' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM OpenIssues WHERE DaysOpen>0 ORDER By DaysOpen</qstring>
+    <qstring>SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM OpenIssues WHERE DaysOpen>0 ORDER By DaysOpen</qstring>
   </query>
   <query name="SeverityReport">
     <connection>Safety</connection>
     <qstring>SELECT Severity, COUNT(*) AS [Open] FROM OpenIssues GROUP BY Severity</qstring>
+  </query>
+  <query name="IssuesBySeverity">
+    <connection>Safety</connection>
+    <qstring>SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, Severity FROM OpenIssues ORDER BY Severity</qstring>
   </query>
   <query name="ZonesNotAudited">
     <connection>Safety</connection>

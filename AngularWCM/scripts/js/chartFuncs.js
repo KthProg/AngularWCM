@@ -110,10 +110,29 @@ function renderChartData(data) {
     userChart(cdata, type, options);
 }
 
+function getArrType(arr) {
+    var numArr = arr.filter(function (n) {
+        return !isNaN(n);
+    });
+    var dateArr = arr.filter(function (n) {
+        var d = new Date(n);
+        return !isNaN(d.valueOf());
+    });
+    if (numArr.length === data.length) {
+        return "number";
+    }
+    if (dateArr.length === data.length) {
+        return "date";
+    }
+    return "string";
+};
+
 function getOneColData(data) {
     var objKeys = Object.keys(data[0]);
 
     var dataTable = new google.visualization.DataTable();
+
+    
 
     var key = objKeys[0];   // key containing values for the only column
 

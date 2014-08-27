@@ -22,33 +22,4 @@ if(isset($_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"])){
         return;
     }
 }
-
-function get_max_id($connection, $table, $pk){
-    $conn = get_connection($connection);
-
-    $query = "SELECT MAX({$pk}) FROM {$table}";
-    $query = ms_escape_string($query);
-
-    if($conn){
-        $stmt = $conn->prepare($query);
-    }else{
-        return -1;
-        exit();
-    }
-
-    if($stmt->execute()){
-        if($row = $stmt->fetch(PDO::FETCH_NUM)){
-            return $row[0];
-            exit();
-        }else{
-            return -1;
-            exit();
-        }
-    }else{
-        return -1;
-        exit();
-    }
-
-    return 1;
-}
 ?>

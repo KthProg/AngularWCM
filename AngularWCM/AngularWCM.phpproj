@@ -20,6 +20,7 @@
     <Compile Include="Dashboard\Issues.php" />
     <Compile Include="DevForm.php" />
     <Compile Include="EHS.php" />
+    <Compile Include="scripts\php\getMaxID.php" />
     <Compile Include="scripts\php\getParams.php" />
     <Compile Include="scripts\php\Open.php" />
     <Compile Include="scripts\php\Query.php" />

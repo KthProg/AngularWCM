@@ -63,6 +63,7 @@
             <option value="ZonesNotAudited">Zones Without Audits</option>
             <option value="AgingReport">Days Open per Issue</option>
             <option value="SeverityReport">Number of Issues By Severity</option>
+            <option value="IssuesBySeverity">Issues By Severity</option>
                 <?php } ?>
             <?php } ?>
         </select>

@@ -32,8 +32,21 @@
             $scope.pk = resp[name]["PK"];
             $scope.contacts = resp[name]["Emails"];
             $scope.queries = resp[name]["Queries"];
+            $scope.getMaxID();
             $scope.getInitialOptions();
             $scope.watchSelects();
+        });
+    };
+
+    $scope.getMaxID = function () {
+        $http({
+            method: "GET",
+            url: "/scripts/php/getMaxID.php?" + $scope.getFormDataString(),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .success(
+        function (resp) {
+            $scope.id = Number(resp);
         });
     };
 

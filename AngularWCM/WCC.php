@@ -22,7 +22,7 @@
     ng-init="setFormData('WCC');">
     <table>
         <tr>
-            <td colspan="3"><h1>Work Cell Observation Checklist No. {{hasRecord ? id  + " (Updating)" : "(New Form)"}}</h1></td>
+            <td colspan="3"><h1>Work Cell Observation Checklist No. {{id + ( hasRecord ? " (Updating)" : " (New Form)" )}}</h1></td>
         </tr>
         <tr>
             <td colspan="3">

@@ -11,7 +11,7 @@
         ng-app="wcm" 
         ng-controller="Form" 
         ng-init="setFormData('Development Form');">
-        <h2>Development form number {{hasRecord ? id  + " (Updating)" : " (New Form)"}}</h2>
+        <h2>Development form number {{id + (hasRecord ?" (Updating)" : "(New Form)")}}</h2>
         <input type="text" ng-model="fields['ToolName']" />
         <textarea ng-model="fields['Problems']"></textarea>
         <select ng-model="fields['ToolNumber']" ng-options="k as v for (k,v) in queries['ToolNumber'].options" required></select>

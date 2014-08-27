@@ -22,7 +22,7 @@
     ng-init="setFormData('EHS');">
     <table>
         <tr>
-            <td colspan="3"><h1>EHS No. {{hasRecord ? id  + " (Updating)" : "(New Form)"}}</h1></td>
+            <td colspan="3"><h1>EHS No. {{id + (hasRecord ?" (Updating)" : "(New Form)")}}</h1></td>
         </tr>
         <tr>
             <td colspan="3">
