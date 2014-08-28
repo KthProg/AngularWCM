@@ -110,36 +110,31 @@ function renderChartData(data) {
     userChart(cdata, type, options);
 }
 
-function getArrType(arr) {
-    var numArr = arr.filter(function (n) {
-        return !isNaN(n);
-    });
-    var dateArr = arr.filter(function (n) {
-        var d = new Date(n);
-        return !isNaN(d.valueOf());
-    });
-    if (numArr.length === data.length) {
-        return "number";
-    }
-    if (dateArr.length === data.length) {
-        return "date";
-    }
-    return "string";
-};
-
 function getOneColData(data) {
     var objKeys = Object.keys(data[0]);
+    var key = objKeys[0];   // key containing values for the only column
 
     var dataTable = new google.visualization.DataTable();
 
-    
+    var objData = getKeyValuesAndKeyTypeData(data);
+    /*
+data =  {
+            key1 : {
+                type: getArrType(values),
+                values: values
+            },
+            key2 : {
+                type: getArrType(values),
+                values: values
+            },
+            etc.
+        }
+    */
 
-    var key = objKeys[0];   // key containing values for the only column
+    dataTable.addColumn(objData[key].type, key);
 
-    dataTable.addColumn("string", key);
-
-    for (var i = 0, j = data.length; i < j; ++i) {
-        dataTable.addRow([data[i][key]]);
+    for (var i = 0, j = objData[key].values.length; i < j; ++i) {
+        dataTable.addRow([objData[key].values[i]]);
     }
 
     return dataTable;
@@ -154,16 +149,36 @@ function getTwoColData(data) {
 
     var mainKey = objKeys[0];   // key containing values for the first column
     var valueKey = objKeys[1];  // key containing values for the datatable
-    //console.log(fieldInfo);
 
-	var firstRow = [mainKey, valueKey];
-	
-    dataTable.addColumn("string", mainKey);
-    dataTable.addColumn("number", valueKey);
+    var firstRow = [mainKey, valueKey];
+
+    var objData = getKeyValuesAndKeyTypeData(data);
+    /*
+data =  {
+            key1 : {
+                type: getArrType(values),
+                values: values
+            },
+            key2 : {
+                type: getArrType(values),
+                values: values
+            },
+            etc.
+        }
+    */
+    dataTable.addColumn(objData[mainKey].type, mainKey);
+    dataTable.addColumn(objData[valueKey].type, valueKey);
 
     for (var i = 0, j = data.length; i < j; ++i) {
         var thisVal = data[i][valueKey];
-        thisVal = Number(thisVal);
+        switch (keyTypes.value) {
+            case "string":
+                thisVal += "";
+                break;
+            case "number":
+                thisVal = Number(thisVal);
+                break;
+        }
         dataTable.addRow([data[i][mainKey], thisVal]);
     }
 
@@ -186,8 +201,8 @@ function getThreeColData(data) {
 
     // returns only the unique values identified in the list of objects by the second key
     // i.e. the column names other than the first column name (mainKey)
-    var cols = objectArrayKeyValues(secondKey, data).filter(onlyUnique);
-    for (var i = 0, j = cols.length; i < j; ++i) {
+    var secondColVals = objectArrayKeyValues(secondKey, data).filter(onlyUnique);
+    for (var i = 0, j = secondColVals.length; i < j; ++i) {
         dataTable.addColumn("number", cols[i]);
     }
 
@@ -197,7 +212,7 @@ function getThreeColData(data) {
 
     var totals = [];
     for (var i = 0, j = firstColVals.length; i < j; ++i) {
-        var total = 0
+        var total = 0;
         for (var k = 0, l = data.length; k < l; ++k) {
             if (data[k][mainKey] == firstColVals[i]) {
                 var thisVal = Number(data[k][valueKey]);
@@ -217,22 +232,17 @@ function getThreeColData(data) {
         }
     );
 
-    firstColVals = objectArrayKeyValues("col", totals);
+    var sortedFirstColVals = objectArrayKeyValues("col", totals);
 
-    for (var i = 0, j = firstColVals.length; i < j; ++i) {
+    for (var i = 0, j = sortedFirstColVals.length; i < j; ++i) {
         // set value for the first column
-        var thisData = [firstColVals[i]];
-        for (var m = 0, n = cols.length; m < n; ++m) {
-            var foundVal = false;
+        var thisData = [sortedFirstColVals[i]];
+        for (var m = 0, n = secondColVals.length; m < n; ++m) {
             for (var k = 0, l = data.length; k < l; ++k) {
-                if (data[k][mainKey] == firstColVals[i] && data[k][secondKey] == cols[m]) {
-                    var thisVal = data[k][valueKey];
+                if (data[k][mainKey] == sortedFirstColVals[i] && data[k][secondKey] == secondColVals[m]) {
+                    var thisVal = data[k][valueKey] || 0;
                     thisData.push(Number(thisVal));
-                    foundVal = true;
                 }
-            }
-            if (!foundVal) {
-                thisData.push(0);
             }
         }
         dataTable.addRow(thisData);
@@ -289,6 +299,23 @@ function sortResults(a, b) {
     return (a[firstKey] - b[firstKey]);
 }
 
+function getKeyValuesAndKeyTypeData(objArr) {
+    var keys = Object.keys(objArr[0]);
+    var data = {};
+    for (var i = 0, l = keys.length; i < l; ++i) {
+        var values = objectArrayKeyValues(keys[i], objArr);
+        data[keys[i]] = {
+            type: getArrType(values),
+            values: values
+        };
+    }
+    return data;
+}
+
+function objectArrayKeyType(key, objs) {
+    return getArrType(objectArrayKeyType(key, objs));
+}
+
 function objectArrayKeyValues(key, objs) {
     var results = [];
     for (var i = 0, l = objs.length; i < l; ++i) {
@@ -296,6 +323,23 @@ function objectArrayKeyValues(key, objs) {
     }
     return results;
 }
+
+function getArrType(arr) {
+    var numArr = arr.filter(function (n) {
+        return !isNaN(n);
+    });
+    var dateArr = arr.filter(function (n) {
+        var d = new Date(n);
+        return !isNaN(d.valueOf());
+    });
+    if (numArr.length === arr.length) {
+        return "number";
+    }
+    if (dateArr.length === arr.length) {
+        return "date";
+    }
+    return "string";
+};
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;

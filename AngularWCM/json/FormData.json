@@ -3,17 +3,17 @@
 		"Queries" : {
 			"Department" : {
 				"name" : "Departments",
-				"params" : [1],
+				"params" : ["1"],
 				"options": []
 			},
 			"Zone" : {
 				"name" : "Zones",
-				"params" : [1,"_Department_"],
+				"params" : ["1","_Department_"],
 				"options": []
 			},
 			"Machine" : {
 				"name" : "Machines",
-				"params" : [1,"_Department_","_Zone_"],
+				"params" : ["1","_Department_","_Zone_"],
 				"options": []
 			}
 		},
@@ -107,22 +107,22 @@
 		"Queries" : {
 			"Department" : {
 				"name" : "Departments",
-				"params" : [1],
+				"params" : ["1"],
 				"options": []
 			},
 			"Zone" : {
 				"name" : "Zones",
-				"params" : [1,"_Department_"],
+				"params" : ["1","_Department_"],
 				"options": []
 			},
 			"Machine" : {
 				"name" : "Machines",
-				"params" : [1,"_Department_","_Zone_"],
+				"params" : ["1","_Department_","_Zone_"],
 				"options": []
 			},
 			"SubSystem" : {
 				"name" : "SubSystems",
-				"params" : [1,"_Department_","_Zone_","_Machine_"],
+				"params" : ["1","_Department_","_Zone_","_Machine_"],
 				"options" : []
 			},
 			"RootCause": {
@@ -150,17 +150,17 @@
 		"Queries" : {
 			"Location" : {
 				"name" : "Departments",
-				"params" : [1],
+				"params" : ["1"],
 				"options": []
 			},
 			"ZZone" : {
 				"name" : "Zones",
-				"params" : [1,"_Location_"],
+				"params" : ["1","_Location_"],
 				"options": []
 			},
 			"EquipmentID" : {
 				"name" : "Machines",
-				"params" : [1,"_Location_","_ZZone_"],
+				"params" : ["1","_Location_","_ZZone_"],
 				"options": []
 			}
 		},
@@ -173,17 +173,17 @@
 		"Queries" : {
 			"Department" : {
 				"name" : "Departments",
-				"params" : [1],
+				"params" : ["1"],
 				"options": []
 			},
 			"ZZone" : {
 				"name" : "Zones",
-				"params" : [1,"_Department_"],
+				"params" : ["1","_Department_"],
 				"options": []
 			},
 			"Machine" : {
 				"name" : "Machines",
-				"params" : [1,"_Department_","_ZZone_"],
+				"params" : ["1","_Department_","_ZZone_"],
 				"options": []
 			}
 		},
@@ -264,17 +264,17 @@
 			},
 			"Department" : {
 				"name" : "Departments",
-				"params" : [1],
+				"params" : ["1"],
 				"options": []
 			},
 			"Zone" : {
 				"name" : "Zones",
-				"params" : [1,"_Department_"],
+				"params" : ["1","_Department_"],
 				"options": []
 			},
 			"Machine" : {
 				"name" : "Machines",
-				"params" : [1,"_Department_","_Zone_"],
+				"params" : ["1","_Department_","_Zone_"],
 				"options": []
 			}
 		},

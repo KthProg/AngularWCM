@@ -39,24 +39,25 @@ function ms_escape_string($data) {
 }
     
 function execute_query_upload_files_and_notify($query_func, $success, $failure){
+    if(isset($_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"], $_GET["EmailBody"], $_GET["Contacts"], $_GET["SendEmail"])){
+        $conn = get_connection($_GET["Connection"]);
 
-    $conn = get_connection($_GET["Connection"]);
-
-    $query = $query_func();
-    $query = ms_escape_string($query);
-    $stmt = $conn->prepare($query);
+        $query = $query_func();
+        $query = ms_escape_string($query);
+        $stmt = $conn->prepare($query);
         
-    if($stmt->execute($_POST)){
-        echo $success."<br>";
-        if($_GET["SendEmail"] == "true"){
-            notify($_GET["Contacts"], $success, $_GET["EmailBody"]);
+        if($stmt->execute($_POST)){
+            echo $success."<br>";
+            if($_GET["SendEmail"] == "true"){
+                notify($_GET["Contacts"], $success, $_GET["EmailBody"]);
+            }
+        }else{
+            echo $failure."<br>";
+            notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."<br>POST: ".print_r($_POST)."<br>Error: ".print_r($stmt->errorInfo()));
         }
     }else{
-        echo $failure."<br>";
-        echo $query."<br>";
-        print_r($_POST);
-        print_r($stmt->errorInfo());
-        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."<br>POST: ".print_r($_POST)."<br>Error: ".print_r($stmt->errorInfo()));
+        echo "Please do not try to refresh this page, or to go to this page directly.";
+        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Someone refreshed the script page.", "Dangit!");
     }
 }
 

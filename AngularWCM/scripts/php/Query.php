@@ -1,5 +1,5 @@
 <?php
-if(isset($_POST)){
+if(isset($_GET["Query"])){
 
 //$_GET["Query"] = "WorkCells";
 //$_GET["Params"] = json_encode(array(1, 1, 16));
@@ -40,8 +40,7 @@ if($stmt->execute(json_decode($_GET["Params"]))){
         echo "[]";
     }
 }else{
-    echo $query_string;
-    print_r($stmt->errorInfo());
+    notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Query error.", "QUERY: ".$_GET["Query"]."<br>PARAMS: ".$_GET["Params"]."<br>Error: ".print_r($stmt->errorInfo()));
     echo "[]";
 }
 

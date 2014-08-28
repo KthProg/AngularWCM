@@ -2,7 +2,7 @@
     var scope = angular.element($("[ng-app='wcm']")).scope();
     scope.$apply(function () {
         scope.updateEmailBody = function () {
-            if (scope.fields['RepairedLocation'] == "Mound" && !scope.hasRecord) {
+            if (scope.getFieldEl("RepairedLocation").children("option:selected").text() == "Mound" && !scope.hasRecord) {
                 var bodyHTML = "<style>";
                 bodyHTML += ".red {";
                 bodyHTML += "	background-color: rgb(218,150,148);";
@@ -24,7 +24,7 @@
                 bodyHTML += "<tr>";
                 bodyHTML += "<td colspan='3' class='dkgrey whitetext'><h1>Tool Repair Form</h1></td>";
                 bodyHTML += "<td class='dkgrey whitetext'><h2>Tool Repair # </h2>"
-                bodyHTML += $("[name='ID']").val();
+                bodyHTML += scope.id;
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -34,10 +34,10 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='ToolName']").val();
+                bodyHTML += scope.getFieldEl('ToolName').text();
                 bodyHTML += "</td>";
                 bodyHTML += "<td rowspan='11' colspan='2'>";
-                bodyHTML += $("[name='Problems']").val();
+                bodyHTML += scope.getFieldEl('Problems').text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -45,7 +45,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='ToolNumber']").val();
+                bodyHTML += scope.getFieldEl('ToolNumber').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -53,7 +53,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='Department']").val();
+                bodyHTML += scope.getFieldEl('Department').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -61,7 +61,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='Zone']").val();
+                bodyHTML += scope.getFieldEl('Zone').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -69,7 +69,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='Machine']").val();
+                bodyHTML += scope.getFieldEl('Machine').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -77,7 +77,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='ReportedBy']").val();
+                bodyHTML += scope.getFieldEl('ReportedBy').text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -87,13 +87,13 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='DateShipped']").val();
+                bodyHTML += scope.getFieldEl('DateShipped').text();
                 bodyHTML += "</td>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='RepairedLocation']").val();
+                bodyHTML += scope.getFieldEl('RepairedLocation').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "<td rowspan='3'>";
-                bodyHTML += $("[name='Notes']").val();
+                bodyHTML += scope.getFieldEl('Notes').text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -102,10 +102,10 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='DateReceived']").val();
+                bodyHTML += scope.getFieldEl('DateReceived').text();
                 bodyHTML += "</td>";
                 bodyHTML += "<td>";
-                bodyHTML += $("[name='IsService']").val();
+                bodyHTML += scope.getFieldEl('IsService').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "</table>";
@@ -116,13 +116,13 @@
         };
         scope.updateContacts = function () {
             var moundContacts = "jmurphy@venturecorporation.net; pillars@ventureglobalengineering.com; thomason@mayco-mi.com; dharper@mayco-mi.com; hooks@njt-na.com";
-            var maycoContacts = "thomason@mayco-mi.com; hooks@njt-na.com;";
-            if (scope.fields['RepairedLocation'] == "Mound") {
+            var maycoContacts = "thomason@mayco-mi.com; hooks@njt-na.com";
+            if (scope.getFieldEl('RepairedLocation').children("option:selected").text() == "Mound" && !scope.hasRecord) {
                 scope.contacts = moundContacts + ";" + maycoContacts;
             } else {
                 scope.contacts = maycoContacts;
             }
-            var zone = scope.fields['Zone'];
+            var zone = scope.getFieldEl('Zone').children("option:selected").text();
             var foremen = new Array();
             foremen["Zone_1"] = "reese@mayco-mi.com; clay@mayco-mi.com; vernon@VNA1.onmicrosoft.com";
             foremen["Zone_2"] = "selliott@mayco-mi.com; green@njt-na.com; claes@mayco-mi.com";
@@ -131,16 +131,11 @@
             var foremenEmails = (foremen[zone] == undefined ? "" : "; " + foremen[zone]);
             scope.contacts += foremenEmails;
         };
-        scope.$watch("fields['RepairedLocation']", function () {
+        scope.$watch("fields", function () {
             scope.updateEmailBody();
             scope.updateContacts();
             console.log(scope.contacts);
             console.log(scope.emailBody);
-        });
-        scope.$watch("fields['Zone']", function () {
-            scope.updateContacts();
-            console.log(scope.contacts);
-            console.log(scope.emailBody);
-        });
+        }, true);
     });
 });
