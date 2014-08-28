@@ -56,7 +56,7 @@ function execute_query_upload_files_and_notify($query_func, $success, $failure){
         echo $query."<br>";
         print_r($_POST);
         print_r($stmt->errorInfo());
-        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", $query."<br>".print_r($_POST)."<br>".print_r($stmt->errorInfo()));
+        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."<br>POST: ".print_r($_POST)."<br>Error: ".print_r($stmt->errorInfo()));
     }
 }
 
