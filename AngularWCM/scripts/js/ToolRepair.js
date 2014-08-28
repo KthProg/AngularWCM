@@ -2,7 +2,6 @@
     var scope = angular.element($("[ng-app='wcm']")).scope();
     scope.$apply(function () {
         scope.updateEmailBody = function () {
-            if (scope.getFieldEl("RepairedLocation").children("option:selected").text() == "Mound" && !scope.hasRecord) {
                 var bodyHTML = "<style>";
                 bodyHTML += ".red {";
                 bodyHTML += "	background-color: rgb(218,150,148);";
@@ -110,9 +109,6 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "</table>";
                 scope.emailBody = bodyHTML;
-            } else {
-                scope.emailBody = "";
-            }
         };
         scope.updateContacts = function () {
             var moundContacts = "jmurphy@venturecorporation.net; pillars@ventureglobalengineering.com; thomason@mayco-mi.com; dharper@mayco-mi.com; hooks@njt-na.com";

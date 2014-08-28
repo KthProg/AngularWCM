@@ -19,7 +19,7 @@ if(isset($_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"])){
             return;
         }
     }else{
-        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."<br>GET: ".print_r($_GET)."<br>ERROR: ".print_r($stmt->errorInfo()));
+        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."<br>GET: ".print_r($_GET, true)."<br>ERROR: ".print_r($stmt->errorInfo(), true));
         return;
     }
 }

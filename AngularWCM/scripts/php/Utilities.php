@@ -39,7 +39,7 @@ function ms_escape_string($data) {
 }
     
 function execute_query_upload_files_and_notify($query_func, $success, $failure){
-    if(isset($_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"], $_GET["EmailBody"], $_GET["Contacts"], $_GET["SendEmail"])){
+    if(isset($_GET["Name"], $_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"], $_GET["EmailBody"], $_GET["Contacts"], $_GET["SendEmail"])){
         $conn = get_connection($_GET["Connection"]);
 
         $query = $query_func();
@@ -53,11 +53,11 @@ function execute_query_upload_files_and_notify($query_func, $success, $failure){
             }
         }else{
             echo $failure."<br>";
-            notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."<br>POST: ".print_r($_POST)."<br>Error: ".print_r($stmt->errorInfo()));
+            notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>Error: ".print_r($stmt->errorInfo(), true));
         }
     }else{
         echo "Please do not try to refresh this page, or to go to this page directly.";
-        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Someone refreshed the script page.", "Dangit!");
+        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Someone refreshed the script page.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>");
     }
 }
 
