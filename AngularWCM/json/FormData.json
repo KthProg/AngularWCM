@@ -17,7 +17,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; ; gwilloughby@mayco-mi.com; manoni@mayco-mi.com",
 		"PK" : "ID",
 		"Table" : "BlueTags",
 		"Connection" : "Safety"
@@ -50,7 +50,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; marshallDesign@jvisusallc.com",
 		"PK" : "ID",
 		"Table" : "DevForm",
 		"Connection" : "Safety"
@@ -98,7 +98,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "EHS",
 		"Connection" : "Safety"
@@ -141,7 +141,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; paul@mayco-mi.com",
 		"PK" : "ID",
 		"Table" : "EWOs",
 		"Connection" : "Safety"
@@ -164,7 +164,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; paul@mayco-mi.com",
 		"PK" : "TagNo",
 		"Table" : "PMTags",
 		"Connection" : "Safety"
@@ -187,7 +187,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; brent@mayco-mi.com; paul@mayco-mi.com",
 		"PK" : "KaizenNumber",
 		"Table" : "Kaizens",
 		"Connection" : "Safety"
@@ -250,7 +250,7 @@
 				"options" : []
 			}
 			},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "SEWONumber",
 		"Table" : "ESEWOs",
 		"Connection" : "Safety"
@@ -306,7 +306,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "UCANs",
 		"Connection" : "Safety"
@@ -340,7 +340,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "UnsafeActs",
 		"Connection" : "Safety"
@@ -388,7 +388,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "WCC",
 		"Connection" : "Safety"
