@@ -49,18 +49,14 @@ function execute_query_upload_files_and_notify($query_func, $success, $failure){
     if($stmt->execute($_POST)){
         echo $success."<br>";
         if($_GET["SendEmail"] == "true"){
-            notify($success);
+            notify($_GET["Contacts"], $success, $_GET["EmailBody"]);
         }
-        /*
-        if(isset($_FILES["file"])){
-            upload_files();
-        }
-        */
     }else{
         echo $failure."<br>";
         echo $query."<br>";
         print_r($_POST);
         print_r($stmt->errorInfo());
+        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", $query."<br>".print_r($_POST)."<br>".print_r($stmt->errorInfo()));
     }
 }
 
@@ -78,10 +74,10 @@ function upload_files(){
     }
 }
     
-function notify($subject){
+function notify($contacts, $subject, $body){
     $conn = get_connection("Safety");
     $stmt = $conn->prepare("INSERT INTO Emails (Contacts, Subj, Body) VALUES(?, ?, ?)");
-    if($stmt->execute(array($_GET["Contacts"], $subject, $subject."<br>".$_GET["EmailBody"]))){
+    if($stmt->execute(array($contacts, $subject, $subject."<br>".$body))){
         echo "Email query executed (Email will send in 0-5 minutes)<br>";
     }else{
         echo "Email query not executed<br>";

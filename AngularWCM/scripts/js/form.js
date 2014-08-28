@@ -1,15 +1,5 @@
 ﻿function Form ($scope, $http) {
 
-    $scope.$watch("lastImage.URI", function (n, o) {
-        $scope.uploadImage();
-    });
-
-    $scope.lastImage = {
-        name: "",
-        URI: "",
-        line: 0
-    };
-
     $scope.fields = {};
     $scope.queries = {};
 
@@ -60,7 +50,7 @@
     };
 
     $scope.getOptions = function (field) {
-        console.log(field);
+        //console.log(field);
         var vals = (function replaceParamsWithValues(params) {
             var results = [];
             for (var i = 0, l = params.length; i < l; ++i) {
@@ -74,7 +64,7 @@
             }
             return results;
         })($scope.queries[field].params);
-        console.log(vals);
+        //console.log(vals);
         $http.get("/scripts/php/Query.php?Query=" + $scope.queries[field].name + "&Params=" + JSON.stringify(vals))
         .success(
         function (resp) {
@@ -271,23 +261,22 @@
         }
     };
 
-    $scope.uploadImage = function () {
-        if ($scope.lastImage.name != "" && $scope.lastImage.URI != "") {
+    $scope.$on('uploadImage', function (event, args) { // args = { name: c, line: y, URI: z }
+        if (args.name != "" && args.URI != "") {
             $http({
                 method: "POST",
                 url: "/scripts/php/SaveImage.php?" + $scope.getFormDataString(),
-                data: "Image=" + $scope.lastImage.URI + "&FileName=" + $scope.lastImage.name + "&Line=" + $scope.lastImage.line,
+                data: "Image=" + args.URI + "&FileName=" + args.name + "&Line=" + args.line,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(alert);
         }
-    };
+    });
 
     $scope.saveSketch = function (e) {
         // string is invalid URL is spaces are not
         // replaced with +
-        $scope.fields["SketchURL"] = e.target.toDataURL().replace(/ /g, "+");;
-        //console.log($scope.fields["SketchURL"]);
+        $scope.fields["SketchURL"] = e.target.toDataURL().replace(/ /g, "+");
     };
 }
 
