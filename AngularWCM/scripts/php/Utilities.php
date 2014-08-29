@@ -39,7 +39,7 @@ function ms_escape_string($data) {
 }
     
 function execute_query_upload_files_and_notify($query_func, $success, $failure){
-    if(isset($_GET["Name"], $_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"], $_GET["EmailBody"], $_GET["Contacts"], $_GET["SendEmail"])){
+    if(isset($_GET["Name"], $_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"], $_GET["Contacts"])){
         $conn = get_connection($_GET["Connection"]);
 
         $query = $query_func();
@@ -48,9 +48,7 @@ function execute_query_upload_files_and_notify($query_func, $success, $failure){
         
         if($stmt->execute($_POST)){
             echo $success."<br>";
-            if($_GET["SendEmail"] == "true"){
-                notify($_GET["Contacts"], $success, $_GET["EmailBody"]);
-            }
+            notify($_GET["Contacts"], $success, $_GET["EmailBody"]);
         }else{
             echo $failure."<br>";
             notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>Error: ".print_r($stmt->errorInfo(), true));

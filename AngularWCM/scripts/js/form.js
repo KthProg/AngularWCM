@@ -12,7 +12,7 @@
     $scope.connection = "";
 
     $scope.hasRecord = false;
-    $scope.sendEmail = true;
+    //$scope.sendEmail = true;
 
     $scope.setFormData = function (name) {
         $scope.name = name;
@@ -241,7 +241,7 @@
     }
 
     $scope.getFormDataString = function () {
-        return "Name=" + $scope.name + "&Table=" + $scope.table + "&PK=" + $scope.pk + "&ID=" + $scope.id + "&Connection=" + $scope.connection + "&Contacts=" + $scope.contacts + "&EmailBody=" + $scope.emailBody + "&SendEmail=" + $scope.sendEmail;
+        return "Name=" + $scope.name + "&Table=" + $scope.table + "&PK=" + $scope.pk + "&ID=" + $scope.id + "&Connection=" + $scope.connection + "&Contacts=" + $scope.contacts + "&EmailBody=" + $scope.emailBody; // + "&SendEmail=" + String($scope.sendEmail);
     };
 
     $scope.fieldsToRequestString = function () {
