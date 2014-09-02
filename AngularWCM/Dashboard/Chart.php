@@ -65,6 +65,9 @@
             <option value="SeverityReport">Number of Issues By Severity</option>
             <option value="IssuesBySeverity">Issues By Severity</option>
                 <?php } ?>
+                <?php if($_GET["Pillar"] == "OCI"){ ?>
+            <option value="AllPlants">All Plants List</option>
+                <?php } ?>
             <?php } ?>
         </select>
         <select name="ChartAs">

@@ -221,4 +221,8 @@
     <connection>Safety</connection>
     <qstring>SELECT Press, SUM(Qty) AS OilQty FROM ODL GROUP BY Press ORDER BY OilQty</qstring>
   </query>
+  <query name="AllPlants">
+    <connection>OpenCommercialIssues</connection>
+    <qstring>SELECT * FROM Plants</qstring>
+  </query>
 </queries>

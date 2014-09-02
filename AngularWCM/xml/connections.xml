@@ -12,4 +12,10 @@
     <password>datanat1</password>
     <database>Mattec_Prohelp</database>
   </connection>
+  <connection name="OpenCommercialIssues">
+    <host>c4g66qc7dm.database.windows.net</host>
+    <user>db_dceb449d_70fa_45e2_aa34_ad9b90bd6cbc_ExternalReader</user>
+    <password>zMYF>YJGm&amp;S&amp;98y</password>
+    <database>db_dceb449d_70fa_45e2_aa34_ad9b90bd6cbc</database>
+  </connection>
 </connections>
