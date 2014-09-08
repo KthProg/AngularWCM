@@ -1,6 +1,7 @@
 ﻿$(document.body).ready(function () {
     var scope = angular.element($("[ng-app='wcm']")).scope();
-    scope.$apply(function () {
+    scope.$apply(
+        function () {
         scope.updateEmailBody = function () {
                 var bodyHTML = "<style>";
                 bodyHTML += ".red {";
@@ -33,10 +34,10 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += scope.getFieldEl('ToolName').text();
+                bodyHTML += scope.getFieldEl('ToolName').val();
                 bodyHTML += "</td>";
                 bodyHTML += "<td rowspan='11' colspan='2'>";
-                bodyHTML += scope.getFieldEl('Problems').text();
+                bodyHTML += scope.getFieldEl('Problems').val();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -52,7 +53,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += scope.getFieldEl('Department').children("option:selected").text();
+                bodyHTML += scope.getFieldEl('DepartmentID').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -60,7 +61,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += scope.getFieldEl('Zone').children("option:selected").text();
+                bodyHTML += scope.getFieldEl('ZoneID').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -68,7 +69,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += scope.getFieldEl('Machine').children("option:selected").text();
+                bodyHTML += scope.getFieldEl('MachineID').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -76,7 +77,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += scope.getFieldEl('ReportedBy').text();
+                bodyHTML += scope.getFieldEl('ReportedBy').val();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -86,13 +87,13 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += scope.getFieldEl('DateShipped').text();
+                bodyHTML += scope.getFieldEl('DateShipped').val();
                 bodyHTML += "</td>";
                 bodyHTML += "<td>";
                 bodyHTML += scope.getFieldEl('RepairedLocation').children("option:selected").text();
                 bodyHTML += "</td>";
                 bodyHTML += "<td rowspan='3'>";
-                bodyHTML += scope.getFieldEl('Notes').text();
+                bodyHTML += scope.getFieldEl('Notes').val();
                 bodyHTML += "</td>";
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
@@ -101,7 +102,7 @@
                 bodyHTML += "</tr>";
                 bodyHTML += "<tr>";
                 bodyHTML += "<td>";
-                bodyHTML += scope.getFieldEl('DateReceived').text();
+                bodyHTML += scope.getFieldEl('DateReceived').val();
                 bodyHTML += "</td>";
                 bodyHTML += "<td>";
                 bodyHTML += scope.getFieldEl('IsService').children("option:selected").text();
@@ -118,7 +119,7 @@
             } else {
                 scope.contacts = maycoContacts;
             }
-            var zone = scope.getFieldEl('Zone').children("option:selected").text();
+            var zone = scope.getFieldEl('ZoneID').children("option:selected").text();
             var foremen = new Array();
             foremen["Zone_1"] = "reese@mayco-mi.com; clay@mayco-mi.com; vernon@VNA1.onmicrosoft.com";
             foremen["Zone_2"] = "selliott@mayco-mi.com; green@njt-na.com; claes@mayco-mi.com";

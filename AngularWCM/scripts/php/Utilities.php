@@ -39,16 +39,18 @@ function ms_escape_string($data) {
 }
     
 function execute_query_upload_files_and_notify($query_func, $success, $failure){
-    if(isset($_GET["Name"], $_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"], $_GET["Contacts"])){
-        $conn = get_connection($_GET["Connection"]);
+    if(isset($_POST["FormData"], $_POST["Fields"])){
+        $form_data = json_decode($_POST["FormData"]);
+        $fields = json_decode($_POST["Fields"]);
+        $conn = get_connection($form_data->Connection);
 
         $query = $query_func();
         $query = ms_escape_string($query);
         $stmt = $conn->prepare($query);
         
-        if($stmt->execute($_POST)){
+        if($stmt->execute(get_object_vars($fields))){
             echo $success."<br>";
-            notify($_GET["Contacts"], $success, $_GET["EmailBody"]);
+            notify($form_data->Contacts, $success, $form_data->EmailBody);
         }else{
             echo $failure."<br>";
             notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>Error: ".print_r($stmt->errorInfo(), true));
@@ -84,11 +86,13 @@ function notify($contacts, $subject, $body){
 }
 
 function prepare_insert(){
-    $query = "INSERT INTO {$_GET["Table"]} ";
+    $form_data = json_decode($_POST["FormData"]);
+    $fields = json_decode($_POST["Fields"]);
+    $query = "INSERT INTO {$form_data->Table} ";
     $cols = "";
     $vals = "";
-    foreach($_POST as $col => $val){
-        if($col == $_GET["PK"]){
+    foreach($fields as $col => $val){
+        if($col == $form_data->PK){
             continue;
         }
         $cols .= "[".$col."],";
@@ -101,15 +105,17 @@ function prepare_insert(){
 }
 
 function prepare_update(){
-    $query = "UPDATE {$_GET["Table"]} SET ";
-    foreach($_POST as $col => $val){
-        if($col == $_GET["PK"]){
+    $form_data = json_decode($_POST["FormData"]);
+    $fields = json_decode($_POST["Fields"]);
+    $query = "UPDATE {$form_data->Table} SET ";
+    foreach($fields as $col => $val){
+        if($col == $form_data->PK){
             continue;
         }
         $query .= "[".$col."]=:".$col.",";
     }
     $query = substr($query, 0, strlen($query) - 1);
-    $query .= " WHERE {$_GET["PK"]}={$_GET["ID"]}";
+    $query .= " WHERE {$form_data->PK}={$form_data->ID}";
     return $query;
 }
 

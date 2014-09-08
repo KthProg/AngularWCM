@@ -1,17 +1,19 @@
 <?php
 require_once("Utilities.php");
 
-if(isset($_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"])){
-    $query = "SELECT * FROM {$_GET["Table"]} WHERE {$_GET["PK"]}=?";
+if(isset($_POST["FormData"])){
+    $form_data = json_decode($_POST["FormData"]);
+    
+    $query = "SELECT * FROM {$form_data->Table} WHERE {$form_data->PK}=?";
     $query = ms_escape_string($query);
-    $conn = get_connection($_GET["Connection"]);
+    $conn = get_connection($form_data->Connection);
     if($conn){
         $stmt = $conn->prepare($query);
     }else{
         return;
     }
     
-    if($stmt->execute(array($_GET["ID"]))){
+    if($stmt->execute(array($form_data->ID))){
         if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             echo json_encode($row);
         }else{

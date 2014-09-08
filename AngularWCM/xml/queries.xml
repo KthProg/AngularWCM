@@ -225,4 +225,17 @@
     <connection>OpenCommercialIssues</connection>
     <qstring>SELECT * FROM Plants</qstring>
   </query>
+  <query name="ProblemToolsRepairHistory">
+    <connection>Safety</connection>
+    <qstring>SELECT * FROM vProblemToolsRepairHistory</qstring>
+  </query>
+  <query name="ToolKeywordHistory">
+    <connection>Safety</connection>
+    <qstring>EXEC pToolKeywordsPeriodPivot @tools=?</qstring>
+    <parameters>
+      <parameter name="tools">
+        <type>text</type>
+      </parameter>
+    </parameters>
+  </query>
 </queries>

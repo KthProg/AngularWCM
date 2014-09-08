@@ -15,11 +15,7 @@ function getParams(query) {
         type: "POST",
         dataType: "json",
         data: { Query: query },
-        success: function (data, status, xhr) {
-            if (status == "success" && xhr.readyState == 4) {
-                renderParamInputs(data);
-            }
-        },
+        success: renderParamInputs,
         error: logError
     });
 }
@@ -33,10 +29,16 @@ function renderParamInputs(data) {
     var pDiv = $("#ParamDiv");
     pDiv.html("");
     if (data.parameter != undefined) {
-        for (var i = 0; i < data.parameter.length; ++i) {
-            var name = data.parameter[i]["@attributes"].name;
-            var type = data.parameter[i].type;
+        if (data.parameter.length === undefined) {
+            var name = data.parameter["@attributes"].name;
+            var type = data.parameter.type;
             pDiv.append("<label>" + name + "</label><input type='" + type + "' name='Params[]' placeholder='" + name + "' />");
+        } else {
+            for (var i = 0, l = data.parameter.length; i < l; ++i) {
+                var name = data.parameter[i]["@attributes"].name;
+                var type = data.parameter[i].type;
+                pDiv.append("<label>" + name + "</label><input type='" + type + "' name='Params[]' placeholder='" + name + "' />");
+            }
         }
     }
 }
@@ -89,40 +91,67 @@ function chartData() {
 }
 
 function renderChartData(data) {
+    console.log(data);
     var options = {
         title: $("[name='Query'] option:selected").text(),
-        isStacked: true
+        isStacked: true,
+        curveType: 'function'
     };
 
     var type = $("[name='ChartAs'] option:selected").val();
 
-    var cdata = getColData(data);
+    var firstCol = $("[name='Query'] option:selected").attr("data-firstcol") || "";
+
+    var cdata = getColData(data, firstCol);
 
     userChart(cdata, type, options);
 }
 
-function getColData(data) {
+function getColData(data, firstCol) {
     var dataTable = new google.visualization.DataTable();
 
-    var firstRow = [];
+    var keys = Object.keys(data[0]);
+    keys = keys.sort(
+        function (a) {
+            return a === firstCol ? -1 : 1;
+        }
+        );
 
-    for (var k in data[0]) {
-        var keyType = objectArrayKeyType(k, data);
-        dataTable.addColumn(keyType, k);
+    var keyMetaData = {};
+    var numericKeys = true;
+    for (var i = 0, l = keys.length; i < l; ++i) {
+        var k = keys[i];
+        keyMetaData[k] = {};
+        keyMetaData[k]["type"] = objectArrayKeyType(k, data);
+        if (i === 0) continue;
+        numericKeys = numericKeys && (keyMetaData[k]["type"] === "number");
+    }
+
+    if (keyMetaData[keys[0]]["type"] === "string" && numericKeys) {
+        data = data.sort(function (a, b) {
+            // i = 1, skip first key
+            var totals = [0, 0];
+            for (var i = 1, l = keys.length; i < l; ++i) {
+                var k = keys[i];
+                totals[0] += Number(a[k]);
+                totals[1] += Number(b[k]);
+            }
+            return totals[0] - totals[1];
+        });
+    }
+
+    var firstRow = [];
+    for (var i = 0, l = keys.length; i < l; ++i) {
+        var k = keys[i];
+        dataTable.addColumn(keyMetaData[k]["type"], k);
         firstRow.push(k);
     }
 
-    for (var i = 0, l = data.length; i < l; ++i) {
+    for (var i = 0, m = data.length; i < m; ++i) {
         var thisRow = [];
-        for (var k in data[i]) {
-            var keyType = objectArrayKeyType(k, data);
-            switch (keyType) {
-                case "number":
-                    data[i][k] = Number(data[i][k]);
-                    break;
-                case "string":
-                    break
-            }
+        for (var j = 0, l = keys.length; j < l; ++j) {
+            var k = keys[j];
+            data[i][k] = convertType(data[i][k], keyMetaData[k]["type"]);
             thisRow.push(data[i][k]);
         }
         dataTable.addRow(thisRow);
@@ -131,6 +160,20 @@ function getColData(data) {
     userDataToCSV(dataTable, firstRow);
 
     return dataTable;
+}
+
+function convertType(val, typeStr) {
+    switch (typeStr) {
+        case "number":
+            return Number(val);
+            break;
+        case "datetime":
+            return new Date(val);
+            break;
+        case "string":
+            return String(val)
+            break
+    }
 }
 
 function objectArrayKeyType(key, objs) {
@@ -157,7 +200,7 @@ function getArrType(arr) {
         return "number";
     }
     if (dateArr.length === arr.length) {
-        return "date";
+        return "datetime";
     }
     return "string";
 };
@@ -180,16 +223,23 @@ function printableData(chart) {
     });
 }
 
+function clearPrintableData(){
+    document.getElementById('print').innerHTML = '<a href="">Printable Chart</a>';
+}
+
 function userChart(dataTable, type, options) {
     switch (type) {
         case "bar":
             var vis = new google.visualization.ColumnChart(document.getElementById("chartDiv"));
+            printableData(vis);
             break;
         case "table":
             var vis = new google.visualization.Table(document.getElementById("chartDiv"));
             break;
+        case "line":
+            var vis = new google.visualization.LineChart(document.getElementById("chartDiv"));
+            break;
     }
-    printableData(vis);
     vis.draw(dataTable, options);
 }
 

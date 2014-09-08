@@ -43,27 +43,29 @@
             <option value="" selected="selected">Select a Query</option>
             <?php if(isset($_GET["Pillar"])){ ?>
                 <?php if($_GET["Pillar"] == "PM"){ ?>
-            <option value="MachMTBF">MTBF by Machine</option>
-            <option value="MachMTTR">MTTR by Machine</option>
-            <option value="MachDowntime">Downtime Reasons by Machine</option>
-            <option value="MachScrap">Machine Scrap</option>
-            <option value="MachOEE">Machine OEE</option>
-            <option value="OilPerPress">Oil per Press</option>
+            <option value="MachMTBF" data-firstcol="MachID">MTBF by Machine</option>
+            <option value="MachMTTR" data-firstcol="MachID">MTTR by Machine</option>
+            <option value="MachDowntime" data-firstcol="MachID">Downtime Reasons by Machine</option>
+            <option value="MachScrap" data-firstcol="MachID">Machine Scrap</option>
+            <option value="MachOEE" data-firstcol="MachID">Machine OEE</option>
+            <option value="OilPerPress" data-firstcol="Press">Oil per Press</option>
                 <?php }?>
                 <?php if($_GET["Pillar"] == "TR"){ ?>
-            <option value="MoldOEE">Tool OEE</option>
-            <option value="PMDue">PM Due per Tool</option>
+            <option value="MoldOEE" data-firstcol="MoldID">Tool OEE</option>
+            <option value="PMDue" data-firstcol="MoldID">PM Due per Tool</option>
+            <option value="ProblemToolsRepairHistory" data-firstcol="Period">Problem Tools Repair History</option>
+            <option value="ToolKeywordHistory" data-firstcol="Period">Keyword Matches by Period</option>
                 <?php } ?>
                 <?php if($_GET["Pillar"] == "SA"){ ?>
-            <option value="AuditsPerAuditor">Number of Audits by Auditor</option>
-            <option value="AuditsPerWorkCell">Number of Audits by Work Cell</option>
-            <option value="AuditsPerZone">Number of Audits by Zone</option>
-            <option value="AuditorsWithoutAudits">Auditors With No Audits</option>
-            <option value="WorkCellsNotAudited">Work Cells Without Audits</option>
-            <option value="ZonesNotAudited">Zones Without Audits</option>
-            <option value="AgingReport">Days Open per Issue</option>
-            <option value="SeverityReport">Number of Issues By Severity</option>
-            <option value="IssuesBySeverity">Issues By Severity</option>
+            <option value="AuditsPerAuditor" data-firstcol="AuditorName">Number of Audits by Auditor</option>
+            <option value="AuditsPerWorkCell" data-firstcol="WorkCell">Number of Audits by Work Cell</option>
+            <option value="AuditsPerZone" data-firstcol="DeptZone">Number of Audits by Zone</option>
+            <option value="AuditorsWithoutAudits" data-firstcol="AuditorName">Auditors With No Audits</option>
+            <option value="WorkCellsNotAudited" data-firstcol="WorkCell">Work Cells Without Audits</option>
+            <option value="ZonesNotAudited" data-firstcol="Zone">Zones Without Audits</option>
+            <option value="AgingReport"  data-firstcol="Issue">Days Open per Issue</option>
+            <option value="SeverityReport"  data-firstcol="Severity">Number of Issues By Severity</option>
+            <option value="IssuesBySeverity"  data-firstcol="Issue">Issues By Severity</option>
                 <?php } ?>
                 <?php if($_GET["Pillar"] == "OCI"){ ?>
             <option value="AllPlants">All Plants List</option>
@@ -73,7 +75,8 @@
         <select name="ChartAs">
             <option value="" selected="selected">Choose a Chart Type</option>
             <option value="table">Table</option>
-            <option value="bar">Chart</option>
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
         </select>
         <div id="ParamDiv"></div>
         <button onclick="chartData()">Chart</button>

@@ -31,8 +31,9 @@
 
     $scope.getMaxID = function () {
         $http({
-            method: "GET",
-            url: "/scripts/php/getMaxID.php?" + $scope.getFormDataString(),
+            method: "POST",
+            url: "/scripts/php/getMaxID.php",
+            data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(
@@ -121,7 +122,12 @@
         if (!(id == undefined || isNaN(id))) {
             $scope.id = id;
         }
-        $http.get("/scripts/php/Open.php?" + $scope.getFormDataString())
+        $http({
+            method: "POST",
+            url: "/scripts/php/Open.php",
+            data: $scope.getFormDataString(),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
         .success(
         function (resp) {
             if (resp !== null && typeof resp === 'object') {
@@ -195,8 +201,8 @@
         $scope.formatClientToSrv();
         $http({
             method: "POST",
-            url: "/scripts/php/Update.php?" + $scope.getFormDataString(),
-            data: $scope.fieldsToRequestString(),
+            url: "/scripts/php/Update.php",
+            data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(
@@ -209,8 +215,8 @@
         $scope.formatClientToSrv();
         $http({
             method: "POST",
-            url: "/scripts/php/Submit.php?" + $scope.getFormDataString(),
-            data: $scope.fieldsToRequestString(),
+            url: "/scripts/php/Submit.php",
+            data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(
@@ -241,16 +247,20 @@
     }
 
     $scope.getFormDataString = function () {
-        return "Name=" + $scope.name + "&Table=" + $scope.table + "&PK=" + $scope.pk + "&ID=" + $scope.id + "&Connection=" + $scope.connection + "&Contacts=" + $scope.contacts + "&EmailBody=" + $scope.emailBody; // + "&SendEmail=" + String($scope.sendEmail);
+        var dataObj = {
+            Name: $scope.name,
+            Table: $scope.table,
+            PK: $scope.pk,
+            ID: $scope.id,
+            Contacts: $scope.contacts,
+            EmailBody: $scope.emailBody,
+            Connection: $scope.connection
+        }
+        return "FormData=" + JSON.stringify(dataObj);
     };
 
     $scope.fieldsToRequestString = function () {
-        var rStr = "";
-        for (var f in $scope.fields) {
-            rStr += f + "=" + $scope.fields[f] + "&";
-        }
-        rStr = rStr.substr(0, rStr.length - 1);
-        return rStr;
+        return "Fields=" + JSON.stringify($scope.fields);
     };
 
     $scope.clear = function () {
@@ -265,8 +275,8 @@
         if (args.name != "" && args.URI != "") {
             $http({
                 method: "POST",
-                url: "/scripts/php/SaveImage.php?" + $scope.getFormDataString(),
-                data: "Image=" + args.URI + "&FileName=" + args.name + "&Line=" + args.line,
+                url: "/scripts/php/SaveImage.php",
+                data: "Image=" + args.URI + "&FileName=" + args.name + "&Line=" + args.line + "&" + $scope.getFormDataString(),
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(alert);

@@ -259,22 +259,22 @@
 		"Queries" : {
 			"ToolNumber" : {
 				"name" : "Tools",
-				"params" : ["t_Machine_"],
+				"params" : [],
 				"options": []
 			},
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
 				"params" : ["1"],
 				"options": []
 			},
-			"Zone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_Department_"],
+				"params" : ["1","_DepartmentID_"],
 				"options": []
 			},
-			"Machine" : {
+			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_Department_","_Zone_"],
+				"params" : ["1","_DepartmentID_","_ZoneID_"],
 				"options": []
 			}
 		},

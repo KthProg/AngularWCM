@@ -1,10 +1,12 @@
 <?php
 require_once("Utilities.php");
 
-if(isset($_GET["Table"], $_GET["PK"], $_GET["ID"], $_GET["Connection"])){
-    $conn = get_connection($_GET["Connection"]);
+if(isset($_POST["FormData"])){
+    $form_data = json_decode($_POST["FormData"]);
+    
+    $conn = get_connection($form_data->Connection);
 
-    $query = "SELECT MAX({$_GET["PK"]}) FROM {$_GET["Table"]}";
+    $query = "SELECT MAX({$form_data->PK}) FROM {$form_data->Table}";
     $query = ms_escape_string($query);
 
     if($conn){
