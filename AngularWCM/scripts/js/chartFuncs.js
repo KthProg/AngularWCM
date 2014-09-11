@@ -238,6 +238,11 @@ function userChart(dataTable, type, options) {
             break;
         case "line":
             var vis = new google.visualization.LineChart(document.getElementById("chartDiv"));
+            printableData(vis);
+            break;
+        case "pie":
+            var vis = new google.visualization.PieChart(document.getElementById("chartDiv"));
+            printableData(vis);
             break;
     }
     vis.draw(dataTable, options);

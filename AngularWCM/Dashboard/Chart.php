@@ -55,6 +55,9 @@
             <option value="PMDue" data-firstcol="MoldID">PM Due per Tool</option>
             <option value="ProblemToolsRepairHistory" data-firstcol="Period">Problem Tools Repair History</option>
             <option value="ToolKeywordHistory" data-firstcol="Period">Keyword Matches by Period</option>
+            <option value="KeywordsByTool" data-firstcol="Keyword">Keyword Matches by Tool</option>
+            <option value="KeywordsForTool" data-firstcol="Keyword">Keyword Matches For a Tool</option>
+            <option value="ToolMTBF" data-firstcol="MoldID">Tool MTBF</option>
                 <?php } ?>
                 <?php if($_GET["Pillar"] == "SA"){ ?>
             <option value="AuditsPerAuditor" data-firstcol="AuditorName">Number of Audits by Auditor</option>
@@ -77,6 +80,7 @@
             <option value="table">Table</option>
             <option value="bar">Bar</option>
             <option value="line">Line</option>
+            <option value="pie">Pie</option>
         </select>
         <div id="ParamDiv"></div>
         <button onclick="chartData()">Chart</button>

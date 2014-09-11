@@ -177,6 +177,18 @@
       </parameter>
     </parameters>
   </query>
+  <query name="ToolMTBF">
+    <connection>Safety</connection>
+    <qstring>EXEC pMoldMTBF @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
   <query name="PMDue">
     <connection>Mattec</connection>
     <qstring>SELECT * FROM HoursToNextPM</qstring>
@@ -235,6 +247,27 @@
     <parameters>
       <parameter name="tools">
         <type>text</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="KeywordsByTool">
+    <connection>Safety</connection>
+    <qstring>EXEC pKeywordsByTool</qstring>
+    <parameters>
+      <parameter name="userYear">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="KeywordsForTool">
+    <connection>Safety</connection>
+    <qstring>EXEC pKeywordsForTool @tools=?, @userYear=?</qstring>
+    <parameters>
+      <parameter name="tools">
+        <type>text</type>
+      </parameter>
+      <parameter name="userYear">
+        <type>number</type>
       </parameter>
     </parameters>
   </query>

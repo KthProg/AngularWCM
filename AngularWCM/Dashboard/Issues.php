@@ -16,85 +16,40 @@
     <link rel="stylesheet" type="text/css" href="/css/issues.css">
 </head>
 <body ng-app="wcm">
-    <nav id="left_nav">
-        <a href="/Dashboard.html"><img id="logo" src="/res/mayco.png" alt="Mayco International"></a>
-    </nav>
     <header>
-        <h3>
-            <img id="menubutton" src="/res/menubutton.png" onclick="$('#left_nav').slideToggle()" alt="Menu">Safety Issues Dashboard</h3>
-        <nav id="buttons">
-            <ul>
-                <a id="newForm" href="/Dashboard/SA.html">
-                    <li>+ New Form</li>
-                </a>
-                <a id="viewCharts" href="Chart.php?Pillar=SA">
-                    <li>O View Charts</li>
-                </a>
-            </ul>
-        </nav>
+        <h3>Safety Issues Dashboard</h3>
     </header>
     <div>
         <div ng-controller="Form"
             ng-init="setFormData('Issues Filter');">
             <form>
-                <table>
-                    <tr>
-                        <td>Plant:</td>
-                        <td>
-                            <select name="Plant" ng-model="fields['plants']" ng-options="k as v for (k,v) in queries['plants'].options">
-                                <option value=""></option>
-                            </select>
-                        </td>
-                        <td>Department:</td>
-                        <td>
-                            <select name="Department" ng-model="fields['departments']" ng-options="k as v for (k,v) in queries['departments'].options">
-                                <option value=""></option>
-                            </select>
-                        </td>
-                        <td>Zone:</td>
-                        <td>
-                            <select name="Zone" ng-model="fields['zones']" ng-options="k as v for (k,v) in queries['zones'].options">
-                                <option value=""></option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Machine:</td>
-                        <td>
-                            <select name="Machine" ng-model="fields['machines']" ng-options="k as v for (k,v) in queries['machines'].options">
-                                <option value=""></option>
-                            </select>
-                        </td>
-                        <td>Supervisor:</td>
-                        <td>
-                            <select name="SupervisorName" ng-model="fields['supervisors']" ng-options="k as v for (k,v) in queries['supervisors'].options">
-                                <option value=""></option>
-                            </select>
-                        </td>
-                        <td>Shift:</td>
-                        <td>
-                            <select name="Shift" ng-model="fields['shifts']" ng-options='v as v for (k,v) in [1,2,3]'>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Severity:</td>
-                        <td>
-                            <select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["Low","Medium","High"]'></select>
-                        </td>
-                        <td>Category:</td>
-                        <td>
-                            <select name="Category" ng-model="fields['categories']" ng-options='v as v for (k,v) in ["Housekeeping","None","Crane","Ergonomics","Emergency Evacuation Routes/Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="button" onclick="angular.element('[ng-app]').injector().get('$rootScope').$broadcast('filter');">Apply</button></td>
-                        <td>
-                            <button type="reset">Clear</button></td>
-                    </tr>
-                </table>
+                <div class="filter">Plant:<select name="Plant" ng-model="fields['plants']" ng-options="k as v for (k,v) in queries['plants'].options"></select></div>
+                <div class="filter">Department:<select name="Department" ng-model="fields['departments']" ng-options="k as v for (k,v) in queries['departments'].options"></select></div>
+                <div class="filter">Zone:<select name="Zone" ng-model="fields['zones']" ng-options="k as v for (k,v) in queries['zones'].options"></select></div>
+                <div class="filter">Machine:<select name="Machine" ng-model="fields['machines']" ng-options="k as v for (k,v) in queries['machines'].options"></select></div>
+                <div class="filter">Supervisor:<select name="SupervisorName" ng-model="fields['supervisors']" ng-options="k as v for (k,v) in queries['supervisors'].options"></select></div>
+                <div class="filter">Shift:<select name="Shift" ng-model="fields['shifts']" ng-options='v as v for (k,v) in [1,2,3]'></select></div>
+                <div class="filter">Severity:<select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["Low","Medium","High"]'></select></div>
+                <div class="filter">Category:<select name="Category" ng-model="fields['categories']" ng-options='v as v for (k,v) in ["Housekeeping","None","Crane","Ergonomics","Emergency Evacuation Routes/Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></select></div>
+                <div class="filter">Form:<select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["EHS","WCC","SAFE","Unsafe Act"]'></select></div>
+                <div class="filter">
+                    <button type="button" onclick="angular.element('[ng-app]').injector().get('$rootScope').$broadcast('filter');">Apply</button>
+                    <button type="reset">Clear</button>
+                </div>
+                <div class="filter">
+                    <button type="button" onclick="window.print();">Print</button>
+                    <button type="button" onclick="angular.element('[ng-app]').injector().get('$rootScope').$broadcast('export');">Export</button>
+                </div>
             </form>
+        </div>
+        <div id="legend" >
+            <div><div id="lowseverity"></div>Low Severity</div>
+            <div><div id="mediumseverity"></div>Medium Severity</div>
+            <div><div id="highseverity"></div>High Severity</div>
+            <div><div><input type="checkbox" disabled checked /></div>Closed</div>
+            <div><div><input type="checkbox" disabled /></div>Open</div>
+            <br />
+            Click on an issue to view details.
         </div>
         <div id="issues" ng-controller="Issues">
             <div id="open_issues">
@@ -102,7 +57,7 @@
                 <div id="open_issues_div" ng-repeat="i in openIssues | orderBy : ['Severity', 'Name', 'ID', 'LineNum', 'Compliancy']" ng-show="showOpen">
                     <div class="issue" onclick="$(this).next().toggle()">
                         {{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} 
-                        <button ng-click="closeIssue(i.Name,i.ID,i.LineNum)" style="float: right;">X</button>
+                        <input type="checkbox" ng-click="closeIssue(i.Name,i.ID,i.LineNum)" style="float: right;" onclick="return false" />
                         <span ng-switch="i.Severity">
                             <div ng-switch-when="Low"> </div>
                             <div ng-switch-when="Medium"> </div>
@@ -124,7 +79,7 @@
                 <div id="closed_issues_div" ng-repeat="i in closedIssues | orderBy : ['Severity', 'Name', 'ID', 'LineNum', 'Compliancy']" ng-show="showClosed">
                     <div class="issue" onclick="$(this).next().toggle()">
                         {{i.Name}} {{i.ID}} {{i.LineNum}} {{i.Compliancy}} 
-                        <button ng-click="openIssue(i.Name,i.ID,i.LineNum)" style="float: right;">O</button>
+                        <input type="checkbox" ng-click="closeIssue(i.Name,i.ID,i.LineNum)" style="float: right;" checked onclick="return false"/>
                         <span ng-switch="i.Severity">
                             <div ng-switch-when="Low"> </div>
                             <div ng-switch-when="Medium"> </div>
@@ -142,5 +97,6 @@
                 </div>
             </div>
         </div>
+    </div>
 </body>
 </html>

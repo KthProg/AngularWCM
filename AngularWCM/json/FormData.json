@@ -171,19 +171,19 @@
 	},
 	"Kaizen" : {
 		"Queries" : {
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
 				"params" : ["1"],
 				"options": []
 			},
-			"ZZone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_Department_"],
+				"params" : ["1","_DepartmentID_"],
 				"options": []
 			},
-			"Machine" : {
+			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_Department_","_ZZone_"],
+				"params" : ["1","_DepartmentID_","_ZoneID_"],
 				"options": []
 			}
 		},

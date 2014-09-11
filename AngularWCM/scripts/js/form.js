@@ -66,7 +66,7 @@
             return results;
         })($scope.queries[field].params);
         //console.log(vals);
-        $http.get("/scripts/php/Query.php?Query=" + $scope.queries[field].name + "&Params=" + JSON.stringify(vals))
+        $http.get("/scripts/php/Query.php?Query=" + encodeURIComponent($scope.queries[field].name) + "&Params=" + encodeURIComponent(JSON.stringify(vals)))
         .success(
         function (resp) {
             $scope.queries[field].options = resp;
@@ -256,11 +256,11 @@
             EmailBody: $scope.emailBody,
             Connection: $scope.connection
         }
-        return "FormData=" + JSON.stringify(dataObj);
+        return "FormData=" + encodeURIComponent(JSON.stringify(dataObj));
     };
 
     $scope.fieldsToRequestString = function () {
-        return "Fields=" + JSON.stringify($scope.fields);
+        return "Fields=" + encodeURIComponent(JSON.stringify($scope.fields));
     };
 
     $scope.clear = function () {
@@ -276,7 +276,7 @@
             $http({
                 method: "POST",
                 url: "/scripts/php/SaveImage.php",
-                data: "Image=" + args.URI + "&FileName=" + args.name + "&Line=" + args.line + "&" + $scope.getFormDataString(),
+                data: "Image=" + encodeURIComponent(args.URI) + "&FileName=" + encodeURIComponent(args.name) + "&Line=" + encodeURIComponent(args.line) + "&" + $scope.getFormDataString(),
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(alert);

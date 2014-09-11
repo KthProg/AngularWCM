@@ -16,6 +16,41 @@
         $scope.getAllIssues();
     });
 
+    $scope.$on('export', function (event, args) {
+        var csv = "Open Issues\r\n";
+        for (var c in $scope.openIssues[0]) {
+            csv += c + ",";
+        }
+        csv = csv.substring(0, csv.length - 1);
+        csv += "\r\n";
+        for (var a = 0, b = $scope.openIssues.length; a < b; ++a) {
+            for (var c in $scope.openIssues[a]) {
+                csv += String($scope.openIssues[a][c]).replace(/(\r\n|\n|\r|,)/gm, "") + ",";
+            }
+            csv = csv.substring(0, csv.length - 1);
+            csv += "\r\n";
+        }
+
+        csv += "\r\nClosed Issues\r\n";
+        for (var c in $scope.closedIssues[0]) {
+            csv += c + ",";
+        }
+        csv = csv.substring(0, csv.length - 1);
+        csv += "\r\n";
+        for (var d = 0, e = $scope.closedIssues.length; d < e; ++d) {
+            for (var f in $scope.closedIssues[d]) {
+                csv += String($scope.closedIssues[d][f]).replace(/(\r\n|\n|\r|,)/gm, "") + ",";
+            }
+            csv = csv.substring(0, csv.length - 1);
+            csv += "\r\n";
+        }
+        var pom = document.createElement('a');
+        pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
+        pom.setAttribute('download', 'SafetyIssues.csv');
+        pom.click();
+        return csv;
+    });
+
     $scope.getOpenIssues = function () {
         $scope.getIssues("GetOpenIssues", "openIssues");
     };
@@ -50,6 +85,12 @@
                         resp[i]["Category"] = labels.eq(resp[i].LineNum - 1).parent().children("header").text();
                     }
                 }
+            }
+        }
+        for (var i = 0, l = resp.length; i < l; ++i) {
+            if (resp[i]["LineItem"] == undefined) {
+                resp[i]["LineItem"] = "";
+                resp[i]["Category"] = "";
             }
         }
         return resp;
