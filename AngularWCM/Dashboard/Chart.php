@@ -49,6 +49,7 @@
             <option value="MachScrap" data-firstcol="MachID">Machine Scrap</option>
             <option value="MachOEE" data-firstcol="MachID">Machine OEE</option>
             <option value="OilPerPress" data-firstcol="Press">Oil per Press</option>
+            <option value="TagTrend" data-firstcol="Date">PM Tag Trend</option>
                 <?php }?>
                 <?php if($_GET["Pillar"] == "TR"){ ?>
             <option value="MoldOEE" data-firstcol="MoldID">Tool OEE</option>

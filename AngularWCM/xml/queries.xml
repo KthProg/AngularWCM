@@ -271,4 +271,13 @@
       </parameter>
     </parameters>
   </query>
+  <query name="TagTrend">
+    <connection>Safety</connection>
+    <qstring>EXEC pTagTrend @userYear=?</qstring>
+    <parameters>
+      <parameter name="userYear">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
 </queries>
