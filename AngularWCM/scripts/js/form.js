@@ -144,7 +144,21 @@
                     $scope.fields["SketchURL"] = resp["SketchURL"];
                     $scope.showSketch($scope.fields["SketchURL"]);
                 }
+                var IsJsonString = function (str) {
+                    try {
+                        JSON.parse(str);
+                    } catch (e) {
+                        return false;
+                    }
+                    return true;
+                }
                 $scope.formatSrvToClient();
+                /*for (var v in $scope.fields) {
+                    if (IsJsonString($scope.fields[v])) {
+                        $scope.fields[v] = JSON.parse($scope.fields[v]);
+                    }
+                }*/
+                console.log($scope.fields);
             } else {
                 alert($scope.name + " number " + $scope.id + " does not exist!");
             }

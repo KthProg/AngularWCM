@@ -15,6 +15,7 @@ $conn = get_connection($connection_string);
 if($conn){
     $stmt = $conn->prepare($query_string);
 }else{
+    notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Query error.", "QUERY: ".$_GET["Query"]."<br>PARAMS: ".$_GET["Params"]."<br>Error: ".print_r($stmt->errorInfo(), true));
     echo "[]";
     exit();
 }
@@ -37,6 +38,7 @@ if($stmt->execute(json_decode($_GET["Params"]))){
             echo json_encode($rows);
         }
     }else{
+        //notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Query error.", "QUERY: ".$_GET["Query"]."<br>PARAMS: ".$_GET["Params"]."<br>Error: ".print_r($stmt->errorInfo(), true));
         echo "[]";
     }
 }else{

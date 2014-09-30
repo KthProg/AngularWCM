@@ -48,6 +48,12 @@ function execute_query_upload_files_and_notify($query_func, $success, $failure){
         $query = ms_escape_string($query);
         $stmt = $conn->prepare($query);
         
+        foreach($fields as $name => $val){
+            if(is_array($val)){
+                $fields->$name = json_encode($val);
+            }
+        }
+        
         if($stmt->execute(get_object_vars($fields))){
             echo $success."<br>";
             notify($form_data->Contacts, $success, $form_data->EmailBody);

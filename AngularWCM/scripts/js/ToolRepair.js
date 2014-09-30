@@ -112,8 +112,8 @@
                 scope.emailBody = bodyHTML;
         };
         scope.updateContacts = function () {
-            var moundContacts = "jmurphy@venturecorporation.net; pillars@ventureglobalengineering.com; thomason@mayco-mi.com; 5868550175@messaging.sprintpcs.com; dharper@mayco-mi.com; hooks@njt-na.com";
-            var maycoContacts = "thomason@mayco-mi.com; 5868550175@messaging.sprintpcs.com; hooks@njt-na.com";
+            var moundContacts = "jmurphy@venturecorporation.net; pillars@ventureglobalengineering.com; thomason@mayco-mi.com; dharper@mayco-mi.com; hooks@njt-na.com";
+            var maycoContacts = "thomason@mayco-mi.com; hooks@njt-na.com";
             if (scope.getFieldEl('RepairedLocation').children("option:selected").text() == "Mound" && !scope.hasRecord) {
                 scope.contacts = moundContacts + ";" + maycoContacts;
             } else {
@@ -133,6 +133,8 @@
             scope.updateContacts();
             console.log(scope.contacts);
             console.log(scope.emailBody);
+            console.log(scope.fields['testMulti']);
+            console.log(scope.fieldsToRequestString());
         }, true);
     });
 });

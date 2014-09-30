@@ -13,7 +13,6 @@ function changeImage(input, imgEl) {
     //console.log("src att changed to " + (isBlank ? "res/upload.png" : "res/uploadgreen.png"));
 }
 
-
 function imgToBase64(imgEl, line) {
 
     var fileReader = new FileReader();

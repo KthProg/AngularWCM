@@ -17,7 +17,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; manoni@mayco-mi.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com",
 		"PK" : "ID",
 		"Table" : "BlueTags",
 		"Connection" : "Safety"
@@ -50,7 +50,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5862912566@vtext.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; marshallDesign@jvisusallc.com",
 		"PK" : "ID",
 		"Table" : "DevForm",
 		"Connection" : "Safety"
@@ -98,7 +98,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5866048943@messaging.sprintpcs.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "EHS",
 		"Connection" : "Safety"
@@ -121,7 +121,7 @@
 				"options": []
 			},
 			"SubSystem" : {
-				"name" : "SubSystems",
+				"name" : "Subsystems",
 				"params" : ["1","_Department_","_Zone_","_Machine_"],
 				"options" : []
 			},
@@ -141,7 +141,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5865967625@vtext.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; paul@mayco-mi.com",
 		"PK" : "ID",
 		"Table" : "EWOs",
 		"Connection" : "Safety"
@@ -164,7 +164,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5865967625@vtext.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; paul@mayco-mi.com",
 		"PK" : "TagNo",
 		"Table" : "PMTags",
 		"Connection" : "Safety"
@@ -187,7 +187,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; brent@mayco-mi.com; 5865967625@vtext.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; brent@mayco-mi.com; paul@mayco-mi.com",
 		"PK" : "KaizenNumber",
 		"Table" : "Kaizens",
 		"Connection" : "Safety"
@@ -250,7 +250,7 @@
 				"options" : []
 			}
 			},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5866048943@messaging.sprintpcs.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "SEWONumber",
 		"Table" : "ESEWOs",
 		"Connection" : "Safety"
@@ -276,9 +276,14 @@
 				"name" : "Machines",
 				"params" : ["1","_DepartmentID_","_ZoneID_"],
 				"options": []
+			},
+			"RepairTypes" : {
+				"name" : "RepairTypes",
+				"params" : [],
+				"options" : []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com",
+		"Emails" : "hooks@njt-na.com",
 		"PK" : "ID",
 		"Table" : "ToolIssues",
 		"Connection" : "Safety"
@@ -306,7 +311,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5866048943@messaging.sprintpcs.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "UCANs",
 		"Connection" : "Safety"
@@ -340,7 +345,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5866048943@messaging.sprintpcs.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "UnsafeActs",
 		"Connection" : "Safety"
@@ -388,7 +393,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "5865633222@mymetropcs.com; gwilloughby@mayco-mi.com; 5866048943@messaging.sprintpcs.com",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
 		"PK" : "ID",
 		"Table" : "WCC",
 		"Connection" : "Safety"

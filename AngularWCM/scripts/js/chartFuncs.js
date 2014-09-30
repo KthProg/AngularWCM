@@ -111,11 +111,12 @@ function getColData(data, firstCol) {
     var dataTable = new google.visualization.DataTable();
 
     var keys = Object.keys(data[0]);
-    keys = keys.sort(
+    /*keys = keys.sort(
         function (a) {
             return a === firstCol ? -1 : 1;
         }
-        );
+        );*/
+    //keys.reverse();
 
     var keyMetaData = {};
     var numericKeys = true;

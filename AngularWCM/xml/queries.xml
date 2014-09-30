@@ -104,6 +104,10 @@
     <connection>Safety</connection>
     <qstring>SELECT DISTINCT UAMTID, UAMicroType FROM vUATypes WHERE UATID=?</qstring>
   </query>
+  <query name="RepairTypes">
+    <connection>Safety</connection>
+    <qstring>SELECT ID, RepairType FROM RepairTypes</qstring>
+  </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
     <connection>Mattec</connection>
@@ -154,8 +158,8 @@
     </parameters>
   </query>
   <query name="MoldOEE">
-    <connection>Mattec</connection>
-    <qstring>EXEC pMoldOEE @startDate=?, @endDate=?</qstring>
+    <connection>Safety</connection>
+    <qstring>EXEC pAllMoldOEE @startDate=?, @endDate=?</qstring>
     <parameters>
       <parameter name="startDate">
         <type>date</type>
@@ -166,8 +170,8 @@
     </parameters>
   </query>
   <query name="MachOEE">
-    <connection>Mattec</connection>
-    <qstring>EXEC pMachOEE @startDate=?, @endDate=?</qstring>
+    <connection>Safety</connection>
+    <qstring>EXEC pAllMachOEE @startDate=?, @endDate=?</qstring>
     <parameters>
       <parameter name="startDate">
         <type>date</type>
@@ -191,7 +195,7 @@
   </query>
   <query name="PMDue">
     <connection>Mattec</connection>
-    <qstring>SELECT * FROM HoursToNextPM</qstring>
+    <qstring>SELECT * FROM vNextPM</qstring>
   </query>
   <query name="AuditsPerAuditor">
     <connection>Safety</connection>
@@ -276,6 +280,63 @@
     <qstring>EXEC pTagTrend @userYear=?</qstring>
     <parameters>
       <parameter name="userYear">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="TagTrendMach">
+    <connection>Safety</connection>
+    <qstring>EXEC pTagTrendMach @userYear=?, @mach=?</qstring>
+    <parameters>
+      <parameter name="userYear">
+        <type>number</type>
+      </parameter>
+      <parameter name="mach">
+        <type>text</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="PressStratification">
+    <connection>Safety</connection>
+    <qstring>EXEC pPressStratification @mach=?</qstring>
+    <parameters>
+      <parameter name="mach">
+        <type>text</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="EWOsVsBreakdowns">
+    <connection>Safety</connection>
+    <qstring>EXEC pEWOsVsBreakdowns @startDate=?, @endDate=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="PMTagDetail">
+    <connection>Safety</connection>
+    <qstring>EXEC pPMTagDetail @mach=?, @year=?</qstring>
+    <parameters>
+      <parameter name="mach">
+        <type>text</type>
+      </parameter>
+      <parameter name="year">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="UCANDetail">
+    <connection>Safety</connection>
+    <qstring>EXEC pUCANDetail @mach=?, @year=?</qstring>
+    <parameters>
+      <parameter name="mach">
+        <type>text</type>
+      </parameter>
+      <parameter name="year">
         <type>number</type>
       </parameter>
     </parameters>

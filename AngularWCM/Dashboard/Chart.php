@@ -50,6 +50,10 @@
             <option value="MachOEE" data-firstcol="MachID">Machine OEE</option>
             <option value="OilPerPress" data-firstcol="Press">Oil per Press</option>
             <option value="TagTrend" data-firstcol="Date">PM Tag Trend</option>
+            <option value="TagTrendMach" data-firstcol="Date">PM Tag Trend By Machine</option>
+            <option value="PressStratification" data-firstcol="Machine">Press Stratification</option>
+            <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table)</option>
+            <option value="PMTagDetail" data-firstcol="TagNo">PM Tag Details (Table)</option>
                 <?php }?>
                 <?php if($_GET["Pillar"] == "TR"){ ?>
             <option value="MoldOEE" data-firstcol="MoldID">Tool OEE</option>
@@ -70,6 +74,7 @@
             <option value="AgingReport"  data-firstcol="Issue">Days Open per Issue</option>
             <option value="SeverityReport"  data-firstcol="Severity">Number of Issues By Severity</option>
             <option value="IssuesBySeverity"  data-firstcol="Issue">Issues By Severity</option>
+            <option value="UCANDetail"  data-firstcol="ID">UCAN Detail (Table)</option>
                 <?php } ?>
                 <?php if($_GET["Pillar"] == "OCI"){ ?>
             <option value="AllPlants">All Plants List</option>

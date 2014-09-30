@@ -40,7 +40,8 @@
         </tr>
         <tr>
             <td><input type="text" ng-model="fields['ToolName']" /></td>
-            <td rowspan="11" colspan="2"><textarea ng-model="fields['Problems']"></textarea></td>
+            <td rowspan="11"><textarea ng-model="fields['Problems']"></textarea></td>
+            <td rowspan="11"><select ng-model="fields['RepairTypes']" ng-options="k as v for (k,v) in queries['RepairTypes'].options" multiple></select></td>
         </tr>
         <tr>
             <td class="red">Tool Number</td>
