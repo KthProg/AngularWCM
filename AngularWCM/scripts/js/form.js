@@ -25,7 +25,7 @@
             $scope.queries = resp[name]["Queries"];
             $scope.getMaxID();
             $scope.getInitialOptions();
-            $scope.watchSelects(); 
+            $scope.watchSelects();
         });
     };
 
@@ -158,7 +158,7 @@
                         $scope.fields[v] = JSON.parse($scope.fields[v]);
                     }
                 }*/
-                console.log($scope.fields);
+                //console.log($scope.fields);
             } else {
                 alert($scope.name + " number " + $scope.id + " does not exist!");
             }
@@ -198,6 +198,7 @@
             if (scopeField = $scope.getFieldEl(f)) {
                 switch (scopeField.attr("type")) {
                     case "date":
+                    case "time":
                     case "datetime-local":
                         $scope.fields[f] = new Date(Date.parse($scope.fields[f]));
                         break;

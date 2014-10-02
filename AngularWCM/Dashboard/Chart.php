@@ -36,44 +36,36 @@
                 height: 50px;
             }
         }
-        }
     </style>
 	<body>
         <select name="Query" onchange="getParams($(this).val())">
             <option value="" selected="selected">Select a Query</option>
             <?php if(isset($_GET["Pillar"])){ ?>
                 <?php if($_GET["Pillar"] == "PM"){ ?>
-            <option value="MachMTBF" data-firstcol="MachID">MTBF by Machine</option>
-            <option value="MachMTTR" data-firstcol="MachID">MTTR by Machine</option>
-            <option value="MachDowntime" data-firstcol="MachID">Downtime Reasons by Machine</option>
-            <option value="MachScrap" data-firstcol="MachID">Machine Scrap</option>
-            <option value="MachOEE" data-firstcol="MachID">Machine OEE</option>
-            <option value="OilPerPress" data-firstcol="Press">Oil per Press</option>
-            <option value="TagTrend" data-firstcol="Date">PM Tag Trend</option>
-            <option value="TagTrendMach" data-firstcol="Date">PM Tag Trend By Machine</option>
-            <option value="PressStratification" data-firstcol="Machine">Press Stratification</option>
+            <option value="MachMTBF" data-firstcol="MachID">MTBF by Machine (Bar)</option>
+            <option value="MachMTTR" data-firstcol="MachID">MTTR by Machine (Bar)</option>
+            <option value="MachDowntime" data-firstcol="MachID">Downtime Reasons by Machine (Bar)</option>
+            <option value="MachScrap" data-firstcol="MachID">Machine Scrap (Bar)</option>
+            <option value="MachOEE" data-firstcol="MachID">Machine OEE (Bar)</option>
+            <option value="OilPerPress" data-firstcol="Press">Oil per Press (Bar)</option>
+            <option value="TagTrend" data-firstcol="Date">PM Tag Trend (Line)</option>
+            <option value="TagTrendMach" data-firstcol="Date">PM Tag Trend By Machine (Line)</option>
+            <option value="PressStratification" data-firstcol="Machine">Press Stratification (Bar)</option>
             <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table)</option>
             <option value="PMTagDetail" data-firstcol="TagNo">PM Tag Details (Table)</option>
-                <?php }?>
-                <?php if($_GET["Pillar"] == "TR"){ ?>
-            <option value="MoldOEE" data-firstcol="MoldID">Tool OEE</option>
+            <option value="MoldOEE" data-firstcol="MoldID">Tool OEE (Bar)</option>
             <option value="PMDue" data-firstcol="MoldID">PM Due per Tool</option>
-            <option value="ProblemToolsRepairHistory" data-firstcol="Period">Problem Tools Repair History</option>
-            <option value="ToolKeywordHistory" data-firstcol="Period">Keyword Matches by Period</option>
-            <option value="KeywordsByTool" data-firstcol="Keyword">Keyword Matches by Tool</option>
-            <option value="KeywordsForTool" data-firstcol="Keyword">Keyword Matches For a Tool</option>
-            <option value="ToolMTBF" data-firstcol="MoldID">Tool MTBF</option>
                 <?php } ?>
                 <?php if($_GET["Pillar"] == "SA"){ ?>
-            <option value="AuditsPerAuditor" data-firstcol="AuditorName">Number of Audits by Auditor</option>
-            <option value="AuditsPerWorkCell" data-firstcol="WorkCell">Number of Audits by Work Cell</option>
-            <option value="AuditsPerZone" data-firstcol="DeptZone">Number of Audits by Zone</option>
-            <option value="AuditorsWithoutAudits" data-firstcol="AuditorName">Auditors With No Audits</option>
-            <option value="WorkCellsNotAudited" data-firstcol="WorkCell">Work Cells Without Audits</option>
-            <option value="ZonesNotAudited" data-firstcol="Zone">Zones Without Audits</option>
-            <option value="AgingReport"  data-firstcol="Issue">Days Open per Issue</option>
-            <option value="SeverityReport"  data-firstcol="Severity">Number of Issues By Severity</option>
-            <option value="IssuesBySeverity"  data-firstcol="Issue">Issues By Severity</option>
+            <option value="AuditsPerAuditor" data-firstcol="AuditorName">Number of Audits by Auditor (Pie)</option>
+            <option value="AuditsPerWorkCell" data-firstcol="WorkCell">Number of Audits by Work Cell (Pie)</option>
+            <option value="AuditsPerZone" data-firstcol="DeptZone">Number of Audits by Zone (Pie)</option>
+            <option value="AuditorsWithoutAudits" data-firstcol="AuditorName">Auditors With No Audits (Table)</option>
+            <option value="WorkCellsNotAudited" data-firstcol="WorkCell">Work Cells Without Audits (Table)</option>
+            <option value="ZonesNotAudited" data-firstcol="Zone">Zones Without Audits (Table)</option>
+            <option value="AgingReport"  data-firstcol="Issue">Days Open per Issue (Bar)</option>
+            <option value="SeverityReport"  data-firstcol="Severity">Number of Issues By Severity (Pie)</option>
+            <option value="IssuesBySeverity"  data-firstcol="Issue">Issues By Severity (Table)</option>
             <option value="UCANDetail"  data-firstcol="ID">UCAN Detail (Table)</option>
                 <?php } ?>
                 <?php if($_GET["Pillar"] == "OCI"){ ?>

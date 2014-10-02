@@ -110,7 +110,7 @@
   </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
-    <connection>Mattec</connection>
+    <connection>Safety</connection>
     <qstring>EXEC pMachMTBF @startDate=?, @endDate=?</qstring>
     <parameters>
       <parameter name="startDate">
@@ -122,7 +122,7 @@
     </parameters>
   </query>
   <query name="MachMTTR">
-    <connection>Mattec</connection>
+    <connection>Safety</connection>
     <qstring>EXEC pMachMTTR @startDate=?, @endDate=?</qstring>
     <parameters>
       <parameter name="startDate">
@@ -134,7 +134,7 @@
     </parameters>
   </query>
   <query name="MachDowntime">
-    <connection>Mattec</connection>
+    <connection>Safety</connection>
     <qstring>EXEC pMachDowntime @startDate=?, @endDate=?</qstring>
     <parameters>
       <parameter name="startDate">
@@ -146,7 +146,7 @@
     </parameters>
   </query>
   <query name="MachScrap">
-    <connection>Mattec</connection>
+    <connection>Safety</connection>
     <qstring>EXEC pMachScrap @startDate=?, @endDate=?</qstring>
     <parameters>
       <parameter name="startDate">
@@ -194,7 +194,7 @@
     </parameters>
   </query>
   <query name="PMDue">
-    <connection>Mattec</connection>
+    <connection>Safety</connection>
     <qstring>SELECT * FROM vNextPM</qstring>
   </query>
   <query name="AuditsPerAuditor">
