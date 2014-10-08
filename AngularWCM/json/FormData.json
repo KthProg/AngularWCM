@@ -79,7 +79,7 @@
 			},
 			"AuditorID": {
 				"name" : "Auditors",
-				"params" : [],
+				"params" : ["EHS"],
 				"options" : []
 			},
 			"WorkCellID": {
@@ -192,7 +192,7 @@
 		"Table" : "Kaizens",
 		"Connection" : "Safety"
 	},
-	"SAFE" : {
+	"SEWO" : {
 		"Queries" : {
 			"PlantID" : {
 				"name" : "Plants",
@@ -374,7 +374,7 @@
 			},
 			"AuditorID": {
 				"name" : "Auditors",
-				"params" : [],
+				"params" : ["WCC"],
 				"options" : []
 			},
 			"WorkCellID": {
@@ -430,5 +430,38 @@
 		"PK" : "",
 		"Table" : "",
 		"Connection" : ""
+	},
+	"5T" : {
+		"Queries" : {
+			"PlantID" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"DepartmentID" : {
+				"name" : "Departments",
+				"params" : ["_PlantID_"],
+				"options": []
+			},
+			"ZoneID" : {
+				"name" : "Zones",
+				"params" : ["_PlantID_","_DepartmentID_"],
+				"options": []
+			},
+			"MachineID" : {
+				"name" : "Machines",
+				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"options": []
+			},
+			"AuditorID": {
+				"name" : "Auditors",
+				"params" : ["5T"],
+				"options" : []
+			}
+		},
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com;",
+		"PK" : "ID",
+		"Table" : "FiveT",
+		"Connection" : "Safety"
 	}
 }

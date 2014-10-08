@@ -28,6 +28,7 @@
     <Compile Include="scripts\php\Submit.php" />
     <Compile Include="scripts\php\Update.php" />
     <Compile Include="scripts\php\Utilities.php" />
+    <Compile Include="5T.php" />
     <Compile Include="WCC.php" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +52,7 @@
     <Content Include="css\Media.css" />
     <Content Include="css\normalize.css" />
     <Content Include="css\SEWO.css" />
+    <Content Include="css\5T.css" />
     <Content Include="css\WCC.css" />
     <Content Include="Dashboard.html" />
     <Content Include="Dashboard\PM.html" />
@@ -86,7 +88,7 @@
     <Content Include="res\uploadgreen.png" />
     <Content Include="res\wcm_logo.jpg" />
     <Content Include="res\x.png" />
-    <Content Include="SAFE.html" />
+    <Content Include="SEWO.html" />
     <Content Include="scripts\js\chartFuncs.js" />
     <Content Include="scripts\js\wcm.js" />
     <Content Include="scripts\js\form.js" />
@@ -96,6 +98,7 @@
     <Content Include="UCAN.html" />
     <Content Include="UnsafeAct.html" />
     <Content Include="xml\connections.xml" />
+    <Content Include="xml\5Tlabels.xml" />
     <Content Include="xml\ehslabels.xml" />
     <Content Include="xml\queries.xml" />
     <Content Include="xml\wcclabels.xml" />

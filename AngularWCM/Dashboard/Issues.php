@@ -31,7 +31,7 @@
                 <div class="filter">Shift:<select name="Shift" ng-model="fields['shifts']" ng-options='v as v for (k,v) in [1,2,3]'></select></div>
                 <div class="filter">Severity:<select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["Low","Medium","High"]'></select></div>
                 <div class="filter">Category:<select name="Category" ng-model="fields['categories']" ng-options='v as v for (k,v) in ["Housekeeping","None","Crane","Ergonomics","Emergency Evacuation Routes/Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></select></div>
-                <div class="filter">Form:<select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["EHS","WCC","SAFE","Unsafe Act"]'></select></div>
+                <div class="filter">Form:<select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["EHS","WCC","SEWO","Unsafe Act"]'></select></div>
                 <div class="filter">
                     <button type="button" onclick="angular.element('[ng-app]').injector().get('$rootScope').$broadcast('filter');">Apply</button>
                     <button type="reset">Clear</button>

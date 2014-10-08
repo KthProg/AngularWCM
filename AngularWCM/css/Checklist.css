@@ -122,3 +122,7 @@ strong{
 .inputPlusLabel input[type=date]{
     height: 1.9em;
 }
+
+*:invalid{
+    background-color: rgb(250,184,183);
+}

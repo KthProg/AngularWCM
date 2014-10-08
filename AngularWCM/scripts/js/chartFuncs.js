@@ -137,7 +137,12 @@ function getColData(data, firstCol) {
                 totals[0] += Number(a[k]);
                 totals[1] += Number(b[k]);
             }
-            return totals[0] - totals[1];
+
+            if ($("[name='sortOrder'] option:selected").val() == "Asc") {
+                return totals[0] - totals[1];
+            } else {
+                return -(totals[0] - totals[1]);
+            }
         });
     }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>SAFE</title>
+    <title>SEWO</title>
 
     <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
@@ -12,23 +12,12 @@
     <link rel="stylesheet" href="css/FormClasses.css" />
     <link rel="stylesheet" href="css/SEWO.css" />
 
-    <script>
-        $(document.body).load(function () {
-            var scope = angular.element($("[ng-app='wcm']")).scope();
-            scope.$apply(function () {
-                scope.$watch("fields['SketchURL']", function (n, o) {
-                    console.log(n);
-                });
-            });
-        });
-    </script>
-
     <title>SEWO</title>
 </head>
 
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="setFormData('SAFE');">
+      ng-init="setFormData('SEWO');">
     <table style="width: 100%;">
         <tr>
             <td colspan="4" class="dkgrey whitetext">

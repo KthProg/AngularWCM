@@ -213,31 +213,45 @@
     }
 
     $scope.update = function () {
-        $scope.formatClientToSrv();
-        $http({
-            method: "POST",
-            url: "/scripts/php/Update.php",
-            data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .success(
-        function (resp) {
-            $(document.body).html(resp);
-        });
+        if ($.makeArray($("select, input, textarea")).reduce(
+            function (p, c) {
+                return (p && ($(c).css("background-color") != "rgb(250, 184, 183)"));
+        }, true)) {
+            $scope.formatClientToSrv();
+            $http({
+                method: "POST",
+                url: "/scripts/php/Update.php",
+                data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .success(
+            function (resp) {
+                $(document.body).html(resp);
+            });
+        } else {
+            alert("Some inputs are not valid, these should appear highlighted in red. Fill these out to submit the form.");
+        }
     };
 
     $scope.submit = function () {
-        $scope.formatClientToSrv();
-        $http({
-            method: "POST",
-            url: "/scripts/php/Submit.php",
-            data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .success(
-        function (resp) {
-            $(document.body).html(resp);
-        });
+        if ($.makeArray($("select, input, textarea")).reduce(
+            function (p, c) {
+                return (p && ($(c).css("background-color") != "rgb(250, 184, 183)"));
+        }, true)) {
+            $scope.formatClientToSrv();
+            $http({
+                method: "POST",
+                url: "/scripts/php/Submit.php",
+                data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .success(
+            function (resp) {
+                $(document.body).html(resp);
+            });
+        } else {
+            alert("Some inputs are not valid, these should appear highlighted in red. Fill these out to submit the form.");
+        }
     };
 
     $scope.formatClientToSrv = function () {

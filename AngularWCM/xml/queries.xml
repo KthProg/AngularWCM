@@ -26,7 +26,7 @@
   </query>
   <query name="Auditors">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT ID, AuditorName FROM Auditor</qstring>
+    <qstring>SELECT DISTINCT ID, AuditorName FROM Auditor WHERE AuditorType=?</qstring>
   </query>
   <query name="Supervisors">
     <connection>Safety</connection>
@@ -199,15 +199,45 @@
   </query>
   <query name="AuditsPerAuditor">
     <connection>Safety</connection>
-    <qstring>SELECT AuditorName, COUNT(*) AS Audits FROM vWCC GROUP BY AuditorName ORDER BY Audits DESC</qstring>
+    <qstring>
+      SELECT AuditorName, [WCC], [EHS] FROM 
+      ( 
+        SELECT AuditorName, AuditType
+        FROM vAudits
+      ) AS Temp
+      PIVOT (
+        COUNT(AuditType)
+        FOR [AuditType] IN ([WCC], [EHS])
+      ) AS Pivoted
+    </qstring>
   </query>
   <query name="AuditsPerWorkCell">
     <connection>Safety</connection>
-    <qstring>SELECT WorkCell, COUNT(*) AS Audits FROM vWCC GROUP BY WorkCell ORDER BY Audits DESC</qstring>
+    <qstring>
+      SELECT WorkCell, [WCC], [EHS] FROM 
+      ( 
+        SELECT WorkCell, AuditType
+        FROM vAudits
+      ) AS Temp
+      PIVOT (
+        COUNT(AuditType)
+        FOR [AuditType] IN ([WCC], [EHS])
+      ) AS Pivoted
+    </qstring>
   </query>
   <query name="AuditsPerZone">
     <connection>Safety</connection>
-    <qstring>SELECT Department + ' ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vWCC GROUP BY Department, Zone ORDER BY Audits DESC</qstring>
+    <qstring>
+      SELECT Zone, [WCC], [EHS] FROM 
+      ( 
+        SELECT Zone, AuditType
+        FROM vAudits
+      ) AS Temp
+      PIVOT (
+        COUNT(AuditType)
+        FOR [AuditType] IN ([WCC], [EHS])
+      ) AS Pivoted
+    </qstring>
   </query>
   <query name="AgingReport">
     <connection>Safety</connection>
@@ -223,15 +253,15 @@
   </query>
   <query name="ZonesNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT Zone FROM Zones WHERE Zone NOT IN (SELECT DISTINCT Zone FROM vWCC)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM PLantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits)</qstring>
   </query>
   <query name="WorkCellsNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT WorkCell FROM WorkCells WHERE WorkCell NOT IN (SELECT DISTINCT WorkCell FROM vWCC)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM PLantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits)</qstring>
   </query>
   <query name="AuditorsWithoutAudits">
     <connection>Safety</connection>
-    <qstring>SELECT AuditorName FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vWCC)</qstring>
+    <qstring>SELECT DISTINCT AuditorName FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits)</qstring>
   </query>
   <query name="OilPerPress">
     <connection>Safety</connection>
@@ -340,5 +370,23 @@
         <type>number</type>
       </parameter>
     </parameters>
+  </query>
+  <query name="NumberOfIssuesByLine">
+    <connection>Safety</connection>
+    <qstring>
+      SELECT (i.Name + ' - ' +
+      al.Category + ' - ' +
+      al.SubCategory) AS [Line Item],
+      COUNT(*) AS Total
+      FROM OpenIssues i
+      JOIN vAuditLines al
+      ON al.FormName=i.Name
+      AND al.Line=i.LineNum
+      GROUP BY i.Name, al.Category, al.SubCategory
+    </qstring>
+  </query>
+  <query name="MachOEEByMonth">
+    <connection>Safety</connection>
+    <qstring>EXEC pMachOEEByMonth</qstring>
   </query>
 </queries>
