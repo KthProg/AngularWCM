@@ -261,7 +261,7 @@
   </query>
   <query name="AuditorsWithoutAudits">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT AuditorName FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits)</qstring>
+    <qstring>SELECT DISTINCT AuditorName, AuditorType FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits)</qstring>
   </query>
   <query name="OilPerPress">
     <connection>Safety</connection>

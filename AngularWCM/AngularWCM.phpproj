@@ -93,7 +93,6 @@
     <Content Include="scripts\js\wcm.js" />
     <Content Include="scripts\js\form.js" />
     <Content Include="scripts\js\issue.js" />
-    <Content Include="scripts\js\ToolRepair.js" />
     <Content Include="ToolRepair.html" />
     <Content Include="UCAN.html" />
     <Content Include="UnsafeAct.html" />

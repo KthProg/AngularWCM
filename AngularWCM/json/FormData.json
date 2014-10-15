@@ -283,7 +283,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com",
+		"Emails" : "thomason@mayco-mi.com; hooks@njt-na.com",
 		"PK" : "ID",
 		"Table" : "ToolIssues",
 		"Connection" : "Safety"
@@ -459,7 +459,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com;",
+		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; dmorgan@mayco-mi.com",
 		"PK" : "ID",
 		"Table" : "FiveT",
 		"Connection" : "Safety"

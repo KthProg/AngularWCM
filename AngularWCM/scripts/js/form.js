@@ -215,7 +215,7 @@
     $scope.update = function () {
         if ($.makeArray($("select, input, textarea")).reduce(
             function (p, c) {
-                return (p && ($(c).css("background-color") != "rgb(250, 184, 183)"));
+                return (p && (([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1) || $(c).is(':hidden')));
         }, true)) {
             $scope.formatClientToSrv();
             $http({
@@ -236,7 +236,7 @@
     $scope.submit = function () {
         if ($.makeArray($("select, input, textarea")).reduce(
             function (p, c) {
-                return (p && ($(c).css("background-color") != "rgb(250, 184, 183)"));
+                return (p && (([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1) || $(c).is(':hidden')));
         }, true)) {
             $scope.formatClientToSrv();
             $http({
@@ -313,7 +313,7 @@
     });
 
     $scope.saveSketch = function (e) {
-        // string is invalid URL is spaces are not
+        // string is invalid URL if spaces are not
         // replaced with +
         $scope.fields["SketchURL"] = e.target.toDataURL().replace(/ /g, "+");
     };
