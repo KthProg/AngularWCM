@@ -26,7 +26,13 @@
   </query>
   <query name="Auditors">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT ID, AuditorName FROM Auditor WHERE AuditorType=?</qstring>
+    <qstring>
+      SELECT au.ID, au.AuditorName
+      FROM Auditor au
+      JOIN Auditor_Types at
+      ON at.AuditorID=au.ID
+      WHERE at.AuditorType=?
+    </qstring>
   </query>
   <query name="Supervisors">
     <connection>Safety</connection>
@@ -107,6 +113,14 @@
   <query name="RepairTypes">
     <connection>Safety</connection>
     <qstring>SELECT ID, RepairType FROM RepairTypes</qstring>
+  </query>
+  <query name="SupervisorEmailsByZone">
+    <connection>Safety</connection>
+    <qstring>SELECT ID, SupervisorEmail FROM Supervisor WHERE Zone=?</qstring>
+  </query>
+  <query name="AuditLines">
+    <connection>Safety</connection>
+    <qstring>SELECT Category, SubCategory FROM vAuditLines WHERE FormName=? ORDER BY Line</qstring>
   </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
@@ -387,6 +401,11 @@
   </query>
   <query name="MachOEEByMonth">
     <connection>Safety</connection>
-    <qstring>EXEC pMachOEEByMonth</qstring>
+    <qstring>EXEC pMachOEEByMonth @year=?</qstring>
+    <parameters>
+      <parameter name="year">
+        <type>number</type>
+      </parameter>
+    </parameters>
   </query>
 </queries>

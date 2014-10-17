@@ -1,6 +1,5 @@
 ﻿function Issues($scope, $http) {
 
-    $scope.XML = {};
     $scope.filter = {};
 
     $scope.showOpen = true;
@@ -51,17 +50,9 @@
         return csv;
     });
 
-    $scope.getOpenIssues = function () {
-        $scope.getIssues("GetOpenIssues", "openIssues");
-    };
-
-    $scope.getClosedIssues = function () {
-        $scope.getIssues("GetClosedIssues", "closedIssues");
-    };
-
     $scope.getAllIssues = function () {
-        $scope.getOpenIssues();
-        $scope.getClosedIssues();
+        $scope.getIssues("GetOpenIssues", "openIssues");
+        $scope.getIssues("GetClosedIssues", "closedIssues");
     };
 
     $scope.getIssues = function (query, assignTo) {
@@ -69,49 +60,8 @@
         .success(function (resp) {
             console.log(resp);
             var formatted = $scope.formatResponse(resp);
-            var lineItemsAdded = $scope.addLineItems(formatted);
-            var filtered = $scope.filterResponse(lineItemsAdded);
+            var filtered = $scope.filterResponse(formatted);
             $scope[assignTo] = filtered;
-        });
-    };
-
-    $scope.addLineItems = function (resp) {
-        for (var k in $scope.XML) {
-            if ($scope.XML.hasOwnProperty(k)) {
-                var labels = $($scope.XML[k]).find("label");
-                for (var i = 0, l = resp.length; i < l; ++i) {
-                    if (resp[i].Name == k) {
-                        resp[i]["LineItem"] = labels.eq(resp[i].LineNum - 1).text();
-                        resp[i]["Category"] = labels.eq(resp[i].LineNum - 1).parent().children("header").text();
-                    }
-                }
-            }
-        }
-        for (var i = 0, l = resp.length; i < l; ++i) {
-            if (resp[i]["LineItem"] == undefined) {
-                resp[i]["LineItem"] = "";
-                resp[i]["Category"] = "";
-            }
-        }
-        return resp;
-    };
-
-    $scope.getLineItemsXML = function () {
-        $.ajax({
-            url: "/xml/ehslabels.xml",
-            dataType: "xml",
-            async: false,
-            success: function (data){
-                $scope.XML["EHS"] = data;
-            }
-        });
-        $.ajax({
-            url: "/xml/wcclabels.xml",
-            dataType: "xml",
-            async: false,
-            success: function (data) {
-                $scope.XML["WCC"] = data;
-            }
         });
     };
 
@@ -163,7 +113,7 @@
         }
     };
 
-    $scope.getLineItemsXML();
+    //$scope.getLineItemsXML();
 
     $scope.getAllIssues();
 }

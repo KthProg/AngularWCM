@@ -17,7 +17,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"],
 		"PK" : "ID",
 		"Table" : "BlueTags",
 		"Connection" : "Safety"
@@ -50,7 +50,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; marshallDesign@jvisusallc.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," marshallDesign@jvisusallc.com"],
 		"PK" : "ID",
 		"Table" : "DevForm",
 		"Connection" : "Safety"
@@ -98,7 +98,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com"],
 		"PK" : "ID",
 		"Table" : "EHS",
 		"Connection" : "Safety"
@@ -141,7 +141,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; paul@mayco-mi.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," paul@mayco-mi.com"],
 		"PK" : "ID",
 		"Table" : "EWOs",
 		"Connection" : "Safety"
@@ -164,7 +164,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; paul@mayco-mi.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," paul@mayco-mi.com"],
 		"PK" : "TagNo",
 		"Table" : "PMTags",
 		"Connection" : "Safety"
@@ -187,7 +187,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; brent@mayco-mi.com; paul@mayco-mi.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," brent@mayco-mi.com"," paul@mayco-mi.com"],
 		"PK" : "KaizenNumber",
 		"Table" : "Kaizens",
 		"Connection" : "Safety"
@@ -250,7 +250,7 @@
 				"options" : []
 			}
 			},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com"],
 		"PK" : "SEWONumber",
 		"Table" : "ESEWOs",
 		"Connection" : "Safety"
@@ -283,7 +283,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "thomason@mayco-mi.com; hooks@njt-na.com",
+		"Emails" : ["thomason@mayco-mi.com"," hooks@njt-na.com"],
 		"PK" : "ID",
 		"Table" : "ToolIssues",
 		"Connection" : "Safety"
@@ -311,7 +311,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com"],
 		"PK" : "ID",
 		"Table" : "UCANs",
 		"Connection" : "Safety"
@@ -345,7 +345,7 @@
 				"options": []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com"],
 		"PK" : "ID",
 		"Table" : "UnsafeActs",
 		"Connection" : "Safety"
@@ -393,7 +393,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; phelps@njt-na.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com"],
 		"PK" : "ID",
 		"Table" : "WCC",
 		"Connection" : "Safety"
@@ -426,7 +426,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : "",
+		"Emails" : [""],
 		"PK" : "",
 		"Table" : "",
 		"Connection" : ""
@@ -459,9 +459,42 @@
 				"options" : []
 			}
 		},
-		"Emails" : "hooks@njt-na.com; gwilloughby@mayco-mi.com; dmorgan@mayco-mi.com",
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," dmorgan@mayco-mi.com"],
 		"PK" : "ID",
 		"Table" : "FiveT",
+		"Connection" : "Safety"
+	},
+	"LPA" : {
+		"Queries" : {
+			"PlantID" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"DepartmentID" : {
+				"name" : "Departments",
+				"params" : ["_PlantID_"],
+				"options": []
+			},
+			"ZoneID" : {
+				"name" : "Zones",
+				"params" : ["_PlantID_","_DepartmentID_"],
+				"options": []
+			},
+			"MachineID" : {
+				"name" : "Machines",
+				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"options": []
+			},
+			"AuditorID": {
+				"name" : "Auditors",
+				"params" : ["LPA"],
+				"options" : []
+			}
+		},
+		"Emails" : ["hooks@njt-na.com", "gwilloughby@mayco-mi.com"],
+		"PK" : "ID",
+		"Table" : "LPA",
 		"Connection" : "Safety"
 	}
 }

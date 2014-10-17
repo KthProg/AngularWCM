@@ -1,0 +1,26 @@
+﻿h1{ 
+	color: lightgreen;
+}
+
+h3{
+	background-color: lightgreen;
+}
+
+strong{
+	background-color: lightgreen;
+}
+
+.helpButton {
+    float: right;
+    font-size: 2em;
+    width: 1em; 
+    height: 1em; 
+    border-radius: 50%; 
+    border: 1px solid black; 
+    text-align: center; 
+    vertical-align: middle;
+}
+.helpButton:hover { 
+    background-color: lightgreen;
+    cursor: pointer;
+}

@@ -33,17 +33,33 @@ if($stmt->execute(json_decode($_GET["Params"]))){
             foreach($rows as $row){
                 $filtered[$row[0]] = $row[1];
             }
-            echo json_encode($filtered);
+            if(isset($_GET["ReturnQuery"])){
+                return $filtered;
+            }else{
+                echo json_encode($filtered);
+            }
         }else{
-            echo json_encode($rows);
+            if(isset($_GET["ReturnQuery"])){
+                return $rows;
+            }else{
+                echo json_encode($rows);
+            }
         }
     }else{
         //notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Query error.", "QUERY: ".$_GET["Query"]."<br>PARAMS: ".$_GET["Params"]."<br>Error: ".print_r($stmt->errorInfo(), true));
-        echo "[]";
+        if(isset($_GET["ReturnQuery"])){
+            return array();
+        }else{
+            echo json_encode(array());
+        }
     }
 }else{
     notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Query error.", "QUERY: ".$_GET["Query"]."<br>PARAMS: ".$_GET["Params"]."<br>Error: ".print_r($stmt->errorInfo(), true));
-    echo "[]";
+    if(isset($_GET["ReturnQuery"])){
+        return array();
+    }else{
+        echo json_encode(array());
+    }
 }
 
 }

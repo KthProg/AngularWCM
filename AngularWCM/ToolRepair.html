@@ -20,17 +20,20 @@
             scope.$apply(
                 function () {
                     scope.$watch("fields['RepairedLocation']", function (n, o) {
-                        //console.log(o);
-                        //console.log(n);
-                        var moundContacts = "jmurphy@venturecorporation.net; pillars@ventureglobalengineering.com; dharper@mayco-mi.com";
+                        var moundContacts = ["jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com"];
                         if (n != o) {
                             if (!scope.hasRecord && n == "Mound") {
-                                scope.contacts += "; " + moundContacts;
-                                //console.log(scope.contacts);
+                                scope.contacts = scope.contacts.concat(moundContacts);
                             } else {
-                                scope.contacts = scope.contacts.replace("; " + moundContacts, "");
-                                //console.log(scope.contacts);
+                                for (var i = 0, l = moundContacts.length; i < l; ++i) {
+                                    var index = scope.contacts.indexOf(moundContacts[i]);
+                                    if(index > -1){
+                                        scope.contacts.splice(index, 1);
+                                    }
+                                }
                             }
+                            //console.log(scope.contacts);
+                            //angular.element(scope.getFieldEl("ZoneID")).triggerHandler("change");
                         }
                     }, true);
                 });

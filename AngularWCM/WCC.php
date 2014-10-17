@@ -73,37 +73,39 @@
             <td colspan="2"><h2>Requirement</h2></td>
             <td><h2>Select</h2></td>
         </tr>
-            <?php
-                $xml = simplexml_load_file("xml/wcclabels.xml");
-                $i = 0;
-                foreach($xml->group as $groupValues):
-                    foreach($groupValues as $type => $text):
-                        if($type == "header"):
-            ?>
-            <tr class="header"><td colspan="3"><h3><?php echo $text; ?></h3></td></tr>
-            <?php
-                        else:
-                            $i+=1;
-            ?>
+           <?php 
+                $_GET["Query"] = "AuditLines";
+                $_GET["ASSOC"] = "true";
+                $_GET["Params"] = json_encode(array("WCC"));
+                $_GET["ReturnQuery"] = "true";
+                $json_lines = require_once('/scripts/php/Query.php');
+                $last_category = "";
+                for($i = 0, $l = count($json_lines); $i < $l; ++$i){
+                    foreach($json_lines[$i] as $type => $value){
+                        if($type == "Category"){
+                            if($last_category != $value){
+                                $last_category = $value;
+           ?>
+            <tr class="header"><td colspan="3"><h3><?php echo $value; ?></h3></td></tr>
+                <?php           }          
+                            } else { ?>
             <tr>
                 <td>
-                    <span><?php echo $i.". ".$text; ?></span>
+                    <span><?php echo ($i+1).". ".$value; ?></span>
                 </td>
                 <td>
-                    <label for="file<?php echo $i; ?>">
-                        <img id="uploadimg<?php echo $i; ?>" src="res/upload.png" alt="Upload">
+                    <label for="file<?php echo $i+1; ?>">
+                        <img id="uploadimg<?php echo $i+1; ?>" src="res/upload.png" alt="Upload">
                     </label>
-                    <input type="file" id="file<?php echo $i; ?>" onchange="changeImage($(this), $('#uploadimg<?php echo $i; ?>')); imgToBase64(this, <?php echo $i; ?>);">
+                    <input type="file" id="file<?php echo $i+1; ?>" onchange="changeImage($(this), $('#uploadimg<?php echo $i+1; ?>')); imgToBase64(this, <?php echo $i+1; ?>);">
                 </td>
                 <td>
-                    <select ng-model="fields['Compliant<?php echo $i; ?>']" ng-options="v as v for (k,v) in ['Satisfactory','Unsafe Condition','Unsafe Act','Both']" ng-init="fields['Compliant<?php echo $i; ?>'] = 'Satisfactory'" required></select>
+                    <select ng-model="fields['Compliant<?php echo $i+1; ?>']" ng-options="v as v for (k,v) in ['Satisfactory','Unsafe Condition','Unsafe Act','Both']" ng-init="fields['Compliant<?php echo $i+1; ?>'] = 'Satisfactory'" required></select>
                 </td>
             </tr>
-            <?php
-                        endif;
-                    endforeach;
-                endforeach;
-            ?>
+        <?php           }
+                    } 
+                }?>
 
             <tr>
                 <td colspan="3"><h3>Comments</h3></td>

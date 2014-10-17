@@ -16,6 +16,7 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="LPA.php" />
     <Compile Include="Dashboard\Chart.php" />
     <Compile Include="Dashboard\Issues.php" />
     <Compile Include="DevForm.php" />
@@ -43,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BlueTag.html" />
+    <Content Include="css\LPA.css" />
     <Content Include="css\Checklist.css" />
     <Content Include="css\dashboard.css" />
     <Content Include="css\EHS.css" />
@@ -56,6 +58,7 @@
     <Content Include="css\WCC.css" />
     <Content Include="Dashboard.html" />
     <Content Include="Dashboard\PM.html" />
+    <Content Include="Dashboard\LO.html" />
     <Content Include="Dashboard\SA.html" />
     <Content Include="EWO.html" />
     <Content Include="json\FormData.json" />
@@ -78,6 +81,7 @@
     <Content Include="res\btn_wcc.gif" />
     <Content Include="res\download.png" />
     <Content Include="res\downloadgreen.png" />
+    <Content Include="res\lo.gif" />
     <Content Include="res\mayco.png" />
     <Content Include="res\mayco_safety_header.jpg" />
     <Content Include="res\menubutton.png" />
@@ -97,9 +101,6 @@
     <Content Include="UCAN.html" />
     <Content Include="UnsafeAct.html" />
     <Content Include="xml\connections.xml" />
-    <Content Include="xml\5Tlabels.xml" />
-    <Content Include="xml\ehslabels.xml" />
     <Content Include="xml\queries.xml" />
-    <Content Include="xml\wcclabels.xml" />
   </ItemGroup>
 </Project>

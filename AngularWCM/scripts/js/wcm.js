@@ -78,8 +78,27 @@ document.addEventListener('mouseup', function (e) {
     mouse.left = false;
 }, false);
 
+function alterHTMLForEmail() {
+    var currentHTML = "<html>\r\n\t<head>\r\n\t\t<style>\r\n";
+    //add style rules
+    currentHTML += getAllCSS();
+    currentHTML += "\t\t</style>\r\n\t</head>\r\n\t<body>\r\n";
+    currentHTML += $(document.body).html();
+    $("input, select, textarea").each(function () {
+        //regex is basically: <tagname(anything)field['whatever'](anything)(/> or > or </tagname>)
+        //which essentially finds the element that's bound to that model field
+        //the replace(],\\]) and replace([, \\[) are to escape the special characters [ and ] in the regex.
+        var thisRegex = "<" + $(this).prop("tagName") + ".*" + $(this).attr("ng-model").replace("]", "\\]").replace("[", "\\[") + ".*(/>|>|</" + $(this).prop("tagName") + ">)";
+        //the input is replaced with a textarea containing its value (if a select, then the selected text)
+        currentHTML = currentHTML.replace(new RegExp(thisRegex, "i"), "<textarea>" + getInputValue($(this)) + "</textarea>");
+    });
+    currentHTML += "\t</body>\r\n</html>";
+    
+    return currentHTML;
+}
+
 function getInputValue(jqEl) {
-    switch(jqEl.prop("tagName")){
+    switch (jqEl.prop("tagName")) {
         case "SELECT":
             return jqEl.children("option:selected").text();
             break;
@@ -90,63 +109,14 @@ function getInputValue(jqEl) {
     }
 }
 
-function alterHTMLForEmail() {
-    var inputVals = {};
-    $("input, select, textarea").each(function () {
-        inputVals[$(this).attr("ng-model")] = { val: null, type: null };
-        inputVals[$(this).attr("ng-model")]["val"] = getInputValue($(this));
-        inputVals[$(this).attr("ng-model")]["tag"] = $(this).prop("tagName");
-        inputVals[$(this).attr("ng-model")]["type"] = $(this).attr("type");
-    });
-    var currentHTML = "<html><head><style>";
-    //add style rules
+function getAllCSS() {
+    var allCSS = "";
     for (var i = 0, l = document.styleSheets.length; i < l; ++i) {
-        if (document.styleSheets[i].cssRules) {
+        if (document.styleSheets[i].cssRules) { // if this css doc has any rules (sometimes it's null)
             for (var j = 0, l2 = document.styleSheets[i].cssRules.length; j < l2; ++j) {
-                currentHTML += document.styleSheets[i].cssRules[j].cssText;
+                allCSS += document.styleSheets[i].cssRules[j].cssText;
             }
         }
     }
-    currentHTML += "</style></head><body>";
-    currentHTML += $(document.body).html();
-    for (var k in inputVals) {
-        var thisRegex = "<" + inputVals[k].tag + ".*" + k.replace("]", "\\]").replace("[", "\\[") + ".*(/>|>|</" + inputVals[k].tag + ">)";
-        currentHTML = currentHTML.replace(new RegExp(thisRegex, "i"), "<textarea>" + inputVals[k].val + "</textarea>");
-    }
-    currentHTML += "</body></html>";
-    
-    return currentHTML;
+    return allCSS;
 }
-
-function getZoneContacts (zoneID) {
-    var foremen = {
-        16 : "reese@mayco-mi.com; clay@mayco-mi.com; vernon@VNA1.onmicrosoft.com",
-        17 : "selliott@mayco-mi.com; green@njt-na.com; claes@mayco-mi.com",
-        18 : "fxake@mayco-mi.com; eweathers@mayco-mi.com; shah@mayco-mi.com",
-        19 : "haggerty@mayco-mi.com; sherbutte@njt-na.com; greer@mayco-mi.com"
-    };
-    var foremenEmails = foremen[zoneID] ? foremen[zoneID] : "";
-    return foremenEmails;
-};
-
-$(document.body).ready(function () {
-    var scope = angular.element($("[ng-app='wcm']")).scope();
-    scope.$apply(
-        function () {
-            scope.$watch("fields", function () {
-                scope.emailBody = alterHTMLForEmail();
-                //console.log(scope.emailBody);
-            }, true);
-            scope.$watch("fields['ZoneID']", function (n, o) {
-                if (scope.contacts) {
-                    if (o && n) {
-                        scope.contacts = scope.contacts.replace(getZoneContacts(o), getZoneContacts(n));
-                        //console.log(scope.contacts);
-                    } else if (n) {
-                        scope.contacts += "; " + getZoneContacts(n);
-                        //console.log(scope.contacts);
-                    }
-                }
-            });
-        });
-});

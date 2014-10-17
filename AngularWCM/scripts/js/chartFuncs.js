@@ -9,6 +9,7 @@ function download(filename, text) {
     pom.click();
 }
 
+// return array of parameters for this query
 function getParams(query) {
     $.ajax({
         url: "../scripts/php/getParams.php",
@@ -27,13 +28,15 @@ function logError(xhr, status, error) {
 
 function renderParamInputs(data) {
     var pDiv = $("#ParamDiv");
-    pDiv.html("");
+    pDiv.html(""); //clear parameters
     if (data.parameter != undefined) {
         if (data.parameter.length === undefined) {
+            // if there is only one parameter
             var name = data.parameter["@attributes"].name;
             var type = data.parameter.type;
             pDiv.append("<label>" + name + "</label><input type='" + type + "' name='Params[]' placeholder='" + name + "' />");
         } else {
+            // if there is more than one parameter
             for (var i = 0, l = data.parameter.length; i < l; ++i) {
                 var name = data.parameter[i]["@attributes"].name;
                 var type = data.parameter[i].type;
@@ -52,6 +55,8 @@ function paramsToArray() {
 }
 
 function checkFilledOut() {
+    // ensures that all parameters are filled
+    // and all drop downs have a value
     var params = paramsToArray();
     var query = $("[name='Query']").val();
     var type = $("[name='ChartAs'] option:selected").val();
@@ -76,6 +81,8 @@ function chartData() {
         return;
     }
 
+    // execute query with params
+    // if successful call renderChartData
     $.ajax({
         url: "/scripts/php/Query.php",
         type: "GET",
@@ -92,6 +99,7 @@ function chartData() {
 
 function renderChartData(data) {
     console.log(data);
+    // options for google vis
     var options = {
         title: $("[name='Query'] option:selected").text(),
         isStacked: true,
@@ -102,22 +110,34 @@ function renderChartData(data) {
 
     var firstCol = $("[name='Query'] option:selected").attr("data-firstcol") || "";
 
+    // get the column info as a datatable (google vis)
     var cdata = getColData(data, firstCol);
 
+    // chart that data based on the chart type and above options
     userChart(cdata, type, options);
 }
 
 function getColData(data, firstCol) {
     var dataTable = new google.visualization.DataTable();
 
+    // TODO: keep column order
+    // only move first col
+    // reorder columns so that the x axis
+    // labels are first
     var keys = Object.keys(data[0]);
-    /*keys = keys.sort(
+    keys = keys.sort(
         function (a) {
             return a === firstCol ? -1 : 1;
         }
-        );*/
+        );
     //keys.reverse();
 
+    // adds type ifnormation for each column
+    // also decides whether or not ALL columns
+    // are numeric, which is important later
+    // for determining the order of the x axis labels
+    // they are sorted by their totals so that the stacked
+    // column charts look correct
     var keyMetaData = {};
     var numericKeys = true;
     for (var i = 0, l = keys.length; i < l; ++i) {
@@ -128,6 +148,9 @@ function getColData(data, firstCol) {
         numericKeys = numericKeys && (keyMetaData[k]["type"] === "number");
     }
 
+    // if the first column is of type string and all the other columns
+    // are numeric, the sort the data based on the total of all the other columns
+    // do this sort Asc or Desc as specified by the user
     if (keyMetaData[keys[0]]["type"] === "string" && numericKeys) {
         data = data.sort(function (a, b) {
             // i = 1, skip first key
@@ -146,6 +169,8 @@ function getColData(data, firstCol) {
         });
     }
 
+    // add the first row of info to the data table (column headers)
+    // and add to a firstRow array (used later to create CSV file)
     var firstRow = [];
     for (var i = 0, l = keys.length; i < l; ++i) {
         var k = keys[i];
@@ -153,6 +178,8 @@ function getColData(data, firstCol) {
         firstRow.push(k);
     }
 
+    // add all of the other rows
+    // convert values to their detected types
     for (var i = 0, m = data.length; i < m; ++i) {
         var thisRow = [];
         for (var j = 0, l = keys.length; j < l; ++j) {
@@ -163,12 +190,16 @@ function getColData(data, firstCol) {
         dataTable.addRow(thisRow);
     }
 
+    // create CSV text from data, set as value of hidden element
+    // user click downloads the text from a URI
     userDataToCSV(dataTable, firstRow);
 
     return dataTable;
 }
 
 function convertType(val, typeStr) {
+    // convert value based on three types
+    // used by google vis
     switch (typeStr) {
         case "number":
             return Number(val);
@@ -194,6 +225,11 @@ function objectArrayKeyValues(key, objs) {
     return results;
 }
 
+// filters values which are not of a certain type
+// then compares the size of the filtered array
+// to the size of the original array. if any values
+// were removed, then the array is not entirely 
+// of that type, default is string
 function getArrType(arr) {
     var numArr = arr.filter(function (n) {
         return !isNaN(n);
@@ -212,6 +248,8 @@ function getArrType(arr) {
 };
 
 function userDataToCSV(dataTable, firstRow) {
+    //datatabletocsv does not include the column headers
+    // 
     var csv = "";
     for (var j = 0, k = firstRow.length; j < k; ++j) {
         csv += firstRow[j] + ","

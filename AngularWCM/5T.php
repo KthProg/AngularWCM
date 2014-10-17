@@ -97,32 +97,35 @@
             <td style="width: 30%;"><h2>Rating</h2></td>
             <td style="width: 35%;"><h2>Remarks</h2></td>
         </tr>
-            <?php
-                $xml = simplexml_load_file("xml/5Tlabels.xml");
-                $i = 0;
-                foreach($xml->group as $groupValues):
-                    foreach($groupValues as $type => $text):
-                        if($type == "header"):
-            ?>
-            <tr class="header"><td colspan="3"><h3><?php echo $text; ?></h3></td></tr>
-            <?php
-                        else:
-                            $i+=1;
-            ?>
-            <tr ng-show="showLines[<?php echo $i; ?>]">
+
+        <?php 
+                $_GET["Query"] = "AuditLines";
+                $_GET["ASSOC"] = "true";
+                $_GET["Params"] = json_encode(array("5T"));
+                $_GET["ReturnQuery"] = "true";
+                $json_lines = require_once('/scripts/php/Query.php');
+                $last_category = "";
+                for($i = 0, $l = count($json_lines); $i < $l; ++$i){
+                    foreach($json_lines[$i] as $type => $value){
+                        if($type == "Category"){
+                            if($last_category != $value){
+                                $last_category = $value;
+           ?>
+            <tr class="header"><td colspan="3"><h3><?php echo $value; ?></h3></td></tr>
+                <?php           }          
+                            } else { ?>
+            <tr ng-show="showLines[<?php echo $i+1; ?>]">
                 <td>
-                    <span><?php echo "1.".$i.". ".$text->text; ?></span>
+                    <span><?php echo "1.".($i+1).". ".$value; ?></span>
                 </td>
                 <td>
-                    <select onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" ng-model="fields['Rating<?php echo $i; ?>']" ng-options="k as v for (k,v) in { 0 : 'Low', 2 : 'Medium' , 4 : 'High'}" required>
+                    <select onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" ng-model="fields['Rating<?php echo $i+1; ?>']" ng-options="k as v for (k,v) in { 0 : 'Low', 2 : 'Medium' , 4 : 'High'}" required>
                         <option value=""></option>
                     </select>
                     <div class="helpButton" onclick="$(this).next().toggle()">?</div>
                     <div style="display: none; background-color: yellow; border: 1px dashed grey;">
                     <?php
-                        foreach($text->criteria->criterion as $cr => $txt){
-                            echo $txt."<br>";
-                        }
+                                echo "Adding criteria soon.<br>";
                     ?>
                    </div>
                 </td>
@@ -130,11 +133,9 @@
                     <textarea ng-model="fields['Remarks<?php echo $i; ?>']"></textarea>
                 </td>
             </tr>
-            <?php
-                        endif;
-                    endforeach;
-                endforeach;
-            ?>
+        <?php           }
+                    } 
+                }?>
 
             <tr>
                 <td colspan="3"><h3>Comments</h3></td>
