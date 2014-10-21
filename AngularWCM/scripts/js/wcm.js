@@ -85,15 +85,20 @@ function alterHTMLForEmail() {
     currentHTML += "\t\t</style>\r\n\t</head>\r\n\t<body>\r\n";
     currentHTML += $(document.body).html();
     $("input, select, textarea").each(function () {
-        //regex is basically: <tagname(anything)field['whatever'](anything)(/> or > or </tagname>)
-        //which essentially finds the element that's bound to that model field
-        //the replace(],\\]) and replace([, \\[) are to escape the special characters [ and ] in the regex.
-        var thisRegex = "<" + $(this).prop("tagName") + ".*" + $(this).attr("ng-model").replace("]", "\\]").replace("[", "\\[") + ".*(/>|>|</" + $(this).prop("tagName") + ">)";
-        //the input is replaced with a textarea containing its value (if a select, then the selected text)
-        currentHTML = currentHTML.replace(new RegExp(thisRegex, "i"), "<textarea>" + getInputValue($(this)) + "</textarea>");
+        var model = "", tag = "";
+        if ((model = $(this).attr("ng-model"))
+            && (tag = $(this).prop("tagName"))
+            ) {
+            //regex is basically: <tagname(anything)field['whatever'](anything)(/> or > or </tagname>)
+            //which essentially finds the element that's bound to that model field
+            //the replace(],\\]) and replace([, \\[) are to escape the special characters [ and ] in the regex.
+            var thisRegex = "<" + tag + ".*" + model.replace("]", "\\]").replace("[", "\\[") + ".*(/>|>|</" + tag + ">)";
+            //the input is replaced with a textarea containing its value (if a select, then the selected text)
+            currentHTML = currentHTML.replace(new RegExp(thisRegex, "i"), "<textarea>" + getInputValue($(this)) + "</textarea>");
+        }
     });
     currentHTML += "\t</body>\r\n</html>";
-    
+
     return currentHTML;
 }
 

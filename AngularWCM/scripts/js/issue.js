@@ -17,38 +17,38 @@
 
     $scope.$on('export', function (event, args) {
         var csv = "Open Issues\r\n";
-        for (var c in $scope.openIssues[0]) {
-            csv += c + ",";
-        }
-        csv = csv.substring(0, csv.length - 1);
-        csv += "\r\n";
-        for (var a = 0, b = $scope.openIssues.length; a < b; ++a) {
-            for (var c in $scope.openIssues[a]) {
-                csv += String($scope.openIssues[a][c]).replace(/(\r\n|\n|\r|,)/gm, "") + ",";
-            }
-            csv = csv.substring(0, csv.length - 1);
-            csv += "\r\n";
-        }
+        csv += $scope.objArrayToCSV($scope.openIssues);
 
         csv += "\r\nClosed Issues\r\n";
-        for (var c in $scope.closedIssues[0]) {
-            csv += c + ",";
-        }
-        csv = csv.substring(0, csv.length - 1);
-        csv += "\r\n";
-        for (var d = 0, e = $scope.closedIssues.length; d < e; ++d) {
-            for (var f in $scope.closedIssues[d]) {
-                csv += String($scope.closedIssues[d][f]).replace(/(\r\n|\n|\r|,)/gm, "") + ",";
-            }
-            csv = csv.substring(0, csv.length - 1);
-            csv += "\r\n";
-        }
+        csv += $scope.objArrayToCSV($scope.closedIssues);
+        
         var pom = document.createElement('a');
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
         pom.setAttribute('download', 'SafetyIssues.csv');
         pom.click();
         return csv;
     });
+
+    $scope.objArrayToCSV = function (objArray) {
+        csv = "";
+        for (var c in objArray[0]) {
+            if (objArray[0].hasOwnProperty(c)) {
+                csv += c + ",";
+            }
+        }
+        csv = csv.substring(0, csv.length - 1);
+        csv += "\r\n";
+        for (var i = 0, l = objArray.length; i < l; ++i) {
+            for (var f in objArray[i]) {
+                if (objArray[i].hasOwnProperty(f)) {
+                    csv += String(objArray[i][f]).replace(/(\r\n|\n|\r|,)/gm, "") + ",";
+                }
+            }
+            csv = csv.substring(0, csv.length - 1);
+            csv += "\r\n";
+        }
+        return csv;
+    };
 
     $scope.getAllIssues = function () {
         $scope.getIssues("GetOpenIssues", "openIssues");
@@ -112,8 +112,6 @@
             alert("Action taken is invalid.");
         }
     };
-
-    //$scope.getLineItemsXML();
 
     $scope.getAllIssues();
 }

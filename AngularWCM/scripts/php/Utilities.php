@@ -1,4 +1,5 @@
 <?php
+// uses xpath to create a connection by name from an XML file
 function get_connection($connection_name){
     $con = (string)$connection_name;
         
@@ -16,6 +17,7 @@ function get_connection($connection_name){
     }
 }
 
+// this is from stackoverflow
 function ms_escape_string($data) {
     if (!isset($data) or empty($data)){
         return '';
@@ -37,7 +39,9 @@ function ms_escape_string($data) {
     $data = str_replace("'", "''", $data );
     return $data;
 }
-    
+
+// ... does what it says...
+// the update and submit code both call this with different $query_funcs
 function execute_query_upload_files_and_notify($query_func, $success, $failure){
     if(isset($_POST["FormData"], $_POST["Fields"])){
         $form_data = json_decode($_POST["FormData"]);
@@ -67,6 +71,8 @@ function execute_query_upload_files_and_notify($query_func, $success, $failure){
     }
 }
 
+// I don't think this has been used in a lifetime.
+// File uploads for now are asynchronous
 function upload_files(){
     for($i = 0; $i < count($_FILES["file"]["name"]); ++$i) {
         $base_file = basename($_FILES["file"]["name"][$i]);
@@ -80,7 +86,9 @@ function upload_files(){
         }
     }
 }
-    
+
+// another script sends the emails every 5 minutes
+// this is to prevent browsers hanging on mobile devices
 function notify($contacts, $subject, $body){
     $conn = get_connection("Safety");
     $stmt = $conn->prepare("INSERT INTO Emails (Contacts, Subj, Body) VALUES(?, ?, ?)");

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/Checklist.css" />
     <link rel="stylesheet" href="css/LPA.css" />
 
-    <title>LPA Checklist</title>
+    <title>Layered Process Audit</title>
 
     <script>
         /*
@@ -64,7 +64,7 @@
     <table>
         <tr>
             <td colspan="3">
-                <h1>LPA Checklist No. {{id + ( hasRecord ? " (Updating)" : " (New Form)" )}}</h1>
+                <h1>Layered Process Audit No. {{id + ( hasRecord ? " (Updating)" : " (New Form)" )}}</h1>
             </td>
         </tr>
         <tr>

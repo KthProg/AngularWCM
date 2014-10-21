@@ -69,7 +69,7 @@
         <option value="SeverityReport" data-firstcol="Severity">Number of Issues By Severity (Pie)</option>
         <option value="IssuesBySeverity" data-firstcol="Issue">Issues By Severity (Table)</option>
         <option value="UCANDetail" data-firstcol="ID">UCAN Detail (Table)</option>
-        <option value="NumberOfIssuesByLine" data-firstcol="Name">Number of Issues by Line</option>
+        <option value="NumberOfIssuesByLine" data-firstcol="Line Item">Number of Issues by Line</option>
         <?php } ?>
         <?php if($_GET["Pillar"] == "OCI"){ ?>
         <option value="AllPlants">All Plants List</option>

@@ -388,15 +388,13 @@
   <query name="NumberOfIssuesByLine">
     <connection>Safety</connection>
     <qstring>
-      SELECT (i.Name + ' - ' +
-      al.Category + ' - ' +
-      al.SubCategory) AS [Line Item],
+      SELECT al.SubCategory AS [Line Item],
       COUNT(*) AS Total
       FROM OpenIssues i
       JOIN vAuditLines al
       ON al.FormName=i.Name
       AND al.Line=i.LineNum
-      GROUP BY i.Name, al.Category, al.SubCategory
+      GROUP BY al.SubCategory
     </qstring>
   </query>
   <query name="MachOEEByMonth">

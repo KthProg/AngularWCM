@@ -9,8 +9,8 @@ if(isset($_POST["Image"], $_POST["FileName"], $_POST["FormData"], $_POST["Line"]
     if($is_dir && $is_writeable){
         $data = get_image_data_from_js_base64($_POST["Image"]);
         
-        $file = $upload_dir.$form_data->Name."_".$form_data->ID."_".$_POST["Line"]."_".$_POST["FileName"];
-        $file = str_replace(" ", "_", $file);
+        $file = $form_data->Name."_".$form_data->ID."_".$_POST["Line"]."_".$_POST["FileName"];
+        $file = $upload_dir.str_replace(" ", "_", $file);
         
         $success = file_put_contents($file, $data);
         $uploaded = !($success === false);

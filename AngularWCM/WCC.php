@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
-    
+
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/Checklist.css" />
@@ -17,19 +17,20 @@
 </head>
 
 <body
-    ng-app="wcm" 
-    ng-controller="Form" 
+    ng-app="wcm"
+    ng-controller="Form"
     ng-init="setFormData('WCC');">
     <table>
         <tr>
-            <td colspan="3"><h1>Work Cell Observation Checklist No. {{id + ( hasRecord ? " (Updating)" : " (New Form)" )}}</h1></td>
+            <td colspan="3">
+                <h1>Work Cell Observation Checklist No. {{id + ( hasRecord ? " (Updating)" : " (New Form)" )}}</h1>
+            </td>
         </tr>
         <tr>
             <td colspan="3">
                 <div class="inputPlusLabel">
                     <strong>Date</strong>
                     <input type="date" ng-model="fields['WCDate']" placeholder="Date created" required>
-
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Shift</strong>
@@ -53,7 +54,7 @@
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Machine</strong>
-                    <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options" ></select>
+                    <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Work Cell</strong>
@@ -61,7 +62,7 @@
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Tool No.</strong>
-                    <select ng-model="fields['MoldNo']" ng-options="k as v for (k,v) in queries['MoldNo'].options" ></select>
+                    <select ng-model="fields['MoldNo']" ng-options="k as v for (k,v) in queries['MoldNo'].options"></select>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Supervisor</strong>
@@ -70,59 +71,70 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2"><h2>Requirement</h2></td>
-            <td><h2>Select</h2></td>
+            <td colspan="2">
+                <h2>Requirement</h2>
+            </td>
+            <td>
+                <h2>Select</h2>
+            </td>
         </tr>
-           <?php 
-                $_GET["Query"] = "AuditLines";
-                $_GET["ASSOC"] = "true";
-                $_GET["Params"] = json_encode(array("WCC"));
-                $_GET["ReturnQuery"] = "true";
-                $json_lines = require_once('/scripts/php/Query.php');
-                $last_category = "";
-                for($i = 0, $l = count($json_lines); $i < $l; ++$i){
-                    foreach($json_lines[$i] as $type => $value){
-                        if($type == "Category"){
-                            if($last_category != $value){
-                                $last_category = $value;
-           ?>
-            <tr class="header"><td colspan="3"><h3><?php echo $value; ?></h3></td></tr>
-                <?php           }          
-                            } else { ?>
-            <tr>
-                <td>
-                    <span><?php echo ($i+1).". ".$value; ?></span>
-                </td>
-                <td>
-                    <label for="file<?php echo $i+1; ?>">
-                        <img id="uploadimg<?php echo $i+1; ?>" src="res/upload.png" alt="Upload">
-                    </label>
-                    <input type="file" id="file<?php echo $i+1; ?>" onchange="changeImage($(this), $('#uploadimg<?php echo $i+1; ?>')); imgToBase64(this, <?php echo $i+1; ?>);">
-                </td>
-                <td>
-                    <select ng-model="fields['Compliant<?php echo $i+1; ?>']" ng-options="v as v for (k,v) in ['Satisfactory','Unsafe Condition','Unsafe Act','Both']" ng-init="fields['Compliant<?php echo $i+1; ?>'] = 'Satisfactory'" required></select>
-                </td>
-            </tr>
+        <?php 
+        $_GET["Query"] = "AuditLines";
+        $_GET["ASSOC"] = "true";
+        $_GET["Params"] = json_encode(array("WCC"));
+        $_GET["ReturnQuery"] = "true";
+        $json_lines = require_once('/scripts/php/Query.php');
+        $last_category = "";
+        for($i = 0, $l = count($json_lines); $i < $l; ++$i){
+            foreach($json_lines[$i] as $type => $value){
+                if($type == "Category"){
+                    if($last_category != $value){
+                        $last_category = $value;
+        ?>
+        <tr class="header">
+            <td colspan="3">
+                <h3><?php echo $value; ?></h3>
+            </td>
+        </tr>
+        <?php           }          
+                } else { ?>
+        <tr>
+            <td>
+                <span><?php echo ($i+1).". ".$value; ?></span>
+            </td>
+            <td>
+                <label for="file<?php echo $i+1; ?>">
+                    <img id="uploadimg<?php echo $i+1; ?>" src="res/upload.png" alt="Upload">
+                </label>
+                <input type="file" id="file<?php echo $i+1; ?>" onchange="changeImage($(this), $('#uploadimg<?php echo $i+1; ?>')); imgToBase64(this, <?php echo $i+1; ?>);">
+            </td>
+            <td>
+                <select ng-model="fields['Compliant<?php echo $i+1; ?>']" ng-options="v as v for (k,v) in ['Satisfactory','Unsafe Condition','Unsafe Act','Both']" ng-init="fields['Compliant<?php echo $i+1; ?>'] = 'Satisfactory'" required></select>
+            </td>
+        </tr>
         <?php           }
-                    } 
-                }?>
+            } 
+        }?>
 
-            <tr>
-                <td colspan="3"><h3>Comments</h3></td>
-            </tr>
-            <tr></tr> <!-- makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
-            <tr>
-                <td colspan="2">
-                    <textarea maxlength="1000" ng-model="fields['Comments']" rows="6" cols="50" placeholder="Comments"></textarea><br />
-                </td>
-                <td>
-                    <button ng-click="open()">Open</button>
-                    <button ng-click="clear()">Clear</button>
-                    <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-                    <button ng-click="update()" ng-show="hasRecord">Update</button>
-                </td>
-            </tr>
-        </table>
+        <tr>
+            <td colspan="3">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr></tr>
+        <!-- makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
+        <tr>
+            <td colspan="2">
+                <textarea maxlength="1000" ng-model="fields['Comments']" rows="6" cols="50" placeholder="Comments"></textarea><br />
+            </td>
+            <td>
+                <button ng-click="open()">Open</button>
+                <button ng-click="clear()">Clear</button>
+                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
+                <button ng-click="update()" ng-show="hasRecord">Update</button>
+            </td>
+        </tr>
+    </table>
     </form>
 </body>
 </html>
