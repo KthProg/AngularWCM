@@ -242,9 +242,9 @@
   <query name="AuditsPerZone">
     <connection>Safety</connection>
     <qstring>
-      SELECT Zone, [WCC], [EHS] FROM 
+      SELECT DeptZone, [WCC], [EHS] FROM 
       ( 
-        SELECT Zone, AuditType
+        SELECT (Department + ' ' + Zone) AS DeptZone, AuditType
         FROM vAudits
       ) AS Temp
       PIVOT (
@@ -267,15 +267,21 @@
   </query>
   <query name="ZonesNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM PLantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM PLantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits)</qstring>
   </query>
   <query name="WorkCellsNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM PLantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM PlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits)</qstring>
   </query>
   <query name="AuditorsWithoutAudits">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT AuditorName, AuditorType FROM Auditor WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits)</qstring>
+    <qstring>
+      SELECT DISTINCT AuditorName, AuditorType
+      FROM Auditor au
+      JOIN Auditor_Types at
+      ON at.AuditorID=au.ID
+      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits)
+    </qstring>
   </query>
   <query name="OilPerPress">
     <connection>Safety</connection>
@@ -288,10 +294,6 @@
         <type>date</type>
       </parameter>
     </parameters>
-  </query>
-  <query name="AllPlants">
-    <connection>OpenCommercialIssues</connection>
-    <qstring>SELECT * FROM Plants</qstring>
   </query>
   <query name="ProblemToolsRepairHistory">
     <connection>Safety</connection>
@@ -350,12 +352,7 @@
   </query>
   <query name="PressStratification">
     <connection>Safety</connection>
-    <qstring>EXEC pPressStratification @mach=?</qstring>
-    <parameters>
-      <parameter name="mach">
-        <type>text</type>
-      </parameter>
-    </parameters>
+    <qstring>EXEC pPressStratification</qstring>
   </query>
   <query name="EWOsVsBreakdowns">
     <connection>Safety</connection>
