@@ -13,16 +13,13 @@ if(isset($_POST["FormData"])){
         return;
     }
     
-    if($stmt->execute(array($form_data->ID))){
-        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            echo json_encode($row);
-        }else{
-            //echo json_encode(array($_GET["PK"] => get_max_id($_GET["Connection"], $_GET["Table"], $_GET["PK"])));
-            return;
-        }
-    }else{
+    if(!$stmt->execute(array($form_data->ID))){
         notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."<br>GET: ".print_r($_GET, true)."<br>ERROR: ".print_r($stmt->errorInfo(), true));
         return;
+    }
+    
+    if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        echo json_encode($row);
     }
 }
 ?>

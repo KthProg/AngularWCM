@@ -12,23 +12,21 @@ if(isset($_POST["FormData"])){
     if($conn){
         $stmt = $conn->prepare($query);
     }else{
-        echo -1;
-        exit();
+        exit("-1");
     }
 
-    if($stmt->execute()){
-        if($row = $stmt->fetch(PDO::FETCH_NUM)){
-            echo $row[0];
-            exit();
-        }else{
-            echo -1;
-            exit();
-        }
+    if(!$stmt->execute()){
+        // failed to execute, table or primary key incorrect
+        exit("-1");
+    }
+    
+    if($row = $stmt->fetch(PDO::FETCH_NUM)){
+        // executed and row returned
+        // first column (only column) has max pk
+        echo $row[0];
     }else{
-        echo -1;
-        exit();
+        // empty result set
+        exit("-1");
     }
-
-    echo 1;
 }
 ?>

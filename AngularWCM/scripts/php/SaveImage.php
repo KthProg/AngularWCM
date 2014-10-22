@@ -18,11 +18,7 @@ if(isset($_POST["Image"], $_POST["FileName"], $_POST["FormData"], $_POST["Line"]
         $uploaded = false;
     }
     
-    if($uploaded){
-        echo "Successfully uploaded.";
-    }else{
-        echo "Upload unsuccessful.";
-    }
+    echo $uploaded ? "Successfully uploaded." :  "Upload unsuccessful.";
 }
 
 function get_image_data_from_js_base64($image_data){

@@ -38,7 +38,7 @@
       ng-init="setFormData('Unsafe Act');
       fields['Reviewed'] = '0'; ">
     <h1>Unsafe Act Form</h1>
-    <h2>UA Number {{id + (hasRecord ?" (Updating)" : "(New Form)")}}</h2>
+    <h2>UA Number {{id + (hasRecord ? " (Updating)" : " (New Form)")}}</h2>
     <label>Plant</label>
     <select ng-model="fields['PlantID']" ng-options="k as v for (k,v) in queries['PlantID'].options" required></select>
     <label>Department</label>

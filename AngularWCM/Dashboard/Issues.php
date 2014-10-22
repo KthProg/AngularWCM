@@ -46,8 +46,8 @@
             <div><div id="lowseverity"></div>Low Severity</div>
             <div><div id="mediumseverity"></div>Medium Severity</div>
             <div><div id="highseverity"></div>High Severity</div>
-            <div><div><input type="checkbox" disabled checked /></div>Closed</div>
-            <div><div><input type="checkbox" disabled /></div>Open</div>
+            <div><div><input type="checkbox" checked onclick="event.preventDefault();" /></div>Closed</div>
+            <div><div><input type="checkbox" onclick="event.preventDefault();" /></div>Open</div>
             <br />
             Click on an issue to view details.
         </div>

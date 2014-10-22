@@ -71,6 +71,7 @@
     <Content Include="PMTag.html" />
     <Content Include="QuickKaizen.html" />
     <Content Include="res\5t.gif" />
+    <Content Include="res\am_header.png" />
     <Content Include="res\bluetag.gif" />
     <Content Include="res\bodychart.bmp" />
     <Content Include="res\BodyChart.png" />
@@ -88,9 +89,9 @@
     <Content Include="res\btn_ucan.gif" />
     <Content Include="res\btn_wcc.gif" />
     <Content Include="res\cd.gif" />
-    <Content Include="res\cd_header.gif" />
+    <Content Include="res\cd_header.png" />
     <Content Include="res\fi.gif" />
-    <Content Include="res\fi_header.gif" />
+    <Content Include="res\fi_header.png" />
     <Content Include="res\lo.gif" />
     <Content Include="res\LO_main.jpg" />
     <Content Include="res\lpa.gif" />
@@ -98,7 +99,7 @@
     <Content Include="res\mayco_safety_header.jpg" />
     <Content Include="res\menubutton.png" />
     <Content Include="res\pd.gif" />
-    <Content Include="res\pd_header.gif" />
+    <Content Include="res\pd_header.png" />
     <Content Include="res\pm_dashboard.jpg" />
     <Content Include="res\qa_dashboard.jpg" />
     <Content Include="res\safety_issues.gif" />
@@ -107,7 +108,7 @@
     <Content Include="res\uploadgreen.png" />
     <Content Include="res\wcm_logo.jpg" />
     <Content Include="res\wo.gif" />
-    <Content Include="res\wo_header.jpg" />
+    <Content Include="res\wo_header.png" />
     <Content Include="SEWO.html" />
     <Content Include="scripts\js\chartFuncs.js" />
     <Content Include="scripts\js\wcm.js" />

@@ -125,12 +125,8 @@ function getColData(data, firstCol) {
     // reorder columns so that the x axis
     // labels are first
     var keys = Object.keys(data[0]);
-    keys = keys.sort(
-        function (a) {
-            return a === firstCol ? -1 : 1;
-        }
-        );
-    //keys.reverse();
+    keys.splice(keys.indexOf(firstCol), 1);
+    keys.unshift(firstCol);
 
     // adds type ifnormation for each column
     // also decides whether or not ALL columns

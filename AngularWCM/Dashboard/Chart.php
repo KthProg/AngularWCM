@@ -55,7 +55,7 @@
         <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table)</option>
         <option value="PMTagDetail" data-firstcol="TagNo">PM Tag Details (Table)</option>
         <option value="MoldOEE" data-firstcol="MoldID">Tool OEE (Bar)</option>
-        <option value="PMDue" data-firstcol="MoldID">PM Due per Tool</option>
+        <option value="PMDue" data-firstcol="MoldID">PM Due per Tool (Table)</option>
         <option value="MachOEEByMonth" data-firstcol="MachID">Machine OEE By Month</option>
         <?php } ?>
         <?php if($_GET["Pillar"] == "SA"){ ?>

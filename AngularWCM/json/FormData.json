@@ -17,7 +17,7 @@
 				"options": []
 			}
 		},
-		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"],
+		"Emails" : ["hooks@njt-na.com","gwilloughby@mayco-mi.com"],
 		"PK" : "ID",
 		"Table" : "BlueTags",
 		"Connection" : "Safety"

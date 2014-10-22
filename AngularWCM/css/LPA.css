@@ -1,13 +1,13 @@
 ﻿h1{ 
-	color: lime;
+	color: limegreen;
 }
 
 h3{
-	background-color: lime;
+	background-color: limegreen;
 }
 
 strong{
-	background-color: lime;
+	background-color: limegreen;
 }
 
 .helpButton {
@@ -21,6 +21,6 @@ strong{
     vertical-align: middle;
 }
 .helpButton:hover { 
-    background-color: lime;
+    background-color: limegreen;
     cursor: pointer;
 }

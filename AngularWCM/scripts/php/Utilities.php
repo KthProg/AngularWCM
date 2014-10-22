@@ -43,47 +43,31 @@ function ms_escape_string($data) {
 // ... does what it says...
 // the update and submit code both call this with different $query_funcs
 function execute_query_upload_files_and_notify($query_func, $success, $failure){
-    if(isset($_POST["FormData"], $_POST["Fields"])){
-        $form_data = json_decode($_POST["FormData"]);
-        $fields = json_decode($_POST["Fields"]);
-        $conn = get_connection($form_data->Connection);
-
-        $query = $query_func();
-        $query = ms_escape_string($query);
-        $stmt = $conn->prepare($query);
-        
-        foreach($fields as $name => $val){
-            if(is_array($val)){
-                $fields->$name = json_encode($val);
-            }
-        }
-        
-        if($stmt->execute(get_object_vars($fields))){
-            echo $success."<br>";
-            notify($form_data->Contacts, $success, $form_data->EmailBody);
-        }else{
-            echo $failure."<br>";
-            notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>Error: ".print_r($stmt->errorInfo(), true));
-        }
-    }else{
-        echo "Please do not try to refresh this page, or to go to this page directly.";
+    if(!isset($_POST["FormData"], $_POST["Fields"])){
         notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Someone refreshed the script page.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>");
+        exit("Please do not try to refresh this page, or to go to this page directly.");
     }
-}
+    
+    $form_data = json_decode($_POST["FormData"]);
+    $fields = json_decode($_POST["Fields"]);
+    $conn = get_connection($form_data->Connection);
 
-// I don't think this has been used in a lifetime.
-// File uploads for now are asynchronous
-function upload_files(){
-    for($i = 0; $i < count($_FILES["file"]["name"]); ++$i) {
-        $base_file = basename($_FILES["file"]["name"][$i]);
-        if($base_file != ""){
-            $fname = "../../uploads/{$_GET["Name"]}_{$_GET["ID"]}_{$i}_{$base_file}";
-            if(move_uploaded_file($_FILES["file"]["tmp_name"][$i],$fname)){
-                echo "Uploaded file ".$base_file."<br>";
-            }else{
-                echo "Error: ".$_FILES["file"]["error"][$i].", Could not upload ".$_FILES["file"]["name"][$i]." to ".$fname."<br>";
-            }
+    $query = $query_func();
+    $query = ms_escape_string($query);
+    $stmt = $conn->prepare($query);
+        
+    foreach($fields as $name => $val){
+        if(is_array($val)){
+            $fields->$name = json_encode($val);
         }
+    }
+        
+    if($stmt->execute(get_object_vars($fields))){
+        echo $success."<br>";
+        notify($form_data->Contacts, $success, $form_data->EmailBody);
+    }else{
+        echo $failure."<br>";
+        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "QUERY: ".$query."GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>Error: ".print_r($stmt->errorInfo(), true));
     }
 }
 
@@ -99,6 +83,7 @@ function notify($contacts, $subject, $body){
     }
 }
 
+// TODO: use some sort of array reduce function instead of a loop
 function prepare_insert(){
     $form_data = json_decode($_POST["FormData"]);
     $fields = json_decode($_POST["Fields"]);

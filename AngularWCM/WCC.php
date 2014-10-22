@@ -9,9 +9,9 @@
     <script src="/scripts/js/form.js"></script>
 
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/Normalize.css" />
-    <link rel="stylesheet" href="css/Checklist.css" />
-    <link rel="stylesheet" href="css/WCC.css" />
+    <link rel="stylesheet" href="/css/Normalize.css" />
+    <link rel="stylesheet" href="/css/Checklist.css" />
+    <link rel="stylesheet" href="/css/WCC.css" />
 
     <title>WCC</title>
 </head>
@@ -78,6 +78,7 @@
                 <h2>Select</h2>
             </td>
         </tr>
+
         <?php 
         $_GET["Query"] = "AuditLines";
         $_GET["ASSOC"] = "true";
@@ -86,21 +87,18 @@
         $json_lines = require_once('/scripts/php/Query.php');
         $last_category = "";
         for($i = 0, $l = count($json_lines); $i < $l; ++$i){
-            foreach($json_lines[$i] as $type => $value){
-                if($type == "Category"){
-                    if($last_category != $value){
-                        $last_category = $value;
+                if($last_category != $json_lines[$i]["Category"]){
+                    $last_category = $json_lines[$i]["Category"];
         ?>
         <tr class="header">
             <td colspan="3">
-                <h3><?php echo $value; ?></h3>
+                <h3><?php echo $json_lines[$i]["Category"]; ?></h3>
             </td>
         </tr>
-        <?php           }          
-                } else { ?>
+        <?php } ?>
         <tr>
             <td>
-                <span><?php echo ($i+1).". ".$value; ?></span>
+                <span><?php echo ($i+1).". ".$json_lines[$i]["SubCategory"]; ?></span>
             </td>
             <td>
                 <label for="file<?php echo $i+1; ?>">
@@ -112,9 +110,7 @@
                 <select ng-model="fields['Compliant<?php echo $i+1; ?>']" ng-options="v as v for (k,v) in ['Satisfactory','Unsafe Condition','Unsafe Act','Both']" ng-init="fields['Compliant<?php echo $i+1; ?>'] = 'Satisfactory'" required></select>
             </td>
         </tr>
-        <?php           }
-            } 
-        }?>
+        <?php } ?>
 
         <tr>
             <td colspan="3">

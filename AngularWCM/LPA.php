@@ -112,34 +112,29 @@
         $json_lines = require_once('/scripts/php/Query.php');
         $last_category = "";
         for($i = 0, $l = count($json_lines); $i < $l; ++$i){
-            foreach($json_lines[$i] as $type => $value){
-                if($type == "Category"){
-                    if($last_category != $value){
-                        $last_category = $value;
+                if($last_category != $json_lines[$i]["Category"]){
+                    $last_category = $json_lines[$i]["Category"];
         ?>
         <tr class="header">
             <td colspan="3">
-                <h3><?php echo $value; ?></h3>
+                <h3><?php echo $json_lines[$i]["Category"]; ?></h3>
             </td>
         </tr>
-        <?php           }          
-                } else { ?>
+        <?php } ?>
         <tr ng-show="showLines[<?php echo $i+1; ?>]">
             <td>
-                <span><?php echo ($i+1).". ".$value; ?></span>
+                <span><?php echo "1.".($i+1).". ".$json_lines[$i]["SubCategory"]; ?></span>
             </td>
             <td>
-                <select onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" ng-model="fields['Rating<?php echo $i+1; ?>']" ng-options="k as v for (k,v) in { 0 : 'No', 1 : 'Yes'}" required>
+                <select onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" ng-model="fields['Rating<?php echo $i+1; ?>']" ng-options="k as v for (k,v) in { 0 : 'No', 1 : 'Yes' }" required>
                     <option value=""></option>
                 </select>
             </td>
             <td>
-                <textarea ng-model="fields['Remarks<?php echo $i; ?>']"></textarea>
+                <textarea ng-model="fields['Remarks<?php echo $i+1; ?>']"></textarea>
             </td>
         </tr>
-        <?php           }
-            } 
-        }?>
+        <?php } ?>
 
         <tr>
             <td colspan="3">

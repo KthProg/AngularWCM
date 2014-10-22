@@ -120,7 +120,7 @@
   </query>
   <query name="AuditLines">
     <connection>Safety</connection>
-    <qstring>SELECT Category, SubCategory FROM vAuditLines WHERE FormName=? ORDER BY Line</qstring>
+    <qstring>SELECT Category, SubCategory, Details FROM vAuditLines WHERE FormName=? ORDER BY Line</qstring>
   </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
@@ -279,7 +279,15 @@
   </query>
   <query name="OilPerPress">
     <connection>Safety</connection>
-    <qstring>SELECT Press, SUM(Qty) AS OilQty FROM ODL GROUP BY Press ORDER BY OilQty</qstring>
+    <qstring>EXEC pOilUsage @start=?, @end=?</qstring>
+    <parameters>
+      <parameter name="start">
+        <type>date</type>
+      </parameter>
+      <parameter name="end">
+        <type>date</type>
+      </parameter>
+    </parameters>
   </query>
   <query name="AllPlants">
     <connection>OpenCommercialIssues</connection>
