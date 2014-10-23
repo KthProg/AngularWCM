@@ -2,27 +2,27 @@
 <queries>
   <query name="Plants">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT PlantID, Plant FROM PlantLayout</qstring>
+    <qstring>SELECT DISTINCT PlantID, Plant FROM vPlantLayout</qstring>
   </query>
   <query name="Departments">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT DepartmentID, Department FROM PlantLayout WHERE PlantID=?</qstring>
+    <qstring>SELECT DISTINCT DepartmentID, Department FROM vPlantLayout WHERE PlantID=?</qstring>
   </query>
   <query name="Zones">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT ZoneID, Zone FROM PlantLayout WHERE PlantID=? AND DepartmentID=?</qstring>
+    <qstring>SELECT DISTINCT ZoneID, Zone FROM vPlantLayout WHERE PlantID=? AND DepartmentID=?</qstring>
   </query>
   <query name="WorkCells">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT WorkCellID, WorkCell FROM PlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?</qstring>
+    <qstring>SELECT DISTINCT WorkCellID, WorkCell FROM vPlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?</qstring>
   </query>
   <query name="Machines">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT MachineID, Machine FROM PlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?</qstring>
+    <qstring>SELECT DISTINCT MachineID, Machine FROM vPlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?</qstring>
   </query>
   <query name="Subsystems">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT PartID, Part FROM PlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=? AND MachineID=?</qstring>
+    <qstring>SELECT DISTINCT PartID, Part FROM vPlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=? AND MachineID=?</qstring>
   </query>
   <query name="Auditors">
     <connection>Safety</connection>
@@ -88,19 +88,19 @@
   </query>
   <query name="CloseIssue">
     <connection>Safety</connection>
-    <qstring>INSERT INTO ClosedIssues (FormName, FormNum, LineNum, ActionTaken) VALUES (?, ?, ?, ?)</qstring>
+    <qstring>INSERT INTO vClosedIssues (FormName, FormNum, LineNum, ActionTaken) VALUES (?, ?, ?, ?)</qstring>
   </query>
   <query name="OpenIssue">
     <connection>Safety</connection>
-    <qstring>DELETE FROM ClosedIssues WHERE FormName=? AND FormNum=? AND LineNum=?</qstring>
+    <qstring>DELETE FROM vClosedIssues WHERE FormName=? AND FormNum=? AND LineNum=?</qstring>
   </query>
   <query name="GetOpenIssues">
     <connection>Safety</connection>
-    <qstring>SELECT * FROM OpenIssues</qstring>
+    <qstring>SELECT * FROM vOpenIssues</qstring>
   </query>
   <query name="GetClosedIssues">
     <connection>Safety</connection>
-    <qstring>SELECT * FROM ClosedIssueDetails</qstring>
+    <qstring>SELECT * FROM vClosedIssues</qstring>
   </query>
   <query name="UATypes">
     <connection>Safety</connection>
@@ -255,23 +255,23 @@
   </query>
   <query name="AgingReport">
     <connection>Safety</connection>
-    <qstring>SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM OpenIssues WHERE DaysOpen>0 ORDER By DaysOpen</qstring>
+    <qstring>SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM vOpenIssues WHERE DaysOpen>0 ORDER By DaysOpen</qstring>
   </query>
   <query name="SeverityReport">
     <connection>Safety</connection>
-    <qstring>SELECT Severity, COUNT(*) AS [Open] FROM OpenIssues GROUP BY Severity</qstring>
+    <qstring>SELECT Severity, COUNT(*) AS [Open] FROM vOpenIssues GROUP BY Severity</qstring>
   </query>
   <query name="IssuesBySeverity">
     <connection>Safety</connection>
-    <qstring>SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, Severity FROM OpenIssues ORDER BY Severity</qstring>
+    <qstring>SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, Severity FROM vOpenIssues ORDER BY Severity</qstring>
   </query>
   <query name="ZonesNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM PLantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits)</qstring>
   </query>
   <query name="WorkCellsNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM PlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits)</qstring>
   </query>
   <query name="AuditorsWithoutAudits">
     <connection>Safety</connection>
@@ -395,7 +395,7 @@
     <qstring>
       SELECT al.SubCategory AS [Line Item],
       COUNT(*) AS Total
-      FROM OpenIssues i
+      FROM vOpenIssues i
       JOIN vAuditLines al
       ON al.FormName=i.Name
       AND al.Line=i.LineNum
