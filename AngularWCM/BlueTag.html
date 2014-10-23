@@ -50,10 +50,10 @@
                 <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in ["1","2","3"]'></select>
             </td>
             <td>
-                <select ng-model="fields['Department']" ng-options="k as v for (k,v) in queries['Department'].options"></select>
+                <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options"></select>
             </td>
             <td>
-                <select ng-model="fields['Zone']" ng-options="k as v for (k,v) in queries['Zone'].options"></select>
+                <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options"></select>
             </td>
         </tr>
         <tr>
@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['Machine']" ng-options="k as v for (k,v) in queries['Machine'].options"></select>
+                <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
             </td>
             <td>
                 <select ng-model="fields['ProblemType']" ng-options="v as v for (k,v) in ['Oil leak','Water leak','Grease/lube leak','Air leak','Contamination','Out of operating range','Vibration','Wrong temperature','Wrong pressure','Difficult to lube','Difficult to clean','Irregular function','Loose/missing fastener','Other']"></select>

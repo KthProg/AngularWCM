@@ -33,7 +33,7 @@
             <td><input type="number" ng-model="fields['OldTagNo']" /></td>
             <td><input type="date" ng-model="fields['Date']" /></td>
             <td>
-                <select ng-model="fields['Location']" ng-options="k as v for (k,v) in queries['Location'].options"></select>
+                <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options"></select>
             </td>
             <td rowspan="7">
                 <textarea ng-model="fields['Problem']"></textarea>
@@ -48,7 +48,7 @@
             <td><input type="text" ng-model="fields['SignedBy']" /></td>
             <td rowspan="5"><textarea ng-model="fields['Notes']"></textarea></td>
             <td>
-                <select ng-model="fields['ZZone']" ng-options="k as v for (k,v) in queries['ZZone'].options"></select>
+                <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options"></select>
             </td>
         </tr>
         <tr class="ltgrey">
@@ -58,7 +58,7 @@
         <tr>
             <td><input type="text" ng-model="fields['WorkCompletedBy']" /></td>
             <td>
-                <select ng-model="fields['EquipmentID']" ng-options="k as v for (k,v) in queries['EquipmentID'].options"></select>
+                <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
             </td>
         </tr>
         <tr class="ltgrey">

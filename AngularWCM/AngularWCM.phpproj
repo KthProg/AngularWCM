@@ -19,7 +19,6 @@
     <Compile Include="LPA.php" />
     <Compile Include="Dashboard\Chart.php" />
     <Compile Include="Dashboard\Issues.php" />
-    <Compile Include="DevForm.php" />
     <Compile Include="EHS.php" />
     <Compile Include="scripts\php\getMaxID.php" />
     <Compile Include="scripts\php\getParams.php" />

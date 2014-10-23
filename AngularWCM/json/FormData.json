@@ -1,17 +1,17 @@
 ﻿{
 	"Blue Tag" : {
 		"Queries" : {
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
 				"params" : ["1"],
 				"options": []
 			},
-			"Zone" : {
+			"ZoneID" : {
 				"name" : "Zones",
 				"params" : ["1","_Department_"],
 				"options": []
 			},
-			"Machine" : {
+			"MachineID" : {
 				"name" : "Machines",
 				"params" : ["1","_Department_","_Zone_"],
 				"options": []
@@ -20,39 +20,6 @@
 		"Emails" : ["hooks@njt-na.com","gwilloughby@mayco-mi.com"],
 		"PK" : "ID",
 		"Table" : "BlueTags",
-		"Connection" : "Safety"
-	},
-	"Development Form" : {
-		"Queries" : {
-			"ToolNumber" : {
-				"name" : "Tools",
-				"params" : [],
-				"options": []
-			},
-			"Plant" : {
-				"name" : "Plants",
-				"params" : [],
-				"options": []
-			},
-			"Department" : {
-				"name" : "Departments",
-				"params" : ["_Plant_"],
-				"options": []
-			},
-			"Zone" : {
-				"name" : "Zones",
-				"params" : ["_Plant_","_Department_"],
-				"options": []
-			},
-			"Machine" : {
-				"name" : "Machines",
-				"params" : ["_Plant_","_Department_","_Zone_"],
-				"options": []
-			}
-		},
-		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," marshallDesign@jvisusallc.com"],
-		"PK" : "ID",
-		"Table" : "DevForm",
 		"Connection" : "Safety"
 	},
 	"EHS" : {
@@ -105,22 +72,22 @@
 	},
 	"EWO" : {
 		"Queries" : {
-			"Department" : {
+			"DepartmentID" : {
 				"name" : "Departments",
 				"params" : ["1"],
 				"options": []
 			},
-			"Zone" : {
+			"ZoneID" : {
 				"name" : "Zones",
 				"params" : ["1","_Department_"],
 				"options": []
 			},
-			"Machine" : {
+			"MachineID" : {
 				"name" : "Machines",
 				"params" : ["1","_Department_","_Zone_"],
 				"options": []
 			},
-			"SubSystem" : {
+			"SubSystemID" : {
 				"name" : "Subsystems",
 				"params" : ["1","_Department_","_Zone_","_Machine_"],
 				"options" : []
@@ -148,19 +115,19 @@
 	},
 	"PM Tag" : {
 		"Queries" : {
-			"Location" : {
+			"DepartmentID" : {
 				"name" : "Departments",
 				"params" : ["1"],
 				"options": []
 			},
-			"ZZone" : {
+			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_Location_"],
+				"params" : ["1","_DepartmentID_"],
 				"options": []
 			},
-			"EquipmentID" : {
+			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_Location_","_ZZone_"],
+				"params" : ["1","_DepartmentID_","_ZoneID_"],
 				"options": []
 			}
 		},
