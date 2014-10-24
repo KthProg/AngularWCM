@@ -51,7 +51,7 @@
         </tr>
         <tr>
             <td><input type="text" ng-model="fields['UCANReportedBy']" placeholder="Reported By" required="required" /></td>
-            <td rowspan="3"><textarea ng-model="fields['UCANPersons']" placeholder="Location/Persons" required="required"></textarea></td>
+            <td rowspan="3"><textarea ng-model="fields['UCANPersons']" placeholder="Location/Persons"></textarea></td>
             <td>
                 <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options" required></select>
             </td>
@@ -71,20 +71,20 @@
         <tr>
             <td class="ltgrey"><h3>Completed</h3></td>
             <td class="ltgrey"><h3>Date</h3></td>
-            <td class="ltgrey"><h3>Notes/Tag No.</h3></td>
+            <td class="ltgrey"><h3>Original Tag No.</h3></td>
         </tr>
         <tr>
             <td>
                 <input type="checkbox" ng-model="fields['UCANCompleted']" ng-true-value="1" ng-false-value="0" />
             </td>
             <td><input type="date" ng-model="fields['UCANDate']" placeholder="Date Submitted" required="required" /></td>
-            <td><input type="text" ng-model="fields['Notes']" placeholder="Notes" /></td>
+            <td><input type="number" ng-model="fields['OrigTagNo']" placeholder="Tag No" required="required" /></td>
         </tr>
         <tr>
             <td colspan="4" class="ltgrey"><h3>Action Plan</h3></td>
         </tr>
         <tr>
-            <td colspan="4" height="100px"><textarea ng-model="fields['UCANActionPlan']" placeholder="Action plan" required="required"></textarea></td>
+            <td colspan="4" height="100px"><textarea ng-model="fields['UCANActionPlan']" placeholder="Action plan"></textarea></td>
         </tr>
         <tr>
             <td colspan="4">

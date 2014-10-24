@@ -125,3 +125,7 @@ function getAllCSS() {
     }
     return allCSS;
 }
+
+function objectValuesToArray(obj) {
+    return $.map(obj, function (value, index) { return [value]; });
+}

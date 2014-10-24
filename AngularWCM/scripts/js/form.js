@@ -27,7 +27,7 @@
             $scope.table = resp[name]["Table"];
             $scope.pk = resp[name]["PK"];
             // concats in case Zone foremen emails are being set (as opposed to setting it directly)
-            $scope.contacts = $scope.contacts.concat(resp[name]["Emails"]);
+            $scope.addContacts(resp[name]["Emails"]);
             $scope.queries = resp[name]["Queries"];
             $scope.getMaxID();
             $scope.getInitialOptions();
@@ -65,32 +65,7 @@
         // parameters (from other selects) including static values
         // non static values are designated by _Reference_
         // in the master JSON file
-        // inner function is executed in place
-        var vals = (function replaceParamsWithValues(params) {
-            var results = [];
-            for (var i = 0, l = params.length; i < l; ++i) {
-                // basically just gets the text between the first and last
-                // underscore. If there are no underscores, then the parameter
-                // is a static value, and it will return false
-                var refName = $scope.paramToRefName(params[i]);
-                // if the parameter was a reference to another input (not a static value)
-                // then get the value of that reference and push it onto the result array
-                if (refName !== false) {
-                    // params[i][0] is always the 'reference type'
-                    // _ is default, so it is a value reference
-                    // v is also a value reference
-                    // t means it is a text reference
-                    // so it will use the text of the selected option of the reference
-                    // rather than the value
-                    refVal = $scope.refNameToValue(params[i][0], refName);
-                    results.push(refVal);
-                } else {
-                    // otherwise, just add the static parameter value to the result array
-                    results.push(params[i]);
-                }
-            }
-            return results;
-        })($scope.queries[field].params);
+        var vals = $scope.replaceParamsWithValues($scope.queries[field].params);
         // execute the named query (stored in XML file) with the parameter values
         $http.get("/scripts/php/Query.php?Query=" + encodeURIComponent($scope.queries[field].name) + "&Params=" + encodeURIComponent(JSON.stringify(vals)))
         .success(
@@ -99,6 +74,48 @@
             // angular will automatically reflect those changes in the DOM
             $scope.queries[field].options = resp;
         });
+    };
+
+    $scope.replaceParamsWithValues = function (params) {
+        var results = [];
+        for (var i = 0, l = params.length; i < l; ++i) {
+            // basically just gets the text between the first and last
+            // underscore. If there are no underscores, then the parameter
+            // is a static value, and it will return false
+            var refName = $scope.paramToRefName(params[i]);
+            // if the parameter was a reference to another input (not a static value)
+            // then get the value of that reference and push it onto the result array
+            if (refName !== false) {
+                // params[i][0] is always the 'reference type'
+                // _ is default, so it is a value reference
+                // v is also a value reference
+                // t means it is a text reference
+                // so it will use the text of the selected option of the reference
+                // rather than the value
+                refVal = $scope.refNameToValue(params[i][0], refName);
+                results.push(refVal);
+            } else {
+                // otherwise, just add the static parameter value to the result array
+                results.push(params[i]);
+            }
+        }
+        return results;
+    }
+
+    $scope.paramToRefName = function (param) {
+        var firstUnderscore = param.indexOf("_");
+        // all parameters should start with either
+        // _, v_ or t_
+        // this finds the first _, if it's within the first 2 characters (0 or 1)
+        // then gets the text between that and 1 character before the end
+        // essentially removing the ending _ that should be there
+        // and returns the text in-between -- the name of the reference
+        if ([0, 1].indexOf(firstUnderscore) > -1) {
+            var refName = param.substring(firstUnderscore + 1, param.length - 1);
+            return refName;
+        } else {
+            return false;
+        }
     };
 
     // type refers to the first letter of the parameter
@@ -122,22 +139,6 @@
                 break;
         }
         return refVal;
-    };
-
-    $scope.paramToRefName = function (param) {
-        var firstUnderscore = param.indexOf("_");
-        // all parameters should start with either
-        // _, v_ or t_
-        // this finds the first _, if it's within the first 2 characters (0 or 1)
-        // then gets the text between that and 1 character before the end
-        // essentially removing the ending _ that should be there
-        // and returns the text in-between -- the name of the reference
-        if ([0, 1].indexOf(firstUnderscore) > -1) {
-            var refName = param.substring(firstUnderscore + 1, param.length - 1);
-            return refName;
-        } else {
-            return false;
-        }
     };
 
     // don't even ask, it's crazy.
@@ -184,7 +185,7 @@
             if (resp !== null && typeof resp === 'object') {
                 $scope.hasRecord = true;
                 $scope.id = Number(resp[$scope.pk]);
-                // remove the primary key (pk) value from the response array
+                // remove the primary key (pk) value from the response object
                 // so that it isn't sent on update / submit
                 delete resp[$scope.pk];
                 // for each key in the response
@@ -206,10 +207,6 @@
                 // in this context, to an array, appears to be automatic
                 // other conversions are done by the formatSrvToClient function
                 $scope.formatSrvToClient();
-                // ensures email HTML rendering is correct even when
-                // form is opened for updating
-                // $scope.emailBody = alterHTMLForEmail();
-                // didn't work for whatever reason
             } else {
                 alert($scope.name + " number " + $scope.id + " does not exist!");
             }
@@ -375,11 +372,13 @@
         // may be replaced with refresh code
         // may not behave as the user expects
         // (id is not reset)
-        for (var key in $scope.fields) {
+        /*for (var key in $scope.fields) {
             if ($scope.fields.hasOwnProperty(key)) {
                 $scope.fields[key] = "";
             }
-        }
+        }*/
+        //replaced with refresh code
+        window.location.reload();
     };
 
     $scope.$on('uploadImage', function (event, args) { // args = { name: c, line: y, URI: z }
@@ -408,41 +407,52 @@
     // updates the email HTML rendering of the form
     // when a field is changed, but only works
     // when one field is changed at a time, otherwise
-    // it may update the HTML before all fo the fields are updated
+    // it may update the HTML before all of the fields are updated
     // such as when a form is opened.
-    $scope.$watch("fields", function () {
+    // THIS FUNCTION CAUSES AN INFINITE LOOP
+    // BECAUSE IT ALTERS THE SCOPE AND TRIGGERS
+    // ANOTHER DIGEST CYCLE. IT IS NOT IMMEDIATELY
+    // CLEAR WHY THAT IS, BUT IT IS. AngularJS
+    // CURRENTLY STOPS THESE ITERATIONS BUT I
+    // WOULDN'T DEPEND ON IT
+    $scope.$watch("fields", function (n, o) {
         $scope.emailBody = alterHTMLForEmail();
     }, true);
 
-    $scope.$watch("fields['ZoneID']", function (n, o) {
+    // was using $watchGroup but oldVals was incorrect
+    $scope.$watchCollection("[fields['PlantID'], fields['DepartmentID'], fields['ZoneID']]", function (newVals, oldVals) {
         // if the old zone id is valid (on change) then remove the emails associated with that zone id
-            if (o) {
-                $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByZone&Params=" + encodeURIComponent(JSON.stringify([o])))
+            if (oldVals) {
+                $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(oldVals)))
                 .success(
                 function (resp) {
-                    var respArray = $.map(resp, function (value, index) {
-                        return [value];
-                    });
-                    for (var i = 0, l = respArray.length; i < l; ++i) {
-                        var index = $scope.contacts.indexOf(respArray[i]);
-                        if (index > -1) {
-                            $scope.contacts.splice(index, 1);
-                        }
-                    }
+                    var respArray = objectValuesToArray(resp);
+                    $scope.removeContacts(respArray);
                 });
             }
         // if the new zone id is valid, then add the emails associated with that zone id
-            if (n) {
-                $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByZone&Params=" + encodeURIComponent(JSON.stringify([n])))
+            if (newVals) {
+                $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(newVals)))
                 .success(
                 function (resp) {
-                    var respArray = $.map(resp, function (value, index) {
-                        return [value];
-                    });
-                    $scope.contacts = $scope.contacts.concat(respArray);
+                    var respArray = objectValuesToArray(resp);
+                    $scope.addContacts(respArray);
                 });
         }
     });
+
+    $scope.removeContacts = function (arr) {
+        for (var i = 0, l = arr.length; i < l; ++i) {
+            var index = $scope.contacts.indexOf(arr[i]);
+            if (index > -1) {
+                $scope.contacts.splice(index, 1);
+            }
+        }
+    };
+
+    $scope.addContacts = function (arr) {
+        $scope.contacts = $scope.contacts.concat(arr);
+    };
 }
 
 // if you don't know what this does,

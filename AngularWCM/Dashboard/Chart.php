@@ -46,6 +46,7 @@
         <option value="MachMTBF" data-firstcol="MachID">MTBF by Machine (Bar)</option>
         <option value="MachMTTR" data-firstcol="MachID">MTTR by Machine (Bar)</option>
         <option value="MachDowntime" data-firstcol="MachID">Downtime Reasons by Machine (Bar)</option>
+        <option value="MaintDowntime" data-firstcol="MachID">Maintenance Downtime Reasons by Machine (Bar)</option>
         <option value="MachScrap" data-firstcol="MachID">Machine Scrap (Bar)</option>
         <option value="MachOEE" data-firstcol="MachID">Machine OEE (Bar)</option>
         <option value="OilPerPress" data-firstcol="Press">Oil per Press (Bar)</option>

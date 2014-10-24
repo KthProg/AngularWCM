@@ -88,11 +88,11 @@
   </query>
   <query name="CloseIssue">
     <connection>Safety</connection>
-    <qstring>INSERT INTO vClosedIssues (FormName, FormNum, LineNum, ActionTaken) VALUES (?, ?, ?, ?)</qstring>
+    <qstring>INSERT INTO ClosedIssues (FormName, FormNum, LineNum, ActionTaken) VALUES (?, ?, ?, ?)</qstring>
   </query>
   <query name="OpenIssue">
     <connection>Safety</connection>
-    <qstring>DELETE FROM vClosedIssues WHERE FormName=? AND FormNum=? AND LineNum=?</qstring>
+    <qstring>DELETE FROM ClosedIssues WHERE FormName=? AND FormNum=? AND LineNum=?</qstring>
   </query>
   <query name="GetOpenIssues">
     <connection>Safety</connection>
@@ -114,9 +114,9 @@
     <connection>Safety</connection>
     <qstring>SELECT ID, RepairType FROM RepairTypes</qstring>
   </query>
-  <query name="SupervisorEmailsByZone">
+  <query name="SupervisorEmailsByLocation">
     <connection>Safety</connection>
-    <qstring>SELECT ID, SupervisorEmail FROM Supervisor WHERE Zone=?</qstring>
+    <qstring>SELECT ID, SupervisorEmail FROM Supervisor WHERE Plant=? AND (Department=? OR Department IS NULL) AND (Zone=? OR Zone IS NULL) </qstring>
   </query>
   <query name="AuditLines">
     <connection>Safety</connection>
@@ -125,37 +125,61 @@
   <!-- Chart Queries -->
   <query name="MachMTBF">
     <connection>Safety</connection>
-    <qstring>EXEC pMachMTBF @startDate=?, @endDate=?</qstring>
+    <qstring>EXEC pMachMTBF @startDate=?, @endDate=?, @failureType=?</qstring>
     <parameters>
       <parameter name="startDate">
         <type>date</type>
       </parameter>
       <parameter name="endDate">
         <type>date</type>
+      </parameter>
+      <parameter name="failureType">
+        <type>text</type>
       </parameter>
     </parameters>
   </query>
   <query name="MachMTTR">
     <connection>Safety</connection>
-    <qstring>EXEC pMachMTTR @startDate=?, @endDate=?</qstring>
+    <qstring>EXEC pMachMTTR @startDate=?, @endDate=?, @failureType=?</qstring>
     <parameters>
       <parameter name="startDate">
         <type>date</type>
       </parameter>
       <parameter name="endDate">
         <type>date</type>
+      </parameter>
+      <parameter name="failureType">
+        <type>text</type>
       </parameter>
     </parameters>
   </query>
   <query name="MachDowntime">
     <connection>Safety</connection>
-    <qstring>EXEC pMachDowntime @startDate=?, @endDate=?</qstring>
+    <qstring>EXEC pMachDowntime @startDate=?, @endDate=?, @failureType=?</qstring>
     <parameters>
       <parameter name="startDate">
         <type>date</type>
       </parameter>
       <parameter name="endDate">
         <type>date</type>
+      </parameter>
+      <parameter name="failureType">
+        <type>text</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="MaintDowntime">
+    <connection>Safety</connection>
+    <qstring>EXEC pMaintDowntime @startDate=?, @endDate=?, @failureType=?</qstring>
+    <parameters>
+      <parameter name="startDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="endDate">
+        <type>date</type>
+      </parameter>
+      <parameter name="failureType">
+        <type>text</type>
       </parameter>
     </parameters>
   </query>
