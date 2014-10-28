@@ -11,9 +11,22 @@
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/css/Normalize.css" />
     <link rel="stylesheet" href="/css/Checklist.css" />
-    <link rel="stylesheet" href="/css/WCC.css" />
 
     <title>WCC</title>
+
+    <style>
+        h1{ 
+	        color: skyblue;
+        }
+
+        h3{
+	        background-color: skyblue;
+        }
+
+        strong{
+	        background-color: skyblue;
+        }
+    </style>
 </head>
 
 <body

@@ -11,7 +11,6 @@
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/Checklist.css" />
-    <link rel="stylesheet" href="css/LPA.css" />
 
     <title>Layered Process Audit</title>
 
@@ -55,6 +54,19 @@
                 });
         });
     </script>
+    <style>
+        h1{ 
+	        color: limegreen;
+        }
+
+        h3{
+	        background-color: limegreen;
+        }
+
+        strong{
+	        background-color: limegreen;
+        }
+    </style>
 </head>
 
 <body

@@ -7,10 +7,10 @@
     zoom: 1.0;
 }
 @media (max-width: 799px){
-    input:optional, textarea:optional, select:optional{
+    *:optional{
         display: none;
     }
-    input:required, textarea:required, select:required="required"/*td*/{
+    *:required{
         height: 2em;
     }
     td{

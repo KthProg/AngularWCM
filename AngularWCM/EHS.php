@@ -11,9 +11,22 @@
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/Checklist.css" />
-    <link rel="stylesheet" href="css/EHS.css" />
 
     <title>EHS</title>
+
+    <style>
+        h1{ 
+	        color: orange;
+        }
+
+        h3{
+	        background-color: orange;
+        }
+
+        strong{
+	        background-color: orange;
+        }
+    </style>
 </head>
 
 <body

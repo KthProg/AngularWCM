@@ -11,7 +11,6 @@
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/css/Normalize.css" />
     <link rel="stylesheet" href="/css/Checklist.css" />
-    <link rel="stylesheet" href="/css/5T.css" />
 
     <title>5T Checklist</title>
 
@@ -19,31 +18,39 @@
         $(document.body).ready(function () {
             var scope = angular.element($("[ng-app='wcm']")).scope();
             scope.showLines = [];
+            var zonesList = {
+                "Molding": [16, 17, 18, 19],
+                "IP Assembly": [1, 2, 3, 4, 5, 6, 7, 8, 63],
+                "Sequencing": [9, 10, 11],
+                "IP Warehouse": [64, 71],
+                "Thermoforming": [14, 15, 70],
+                "Shipping Receiving": [22,99]
+            };
             scope.showList = [
                 [0],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [14, 15, 16, 17, 18, 19, 22, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 22, 63, 70, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 63, 64, 71],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 63, 64, 71],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 63],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99],
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 22, 63, 64, 70, 71, 99]
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["Molding"].concat(zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["IP Warehouse"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["IP Warehouse"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"])
             ]
             scope.$apply(
                 function () {
@@ -53,6 +60,34 @@
                 });
         });
     </script>
+    <style>
+        h1{ 
+	        color: teal;
+        }
+
+        h3{
+	        background-color: teal;
+        }
+
+        strong{
+	        background-color: teal;
+        }
+
+        .helpButton {
+            float: right;
+            font-size: 2em;
+            width: 1em; 
+            height: 1em; 
+            border-radius: 50%; 
+            border: 1px solid black; 
+            text-align: center; 
+            vertical-align: middle;
+        }
+        .helpButton:hover { 
+            background-color: teal;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body

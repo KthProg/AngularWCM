@@ -79,17 +79,17 @@
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_Department_"],
+				"params" : ["1","_DepartmentID_"],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_Department_","_Zone_"],
+				"params" : ["1","_DepartmentID_","_ZoneID_"],
 				"options": []
 			},
 			"SubSystemID" : {
 				"name" : "Subsystems",
-				"params" : ["1","_Department_","_Zone_","_Machine_"],
+				"params" : ["1","_DepartmentID_","_ZoneID_","_MachineID_"],
 				"options" : []
 			},
 			"RootCause": {

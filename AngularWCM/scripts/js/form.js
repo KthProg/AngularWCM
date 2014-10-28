@@ -409,37 +409,29 @@
     // when one field is changed at a time, otherwise
     // it may update the HTML before all of the fields are updated
     // such as when a form is opened.
-    // THIS FUNCTION CAUSES AN INFINITE LOOP
-    // BECAUSE IT ALTERS THE SCOPE AND TRIGGERS
-    // ANOTHER DIGEST CYCLE. IT IS NOT IMMEDIATELY
-    // CLEAR WHY THAT IS, BUT IT IS. AngularJS
-    // CURRENTLY STOPS THESE ITERATIONS BUT I
-    // WOULDN'T DEPEND ON IT
     $scope.$watch("fields", function (n, o) {
         $scope.emailBody = alterHTMLForEmail();
-    }, true);
-
-    // was using $watchGroup but oldVals was incorrect
-    $scope.$watchCollection("[fields['PlantID'], fields['DepartmentID'], fields['ZoneID']]", function (newVals, oldVals) {
+        var oldVals = [o["PlantID"] || "1",o["DepartmentID"],o["ZoneID"]];
         // if the old zone id is valid (on change) then remove the emails associated with that zone id
-            if (oldVals) {
-                $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(oldVals)))
-                .success(
-                function (resp) {
-                    var respArray = objectValuesToArray(resp);
-                    $scope.removeContacts(respArray);
-                });
-            }
-        // if the new zone id is valid, then add the emails associated with that zone id
-            if (newVals) {
-                $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(newVals)))
-                .success(
-                function (resp) {
-                    var respArray = objectValuesToArray(resp);
-                    $scope.addContacts(respArray);
-                });
+        if (oldVals) {
+            $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(oldVals)))
+            .success(
+            function (resp) {
+                var respArray = objectValuesToArray(resp);
+                $scope.removeContacts(respArray);
+            });
         }
-    });
+        var newVals = [n["PlantID"] || "1", n["DepartmentID"], n["ZoneID"]];
+        // if the new zone id is valid, then add the emails associated with that zone id
+        if (newVals) {
+            $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(newVals)))
+            .success(
+            function (resp) {
+                var respArray = objectValuesToArray(resp);
+                $scope.addContacts(respArray);
+            });
+        }
+    }, true);
 
     $scope.removeContacts = function (arr) {
         for (var i = 0, l = arr.length; i < l; ++i) {
