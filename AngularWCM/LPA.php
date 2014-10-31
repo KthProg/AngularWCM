@@ -90,8 +90,12 @@
                     <select ng-model="fields['AuditorID']" ng-options="k as v for (k,v) in queries['AuditorID'].options" required></select>
                 </div>
                 <div class="inputPlusLabel">
-                    <strong>Plant</strong>
-                    <select ng-model="fields['PlantID']" ng-options="k as v for (k,v) in queries['PlantID'].options" required></select>
+                    <strong>Supervisor's Name</strong>
+                    <select ng-model="fields['SupervisorID']" ng-options="k as v for (k,v) in queries['SupervisorID'].options" required></select>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Operator(s)</strong>
+                    <input type="text" ng-model="fields['Operator']" />
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Department</strong>
@@ -105,6 +109,7 @@
                     <strong>Machine</strong>
                     <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
                 </div>
+
             </td>
         </tr>
         <tr>
@@ -138,7 +143,7 @@
                 <span><?php echo "1.".($i+1).". ".$json_lines[$i]["SubCategory"]; ?></span>
             </td>
             <td>
-                <select onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" ng-model="fields['Rating<?php echo $i+1; ?>']" ng-options="k as v for (k,v) in { 0 : 'No', 1 : 'Yes' }" required>
+                <select onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" ng-model="fields['Rating<?php echo $i+1; ?>']" ng-options="k as v for (k,v) in { '-1' : 'N/A', 0 : 'No', 1 : 'Yes' }" required>
                     <option value=""></option>
                 </select>
             </td>

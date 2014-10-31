@@ -440,22 +440,27 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_PlantID_"],
+				"params" : ["1"],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_PlantID_","_DepartmentID_"],
+				"params" : ["1","_DepartmentID_"],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"params" : ["1","_DepartmentID_","_ZoneID_"],
 				"options": []
 			},
 			"AuditorID": {
 				"name" : "Auditors",
 				"params" : ["LPA"],
+				"options" : []
+			},
+			"SupervisorID": {
+				"name" : "Supervisors",
+				"params" : [],
 				"options" : []
 			}
 		},

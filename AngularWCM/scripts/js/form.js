@@ -27,19 +27,19 @@
             $scope.table = resp[name]["Table"];
             $scope.pk = resp[name]["PK"];
             // concats in case Zone foremen emails are being set (as opposed to setting it directly)
-            $scope.addContacts(resp[name]["Emails"]);
+            addContacts(resp[name]["Emails"]);
             $scope.queries = resp[name]["Queries"];
-            $scope.getMaxID();
-            $scope.getInitialOptions();
-            $scope.watchSelects();
+            getMaxID();
+            getInitialOptions();
+            watchSelects();
         });
     };
 
-    $scope.getMaxID = function () {
+    var getMaxID = function () {
         $http({
             method: "POST",
             url: "/scripts/php/getMaxID.php",
-            data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
+            data: fieldsToRequestString() + "&" + getFormDataString(),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(
@@ -49,23 +49,23 @@
         });
     };
 
-    $scope.getInitialOptions = function () {
+    var getInitialOptions = function () {
         // get options for all selects who's queries have no parameters
         for (var q in $scope.queries) {
             if ($scope.queries[q].params.length == 0) {
-                $scope.getOptions(q);
+                getOptions(q);
             }
         }
     };
 
-    $scope.getOptions = function (field) {
+    var getOptions = function (field) {
         // TODO: simplify the query process
 
         // set vals to an array containing the values of the 
         // parameters (from other selects) including static values
         // non static values are designated by _Reference_
         // in the master JSON file
-        var vals = $scope.replaceParamsWithValues($scope.queries[field].params);
+        var vals = replaceParamsWithValues($scope.queries[field].params);
         // execute the named query (stored in XML file) with the parameter values
         $http.get("/scripts/php/Query.php?Query=" + encodeURIComponent($scope.queries[field].name) + "&Params=" + encodeURIComponent(JSON.stringify(vals)))
         .success(
@@ -76,13 +76,13 @@
         });
     };
 
-    $scope.replaceParamsWithValues = function (params) {
+    var replaceParamsWithValues = function (params) {
         var results = [];
         for (var i = 0, l = params.length; i < l; ++i) {
             // basically just gets the text between the first and last
             // underscore. If there are no underscores, then the parameter
             // is a static value, and it will return false
-            var refName = $scope.paramToRefName(params[i]);
+            var refName = paramToRefName(params[i]);
             // if the parameter was a reference to another input (not a static value)
             // then get the value of that reference and push it onto the result array
             if (refName !== false) {
@@ -92,7 +92,7 @@
                 // t means it is a text reference
                 // so it will use the text of the selected option of the reference
                 // rather than the value
-                refVal = $scope.refNameToValue(params[i][0], refName);
+                refVal = refNameToValue(params[i][0], refName);
                 results.push(refVal);
             } else {
                 // otherwise, just add the static parameter value to the result array
@@ -102,7 +102,7 @@
         return results;
     }
 
-    $scope.paramToRefName = function (param) {
+    var paramToRefName = function (param) {
         var firstUnderscore = param.indexOf("_");
         // all parameters should start with either
         // _, v_ or t_
@@ -122,7 +122,7 @@
     // for instance 'v_field1' is a reference to the text
     // of the selected option of the select bound to the 
     // field 'field1'
-    $scope.refNameToValue = function (type, refName) {
+    var refNameToValue = function (type, refName) {
         switch (type) {
             case 'v':
             case '_':
@@ -134,7 +134,7 @@
             case 't':
                 // for a text value, you have to get the input that corresponds
                 // to that field, then get the text of the selected option
-                var refEl = $scope.getFieldEl(refName).find('option:selected');
+                var refEl = getFieldEl(refName).find('option:selected');
                 var refVal = refEl.text();
                 break;
         }
@@ -142,7 +142,7 @@
     };
 
     // don't even ask, it's crazy.
-    $scope.watchSelects = function () {
+    var watchSelects = function () {
         for (var q in $scope.queries) {
             var prms = $scope.queries[q].params;
             // if this query has at least one parameter
@@ -152,9 +152,9 @@
                 var lastEl = prms.slice(-1).pop();
                 // the name of the field we want to watch is the
                 // name of the reference the parameter refers to
-                var watch = $scope.paramToRefName(lastEl);
+                var watch = paramToRefName(lastEl);
                 // $scope.getOptions('nameOfQueryFieldHere')
-                var updateStr = "$scope.getOptions('" + q + "')";
+                var updateStr = "getOptions('" + q + "')";
                 // evaluating the anonymous function with the above text as an argument
                 // sets a watch on the field which will trigger the query
                 // when that field changes, the string above is eval'd
@@ -177,7 +177,7 @@
         $http({
             method: "POST",
             url: "/scripts/php/Open.php",
-            data: $scope.getFormDataString(),
+            data: getFormDataString(),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(
@@ -193,7 +193,7 @@
                 // set that fields value to the value
                 // returned by the server
                 for (var v in resp) {
-                    if ($scope.getFieldEl(v)) {
+                    if (getFieldEl(v)) {
                         $scope.fields[v] = resp[v];
                     }
                 }
@@ -201,19 +201,19 @@
                 // then render that sketch
                 if (resp["SketchURL"] != undefined) {
                     $scope.fields["SketchURL"] = resp["SketchURL"];
-                    $scope.showSketch($scope.fields["SketchURL"]);
+                    showSketch($scope.fields["SketchURL"]);
                 }
                 // JSON arrays are used for multi-selects, the conversion of JSON text
                 // in this context, to an array, appears to be automatic
                 // other conversions are done by the formatSrvToClient function
-                $scope.formatSrvToClient();
+                formatSrvToClient();
             } else {
                 alert($scope.name + " number " + $scope.id + " does not exist!");
             }
         });
     };
 
-    $scope.getFieldEl = function (field) {
+    var getFieldEl = function (field) {
         // returns the field when a matching input exists
         // otherwise, returns false
         // useful because it can be checked as 
@@ -226,7 +226,7 @@
         }
     };
 
-    $scope.showSketch = function (sketchURL) {
+    var showSketch = function (sketchURL) {
         var sketchArea = $("canvas");
         var sketchCtx = sketchArea[0].getContext("2d");
 
@@ -239,7 +239,7 @@
         }
     };
 
-    $scope.formatSrvToClient = function () {
+    var formatSrvToClient = function () {
         for (var f in $scope.fields) {
             // if the data from the server is null or undefined, set the value to blank
             // otherwise, convert to a string ("" + val) (implicit conversion)
@@ -253,7 +253,7 @@
             // convert it to the type appropriate for
             // that input
             var scopeField;
-            if (scopeField = $scope.getFieldEl(f)) {
+            if (scopeField = getFieldEl(f)) {
                 switch (scopeField.attr("type")) {
                     case "date":
                     case "time":
@@ -271,12 +271,14 @@
     }
 
     $scope.update = function () {
-        if ($scope.formIsValid()) {
-            $scope.formatClientToSrv();
+        if (formIsValid()) {
+            $scope.emailBody = alterHTMLForEmail();
+            console.log($scope.emailBody);
+            formatClientToSrv();
             $http({
                 method: "POST",
                 url: "/scripts/php/Update.php",
-                data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
+                data: fieldsToRequestString() + "&" + getFormDataString(),
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(
@@ -289,12 +291,13 @@
     };
 
     $scope.submit = function () {
-        if ($scope.formIsValid()){
-            $scope.formatClientToSrv();
+        if (formIsValid()) {
+            $scope.emailBody = alterHTMLForEmail();
+            formatClientToSrv();
             $http({
                 method: "POST",
                 url: "/scripts/php/Submit.php",
-                data: $scope.fieldsToRequestString() + "&" + $scope.getFormDataString(),
+                data: fieldsToRequestString() + "&" + getFormDataString(),
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(
@@ -306,14 +309,14 @@
         }
     };
 
-    $scope.formIsValid = function () {
+    var formIsValid = function () {
         return $.makeArray($("select, input, textarea")).reduce(
             function (p, c) {
                 return (p && (([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1) || $(c).is(':hidden')));
             }, true);
     };
 
-    $scope.formatClientToSrv = function () {
+    var formatClientToSrv = function () {
         for (var f in $scope.fields) {
             // if the data on the client is null or undefined, set the value to blank
             // otherwise, conver to a string ("" + val)
@@ -325,7 +328,7 @@
             // convert it to the format appropriate for
             // sql server, based on the input type
             var scopeField;
-            if (scopeField = $scope.getFieldEl(f)) {
+            if (scopeField = getFieldEl(f)) {
                 switch (scopeField.attr("type")) {
                     // try to convert to ISO format
                     // if the date is not valid, set
@@ -343,7 +346,7 @@
         }
     }
 
-    $scope.getFormDataString = function () {
+    var getFormDataString = function () {
         // creates a URL encoded JSON string
         // containing the data indentifying the form
         // this data is passed to PHP scripts
@@ -360,7 +363,7 @@
         return "FormData=" + encodeURIComponent(JSON.stringify(dataObj));
     };
 
-    $scope.fieldsToRequestString = function () {
+    var fieldsToRequestString = function () {
         // creates a URL encoded JSON string
         // containing the field data for this form
         // this data is passed to PHP scripts
@@ -368,15 +371,7 @@
         return "Fields=" + encodeURIComponent(JSON.stringify($scope.fields));
     };
 
-    $scope.clear = function () {
-        // may be replaced with refresh code
-        // may not behave as the user expects
-        // (id is not reset)
-        /*for (var key in $scope.fields) {
-            if ($scope.fields.hasOwnProperty(key)) {
-                $scope.fields[key] = "";
-            }
-        }*/
+    var clear = function () {
         //replaced with refresh code
         window.location.reload();
     };
@@ -395,7 +390,7 @@
         }
     });
 
-    $scope.saveSketch = function (e) {
+    var saveSketch = function (e) {
         // puts sketch data in sketchurl field
         // generally activated by leaving a canvas
         // sketch area
@@ -404,46 +399,41 @@
         $scope.fields["SketchURL"] = e.target.toDataURL().replace(/ /g, "+");
     };
 
-    // updates the email HTML rendering of the form
-    // when a field is changed, but only works
-    // when one field is changed at a time, otherwise
-    // it may update the HTML before all of the fields are updated
-    // such as when a form is opened.
-    $scope.$watch("fields", function (n, o) {
-        $scope.emailBody = alterHTMLForEmail();
-        var oldVals = [o["PlantID"] || "1",o["DepartmentID"],o["ZoneID"]];
-        // if the old zone id is valid (on change) then remove the emails associated with that zone id
-        if (oldVals) {
-            $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(oldVals)))
-            .success(
+    //updates the contacts list
+    $scope.$watchCollection("[fields['PlantID'], fields['DepartmentID'], fields['ZoneID']]", function (n, o) {
+
+        getSupervisorEmailsByLocation(o[0], o[1], o[2],
             function (resp) {
                 var respArray = objectValuesToArray(resp);
-                $scope.removeContacts(respArray);
+                removeContacts(respArray);
             });
-        }
-        var newVals = [n["PlantID"] || "1", n["DepartmentID"], n["ZoneID"]];
-        // if the new zone id is valid, then add the emails associated with that zone id
-        if (newVals) {
-            $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify(newVals)))
-            .success(
+
+        getSupervisorEmailsByLocation(n[0], n[1], n[2],
             function (resp) {
                 var respArray = objectValuesToArray(resp);
-                $scope.addContacts(respArray);
+                addContacts(respArray);
             });
-        }
+        
     }, true);
 
-    $scope.removeContacts = function (arr) {
+    var getSupervisorEmailsByLocation = function (plantid, deptid, zoneid, callback) {
+        $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify([plantid || "1", deptid || "0", zoneid || "0"])))
+        .success(callback)
+    };
+
+    var removeContacts = function (arr) {
         for (var i = 0, l = arr.length; i < l; ++i) {
             var index = $scope.contacts.indexOf(arr[i]);
             if (index > -1) {
                 $scope.contacts.splice(index, 1);
             }
         }
+        //console.log($scope.contacts);
     };
 
-    $scope.addContacts = function (arr) {
+    var addContacts = function (arr) {
         $scope.contacts = $scope.contacts.concat(arr);
+        //console.log($scope.contacts);
     };
 }
 

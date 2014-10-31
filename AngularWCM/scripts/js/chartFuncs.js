@@ -31,19 +31,65 @@ function renderParamInputs(data) {
     pDiv.html(""); //clear parameters
     if (data.parameter != undefined) {
         if (data.parameter.length === undefined) {
-            // if there is only one parameter
-            var name = data.parameter["@attributes"].name;
-            var type = data.parameter.type;
-            pDiv.append("<label>" + name + "</label><input type='" + type + "' name='Params[]' placeholder='" + name + "' />");
+            var params = [data.parameter];
         } else {
-            // if there is more than one parameter
-            for (var i = 0, l = data.parameter.length; i < l; ++i) {
-                var name = data.parameter[i]["@attributes"].name;
-                var type = data.parameter[i].type;
-                pDiv.append("<label>" + name + "</label><input type='" + type + "' name='Params[]' placeholder='" + name + "' />");
-            }
+            var params = data.parameter;
+        }
+        // if there is more than one parameter
+        for (var i = 0, l = params.length; i < l; ++i) {
+            var name = params[i]["@attributes"].name;
+            var type = params[i].type || "text";
+            var options = params[i].options ? params[i].options.option || "" : "";
+            var query = params[i].query || "";
+
+            addParameterInput(name, type, options, query);
         }
     }
+}
+
+function addParameterInput(name, type, options, query) {
+    var pDiv = $("#ParamDiv");
+    if (type == "select") {
+        if(query){
+            var optionsHTML = objectToOptionsHTML(sendNoParamQuery(query));
+        }else{
+            var optionsHTML = arrayToOptionsHTML(options);
+        }
+        pDiv.append("<label>" + name + "</label><select name='Params[]'><option value=''>"+name+"</option>"+optionsHTML+"</select>");
+    } else {
+        pDiv.append("<label>" + name + "</label><input type='" + type + "' name='Params[]' placeholder='" + name + "' />");
+    }
+}
+
+function sendNoParamQuery(query) {
+    var queryResult;
+    $.ajax({
+        async: false,
+        data: {
+            Query: query,
+            Params: "[]"
+        },
+        dataType: "json",
+        success: function (data) {
+            queryResult = data;
+        },
+        url : "/scripts/php/Query.php"
+    });
+    return queryResult;
+}
+
+function arrayToOptionsHTML(arr) {
+    return arr.reduce(function (prev, curr) {
+        return prev + "<option value='" + curr + "'>" + curr + "</option>";
+    }, "");
+}
+
+function objectToOptionsHTML(obj) {
+    var resultHTML = "";
+    for (key in obj) {
+        resultHTML += "<option value='" + key + "'>" + obj[key] + "</option>";
+    }
+    return resultHTML;
 }
 
 function paramsToArray() {
@@ -95,15 +141,20 @@ function chartData() {
         success: renderChartData,
         error: logError
     });
+    document.getElementById("chartDiv").innerHTML = '<div class="spinner"><div class="circle1 circle"></div><div class="circle2 circle"></div><div class="circle3 circle"></div><div class="circle4 circle"></div><div class="circle5 circle"></div><div class="circle6 circle"></div><div class="circle7 circle"></div><div class="circle8 circle"></div><div class="circle9 circle"></div><div class="circle10 circle"></div><div class="circle11 circle"></div><div class="circle12 circle"></div></div>';
 }
 
 function renderChartData(data) {
+    if (data.length === 0) {
+        document.getElementById("chartDiv").innerHTML = "<h1>Error: No Data</h1>";
+    }
     console.log(data);
     // options for google vis
     var options = {
         title: $("[name='Query'] option:selected").text(),
         isStacked: true,
-        curveType: 'function'
+        curveType: 'function',
+        trendlines: getTrendlineObject(Object.keys(data[0]).length)
     };
 
     var type = $("[name='ChartAs'] option:selected").val();
@@ -117,6 +168,19 @@ function renderChartData(data) {
     userChart(cdata, type, options);
 }
 
+function getTrendlineObject(seriesCount) {
+    if ($("#showTrendCheck:checked").length > 0) {
+        var tlObj = {};
+        for (var i = 0; i < seriesCount; ++i) {
+            tlObj[i] = {};
+        }
+        console.log(tlObj);
+        return tlObj;
+    } else {
+        return {};
+    }
+}
+
 function getColData(data, firstCol) {
     var dataTable = new google.visualization.DataTable();
 
@@ -128,7 +192,7 @@ function getColData(data, firstCol) {
     keys.splice(keys.indexOf(firstCol), 1);
     keys.unshift(firstCol);
 
-    // adds type ifnormation for each column
+    // adds type information for each column
     // also decides whether or not ALL columns
     // are numeric, which is important later
     // for determining the order of the x axis labels
@@ -268,6 +332,7 @@ function clearPrintableData(){
 }
 
 function userChart(dataTable, type, options) {
+    document.getElementById("chartDiv").innerHTML = "";
     switch (type) {
         case "bar":
             var vis = new google.visualization.ColumnChart(document.getElementById("chartDiv"));

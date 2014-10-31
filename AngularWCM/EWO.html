@@ -96,7 +96,7 @@
             <td colspan="6" rowspan="2" height="150px"><textarea ng-model="fields['ProblemDescription']" placeholder="Description of failure"></textarea><!-- Description of failure and sketch (if possible) --></td>
             <td colspan="6"><textarea ng-model="fields['ActivitiesDescription']" placeholder="Description of activities"></textarea><!-- Description of activites --></td>
             <td rowspan="2">
-                <input type="checkbox" ng-model="fields['TempRepair']" ng-true-value="1" ng-false-value="0" />
+                <label for="tempRepairCB">Check if Temp. Repair</label><input id="tempRepairCB" type="checkbox" ng-model="fields['TempRepair']" style="height: 50%;" ng-true-value="1" ng-false-value="0" />
             </td>
         </tr>
         <tr>

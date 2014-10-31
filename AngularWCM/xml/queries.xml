@@ -116,25 +116,49 @@
   </query>
   <query name="SupervisorEmailsByLocation">
     <connection>Safety</connection>
-    <qstring>SELECT ID, SupervisorEmail FROM Supervisor WHERE Plant=? AND (Department=? OR Department IS NULL) AND (Zone=? OR Zone IS NULL) </qstring>
+    <qstring>SELECT ID, SupervisorEmail FROM Supervisor WHERE PlantID=? AND (DepartmentID=? OR DepartmentID IS NULL) AND (ZoneID=? OR ZoneID IS NULL) </qstring>
   </query>
   <query name="AuditLines">
     <connection>Safety</connection>
     <qstring>SELECT Category, SubCategory, Details FROM vAuditLines WHERE FormName=? ORDER BY Line</qstring>
+  </query>
+  <query name="AllMachinesMattec">
+    <connection>Mattec</connection>
+    <qstring>SELECT MachNo, MachID FROM MachCon</qstring>
+  </query>
+  <query name="AllMachines">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT MachineID, Plant + ' - ' + Department + ' - ' + Zone + ' - ' + Machine FROM vPlantLayout</qstring>
+  </query>
+  <query name="AllZones">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT ZoneID, Plant + ' - ' + Department + ' - ' + Zone FROM vPlantLayout</qstring>
+  </query>
+  <query name="AllDepartments">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT DepartmentID, Plant + ' - ' + Department FROM vPlantLayout</qstring>
+  </query>
+  <query name="AllToolsText">
+    <connection>Mattec</connection>
+    <qstring>SELECT DISTINCT MoldID, MoldID FROM MoldIDs</qstring>
   </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
     <connection>Safety</connection>
     <qstring>EXEC pMachMTBF @startDate=?, @endDate=?, @failureType=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
-      <parameter name="failureType">
-        <type>text</type>
+      <parameter name="Failure Type">
+        <type>select</type>
+        <options>
+          <option value="major">major</option>
+          <option value="minor">minor</option>
+        </options>
       </parameter>
     </parameters>
   </query>
@@ -142,14 +166,18 @@
     <connection>Safety</connection>
     <qstring>EXEC pMachMTTR @startDate=?, @endDate=?, @failureType=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
-      <parameter name="failureType">
-        <type>text</type>
+      <parameter name="Failure Type">
+        <type>select</type>
+        <options>
+          <option value="major">major</option>
+          <option value="minor">minor</option>
+        </options>
       </parameter>
     </parameters>
   </query>
@@ -157,14 +185,18 @@
     <connection>Safety</connection>
     <qstring>EXEC pMachDowntime @startDate=?, @endDate=?, @failureType=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
-      <parameter name="failureType">
-        <type>text</type>
+      <parameter name="Failure Type">
+        <type>select</type>
+        <options>
+          <option value="major">major</option>
+          <option value="minor">minor</option>
+        </options>
       </parameter>
     </parameters>
   </query>
@@ -172,14 +204,18 @@
     <connection>Safety</connection>
     <qstring>EXEC pMaintDowntime @startDate=?, @endDate=?, @failureType=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
-      <parameter name="failureType">
-        <type>text</type>
+      <parameter name="Failure Type">
+        <type>select</type>
+        <options>
+          <option value="major">major</option>
+          <option value="minor">minor</option>
+        </options>
       </parameter>
     </parameters>
   </query>
@@ -187,10 +223,10 @@
     <connection>Safety</connection>
     <qstring>EXEC pMachScrap @startDate=?, @endDate=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
     </parameters>
@@ -199,10 +235,10 @@
     <connection>Safety</connection>
     <qstring>EXEC pAllMoldOEE @startDate=?, @endDate=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
     </parameters>
@@ -211,10 +247,10 @@
     <connection>Safety</connection>
     <qstring>EXEC pAllMachOEE @startDate=?, @endDate=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
     </parameters>
@@ -223,10 +259,10 @@
     <connection>Safety</connection>
     <qstring>EXEC pMoldMTBF @startDate=?, @endDate=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
     </parameters>
@@ -311,45 +347,11 @@
     <connection>Safety</connection>
     <qstring>EXEC pOilUsage @start=?, @end=?</qstring>
     <parameters>
-      <parameter name="start">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="end">
+      <parameter name="End Date">
         <type>date</type>
-      </parameter>
-    </parameters>
-  </query>
-  <query name="ProblemToolsRepairHistory">
-    <connection>Safety</connection>
-    <qstring>SELECT * FROM vProblemToolsRepairHistory</qstring>
-  </query>
-  <query name="ToolKeywordHistory">
-    <connection>Safety</connection>
-    <qstring>EXEC pToolKeywordsPeriodPivot @tools=?</qstring>
-    <parameters>
-      <parameter name="tools">
-        <type>text</type>
-      </parameter>
-    </parameters>
-  </query>
-  <query name="KeywordsByTool">
-    <connection>Safety</connection>
-    <qstring>EXEC pKeywordsByTool</qstring>
-    <parameters>
-      <parameter name="userYear">
-        <type>number</type>
-      </parameter>
-    </parameters>
-  </query>
-  <query name="KeywordsForTool">
-    <connection>Safety</connection>
-    <qstring>EXEC pKeywordsForTool @tools=?, @userYear=?</qstring>
-    <parameters>
-      <parameter name="tools">
-        <type>text</type>
-      </parameter>
-      <parameter name="userYear">
-        <type>number</type>
       </parameter>
     </parameters>
   </query>
@@ -357,7 +359,7 @@
     <connection>Safety</connection>
     <qstring>EXEC pTagTrend @userYear=?</qstring>
     <parameters>
-      <parameter name="userYear">
+      <parameter name="Year">
         <type>number</type>
       </parameter>
     </parameters>
@@ -366,11 +368,12 @@
     <connection>Safety</connection>
     <qstring>EXEC pTagTrendMach @userYear=?, @mach=?</qstring>
     <parameters>
-      <parameter name="userYear">
+      <parameter name="Year">
         <type>number</type>
       </parameter>
-      <parameter name="mach">
-        <type>text</type>
+      <parameter name="Machine">
+        <type>select</type>
+        <query>AllMachines</query>
       </parameter>
     </parameters>
   </query>
@@ -382,10 +385,10 @@
     <connection>Safety</connection>
     <qstring>EXEC pEWOsVsBreakdowns @startDate=?, @endDate=?</qstring>
     <parameters>
-      <parameter name="startDate">
+      <parameter name="Start Date">
         <type>date</type>
       </parameter>
-      <parameter name="endDate">
+      <parameter name="End Date">
         <type>date</type>
       </parameter>
     </parameters>
@@ -394,10 +397,11 @@
     <connection>Safety</connection>
     <qstring>EXEC pPMTagDetail @mach=?, @year=?</qstring>
     <parameters>
-      <parameter name="mach">
-        <type>text</type>
+      <parameter name="Machine">
+        <type>select</type>
+        <query>AllMachines</query>
       </parameter>
-      <parameter name="year">
+      <parameter name="Year">
         <type>number</type>
       </parameter>
     </parameters>
@@ -406,10 +410,11 @@
     <connection>Safety</connection>
     <qstring>EXEC pUCANDetail @mach=?, @year=?</qstring>
     <parameters>
-      <parameter name="mach">
-        <type>text</type>
+      <parameter name="Machine">
+        <type>select</type>
+        <query>AllMachines</query>
       </parameter>
-      <parameter name="year">
+      <parameter name="Year">
         <type>number</type>
       </parameter>
     </parameters>
@@ -430,7 +435,78 @@
     <connection>Safety</connection>
     <qstring>EXEC pMachOEEByMonth @year=?</qstring>
     <parameters>
-      <parameter name="year">
+      <parameter name="Year">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="MachDownCodesByMonth">
+    <connection>Safety</connection>
+    <qstring>EXEC pMachDownTimeByMonth @startDate=?, @endDate=?, @machine=?, @failureType=?</qstring>
+    <parameters>
+      <parameter name="Start Date">
+        <type>date</type>
+      </parameter>
+      <parameter name="End Date">
+        <type>date</type>
+      </parameter>
+      <parameter name="Machine">
+        <type>select</type>
+        <query>AllMachinesMattec</query>
+      </parameter>
+      <parameter name="Failure Type">
+        <type>select</type>
+        <options>
+          <option value="major">major</option>
+          <option value="minor">minor</option>
+        </options>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="5TScoreByMachine">
+    <connection>Safety</connection>
+    <qstring>EXEC pFiveTScoreByMachinePerMonth @machine=?, @year=?</qstring>
+    <parameters>
+      <parameter name="Machine">
+        <type>select</type>
+        <query>AllMachines</query>
+      </parameter>
+      <parameter name="Year">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="5TScoreByZone">
+    <connection>Safety</connection>
+    <qstring>EXEC pFiveTScoreByZonePerMonth @zone=?, @year=?</qstring>
+    <parameters>
+      <parameter name="Zone">
+        <type>select</type>
+        <query>AllZones</query>
+      </parameter>
+      <parameter name="Year">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="5TScoreByDept">
+    <connection>Safety</connection>
+    <qstring>EXEC pFiveTScoreByDeptPerMonth @dept=?, @year=?</qstring>
+    <parameters>
+      <parameter name="Department">
+        <type>select</type>
+        <query>AllDepartments</query>
+      </parameter>
+      <parameter name="Year">
+        <type>number</type>
+      </parameter>
+    </parameters>
+  </query>
+  <query name="5TAuditScores">
+    <connection>Safety</connection>
+    <qstring>SELECT ID, AuditDate, Plant, Department, Zone, Machine, [Total Score], [Total Possible] FROM vFiveT WHERE YEAR(AuditDate)=?</qstring>
+    <parameters>
+      <parameter name="Year">
         <type>number</type>
       </parameter>
     </parameters>
