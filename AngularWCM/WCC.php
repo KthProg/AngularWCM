@@ -3,10 +3,12 @@
 <head>
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
 
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.min.js"></script>
-    <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script>
+    <!-- <script src="/scripts/js/wcm.js"></script>
+    <script src="/scripts/js/form.js"></script> -->
+    <script src="/scripts/js/wcm.min.js"></script>
+    <script src="/scripts/js/form.min.js"></script>
 
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/css/Normalize.css" />

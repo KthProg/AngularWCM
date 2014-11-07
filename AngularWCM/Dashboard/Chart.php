@@ -6,8 +6,8 @@
 
     <title>Bar Chart</title>
 
-    <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-    <script src="/scripts/js/chartFuncs.js"></script>
+     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/scripts/js/chartFuncs.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
         google.load("visualization", "1", { packages: ["corechart"] });

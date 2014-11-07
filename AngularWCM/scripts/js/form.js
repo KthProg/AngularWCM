@@ -21,7 +21,7 @@
     // their options asynchronously
     $scope.setFormData = function (formName) {
         name = formName;
-        $http.get("/json/FormData.json")
+        $http.get("/json/FormData.min.json") // FormData.json for development
         .success(function (resp) {
             connection = resp[name]["Connection"];
             table = resp[name]["Table"];

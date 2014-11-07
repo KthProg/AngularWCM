@@ -62,6 +62,7 @@
     <Content Include="Dashboard\SA.html" />
     <Content Include="EWO.html" />
     <Content Include="json\FormData.json" />
+    <Content Include="json\FormData.min.json" />
     <Content Include="PMTag.html" />
     <Content Include="QuickKaizen.html" />
     <Content Include="res\5t.gif" />
@@ -105,7 +106,7 @@
     <Content Include="res\wo_header.png" />
     <Content Include="scripts\js\chartFuncs.min.js" />
     <Content Include="scripts\js\form.min.js" />
-    <Content Include="scripts\js\issues.min.js" />
+    <Content Include="scripts\js\issue.min.js" />
     <Content Include="scripts\js\wcm.min.js" />
     <Content Include="SEWO.html" />
     <Content Include="scripts\js\chartFuncs.js" />
