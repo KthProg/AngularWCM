@@ -164,8 +164,14 @@ function renderChartData(data) {
     // get the column info as a datatable (google vis)
     var cdata = getColData(data, firstCol);
 
+    var dtable = cdata["datatable"];
+
+    for (var k in cdata["options"]) {
+        options[k] = cdata["options"][k];
+    }
+
     // chart that data based on the chart type and above options
-    userChart(cdata, type, options);
+    userChart(dtable, type, options);
 }
 
 function getTrendlineObject(seriesCount) {
@@ -208,18 +214,25 @@ function getColData(data, firstCol) {
         numericKeys = numericKeys && (keyMetaData[k]["type"] === "number");
     }
 
+    var minVal = null;
+    var maxVal = null;
+
     // if the first column is of type string and all the other columns
     // are numeric, the sort the data based on the total of all the other columns
     // do this sort Asc or Desc as specified by the user
     if (keyMetaData[keys[0]]["type"] === "string" && numericKeys) {
         data = data.sort(function (a, b) {
             // i = 1, skip first key
+            // TODO: calculate max and min here
+            // if the difference is very large > (1:10), use a log scale.
             var totals = [0, 0];
-            for (var i = 1, l = keys.length; i < l; ++i) {
-                var k = keys[i];
-                totals[0] += Number(a[k]);
-                totals[1] += Number(b[k]);
-            }
+            totals[0] = getRowTotal(a); // previous item total
+            totals[1] = getRowTotal(b); // this item total
+
+            minVal = totals[0] < minVal || minVal == null ? totals[0] : minVal;
+            minVal = totals[1] < minVal || minVal == null ? totals[1] : minVal;
+            maxVal = totals[0] > maxVal || maxVal == null ? totals[0] : maxVal;
+            maxVal = totals[1] > maxVal || maxVal == null ? totals[1] : maxVal;
 
             if ($("[name='sortOrder'] option:selected").val() == "Asc") {
                 return totals[0] - totals[1];
@@ -254,7 +267,23 @@ function getColData(data, firstCol) {
     // user click downloads the text from a URI
     userDataToCSV(dataTable, firstRow);
 
-    return dataTable;
+    var ops = {
+        vAxis: {
+            logScale: false //Boolean((maxVal/minVal) > 30)
+        }
+    };
+
+    return { datatable: dataTable, options : ops };
+}
+
+function getRowTotal(row) {
+    var keys = Object.keys(row);
+    var total = 0.0;
+    for (var i = 1, l = keys.length; i < l; ++i) {
+        total += Number(row[keys[i]]);
+    }
+    console.log(row[keys[0]], total);
+    return total;
 }
 
 function convertType(val, typeStr) {

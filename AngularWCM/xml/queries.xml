@@ -142,6 +142,10 @@
     <connection>Mattec</connection>
     <qstring>SELECT DISTINCT MoldID, MoldID FROM MoldIDs</qstring>
   </query>
+  <query name="GetToolDesc">
+    <connection>Mattec</connection>
+    <qstring>SELECT TOP 1 0, MoldDesc FROM MoldIDs WHERE MoldID=?</qstring>
+  </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
     <connection>Safety</connection>

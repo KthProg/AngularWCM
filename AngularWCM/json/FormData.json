@@ -3,17 +3,36 @@
 		"Queries" : {
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["1"],
+				"params" : [{ "name" : "1" }],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_Department_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_Department_","_Zone_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			}
 		},
@@ -31,17 +50,50 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_PlantID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_PlantID_","_DepartmentID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"AuditorID": {
@@ -51,12 +103,34 @@
 			},
 			"WorkCellID": {
 				"name" : "WorkCells",
-				"params" : ["_PlantID_", "_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"MoldNo": {
 				"name" : "CurrentTools",
-				"params" : ["t_MachineID_"],
+				"params" : [
+					{
+						"name" : "MachineID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"SupervisorID": {
@@ -74,22 +148,58 @@
 		"Queries" : {
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["1"],
+				"params" : [{ "name" : "1" }],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_DepartmentID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"SubSystemID" : {
 				"name" : "Subsystems",
-				"params" : ["1","_DepartmentID_","_ZoneID_","_MachineID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "MachineID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"RootCause": {
@@ -99,12 +209,29 @@
 			},
 			"SecondaryRootCause" : {
 				"name" : "EWOSecondaryCauses",
-				"params" : ["_RootCause_"],
+				"params" : [
+					{
+						"name" : "RootCause",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"ActionType" : {
 				"name" : "EWOActions",
-				"params" : ["_RootCause_","_SecondaryRootCause_"],
+				"params" : [
+					{
+						"name" : "RootCause",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "SecondaryRootCause",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			}
 		},
@@ -117,17 +244,36 @@
 		"Queries" : {
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["1"],
+				"params" : [{ "name" : "1" }],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_DepartmentID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			}
 		},
@@ -140,17 +286,36 @@
 		"Queries" : {
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["1"],
+				"params" : [{ "name" : "1" }],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_DepartmentID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			}
 		},
@@ -168,17 +333,50 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_PlantID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_PlantID_","_DepartmentID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"AccidentTypeID" : {
@@ -203,21 +401,49 @@
 			},
 			"SecondaryCauseID" : {
 				"name" : "SecondaryCauses",
-				"params" : ["_RootCauseID_"],
+				"params" : [
+					{
+						"name" : "RootCauseID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"MicroCauseID" : {
 				"name" : "MicroCauses",
-				"params" : ["_RootCauseID_","_SecondaryCauseID_"],
+				"params" : [
+					{
+						"name" : "RootCauseID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "SecondaryCauseID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"ActionID" : {
 				"name" : "Actions",
-				"params" : ["_RootCauseID_","_SecondaryCauseID_"],
+				"params" : [
+					{
+						"name" : "RootCauseID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "SecondaryCauseID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			}
 			},
-		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com"],
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com", "pittam@mayco-mi.com"],
 		"PK" : "SEWONumber",
 		"Table" : "ESEWOs",
 		"Connection" : "Safety"
@@ -231,22 +457,52 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["1"],
+				"params" : [{ "name" : "1" }],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_DepartmentID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"RepairTypes" : {
 				"name" : "RepairTypes",
 				"params" : [],
+				"options" : []
+			},
+			"ToolName" : {
+				"name" : "GetToolDesc",
+				"params" : [
+					{
+						"name" : "ToolNumber",
+						"ref" : "true", 
+						"returns" : "text"
+					}
+				],
 				"options" : []
 			}
 		},
@@ -264,17 +520,50 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_PlantID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_PlantID_","_DepartmentID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			}
 		},
@@ -292,12 +581,29 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_PlantID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_PlantID_","_DepartmentID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"UATypeID" : {
@@ -308,7 +614,13 @@
 			,
 			"UAMicroTypeID" : {
 				"name" : "UAMicroTypes",
-				"params" : ["_UATypeID_"],
+				"params" : [
+					{
+						"name" : "UATypeID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			}
 		},
@@ -326,17 +638,50 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_PlantID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_PlantID_","_DepartmentID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"AuditorID": {
@@ -346,12 +691,34 @@
 			},
 			"WorkCellID": {
 				"name" : "WorkCells",
-				"params" : ["_PlantID_", "_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"MoldNo": {
 				"name" : "CurrentTools",
-				"params" : ["t_MachineID_"],
+				"params" : [
+					{
+						"name" : "MachineID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options" : []
 			},
 			"SupervisorID": {
@@ -374,17 +741,51 @@
 			},
 			"departments" : {
 				"name" : "Departments",
-				"params" : ["_plants_"],
+				"params" : [
+					{
+						"name" : "plants",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+					
+				],
 				"options": []
 			},
 			"zones" : {
 				"name" : "Zones",
-				"params" : ["_plants_","_departments_"],
+				"params" : [
+					{
+						"name" : "plants",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "departments",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"machines" : {
 				"name" : "Machines",
-				"params" : ["_plants_","_departments_","_zones_"],
+				"params" : [
+					{
+						"name" : "plants",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "departments",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "zones",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"supervisors": {
@@ -407,17 +808,50 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["_PlantID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["_PlantID_","_DepartmentID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["_PlantID_","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{
+						"name" : "PlantID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"AuditorID": {
@@ -445,12 +879,31 @@
 			},
 			"ZoneID" : {
 				"name" : "Zones",
-				"params" : ["1","_DepartmentID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"MachineID" : {
 				"name" : "Machines",
-				"params" : ["1","_DepartmentID_","_ZoneID_"],
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : "true", 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : "true", 
+						"returns" : "value"
+					}
+				],
 				"options": []
 			},
 			"AuditorID": {

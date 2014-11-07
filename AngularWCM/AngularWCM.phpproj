@@ -103,6 +103,10 @@
     <Content Include="res\wcm_logo.jpg" />
     <Content Include="res\wo.gif" />
     <Content Include="res\wo_header.png" />
+    <Content Include="scripts\js\chartFuncs.min.js" />
+    <Content Include="scripts\js\form.min.js" />
+    <Content Include="scripts\js\issues.min.js" />
+    <Content Include="scripts\js\wcm.min.js" />
     <Content Include="SEWO.html" />
     <Content Include="scripts\js\chartFuncs.js" />
     <Content Include="scripts\js\wcm.js" />
