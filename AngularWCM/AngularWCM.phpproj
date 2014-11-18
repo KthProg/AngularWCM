@@ -16,8 +16,8 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="LPA.php" />
     <Compile Include="Dashboard\Chart.php" />
+    <Compile Include="LPA.php" />
     <Compile Include="Dashboard\Issues.html" />
     <Compile Include="EHS.php" />
     <Compile Include="scripts\php\getMaxID.php" />
@@ -49,6 +49,7 @@
     <Content Include="css\issues.css" />
     <Content Include="css\Media.css" />
     <Content Include="css\normalize.css" />
+    <Content Include="css\reporting.css" />
     <Content Include="css\SEWO.css" />
     <Content Include="Dashboard.html" />
     <Content Include="Dashboard\AM.html" />
@@ -105,6 +106,7 @@
     <Content Include="res\wo.gif" />
     <Content Include="res\wo_header.png" />
     <Content Include="scripts\js\chartFuncs.min.js" />
+    <Content Include="scripts\js\dashboard.js" />
     <Content Include="scripts\js\form.min.js" />
     <Content Include="scripts\js\issue.min.js" />
     <Content Include="scripts\js\wcm.min.js" />

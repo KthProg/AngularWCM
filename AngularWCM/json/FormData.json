@@ -98,7 +98,12 @@
 			},
 			"AuditorID": {
 				"name" : "Auditors",
-				"params" : ["EHS"],
+				"params" : [
+					{
+						"name" : "EHS",
+						"ref" : "false"
+					}
+					],
 				"options" : []
 			},
 			"WorkCellID": {
@@ -686,7 +691,12 @@
 			},
 			"AuditorID": {
 				"name" : "Auditors",
-				"params" : ["WCC"],
+				"params" : [
+					{
+						"name" : "WCC",
+						"ref" : "false"
+					}
+					],
 				"options" : []
 			},
 			"WorkCellID": {
@@ -856,7 +866,12 @@
 			},
 			"AuditorID": {
 				"name" : "Auditors",
-				"params" : ["5T"],
+				"params" : [
+					{
+						"name" : "5T",
+						"ref" : "false"
+					}
+					],
 				"options" : []
 			}
 		},
@@ -908,7 +923,12 @@
 			},
 			"AuditorID": {
 				"name" : "Auditors",
-				"params" : ["LPA"],
+				"params" : [
+					{
+						"name" : "LPA",
+						"ref" : "false"
+					}
+					],
 				"options" : []
 			},
 			"SupervisorID": {

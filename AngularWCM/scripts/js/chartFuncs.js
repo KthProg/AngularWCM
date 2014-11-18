@@ -27,7 +27,7 @@ function logError(xhr, status, error) {
 }
 
 function renderParamInputs(data) {
-    var pDiv = $("#ParamDiv");
+    var pDiv = $("#params");
     pDiv.html(""); //clear parameters
     if (data.parameter != undefined) {
         if (data.parameter.length === undefined) {
@@ -48,7 +48,7 @@ function renderParamInputs(data) {
 }
 
 function addParameterInput(name, type, options, query) {
-    var pDiv = $("#ParamDiv");
+    var pDiv = $("#params");
     if (type == "select") {
         if(query){
             var optionsHTML = objectToOptionsHTML(sendNoParamQuery(query));
@@ -103,7 +103,7 @@ function paramsToArray() {
 function checkFilledOut() {
     // ensures that all parameters are filled
     // and all drop downs have a value
-    var params = paramsToArray();
+    /*var params = paramsToArray();
     var query = $("[name='Query']").val();
     var type = $("[name='ChartAs'] option:selected").val();
 
@@ -114,14 +114,14 @@ function checkFilledOut() {
         var msg = (noQuery ? "Select a query to run. " : "") + (noType ? "Select a chart type. " : "") + (emptyParam ? "Fill in all parameters." : "");
         alert(msg);
         return false;
-    }
+    }*/
     return true;
 }
 
-function chartData() {
-    var params = paramsToArray();
-    var query = $("[name='Query']").val();
-    var type = $("[name='ChartAs'] option:selected").val();
+function chartData(ch) {
+    var params = ch.params.map(function (cur) {
+        return cur.value;
+    });
 
     if (!checkFilledOut()) {
         return;
@@ -134,44 +134,40 @@ function chartData() {
         type: "GET",
         dataType: "json",
         data: {
-            Query: query,
+            Query: ch.query,
             Params: JSON.stringify(params),
             ASSOC: "true"
         },
         success: renderChartData,
-        error: logError
+        error: logError,
+        context: ch
     });
-    document.getElementById("chartDiv").innerHTML = '<div class="spinner"><div class="circle1 circle"></div><div class="circle2 circle"></div><div class="circle3 circle"></div><div class="circle4 circle"></div><div class="circle5 circle"></div><div class="circle6 circle"></div><div class="circle7 circle"></div><div class="circle8 circle"></div><div class="circle9 circle"></div><div class="circle10 circle"></div><div class="circle11 circle"></div><div class="circle12 circle"></div></div>';
+
+    $("#"+ch.elID).html('<div class="spinner"><div class="circle1 circle"></div><div class="circle2 circle"></div><div class="circle3 circle"></div><div class="circle4 circle"></div><div class="circle5 circle"></div><div class="circle6 circle"></div><div class="circle7 circle"></div><div class="circle8 circle"></div><div class="circle9 circle"></div><div class="circle10 circle"></div><div class="circle11 circle"></div><div class="circle12 circle"></div></div>');
 }
 
 function renderChartData(data) {
     if (data.length === 0) {
-        document.getElementById("chartDiv").innerHTML = "<h1>Error: No Data</h1>";
+        $("#"+this.elID).html("<h1>Error: No Data</h1>");
+        return;
     }
     console.log(data);
     // options for google vis
-    var options = {
-        title: $("[name='Query'] option:selected").text(),
-        isStacked: true,
-        curveType: 'function',
-        trendlines: getTrendlineObject(Object.keys(data[0]).length)
-    };
+    this.options["trendlines"] = getTrendlineObject(Object.keys(data[0]).length);
 
-    var type = $("[name='ChartAs'] option:selected").val();
+    // get the column info as a datatable (google vis) cdata.datatable
+    // also returns new options cdata["options"]
+    var cdata = getColData(data, this);
 
-    var firstCol = $("[name='Query'] option:selected").attr("data-firstcol") || "";
+    this.dataTable = cdata.datatable;
 
-    // get the column info as a datatable (google vis)
-    var cdata = getColData(data, firstCol);
-
-    var dtable = cdata["datatable"];
-
-    for (var k in cdata["options"]) {
-        options[k] = cdata["options"][k];
+    for (var k in cdata.options) {
+        this.options[k] = cdata.options[k];
     }
 
     // chart that data based on the chart type and above options
-    userChart(dtable, type, options);
+    userChart(this);
+    console.log(this.options);
 }
 
 function getTrendlineObject(seriesCount) {
@@ -187,8 +183,9 @@ function getTrendlineObject(seriesCount) {
     }
 }
 
-function getColData(data, firstCol) {
+function getColData(data, ch) {
     var dataTable = new google.visualization.DataTable();
+    var firstCol = ch.firstCol;
 
     // TODO: keep column order
     // only move first col
@@ -234,7 +231,7 @@ function getColData(data, firstCol) {
             maxVal = totals[0] > maxVal || maxVal == null ? totals[0] : maxVal;
             maxVal = totals[1] > maxVal || maxVal == null ? totals[1] : maxVal;
 
-            if ($("[name='sortOrder'] option:selected").val() == "Asc") {
+            if (ch.sortOrder) {
                 return totals[0] - totals[1];
             } else {
                 return -(totals[0] - totals[1]);
@@ -263,15 +260,15 @@ function getColData(data, firstCol) {
         dataTable.addRow(thisRow);
     }
 
-    // create CSV text from data, set as value of hidden element
-    // user click downloads the text from a URI
-    userDataToCSV(dataTable, firstRow);
-
     var ops = {
         vAxis: {
             logScale: false //Boolean((maxVal/minVal) > 30)
         }
     };
+
+    // create CSV text from data, set as value of hidden element
+    // user click downloads the text from a URI
+    ch.csv = userDataToCSV(dataTable, firstRow);
 
     return { datatable: dataTable, options : ops };
 }
@@ -347,43 +344,35 @@ function userDataToCSV(dataTable, firstRow) {
     csv += "\r\n";
     csv += google.visualization.dataTableToCsv(dataTable);
 
-    getByName("Data").val(csv);
+    return csv;
 }
 
-function printableData(chart) {
-    google.visualization.events.addListener(chart, 'ready', function () {
-        document.getElementById('print').innerHTML = '<a href="' + chart.getImageURI() + '">Printable Chart</a>';
+function printableData(chart, vis) {
+    google.visualization.events.addListener(vis, 'ready', function () {
+        chart.imgURI = vis.getImageURI();
+        console.log(chart);
     });
 }
 
-function clearPrintableData(){
-    document.getElementById('print').innerHTML = '<a href="">Printable Chart</a>';
-}
-
-function userChart(dataTable, type, options) {
-    document.getElementById("chartDiv").innerHTML = "";
-    switch (type) {
+function userChart(ch) {
+    $("#" + ch.elID).html("");
+    var chartEl = $("#" + ch.elID)[0];
+    switch (ch.type) {
         case "bar":
-            var vis = new google.visualization.ColumnChart(document.getElementById("chartDiv"));
-            printableData(vis);
+            var vis = new google.visualization.ColumnChart(chartEl);
+            printableData(ch, vis);
             break;
         case "table":
-            var vis = new google.visualization.Table(document.getElementById("chartDiv"));
+            var vis = new google.visualization.Table(chartEl);
             break;
         case "line":
-            var vis = new google.visualization.LineChart(document.getElementById("chartDiv"));
-            printableData(vis);
+            var vis = new google.visualization.LineChart(chartEl);
+            printableData(ch, vis);
             break;
         case "pie":
-            var vis = new google.visualization.PieChart(document.getElementById("chartDiv"));
-            printableData(vis);
+            var vis = new google.visualization.PieChart(chartEl);
+            printableData(ch, vis);
             break;
     }
-    vis.draw(dataTable, options);
+    vis.draw(ch.dataTable, ch.options);
 }
-
-/*
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-*/

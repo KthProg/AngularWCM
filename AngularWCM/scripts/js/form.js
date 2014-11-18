@@ -50,9 +50,12 @@
     };
 
     var getInitialOptions = function () {
-        // get options for all selects who's queries have no parameters
+        // get options for all selects who's queries have no reference parameters
         for (var q in $scope.queries) {
-            if ($scope.queries[q].params.length == 0) {
+            var hasRefs = $scope.queries[q].params.reduce(function (prev, curr) {
+                return prev.ref && curr.ref;
+            }, true);
+            if (!hasRefs) {
                 getOptions(q);
             }
         }

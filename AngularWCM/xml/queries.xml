@@ -146,6 +146,22 @@
     <connection>Mattec</connection>
     <qstring>SELECT TOP 1 0, MoldDesc FROM MoldIDs WHERE MoldID=?</qstring>
   </query>
+  <query name="GetDashboardLayouts">
+    <connection>Safety</connection>
+    <qstring>SELECT ID, Name FROM ReportingLayouts</qstring>
+  </query>
+  <query name="OpenDashboardLayout">
+    <connection>Safety</connection>
+    <qstring>SELECT LayoutJSON FROM ReportingLayouts WHERE ID=?</qstring>
+  </query>
+  <query name="SaveDashboardLayout">
+    <connection>Safety</connection>
+    <qstring>INSERT INTO ReportingLayouts (LayoutJSON, Name) VALUES(?, ?)</qstring>
+  </query>
+  <query name="UpdateDashboardLayout">
+    <connection>Safety</connection>
+    <qstring>UPDATE ReportingLayouts SET LayoutJSON=? WHERE ID=?</qstring>
+  </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
     <connection>Safety</connection>
@@ -331,11 +347,11 @@
   </query>
   <query name="ZonesNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits WHERE Plant + ' ' + Department + ' ' + Zone IS NOT NULL)</qstring>
   </query>
   <query name="WorkCellsNotAudited">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits WHERE Plant + ' ' + Department + ' ' + WorkCell IS NOT NULL)</qstring>
   </query>
   <query name="AuditorsWithoutAudits">
     <connection>Safety</connection>
@@ -344,7 +360,7 @@
       FROM Auditor au
       JOIN Auditor_Types at
       ON at.AuditorID=au.ID
-      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits)
+      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits WHERE AuditorName IS NOT NULL)
     </qstring>
   </query>
   <query name="OilPerPress">
