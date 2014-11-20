@@ -12,7 +12,7 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -24,12 +24,12 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -53,7 +53,7 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -64,12 +64,12 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -80,17 +80,17 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -101,7 +101,7 @@
 				"params" : [
 					{
 						"name" : "EHS",
-						"ref" : "false"
+						"ref" : false
 					}
 					],
 				"options" : []
@@ -111,17 +111,17 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -132,7 +132,7 @@
 				"params" : [
 					{
 						"name" : "MachineID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -162,7 +162,7 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -174,12 +174,12 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -191,17 +191,17 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "MachineID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -217,7 +217,7 @@
 				"params" : [
 					{
 						"name" : "RootCause",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -228,12 +228,12 @@
 				"params" : [
 					{
 						"name" : "RootCause",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "SecondaryRootCause",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -258,7 +258,7 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -270,12 +270,12 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -300,7 +300,7 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -312,12 +312,12 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -341,7 +341,7 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -352,12 +352,12 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -368,17 +368,17 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -409,7 +409,7 @@
 				"params" : [
 					{
 						"name" : "RootCauseID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -420,12 +420,12 @@
 				"params" : [
 					{
 						"name" : "RootCauseID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "SecondaryCauseID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -436,12 +436,12 @@
 				"params" : [
 					{
 						"name" : "RootCauseID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "SecondaryCauseID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -471,7 +471,7 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -483,12 +483,12 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -504,7 +504,7 @@
 				"params" : [
 					{
 						"name" : "ToolNumber",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "text"
 					}
 				],
@@ -528,7 +528,7 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -539,12 +539,12 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -555,17 +555,17 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -589,7 +589,7 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -600,12 +600,12 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -622,7 +622,7 @@
 				"params" : [
 					{
 						"name" : "UATypeID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -646,7 +646,7 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -657,12 +657,12 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -673,17 +673,17 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -694,7 +694,7 @@
 				"params" : [
 					{
 						"name" : "WCC",
-						"ref" : "false"
+						"ref" : false
 					}
 					],
 				"options" : []
@@ -704,17 +704,17 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -725,7 +725,7 @@
 				"params" : [
 					{
 						"name" : "MachineID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -754,7 +754,7 @@
 				"params" : [
 					{
 						"name" : "plants",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 					
@@ -766,12 +766,12 @@
 				"params" : [
 					{
 						"name" : "plants",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "departments",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -782,17 +782,17 @@
 				"params" : [
 					{
 						"name" : "plants",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "departments",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "zones",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -821,7 +821,7 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -832,12 +832,12 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -848,17 +848,17 @@
 				"params" : [
 					{
 						"name" : "PlantID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -869,7 +869,7 @@
 				"params" : [
 					{
 						"name" : "5T",
-						"ref" : "false"
+						"ref" : false
 					}
 					],
 				"options" : []
@@ -889,7 +889,7 @@
 			},
 			"DepartmentID" : {
 				"name" : "Departments",
-				"params" : ["1"],
+				"params" : [{"name" : "1"}],
 				"options": []
 			},
 			"ZoneID" : {
@@ -898,7 +898,7 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -910,12 +910,12 @@
 					{ "name" : "1" },
 					{
 						"name" : "DepartmentID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					},
 					{
 						"name" : "ZoneID",
-						"ref" : "true", 
+						"ref" : true, 
 						"returns" : "value"
 					}
 				],
@@ -926,7 +926,7 @@
 				"params" : [
 					{
 						"name" : "LPA",
-						"ref" : "false"
+						"ref" : false
 					}
 					],
 				"options" : []

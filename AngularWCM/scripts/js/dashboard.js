@@ -1,6 +1,7 @@
 ﻿var app = angular.module("wcm", []);
 
 function Dashboard($scope, $http) {
+
     $scope.charts = [];
 
     $scope.addChart = function () {
@@ -29,6 +30,7 @@ function Dashboard($scope, $http) {
             query: $('#chart_query').val(),
             params: paramsArr,
             showParams: false,
+            showTypes: false,
             minimized: false,
             maximized: false,
             type: $("#chart_type").val(),
@@ -83,8 +85,8 @@ function Dashboard($scope, $http) {
         $http.get("/scripts/php/Query.php?ASSOC=true&Query=OpenDashboardLayout&Params=" + encodeURIComponent(JSON.stringify([$("#open_layout").val()])))
         .success(
         function (resp) {
-            console.log(resp);
             var newChartsArr = JSON.parse(resp[0]["LayoutJSON"]);
+            // format values
             for (var i = 0, l = newChartsArr.length; i < l; ++i) {
                 for (var j = 0, m = newChartsArr[i].params.length; j < m; ++j) {
                     var param = newChartsArr[i].params[j];
@@ -112,10 +114,17 @@ function Dashboard($scope, $http) {
         });
     };
 
-    $scope.changeIndex = function (prevIndex, $event) {
-        console.log(prevIndex, $event);
-        //var chart = $scope.charts.splice(prevIndex, 1);
-        //$scope.charts.splice($event.target, 0, chart);
+    $scope.changeIndex = function (from, to) {
+        if (from == to
+            || from < 0
+            || to < 0
+            || from > ($scope.charts.length - 1)
+            || to > ($scope.charts.length - 1)) {
+            console.log("Invalid from or to indices.");
+            return;
+        }
+
+        $scope.charts.splice(to, 0, $scope.charts.splice(from, 1)[0]);
     };
 
     var makeChartsCopyForDatabase = function(){
@@ -157,6 +166,55 @@ function Dashboard($scope, $http) {
                 break;
         }
         return value;
+    };
+
+    $scope.all_changeShowParams = function () {
+        $scope.charts.forEach(function (el) {
+            el.showParams = !el.showParams;
+        });
+    };
+
+    $scope.all_changeMinimized = function () {
+        $scope.charts.forEach(function (el) {
+            el.minimized = !el.minimized;
+        });
+    };
+
+    $scope.all_changeMaximized = function () {
+        $scope.charts.forEach(function (el) {
+            el.maximized = !el.maximized;
+        });
+    };
+
+    $scope.all_removeChart = function () {
+        for (var i = 0, l = $scope.charts.length; i < l; ++i) {
+            $scope.removeChart(0);
+            console.log($scope.charts);
+        };
+    };
+
+    $scope.all_runQuery = function () {
+        for (var i = 0, l = $scope.charts.length; i < l; ++i) {
+            $scope.runQuery(i);
+        };
+    };
+
+    $scope.all_viewImage = function () {
+        for (var i = 0, l = $scope.charts.length; i < l; ++i) {
+            $scope.viewImage(i);
+        };
+    };
+
+    $scope.all_getCSVFile = function () {
+        for (var i = 0, l = $scope.charts.length; i < l; ++i) {
+            $scope.getCSVFile(i);
+        };
+    };
+
+    $scope.all_changeShowTypes = function () {
+        $scope.charts.forEach(function (el) {
+            el.showTypes = !el.showTypes;
+        });
     };
 
     $("#open_layout").html(objectToOptionsHTML(sendNoParamQuery("GetDashboardLayouts")));

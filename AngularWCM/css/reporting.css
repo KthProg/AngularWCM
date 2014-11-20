@@ -112,6 +112,14 @@ select, input, button {
     vertical-align: middle;
 }
 
+#aggregate_control_panel button {
+    font-size: 2em;
+    height: 2em;
+    width: 2em;
+    padding: 0.5em;
+}
+
+
 #icon_panel {
     position: fixed;
     left: 2px;
@@ -133,14 +141,19 @@ select, input, button {
     vertical-align: middle;
 }
 
-#control_panel {
+#control_panel > div{
     border: 1px dashed skyblue;
     width: 200px;
     border-radius: 5px;
     background-color: grey;
-    clear: right;
+    float: left;
+    margin-left: 20px;
 }
 
-    #control_panel label {
+    #control_panel > div label {
         color: white;
     }
+
+#main_panel > div:nth-of-type(1) {
+    clear: left;
+}

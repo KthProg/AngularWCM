@@ -291,47 +291,29 @@
     <connection>Safety</connection>
     <qstring>SELECT * FROM vNextPM</qstring>
   </query>
-  <query name="AuditsPerAuditor">
+  <query name="WCCPerAuditor">
     <connection>Safety</connection>
-    <qstring>
-      SELECT AuditorName, [WCC], [EHS] FROM 
-      ( 
-        SELECT AuditorName, AuditType
-        FROM vAudits
-      ) AS Temp
-      PIVOT (
-        COUNT(AuditType)
-        FOR [AuditType] IN ([WCC], [EHS])
-      ) AS Pivoted
-    </qstring>
+    <qstring>SELECT AuditorName, COUNT(*) AS Audits FROM vWCC GROUP BY AuditorName</qstring>
   </query>
-  <query name="AuditsPerWorkCell">
+  <query name="EHSPerAuditor">
     <connection>Safety</connection>
-    <qstring>
-      SELECT WorkCell, [WCC], [EHS] FROM 
-      ( 
-        SELECT WorkCell, AuditType
-        FROM vAudits
-      ) AS Temp
-      PIVOT (
-        COUNT(AuditType)
-        FOR [AuditType] IN ([WCC], [EHS])
-      ) AS Pivoted
-    </qstring>
+    <qstring>SELECT AuditorName, COUNT(*) AS Audits FROM vEHS GROUP BY AuditorName</qstring>
   </query>
-  <query name="AuditsPerZone">
+  <query name="WCCPerWorkCell">
     <connection>Safety</connection>
-    <qstring>
-      SELECT DeptZone, [WCC], [EHS] FROM 
-      ( 
-        SELECT (Department + ' ' + Zone) AS DeptZone, AuditType
-        FROM vAudits
-      ) AS Temp
-      PIVOT (
-        COUNT(AuditType)
-        FOR [AuditType] IN ([WCC], [EHS])
-      ) AS Pivoted
-    </qstring>
+    <qstring>SELECT Department + ' - ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vWCC GROUP BY Department + ' - ' + WorkCell</qstring>
+  </query>
+  <query name="EHSPerWorkCell">
+    <connection>Safety</connection>
+    <qstring>SELECT Department + ' - ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vEHS GROUP BY Department + ' - ' + WorkCell</qstring>
+  </query>
+  <query name="WCCPerZone">
+    <connection>Safety</connection>
+    <qstring>SELECT Department + ' - ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vWCC GROUP BY Department + ' - ' + Zone</qstring>
+  </query>
+  <query name="EHSPerZone">
+    <connection>Safety</connection>
+    <qstring>SELECT Department + ' - ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vEHS GROUP BY Department + ' - ' + Zone</qstring>
   </query>
   <query name="AgingReport">
     <connection>Safety</connection>
@@ -345,22 +327,42 @@
     <connection>Safety</connection>
     <qstring>SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, Severity FROM vOpenIssues ORDER BY Severity</qstring>
   </query>
-  <query name="ZonesNotAudited">
+  <query name="ZonesNotEHSd">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vAudits WHERE Plant + ' ' + Department + ' ' + Zone IS NOT NULL)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vEHS WHERE Plant + ' ' + Department + ' ' + Zone IS NOT NULL)</qstring>
   </query>
-  <query name="WorkCellsNotAudited">
+  <query name="ZonesNotWCCd">
     <connection>Safety</connection>
-    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vAudits WHERE Plant + ' ' + Department + ' ' + WorkCell IS NOT NULL)</qstring>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vWCC WHERE Plant + ' ' + Department + ' ' + Zone IS NOT NULL)</qstring>
   </query>
-  <query name="AuditorsWithoutAudits">
+  <query name="WorkCellsNotEHSd">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vEHS WHERE Plant + ' ' + Department + ' ' + WorkCell IS NOT NULL)</qstring>
+  </query>
+  <query name="WorkCellsNotWCCd">
+    <connection>Safety</connection>
+    <qstring>SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vWCC WHERE Plant + ' ' + Department + ' ' + WorkCell IS NOT NULL)</qstring>
+  </query>
+  <query name="AuditorsWithoutWCCs">
     <connection>Safety</connection>
     <qstring>
       SELECT DISTINCT AuditorName, AuditorType
       FROM Auditor au
       JOIN Auditor_Types at
       ON at.AuditorID=au.ID
-      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vAudits WHERE AuditorName IS NOT NULL)
+      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vWCC WHERE AuditorName IS NOT NULL)
+        AND AuditorType='WCC'
+    </qstring>
+  </query>
+  <query name="AuditorsWithoutEHSs">
+    <connection>Safety</connection>
+    <qstring>
+      SELECT DISTINCT AuditorName, AuditorType
+      FROM Auditor au
+      JOIN Auditor_Types at
+      ON at.AuditorID=au.ID
+      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vEHS WHERE AuditorName IS NOT NULL)
+        AND AuditorType='EHS'
     </qstring>
   </query>
   <query name="OilPerPress">

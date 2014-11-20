@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>WCM Reporting</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.js"></script>
     <script src="/scripts/js/chartFuncs.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -178,124 +178,148 @@
         <img style="width: 33%; margin-left: 33%; margin-right: 33%; margin-bottom: 50px;" src="/res/wcm_logo.png" />
     </div>
     <div id="control_panel">
-        <label style="display: block; margin: 8px; text-align: center; color: white;">Create Dashboard</label>
-        <select id="chart_query" onchange="getParams($(this).val())">
-            <option value="" selected="selected">Select a Query</option>
-            <optgroup label="PM"></optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Averages">
-                <option value="MachMTBF" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;MTBF by Machine (Bar)</option>
-                <option value="MachMTTR" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;MTTR by Machine (Bar)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Downtime">
-                <option value="MachDowntime" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Downtime Reasons by Machine (Bar)</option>
-                <option value="MachDownCodesByMonth" data-firstcol="Month">&nbsp;&nbsp;&nbsp;&nbsp;Machine Downtime Reasons by Month (Bar)</option>
-                <option value="MaintDowntime" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Maintenance Downtime Reasons by Machine (Bar)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Scrap">
-                <option value="MachScrap" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine Scrap (Bar)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;OEE">
-                <option value="MachOEE" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine OEE (Bar)</option>
-                <option value="MachOEEByMonth" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine OEE By Month</option>
-                <option value="MoldOEE" data-firstcol="MoldID">&nbsp;&nbsp;&nbsp;&nbsp;Tool OEE (Bar)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Oil">
-                <option value="OilPerPress" data-firstcol="Press">&nbsp;&nbsp;&nbsp;&nbsp;Oil per Press (Bar)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;EWOs">
-                <option value="EWOsVsBreakdowns" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;EWOs Vs Breakdowns (Table)</option>
-                <option value="PressStratification" data-firstcol="Machine">&nbsp;&nbsp;&nbsp;&nbsp;Press Stratification for EWOs (Bar)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Tags">
-                <option value="TagTrend" data-firstcol="Date">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Trend (Line)</option>
-                <option value="TagTrendMach" data-firstcol="Date">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Trend By Machine (Line)</option>
-                <option value="PMTagDetail" data-firstcol="TagNo">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Details (Table)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Tools">
-                <option value="PMDue" data-firstcol="MoldID">&nbsp;&nbsp;&nbsp;&nbsp;PM Due per Tool (Table)</option>
-            </optgroup>
-            <optgroup label="Safety"></optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Audits">
-                <option value="AuditsPerAuditor" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Auditor (Bar)</option>
-                <option value="AuditsPerWorkCell" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Work Cell (Bar)</option>
-                <option value="AuditsPerZone" data-firstcol="DeptZone">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Zone (Bar)</option>
-                <option value="AuditorsWithoutAudits" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Auditors With No Audits (Table)</option>
-                <option value="WorkCellsNotAudited" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Work Cells Without Audits (Table)</option>
-                <option value="ZonesNotAudited" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Zones Without Audits (Table)</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Issues">
-                <option value="AgingReport" data-firstcol="Issue">&nbsp;&nbsp;&nbsp;&nbsp;Days Open per Issue (Bar)</option>
-                <option value="SeverityReport" data-firstcol="Severity">&nbsp;&nbsp;&nbsp;&nbsp;Number of Issues By Severity (Pie)</option>
-                <option value="IssuesBySeverity" data-firstcol="Issue">&nbsp;&nbsp;&nbsp;&nbsp;Issues By Severity (Table)</option>
-                <option value="NumberOfIssuesByLine" data-firstcol="Line Item">&nbsp;&nbsp;&nbsp;&nbsp;Number of Issues by Line</option>
-            </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;UCANs">
-                <option value="UCANDetail" data-firstcol="ID">&nbsp;&nbsp;&nbsp;&nbsp;UCAN Detail (Table)</option>
-            </optgroup>
-            <optgroup label="LO"></optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;5T">
-                <option value="5TScoreByMachine" data-firstcol="Machine">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Machine per Month (Bar)</option>
-                <option value="5TScoreByZone" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Zone per Month (Bar)</option>
-                <option value="5TScoreByDept" data-firstcol="Department">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Department per Month (Bar)</option>
-                <option value="5TAuditScores" data-firstcol="ID">&nbsp;&nbsp;&nbsp;&nbsp;Audit Scores and Details (Table)</option>
-            </optgroup>
-        </select>
-        <select id="chart_type">
-            <option value="" selected="selected">Choose a Chart Type</option>
-            <option value="table">Table</option>
-            <option value="bar">Bar</option>
-            <option value="line">Line</option>
-            <option value="pie">Pie</option>
-        </select>
-        <select id="sort_order">
-            <option value="Asc">Ascending</option>
-            <option value="Desc">Descending</option>
-        </select>
-        <div id="params"></div>
-        <!-- use existing code to render parameters -->
-        <!-- maybe add chart options here automatically -->
-        <select id="chart_width" required>
-            <option value="">Set Width</option>
-            <option value="25">25%</option>
-            <option value="33">33%</option>
-            <option value="40">40%</option>
-            <option value="50">50%</option>
-            <option value="60">60%</option>
-            <option value="66">66%</option>
-            <option value="75">75%</option>
-            <option value="100">100%</option>
-        </select>
-        <select id="chart_height" required>
-            <option value="">Set Height</option>
-            <option value="50">50px</option>
-            <option value="100">100px</option>
-            <option value="150">150px</option>
-            <option value="200">200px</option>
-            <option value="250">250px</option>
-        </select>
-        <button ng-click="addChart()">Add Chart</button>
-        <!-- on click, send broadcast to model with chart data -->
-        <input id="layout_name" type="text" placeholder="Layout name" required />
-        <button ng-click="saveOrUpdateLayout(false)">Save Layout</button>
-        <!-- on click, upload dashboard layout to database -->
-        <select id="open_layout">
-            <!-- auto populate options -->
-        </select>
-        <button ng-click="openLayout()">Open Layout</button>
-        <button ng-click="saveOrUpdateLayout(true)">Update Layout</button>
+        <div id="create_dashboard">
+            <label style="display: block; margin: 8px; text-align: center; color: white;">Create Dashboard</label>
+            <select id="chart_query" onchange="getParams($(this).val())">
+                <option value="" selected="selected">Select a Query</option>
+                <optgroup label="PM"></optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Averages">
+                    <option value="MachMTBF" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;MTBF by Machine </option>
+                    <option value="MachMTTR" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;MTTR by Machine </option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Downtime">
+                    <option value="MachDowntime" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Downtime Reasons by Machine </option>
+                    <option value="MachDownCodesByMonth" data-firstcol="Month">&nbsp;&nbsp;&nbsp;&nbsp;Machine Downtime Reasons by Month </option>
+                    <option value="MaintDowntime" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Maintenance Downtime Reasons by Machine </option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Scrap">
+                    <option value="MachScrap" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine Scrap </option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;OEE">
+                    <option value="MachOEE" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine OEE </option>
+                    <option value="MachOEEByMonth" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine OEE By Month</option>
+                    <option value="MoldOEE" data-firstcol="MoldID">&nbsp;&nbsp;&nbsp;&nbsp;Tool OEE </option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Oil">
+                    <option value="OilPerPress" data-firstcol="Press">&nbsp;&nbsp;&nbsp;&nbsp;Oil per Press </option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;EWOs">
+                    <option value="EWOsVsBreakdowns" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;EWOs Vs Breakdowns (Table) </option>
+                    <option value="PressStratification" data-firstcol="Machine">&nbsp;&nbsp;&nbsp;&nbsp;Press Stratification for EWOs </option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Tags">
+                    <option value="TagTrend" data-firstcol="Date">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Trend </option>
+                    <option value="TagTrendMach" data-firstcol="Date">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Trend By Machine </option>
+                    <option value="PMTagDetail" data-firstcol="TagNo">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Details (Table)</option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Tools">
+                    <option value="PMDue" data-firstcol="MoldID">&nbsp;&nbsp;&nbsp;&nbsp;PM Due per Tool (Table)</option>
+                </optgroup>
+                <optgroup label="Safety"></optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;WCC">
+                    <option value="WCCPerAuditor" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Auditor </option>
+                    <option value="WCCPerWorkCell" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Work Cell </option>
+                    <option value="WCCPerZone" data-firstcol="DeptZone">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Zone </option>
+                    <option value="AuditorsWithoutWCCs" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Auditors With No Audits (Table)</option>
+                    <option value="WorkCellsNotWCCd" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Work Cells Without Audits (Table)</option>
+                    <option value="ZonesNotWCCd" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Zones Without Audits (Table)</option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;EHS">
+                    <option value="EHSPerAuditor" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Auditor </option>
+                    <option value="EHSPerWorkCell" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Work Cell </option>
+                    <option value="EHSPerZone" data-firstcol="DeptZone">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Zone </option>
+                    <option value="AuditorsWithoutEHSs" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Auditors With No Audits (Table)</option>
+                    <option value="WorkCellsNotEHSd" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Work Cells Without Audits (Table)</option>
+                    <option value="ZonesNotEHSd" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Zones Without Audits (Table)</option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Issues">
+                    <option value="AgingReport" data-firstcol="Issue">&nbsp;&nbsp;&nbsp;&nbsp;Days Open per Issue </option>
+                    <option value="SeverityReport" data-firstcol="Severity">&nbsp;&nbsp;&nbsp;&nbsp;Number of Issues By Severity </option>
+                    <option value="IssuesBySeverity" data-firstcol="Issue">&nbsp;&nbsp;&nbsp;&nbsp;Issues By Severity </option>
+                    <option value="NumberOfIssuesByLine" data-firstcol="Line Item">&nbsp;&nbsp;&nbsp;&nbsp;Number of Issues by Line</option>
+                </optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;UCANs">
+                    <option value="UCANDetail" data-firstcol="ID">&nbsp;&nbsp;&nbsp;&nbsp;UCAN Detail (Table)</option>
+                </optgroup>
+                <optgroup label="LO"></optgroup>
+                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;5T">
+                    <option value="5TScoreByMachine" data-firstcol="Machine">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Machine per Month </option>
+                    <option value="5TScoreByZone" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Zone per Month </option>
+                    <option value="5TScoreByDept" data-firstcol="Department">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Department per Month </option>
+                    <option value="5TAuditScores" data-firstcol="ID">&nbsp;&nbsp;&nbsp;&nbsp;Audit Scores and Details (Table)</option>
+                </optgroup>
+            </select>
+            <select id="chart_type">
+                <option value="" selected="selected">Choose a Chart Type</option>
+                <option value="table">Table</option>
+                <option value="bar">Bar</option>
+                <option value="line">Line</option>
+                <option value="pie">Pie</option>
+            </select>
+            <select id="sort_order">
+                <option value="Asc">Ascending</option>
+                <option value="Desc">Descending</option>
+            </select>
+            <div id="params"></div>
+            <!-- use existing code to render parameters -->
+            <!-- maybe add chart options here automatically -->
+            <select id="chart_width" required>
+                <option value="">Set Width</option>
+                <option value="25">25%</option>
+                <option value="33">33%</option>
+                <option value="40">40%</option>
+                <option value="50">50%</option>
+                <option value="60">60%</option>
+                <option value="66">66%</option>
+                <option value="75">75%</option>
+                <option value="100">100%</option>
+            </select>
+            <select id="chart_height" required>
+                <option value="">Set Height</option>
+                <option value="50">50px</option>
+                <option value="100">100px</option>
+                <option value="150">150px</option>
+                <option value="200">200px</option>
+                <option value="250">250px</option>
+            </select>
+            <button ng-click="addChart()">Add Chart</button>
+        </div>
+        <div id="edit_layout">
+            <label style="display: block; margin: 8px; text-align: center; color: white;">Edit Layout</label>
+            <input id="layout_name" type="text" placeholder="Layout name" required />
+            <button ng-click="saveOrUpdateLayout(false)">Save Layout</button>
+            <select id="open_layout">
+                <!-- auto populate options -->
+            </select>
+            <button ng-click="openLayout()">Open Layout</button>
+            <button ng-click="saveOrUpdateLayout(true)">Update Layout</button>
+        </div>
+        <div id="aggregate_control_panel">
+            <label style="display: block; margin: 8px; text-align: center; color: white;">Main Controls</label>
+            <button ng-click="all_changeShowParams()" title="Show / Hide Parameters">&colone;</button>
+            <button ng-click="all_changeMinimized()" title="Minimize / Restore All">&ndash;</button>
+            <button ng-click="all_changeMaximized()" title="Maximize / Restore All">&#9744;</button>
+            <button ng-click="all_removeChart()" title="Remove All">&#215;</button>
+            <button ng-click="all_runQuery()" title="Render Charts">&#8635;</button>
+            <a ng-click="all_viewImage()" title="Download Images"><button>&#9988;</button></a><!-- view as image -->
+            <button ng-click="all_getCSVFile()" title="Download CSV Files">&#8681;</button><!-- export -->
+            <button ng-click="all_changeShowTypes()" title="Show / Hide Chart Options">&#8735;</button><!-- change chart type -->
+        </div>
     </div>
-    <div id="main_panel" ng-repeat="chart in charts">
-        <div style="height: {{ chart.maximized ? '500px' : chart.options.height }}; width: {{ chart.maximized ? '100%' : (chart.options.width.replace('%','') - 10) + '%'}}; position: relative; " ng-show="!chart.minimized">
+    <div id="main_panel">
+        <div ng-repeat="chart in charts" style="z-index: 0; height: {{ chart.maximized ? '500px' : chart.options.height }}; width: {{ chart.maximized ? '90%' : (chart.options.width.replace('%','') - 10) + '%'}}; position: relative; " ng-show="!chart.minimized">
             <!-- <h1>{{ chart.name }}</h1> -->
-            <div class="chart_buttons" style="position: absolute; top: 2px; left: 2px; z-index: 999;">
-                <button ng-click="chart.showParams = !chart.showParams">&colone;</button>
-                <button ng-click="chart.minimized = true">&ndash;</button>
-                <button ng-click="chart.maximized = !chart.maximized;">&#9744;</button>
-                <button ng-click="removeChart($index)">&#215;</button>
-                <button ng-click="runQuery($index)">&#8635;</button>
-                <a ng-click="viewImage($index)"><button>&#9988;</button></a><!-- view as image -->
-                <button ng-click="getCSVFile($index)">&#8681;</button><!-- export -->
-                <button ng-click="chart.showTypes = !chart.showTypes">&#8735;</button><!-- change chart type -->
+            <div class="chart_buttons" style="position: absolute; top: 2px; left: 2px; z-index: 1;">
+                <button ng-click="changeIndex($index, $index-1)" title="Move Left">&lt;</button>
+                <button ng-click="chart.showParams = !chart.showParams" title="Show / Hide Parameters">&colone;</button>
+                <button ng-click="chart.minimized = true" title="Minimize">&ndash;</button>
+                <button ng-click="chart.maximized = !chart.maximized;" title="Maximize / Restore">&#9744;</button>
+                <button ng-click="removeChart($index)" title="Remove">&#215;</button>
+                <button ng-click="runQuery($index)" title="Render Chart">&#8635;</button>
+                <a ng-click="viewImage($index)" title="Download as Image"><button>&#9988;</button></a><!-- view as image -->
+                <button ng-click="getCSVFile($index)" title="Download CSV File">&#8681;</button><!-- export -->
+                <button ng-click="chart.showTypes = !chart.showTypes" title="Show / Hide Chart Options">&#8735;</button><!-- change chart type -->
+                <button ng-click="changeIndex($index, $index+1)" title="Move Right">&gt;</button>
             </div>
             <div ng-repeat="param in chart.params" ng-show="chart.showParams">
                 <div ng-if="['text','date','datetime','datetime-local','time','range','number'].indexOf(param.type) > -1">
@@ -334,15 +358,14 @@
                     <option value="200px">200px</option>
                     <option value="250px">250px</option>
                 </select>
-                <!-- <input type="number" placeholder="Order" ng-model="$index" ng-change="changeIndex($index, $event)" /> --->
             </div>
             <div id="{{ chart.query }}" style="height: 90%; width: 90%;"></div>
         </div>
     </div>
-    <div id="icon_panel">
+    <div id="icon_panel" style="z-index: 2;">
         <span ng-repeat="chart in charts" style="width: 10%; height: 10%;" ng-show="chart.minimized">
             <a style="font-size: 0.75em;">{{ chart.options.title }}</a>
-            <button style="display: inline;" ng-click="chart.maximized = false; chart.minimized = false;">&#9744;</button>
+            <button style="display: inline;" ng-click="chart.minimized = false;">&#9744;</button>
         </span>
     </div>
 </body>

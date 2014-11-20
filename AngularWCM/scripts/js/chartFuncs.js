@@ -151,7 +151,6 @@ function renderChartData(data) {
         $("#"+this.elID).html("<h1>Error: No Data</h1>");
         return;
     }
-    console.log(data);
     // options for google vis
     this.options["trendlines"] = getTrendlineObject(Object.keys(data[0]).length);
 
@@ -167,7 +166,6 @@ function renderChartData(data) {
 
     // chart that data based on the chart type and above options
     userChart(this);
-    console.log(this.options);
 }
 
 function getTrendlineObject(seriesCount) {
@@ -176,7 +174,6 @@ function getTrendlineObject(seriesCount) {
         for (var i = 0; i < seriesCount; ++i) {
             tlObj[i] = {};
         }
-        console.log(tlObj);
         return tlObj;
     } else {
         return {};
@@ -279,7 +276,6 @@ function getRowTotal(row) {
     for (var i = 1, l = keys.length; i < l; ++i) {
         total += Number(row[keys[i]]);
     }
-    console.log(row[keys[0]], total);
     return total;
 }
 
@@ -350,7 +346,6 @@ function userDataToCSV(dataTable, firstRow) {
 function printableData(chart, vis) {
     google.visualization.events.addListener(vis, 'ready', function () {
         chart.imgURI = vis.getImageURI();
-        console.log(chart);
     });
 }
 

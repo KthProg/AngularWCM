@@ -7,7 +7,7 @@
     var table = "";
     var pk = "";
     $scope.id = -1;
-    var contacts = [];
+    $scope.contacts = [];
     var emailBody = "";
     var connection = "";
 
@@ -21,7 +21,7 @@
     // their options asynchronously
     $scope.setFormData = function (formName) {
         name = formName;
-        $http.get("/json/FormData.min.json") // FormData.json for development
+        $http.get("/json/FormData.json") // FormData.json for development
         .success(function (resp) {
             connection = resp[name]["Connection"];
             table = resp[name]["Table"];
@@ -53,9 +53,9 @@
         // get options for all selects who's queries have no reference parameters
         for (var q in $scope.queries) {
             var hasRefs = $scope.queries[q].params.reduce(function (prev, curr) {
-                return prev.ref && curr.ref;
-            }, true);
-            if (!hasRefs) {
+                return { ref: (prev.ref || (curr.ref || false)) };
+            }, { ref: false });
+            if (!hasRefs.ref) {
                 getOptions(q);
             }
         }
@@ -329,7 +329,7 @@
             Table: table,
             PK: pk,
             ID: $scope.id,
-            Contacts: contacts.join(";"),
+            Contacts: $scope.contacts.join(";"),
             EmailBody: emailBody,
             Connection: connection
         }
@@ -395,17 +395,17 @@
 
     var removeContacts = function (arr) {
         for (var i = 0, l = arr.length; i < l; ++i) {
-            var index = contacts.indexOf(arr[i]);
+            var index = $scope.contacts.indexOf(arr[i]);
             if (index > -1) {
-                contacts.splice(index, 1);
+                $scope.contacts.splice(index, 1);
             }
         }
-        //console.log($scope.contacts);
+        console.log($scope.contacts);
     };
 
     var addContacts = function (arr) {
-        contacts = contacts.concat(arr);
-        //console.log($scope.contacts);
+        $scope.contacts = $scope.contacts.concat(arr);
+        console.log($scope.contacts);
     };
 }
 
