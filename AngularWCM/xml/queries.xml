@@ -162,6 +162,17 @@
     <connection>Safety</connection>
     <qstring>UPDATE ReportingLayouts SET LayoutJSON=? WHERE ID=?</qstring>
   </query>
+  <query name="SearchForm">
+    <connection>Safety</connection>
+    <qstring>
+      EXEC('
+      SELECT ROW_NUMBER() OVER(ORDER BY (select 0)) AS RowNum, 
+        ' + ? + '
+      FROM ' + ? + '
+      WHERE CAST(' + ? + ' as varchar(max))
+        LIKE ''%' + ? + '%''')
+    </qstring>
+  </query>
   <!-- Chart Queries -->
   <query name="MachMTBF">
     <connection>Safety</connection>

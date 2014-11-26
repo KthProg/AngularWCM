@@ -62,6 +62,7 @@
     <Content Include="Dashboard\LO.html" />
     <Content Include="Dashboard\SA.html" />
     <Content Include="EWO.html" />
+    <Content Include="JSA.html" />
     <Content Include="json\FormData.json" />
     <Content Include="PMTag.html" />
     <Content Include="QuickKaizen.html" />
@@ -87,6 +88,7 @@
     <Content Include="res\cd_header.png" />
     <Content Include="res\fi.gif" />
     <Content Include="res\fi_header.png" />
+    <Content Include="res\jsa.gif" />
     <Content Include="res\lo.gif" />
     <Content Include="res\LO_main.jpg" />
     <Content Include="res\lpa.gif" />
@@ -106,8 +108,9 @@
     <Content Include="res\wo.gif" />
     <Content Include="res\wo_header.png" />
     <Content Include="scripts\js\dashboard.js" />
+    <Content Include="scripts\js\sketch.js" />
     <Content Include="SEWO.html" />
-    <Content Include="scripts\js\chartFuncs.js" />
+    <Content Include="scripts\js\chart.js" />
     <Content Include="scripts\js\wcm.js" />
     <Content Include="scripts\js\form.js" />
     <Content Include="scripts\js\issue.js" />

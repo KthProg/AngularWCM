@@ -33,10 +33,10 @@
             <td class="ltgrey"><h2>UCAN Number {{id + (hasRecord ? " (Updating)" : " (New Form)")}}</h2></td>
         </tr>
         <tr>
-            <td class="ltgrey"><h3>Type</h3></td>
-            <td class="ltgrey"><h3>Plant</h3></td>
-            <td class="ltgrey"><h3>Department</h3></td>
-            <td class="ltgrey"><h3>Description of Incident</h3></td>
+            <td class="ltgrey" style="width: 25%;"><h3>Type</h3></td>
+            <td class="ltgrey" style="width: 25%;"><h3>Plant</h3></td>
+            <td class="ltgrey" style="width: 25%;"><h3>Department</h3></td>
+            <td class="ltgrey" style="width: 25%;"><h3>Description of Incident</h3></td>
         </tr>
         <tr>
             <td>
@@ -89,10 +89,12 @@
             <td><input type="number" ng-model="fields['OrigTagNo']" placeholder="Tag No" required="required" /></td>
         </tr>
         <tr>
-            <td colspan="4" class="ltgrey"><h3>Action Plan</h3></td>
+            <td class ="ltgrey">Upload Image(s)</td>
+            <td colspan="3" class="ltgrey"><h3>Action Plan</h3></td>
         </tr>
         <tr>
-            <td colspan="4" height="100px"><textarea ng-model="fields['UCANActionPlan']" placeholder="Action plan"></textarea></td>
+            <td><input type="file" id="file1" onchange="imgToBase64(this, 1)"></td>
+            <td colspan="3" height="100px"><textarea ng-model="fields['UCANActionPlan']" placeholder="Action plan"></textarea></td>
         </tr>
         <tr>
             <td colspan="4">

@@ -1,15 +1,17 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WCM Reporting</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.js"></script>
-    <script src="/scripts/js/chartFuncs.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
         google.load("visualization", "1", { packages: ["corechart"] });
         google.load("visualization", "1", { packages: ["table"] });
     </script>
+    <script src="/scripts/js/wcm.js"></script>
+    <script src="/scripts/js/chart.js"></script>
     <script src="/scripts/js/dashboard.js"></script>
     <link href="/css/reporting.css" type="text/css" rel="stylesheet" />
     <style>
@@ -180,73 +182,73 @@
     <div id="control_panel">
         <div id="create_dashboard">
             <label style="display: block; margin: 8px; text-align: center; color: white;">Create Dashboard</label>
-            <select id="chart_query" onchange="getParams($(this).val())">
+            <select id="chart_query" ng-model="query" ng-change="getParams()">
                 <option value="" selected="selected">Select a Query</option>
                 <optgroup label="PM"></optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Averages">
-                    <option value="MachMTBF" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;MTBF by Machine </option>
-                    <option value="MachMTTR" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;MTTR by Machine </option>
+                <optgroup label="Averages">
+                    <option value="MachMTBF" data-firstcol="MachID">MTBF by Machine </option>
+                    <option value="MachMTTR" data-firstcol="MachID">MTTR by Machine </option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Downtime">
-                    <option value="MachDowntime" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Downtime Reasons by Machine </option>
-                    <option value="MachDownCodesByMonth" data-firstcol="Month">&nbsp;&nbsp;&nbsp;&nbsp;Machine Downtime Reasons by Month </option>
-                    <option value="MaintDowntime" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Maintenance Downtime Reasons by Machine </option>
+                <optgroup label="Downtime">
+                    <option value="MachDowntime" data-firstcol="MachID">Downtime Reasons by Machine </option>
+                    <option value="MachDownCodesByMonth" data-firstcol="Month">Machine Downtime Reasons by Month </option>
+                    <option value="MaintDowntime" data-firstcol="MachID">Maintenance Downtime Reasons by Machine </option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Scrap">
-                    <option value="MachScrap" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine Scrap </option>
+                <optgroup label="Scrap">
+                    <option value="MachScrap" data-firstcol="MachID">Machine Scrap </option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;OEE">
-                    <option value="MachOEE" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine OEE </option>
-                    <option value="MachOEEByMonth" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;Machine OEE By Month</option>
-                    <option value="MoldOEE" data-firstcol="MoldID">&nbsp;&nbsp;&nbsp;&nbsp;Tool OEE </option>
+                <optgroup label="OEE">
+                    <option value="MachOEE" data-firstcol="MachID">Machine OEE </option>
+                    <option value="MachOEEByMonth" data-firstcol="MachID">Machine OEE By Month</option>
+                    <option value="MoldOEE" data-firstcol="MoldID">Tool OEE </option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Oil">
-                    <option value="OilPerPress" data-firstcol="Press">&nbsp;&nbsp;&nbsp;&nbsp;Oil per Press </option>
+                <optgroup label="Oil">
+                    <option value="OilPerPress" data-firstcol="Press">Oil per Press </option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;EWOs">
-                    <option value="EWOsVsBreakdowns" data-firstcol="MachID">&nbsp;&nbsp;&nbsp;&nbsp;EWOs Vs Breakdowns (Table) </option>
-                    <option value="PressStratification" data-firstcol="Machine">&nbsp;&nbsp;&nbsp;&nbsp;Press Stratification for EWOs </option>
+                <optgroup label="EWOs">
+                    <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table) </option>
+                    <option value="PressStratification" data-firstcol="Machine">Press Stratification for EWOs </option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Tags">
-                    <option value="TagTrend" data-firstcol="Date">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Trend </option>
-                    <option value="TagTrendMach" data-firstcol="Date">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Trend By Machine </option>
-                    <option value="PMTagDetail" data-firstcol="TagNo">&nbsp;&nbsp;&nbsp;&nbsp;PM Tag Details (Table)</option>
+                <optgroup label="Tags">
+                    <option value="TagTrend" data-firstcol="Date">PM Tag Trend </option>
+                    <option value="TagTrendMach" data-firstcol="Date">PM Tag Trend By Machine </option>
+                    <option value="PMTagDetail" data-firstcol="TagNo">PM Tag Details (Table)</option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Tools">
-                    <option value="PMDue" data-firstcol="MoldID">&nbsp;&nbsp;&nbsp;&nbsp;PM Due per Tool (Table)</option>
+                <optgroup label="Tools">
+                    <option value="PMDue" data-firstcol="MoldID">PM Due per Tool (Table)</option>
                 </optgroup>
                 <optgroup label="Safety"></optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;WCC">
-                    <option value="WCCPerAuditor" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Auditor </option>
-                    <option value="WCCPerWorkCell" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Work Cell </option>
-                    <option value="WCCPerZone" data-firstcol="DeptZone">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Zone </option>
-                    <option value="AuditorsWithoutWCCs" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Auditors With No Audits (Table)</option>
-                    <option value="WorkCellsNotWCCd" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Work Cells Without Audits (Table)</option>
-                    <option value="ZonesNotWCCd" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Zones Without Audits (Table)</option>
+                <optgroup label="WCC">
+                    <option value="WCCPerAuditor" data-firstcol="AuditorName">Number of Audits by Auditor </option>
+                    <option value="WCCPerWorkCell" data-firstcol="WorkCell">Number of Audits by Work Cell </option>
+                    <option value="WCCPerZone" data-firstcol="DeptZone">Number of Audits by Zone </option>
+                    <option value="AuditorsWithoutWCCs" data-firstcol="AuditorName">Auditors With No Audits (Table)</option>
+                    <option value="WorkCellsNotWCCd" data-firstcol="WorkCell">Work Cells Without Audits (Table)</option>
+                    <option value="ZonesNotWCCd" data-firstcol="Zone">Zones Without Audits (Table)</option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;EHS">
-                    <option value="EHSPerAuditor" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Auditor </option>
-                    <option value="EHSPerWorkCell" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Work Cell </option>
-                    <option value="EHSPerZone" data-firstcol="DeptZone">&nbsp;&nbsp;&nbsp;&nbsp;Number of Audits by Zone </option>
-                    <option value="AuditorsWithoutEHSs" data-firstcol="AuditorName">&nbsp;&nbsp;&nbsp;&nbsp;Auditors With No Audits (Table)</option>
-                    <option value="WorkCellsNotEHSd" data-firstcol="WorkCell">&nbsp;&nbsp;&nbsp;&nbsp;Work Cells Without Audits (Table)</option>
-                    <option value="ZonesNotEHSd" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Zones Without Audits (Table)</option>
+                <optgroup label="EHS">
+                    <option value="EHSPerAuditor" data-firstcol="AuditorName">Number of Audits by Auditor </option>
+                    <option value="EHSPerWorkCell" data-firstcol="WorkCell">Number of Audits by Work Cell </option>
+                    <option value="EHSPerZone" data-firstcol="DeptZone">Number of Audits by Zone </option>
+                    <option value="AuditorsWithoutEHSs" data-firstcol="AuditorName">Auditors With No Audits (Table)</option>
+                    <option value="WorkCellsNotEHSd" data-firstcol="WorkCell">Work Cells Without Audits (Table)</option>
+                    <option value="ZonesNotEHSd" data-firstcol="Zone">Zones Without Audits (Table)</option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Issues">
-                    <option value="AgingReport" data-firstcol="Issue">&nbsp;&nbsp;&nbsp;&nbsp;Days Open per Issue </option>
-                    <option value="SeverityReport" data-firstcol="Severity">&nbsp;&nbsp;&nbsp;&nbsp;Number of Issues By Severity </option>
-                    <option value="IssuesBySeverity" data-firstcol="Issue">&nbsp;&nbsp;&nbsp;&nbsp;Issues By Severity </option>
-                    <option value="NumberOfIssuesByLine" data-firstcol="Line Item">&nbsp;&nbsp;&nbsp;&nbsp;Number of Issues by Line</option>
+                <optgroup label="Issues">
+                    <option value="AgingReport" data-firstcol="Issue">Days Open per Issue </option>
+                    <option value="SeverityReport" data-firstcol="Severity">Number of Issues By Severity </option>
+                    <option value="IssuesBySeverity" data-firstcol="Issue">Issues By Severity </option>
+                    <option value="NumberOfIssuesByLine" data-firstcol="Line Item">Number of Issues by Line</option>
                 </optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;UCANs">
-                    <option value="UCANDetail" data-firstcol="ID">&nbsp;&nbsp;&nbsp;&nbsp;UCAN Detail (Table)</option>
+                <optgroup label="UCANs">
+                    <option value="UCANDetail" data-firstcol="ID">UCAN Detail (Table)</option>
                 </optgroup>
                 <optgroup label="LO"></optgroup>
-                <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;5T">
-                    <option value="5TScoreByMachine" data-firstcol="Machine">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Machine per Month </option>
-                    <option value="5TScoreByZone" data-firstcol="Zone">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Zone per Month </option>
-                    <option value="5TScoreByDept" data-firstcol="Department">&nbsp;&nbsp;&nbsp;&nbsp;Audit Score by Department per Month </option>
-                    <option value="5TAuditScores" data-firstcol="ID">&nbsp;&nbsp;&nbsp;&nbsp;Audit Scores and Details (Table)</option>
+                <optgroup label="5T">
+                    <option value="5TScoreByMachine" data-firstcol="Machine">Audit Score by Machine per Month </option>
+                    <option value="5TScoreByZone" data-firstcol="Zone">Audit Score by Zone per Month </option>
+                    <option value="5TScoreByDept" data-firstcol="Department">Audit Score by Department per Month </option>
+                    <option value="5TAuditScores" data-firstcol="ID">Audit Scores and Details (Table)</option>
                 </optgroup>
             </select>
             <select id="chart_type">
@@ -260,7 +262,20 @@
                 <option value="Asc">Ascending</option>
                 <option value="Desc">Descending</option>
             </select>
-            <div id="params"></div>
+            <div id="params">
+                <div ng-repeat="param in parameters">
+                    <label>{{ param['@attributes'].name }}</label>
+                    <div ng-if="['text','date','datetime','datetime-local','time','range','number'].indexOf(param.type) > -1">
+                        <input type="{{ param.type }}" ng-model="param.value" />
+                    </div>
+                    <div ng-if="param.type=='select'">
+                        <select ng-model="param.value" ng-options="k as v for (k,v) in param.options.option"></select>
+                    </div>
+                    <div ng-if="param.type=='textarea'">
+                        <textarea ng-model="param.value"></textarea>
+                    </div>
+                </div>
+            </div>
             <!-- use existing code to render parameters -->
             <!-- maybe add chart options here automatically -->
             <select id="chart_width" required>
@@ -288,9 +303,7 @@
             <label style="display: block; margin: 8px; text-align: center; color: white;">Edit Layout</label>
             <input id="layout_name" type="text" placeholder="Layout name" required />
             <button ng-click="saveOrUpdateLayout(false)">Save Layout</button>
-            <select id="open_layout">
-                <!-- auto populate options -->
-            </select>
+            <select id="open_layout" ng-model="layout" ng-options="k as v for (k,v) in layouts"></select>
             <button ng-click="openLayout()">Open Layout</button>
             <button ng-click="saveOrUpdateLayout(true)">Update Layout</button>
         </div>
@@ -359,7 +372,23 @@
                     <option value="250px">250px</option>
                 </select>
             </div>
-            <div id="{{ chart.query }}" style="height: 90%; width: 90%;"></div>
+            <div id="{{ chart.query }}" style="height: 90%; width: 90%;">
+                <div ng-show="chart.status === 'loading'" class="spinner">
+                    <div class="circle1 circle"></div>
+                    <div class="circle2 circle"></div>
+                    <div class="circle3 circle"></div>
+                    <div class="circle4 circle"></div>
+                    <div class="circle5 circle"></div>
+                    <div class="circle6 circle"></div>
+                    <div class="circle7 circle"></div>
+                    <div class="circle8 circle"></div>
+                    <div class="circle9 circle"></div>
+                    <div class="circle10 circle"></div>
+                    <div class="circle11 circle"></div>
+                    <div class="circle12 circle"></div>
+                </div>
+                <h1 ng-show="chart.status === 'No Data'">Error: No Data</h1>
+            </div>
         </div>
     </div>
     <div id="icon_panel" style="z-index: 2;">

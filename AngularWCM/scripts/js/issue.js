@@ -58,7 +58,6 @@
     $scope.getIssues = function (query, assignTo) {
         $http.get("/scripts/php/Query.php?Query=" + query + "&ASSOC=true&Params=[]")
         .success(function (resp) {
-            console.log(resp);
             var formatted = $scope.formatResponse(resp);
             var filtered = $scope.filterResponse(formatted);
             $scope[assignTo] = filtered;

@@ -32,6 +32,7 @@
             getMaxID();
             getInitialOptions();
             watchSelects();
+            setRightClickEventToSearch();
         });
     };
 
@@ -135,6 +136,47 @@
             }
         }
     };
+    
+    var setRightClickEventToSearch = function () {
+        $("select, input, textarea").each(function () {
+            this.oncontextmenu = function () { return false; };
+
+            $(this).mousedown(function (e) {
+                if (e.which == 3) {
+                    var field = $(e.target).attr("ng-model").split("'")[1];
+                    if (e.target.options) {
+                        var optionText = "";
+                        for (var i = 0, l = e.target.options.length; i < l; ++i) {
+                            optionText += e.target.options[i].text + " : " + e.target.options[i].value + "\n";
+                        }
+                    }
+                    var searchFor = prompt("Enter a search term.\nFor drop-downs, a list of possible search terms are below (use the number, not the text).\n" + (optionText || ""));
+                    if (searchFor) {
+                        searchForms(field, searchFor);
+                    } else {
+                        alert("Empty or invalid search term.");
+                    }
+                    return false;
+                }
+                return true;
+            });
+        });
+    };
+
+    var searchForms = function (field, searchFor) {
+        $http.get("/scripts/php/Query.php?Query=SearchForm&Params=" + JSON.stringify([pk, table, field, searchFor]))
+        .success(function (resp) {
+            var ids = objectValuesToArray(resp);
+            if (ids.length > 0) {
+                var userFriendlyIDs = ids.reduce(function (prev, curr) {
+                    return prev + ", " + curr;
+                });
+                alert(userFriendlyIDs);
+            } else {
+                alert("No results.");
+            }
+        });
+    };
 
     $scope.open = function () {
         // if valid, set id equal to the id input by the user
@@ -160,13 +202,15 @@
                 // if an element bound to that field exists
                 // set that fields value to the value
                 // returned by the server
-                for (var v in resp) {
-                    if (getFieldEl(v)) {
-                        $scope.fields[v] = resp[v];
-                    }
-                }
+                //for (var v in resp) {
+                    //if (getFieldEl(v)) {
+                //        $scope.fields[v] = resp[v];
+                    //}
+                //}
+                $scope.fields = resp;
                 // if this form has a sketch (SketchURL is the standard column name)
                 // then render that sketch
+                // TODO: don't hardcode sketch fields here, move into FormData.json
                 if (resp["SketchURL"] != undefined) {
                     $scope.fields["SketchURL"] = resp["SketchURL"];
                     showSketch($scope.fields["SketchURL"]);
@@ -286,33 +330,14 @@
             // convert it to the format appropriate for
             // sql server, based on the input type
             var scopeField;
-            if (scopeField = getFieldEl(f)) {
+            if (scopeField = getFieldEl(k)) {
                 switch (scopeField.attr("type")) {
-                    // try to convert to ISO format
-                    // if the date is not valid, set
-                    // it blank
+                    // use the value stored in the input for
+                    // dates and times
                     case "date":
-                        try {
-                            $scope.fields[k] = f.toISOString().split("T")[0] + " 00:00:00.000";
-                        } catch (e) {
-                            $scope.fields[k] = "";
-                        }
-                        break;
                     case "datetime-local":
-                        $scope.fields[k].setHours(f.getHours() - 5);
-                        try {
-                            $scope.fields[k] = f.toISOString().replace("T", " ").replace("Z", "");
-                        } catch (e) {
-                            $scope.fields[k] = "";
-                        }
-                        break;
                     case "time":
-                        $scope.fields[k].setHours(f.getHours() - 5); // -5 sets to EST
-                        try {
-                            $scope.fields[k] = f.toISOString().split("T")[1].replace("Z", "");
-                        } catch (e) {
-                            $scope.fields[k] = "";
-                        }
+                        $scope.fields[k] = scopeField.val();
                         break;
                 }
             }
@@ -348,19 +373,19 @@
         window.location.reload();
     };
 
-    $scope.$on('uploadImage', function (event, args) { // args = { name: c, line: y, URI: z }
+    $scope.uploadImage = function(name, line, URI){
         // send data from asynchronously uploaded image (as image URI)
         // to PHP script which will write data to file
-        if (args.name != "" && args.URI != "") {
+        if (name != "" && URI != "") {
             $http({
                 method: "POST",
                 url: "/scripts/php/SaveImage.php",
-                data: "Image=" + encodeURIComponent(args.URI) + "&FileName=" + encodeURIComponent(args.name) + "&Line=" + encodeURIComponent(args.line) + "&" + getFormDataString(),
+                data: "Image=" + encodeURIComponent(URI) + "&FileName=" + encodeURIComponent(name) + "&Line=" + encodeURIComponent(line) + "&" + getFormDataString(),
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(alert);
         }
-    });
+    };
 
     $scope.saveSketch = function (e) {
         // puts sketch data in sketchurl field
@@ -390,7 +415,7 @@
 
     var getSupervisorEmailsByLocation = function (plantid, deptid, zoneid, callback) {
         $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify([plantid || "1", deptid || "0", zoneid || "0"])))
-        .success(callback)
+        .success(callback);
     };
 
     var removeContacts = function (arr) {
@@ -400,13 +425,24 @@
                 $scope.contacts.splice(index, 1);
             }
         }
-        console.log($scope.contacts);
     };
 
     var addContacts = function (arr) {
         $scope.contacts = $scope.contacts.concat(arr);
-        console.log($scope.contacts);
     };
+
+    var imgToBase64 = function (imgEl, line) {
+
+        var fileReader = new FileReader();
+
+        fileReader.onload = function (e) {
+            $scope.uploadImage(name, line, e.target.result);
+        }
+
+        var name = imgEl.files[0].fileName || imgEl.files[0].name;
+        var line = line;
+        fileReader.readAsDataURL(imgEl.files[0]);
+    }
 }
 
 // if you don't know what this does,

@@ -1,8 +1,10 @@
-﻿var app = angular.module("wcm", []);
-
-function Dashboard($scope, $http) {
+﻿function Dashboard($scope, $http) {
 
     $scope.charts = [];
+    $scope.query = "";
+    $scope.parameters = [];
+    $scope.layouts = [];
+    $scope.layout = "";
 
     $scope.addChart = function () {
         var paramsArr = [];
@@ -26,20 +28,13 @@ function Dashboard($scope, $http) {
             });
         });
 
-        $scope.charts.push({
-            query: $('#chart_query').val(),
-            params: paramsArr,
-            showParams: false,
-            showTypes: false,
-            minimized: false,
-            maximized: false,
-            type: $("#chart_type").val(),
-            sort: $("sort_order").val(),
-            firstCol: $('#chart_query option:selected').attr("data-firstcol"),
-            //vis : null,
-            csv: "",
-            dataTable: null,
-            options: {
+        var ch = new Chart(
+            $('#chart_query').val(),
+            paramsArr,
+            $("#chart_type").val(),
+            $("sort_order").val(),
+            $('#chart_query option:selected').attr("data-firstcol"),
+            {
                 height: $('#chart_height').val() + 'px',
                 width: $('#chart_width').val() + '%',
                 //chartArea: { left: 0, top: 0, width: $('#chart_width').val(), height: $('#chart_height').val() },
@@ -48,17 +43,12 @@ function Dashboard($scope, $http) {
                 curveType: 'function',
                 isStacked: true
             },
-            elID: $('#chart_query').val(),
-            imgURI: null
-        });
+            $('#chart_query').val(),
+            false);
 
-        console.log($scope.charts);
-    };
+        $scope.charts.push(ch);
 
-    $scope.saveLayout = function () {
-        /* using $http send request to PHP file with layoutName
-        in the POST */
-        console.log("Layout " + $('#layout_name').val() + " saved.");
+        //console.log($scope.charts);
     };
 
     $scope.removeChart = function (ci) {
@@ -67,8 +57,8 @@ function Dashboard($scope, $http) {
 
     $scope.runQuery = function (ci) {
         var chart = $scope.charts[ci];
-
-        chartData(chart);
+        //console.log(chart);
+        chart.chartData();
     };
 
     $scope.getCSVFile = function (ci) {
@@ -87,15 +77,20 @@ function Dashboard($scope, $http) {
         function (resp) {
             var newChartsArr = JSON.parse(resp[0]["LayoutJSON"]);
             // format values
-            for (var i = 0, l = newChartsArr.length; i < l; ++i) {
-                for (var j = 0, m = newChartsArr[i].params.length; j < m; ++j) {
-                    var param = newChartsArr[i].params[j];
-                    newChartsArr[i].params[j].value = formatValue(param.value, param.type);
-                }
-            }
+            newChartsArr.forEach(function (el) {
+                el.params.forEach(function(pr){
+                    pr.value = formatValue(pr.value, pr.type);
+                })
+            });
+            //create new chart objects with db json info
+            var chartsWithFuncsArr = newChartsArr.map(function (el) {
+                return new Chart(el.query, el.params, el.type,
+                    el.sortOrder, el.firstCol, el.options,
+                    el.elID, el.showTrendline);
+            });
             // if successful, update the options with the response array
             // angular will automatically reflect those changes in the DOM
-            $scope.charts = newChartsArr;
+            $scope.charts = chartsWithFuncsArr;
         });
     };
 
@@ -118,9 +113,9 @@ function Dashboard($scope, $http) {
         if (from == to
             || from < 0
             || to < 0
-            || from > ($scope.charts.length - 1)
-            || to > ($scope.charts.length - 1)) {
-            console.log("Invalid from or to indices.");
+            || from >= $scope.charts.length
+            || to >= $scope.charts.length) {
+            //console.log("Invalid from or to indices.");
             return;
         }
 
@@ -128,29 +123,9 @@ function Dashboard($scope, $http) {
     };
 
     var makeChartsCopyForDatabase = function(){
-        var chartsCopy = [];
-        for (var i = 0, l = $scope.charts.length; i < l; ++i) {
-            var thisChart = $scope.charts[i];
-            chartsCopy.push({
-                name: thisChart.name,
-                query: thisChart.query,
-                params: thisChart.params,
-                height: thisChart.height,
-                width: thisChart.width,
-                showParams: false,
-                minimized: false,
-                maximized: false,
-                type: thisChart.type,
-                firstCol: thisChart.firstCol,
-                //vis : null,
-                csv: "",
-                dataTable: null,
-                options: thisChart.options,
-                elID: thisChart.elID,
-                imgURI: null
-            });
-        }
-        return chartsCopy;
+        return $scope.charts.map(function (el) {
+            return el.toSmallObject();
+        });
     }
 
     var formatValue = function (value, type) {
@@ -189,7 +164,7 @@ function Dashboard($scope, $http) {
     $scope.all_removeChart = function () {
         for (var i = 0, l = $scope.charts.length; i < l; ++i) {
             $scope.removeChart(0);
-            console.log($scope.charts);
+            //console.log($scope.charts);
         };
     };
 
@@ -217,7 +192,23 @@ function Dashboard($scope, $http) {
         });
     };
 
-    $("#open_layout").html(objectToOptionsHTML(sendNoParamQuery("GetDashboardLayouts")));
+    $scope.getParams = function () {
+        $http.get("/scripts/php/getParams.php?Query=" + $scope.query)
+        .success(function (resp) {
+            if (resp["parameter"] instanceof Array) {
+                $scope.parameters = resp["parameter"];
+            } else {
+                $scope.parameters = [resp["parameter"]];
+            }
+            $scope.parameters.forEach(function (el) {
+                if (el.query) {
+                    el["options"] = { option: sendNoParamQuery(el.query) };
+                }
+            });
+        });
+    }
+
+    $scope.layouts = sendNoParamQuery("GetDashboardLayouts");
 }
 
 app.controller("Dashboard", Dashboard);

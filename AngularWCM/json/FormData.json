@@ -737,7 +737,7 @@
 				"options" : []
 			}
 		},
-		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com"," phelps@njt-na.com"],
+		"Emails" : ["hooks@njt-na.com"," gwilloughby@mayco-mi.com","phelps@njt-na.com"],
 		"PK" : "ID",
 		"Table" : "WCC",
 		"Connection" : "Safety"
@@ -940,6 +940,53 @@
 		"Emails" : ["hooks@njt-na.com", "gwilloughby@mayco-mi.com"],
 		"PK" : "ID",
 		"Table" : "LPA",
+		"Connection" : "Safety"
+	},
+	"JSA" : {
+		"Queries" : {
+			"PlantID" : {
+				"name" : "Plants",
+				"params" : [],
+				"options": []
+			},
+			"DepartmentID" : {
+				"name" : "Departments",
+				"params" : [{"name" : "1"}],
+				"options": []
+			},
+			"ZoneID" : {
+				"name" : "Zones",
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : true, 
+						"returns" : "value"
+					}
+				],
+				"options": []
+			},
+			"MachineID" : {
+				"name" : "Machines",
+				"params" : [
+					{ "name" : "1" },
+					{
+						"name" : "DepartmentID",
+						"ref" : true, 
+						"returns" : "value"
+					},
+					{
+						"name" : "ZoneID",
+						"ref" : true, 
+						"returns" : "value"
+					}
+				],
+				"options": []
+			}
+		},
+		"Emails" : ["hooks@njt-na.com", "gwilloughby@mayco-mi.com", "phelps@njt-na.com"],
+		"PK" : "ID",
+		"Table" : "JSA",
 		"Connection" : "Safety"
 	}
 }

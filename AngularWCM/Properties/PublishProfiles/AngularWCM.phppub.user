@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <File Include="5T.php">
-      <publishTime>11/19/2014 13:55:51</publishTime>
+      <publishTime>11/20/2014 16:35:40</publishTime>
     </File>
     <File Include="BlueTag.html">
       <publishTime>11/19/2014 13:53:05</publishTime>
@@ -41,7 +41,7 @@
       <publishTime>10/22/2014 13:32:49</publishTime>
     </File>
     <File Include="Dashboard/Chart.php">
-      <publishTime>11/20/2014 14:47:24</publishTime>
+      <publishTime>11/26/2014 14:15:55</publishTime>
     </File>
     <File Include="Dashboard/FI.html">
       <publishTime>10/22/2014 13:32:55</publishTime>
@@ -62,7 +62,7 @@
       <publishTime>10/22/2014 14:16:02</publishTime>
     </File>
     <File Include="Dashboard/SA.html">
-      <publishTime>10/27/2014 15:28:42</publishTime>
+      <publishTime>11/26/2014 14:46:51</publishTime>
     </File>
     <File Include="Dashboard/WO.html">
       <publishTime>10/22/2014 13:38:25</publishTime>
@@ -71,10 +71,13 @@
       <publishTime>11/19/2014 13:55:51</publishTime>
     </File>
     <File Include="EWO.html">
-      <publishTime>11/19/2014 13:55:51</publishTime>
+      <publishTime>11/20/2014 16:34:08</publishTime>
+    </File>
+    <File Include="JSA.html">
+      <publishTime>11/26/2014 13:24:12</publishTime>
     </File>
     <File Include="json/FormData.json">
-      <publishTime>11/19/2014 14:01:19</publishTime>
+      <publishTime>11/25/2014 16:36:48</publishTime>
     </File>
     <File Include="LPA.php">
       <publishTime>11/19/2014 13:55:51</publishTime>
@@ -83,7 +86,7 @@
       <publishTime>11/19/2014 13:55:51</publishTime>
     </File>
     <File Include="QuickKaizen.html">
-      <publishTime>11/19/2014 13:55:51</publishTime>
+      <publishTime>11/20/2014 16:34:15</publishTime>
     </File>
     <File Include="res/5t.gif">
       <publishTime>10/21/2014 15:18:34</publishTime>
@@ -151,6 +154,9 @@
     <File Include="res/fi_header.png">
       <publishTime>10/22/2014 13:38:16</publishTime>
     </File>
+    <File Include="res/jsa.gif">
+      <publishTime>11/26/2014 14:48:13</publishTime>
+    </File>
     <File Include="res/lo.gif">
       <publishTime>10/15/2014 17:50:19</publishTime>
     </File>
@@ -205,26 +211,29 @@
     <File Include="res/wo_header.png">
       <publishTime>10/27/2014 19:21:16</publishTime>
     </File>
-    <File Include="scripts/js/chartFuncs.js">
-      <publishTime>11/20/2014 14:09:01</publishTime>
+    <File Include="scripts/js/chart.js">
+      <publishTime>11/26/2014 13:31:46</publishTime>
     </File>
     <File Include="scripts/js/dashboard.js">
-      <publishTime>11/20/2014 14:56:46</publishTime>
+      <publishTime>11/24/2014 13:52:45</publishTime>
     </File>
     <File Include="scripts/js/form.js">
-      <publishTime>11/19/2014 13:59:33</publishTime>
+      <publishTime>11/26/2014 14:30:27</publishTime>
     </File>
     <File Include="scripts/js/issue.js">
-      <publishTime>11/07/2014 20:13:58</publishTime>
+      <publishTime>11/26/2014 13:31:46</publishTime>
+    </File>
+    <File Include="scripts/js/sketch.js">
+      <publishTime>11/20/2014 16:33:08</publishTime>
     </File>
     <File Include="scripts/js/wcm.js">
-      <publishTime>10/23/2014 19:05:25</publishTime>
+      <publishTime>11/26/2014 13:31:39</publishTime>
     </File>
     <File Include="scripts/php/getMaxID.php">
       <publishTime>10/22/2014 14:26:17</publishTime>
     </File>
     <File Include="scripts/php/getParams.php">
-      <publishTime>10/22/2014 14:24:38</publishTime>
+      <publishTime>11/20/2014 16:50:37</publishTime>
     </File>
     <File Include="scripts/php/Open.php">
       <publishTime>10/22/2014 14:29:10</publishTime>
@@ -245,25 +254,25 @@
       <publishTime>10/27/2014 15:00:41</publishTime>
     </File>
     <File Include="SEWO.html">
-      <publishTime>11/19/2014 13:55:51</publishTime>
+      <publishTime>11/20/2014 16:34:21</publishTime>
     </File>
     <File Include="ToolRepair.html">
       <publishTime>11/19/2014 13:55:45</publishTime>
     </File>
     <File Include="UCAN.html">
-      <publishTime>11/19/2014 13:55:51</publishTime>
+      <publishTime>11/20/2014 15:15:25</publishTime>
     </File>
     <File Include="UnsafeAct.html">
       <publishTime>11/19/2014 13:55:51</publishTime>
     </File>
     <File Include="WCC.php">
-      <publishTime>11/19/2014 13:53:12</publishTime>
+      <publishTime>11/20/2014 16:34:27</publishTime>
     </File>
     <File Include="xml/connections.xml">
       <publishTime>08/29/2014 15:09:25</publishTime>
     </File>
     <File Include="xml/queries.xml">
-      <publishTime>11/19/2014 19:48:58</publishTime>
+      <publishTime>11/25/2014 15:03:31</publishTime>
     </File>
   </ItemGroup>
 </Project>

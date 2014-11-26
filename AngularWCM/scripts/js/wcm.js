@@ -13,72 +13,48 @@ function changeImage(input, imgEl) {
     //console.log("src att changed to " + (isBlank ? "res/upload.png" : "res/uploadgreen.png"));
 }
 
-function imgToBase64(imgEl, line) {
-
-    var fileReader = new FileReader();
-
-    fileReader.onload = function (e) {
-        args = {
-            name: name,
-            line: line,
-            URI: e.target.result
-        };
-        angular.element("[ng-app='wcm']").injector().get('$rootScope').$broadcast('uploadImage', args);
+function getInputValue(jqEl) {
+    switch (jqEl.prop("tagName")) {
+        case "SELECT":
+            return jqEl.children("option:selected").text();
+            break;
+        case "INPUT":
+        case "TEXTAREA":
+            return jqEl.val()
+            break;
     }
-
-    var name = imgEl.files[0].fileName || imgEl.files[0].name;
-    var line = line;
-    fileReader.readAsDataURL(imgEl.files[0]);
 }
 
-//
-// SKETCH FUNCTIONS! ====================================================
-//
-
-/*
-This doesn't work correctly if the sketch area has a size set manually
-i.e. in CSS or some other attribute
-*/
-
-function drawSketch() {
-    var sketchArea = $("canvas");
-    var sketchCtx = sketchArea[0].getContext("2d");
-
-    var off = sketchArea.offset();
-
-    var relX = (mouse.x - off.left);
-    var relY = (mouse.y - off.top);
-
-    sketchCtx.fillStyle = $("#colorPicker").val();
-    if (mouse.left) {
-        sketchCtx.fillRect(relX, relY, $("#brushSize").val(), $("#brushSize").val());
-    }
-    //console.log($("#colorPicker").val());
-    //console.log("X: " + relX + ", Y: " + relY);
+function download(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+    pom.click();
 }
 
-function clearSketch() {
-    var sketchArea = $("canvas");
-    var sketchCtx = sketchArea[0].getContext("2d");
-    sketchCtx.clearRect(0, 0, sketchArea.width(), sketchArea.height());
+function logError(xhr, status, error) {
+    console.log(status + " : " + error);
+    console.log(this);
 }
 
-var mouse = { x: 0, y: 0, left: false };
+function sendNoParamQuery(query) {
+    var queryResult;
+    $.ajax({
+        async: false,
+        data: {
+            Query: query,
+            Params: "[]"
+        },
+        dataType: "json",
+        success: function (data) {
+            queryResult = data;
+        },
+        url: "/scripts/php/Query.php"
+    });
+    return queryResult;
+}
 
-document.addEventListener('mousemove', function (e) {
-    mouse.x = e.pageX || e.clientX;
-    mouse.y = e.pageY || e.clientY;
-}, false);
-
-document.addEventListener('mousedown', function (e) {
-    mouse.left = (e.button === 0);
-}, false);
-
-document.addEventListener('mouseup', function (e) {
-    mouse.left = false;
-}, false);
-
-function alterHTMLForEmail() {
+function alterHTMLForEmail()  {
     var currentHTML = "<html>\r\n\t<head>\r\n\t\t<style>\r\n";
     //add style rules
     currentHTML += getAllCSS();
@@ -102,18 +78,6 @@ function alterHTMLForEmail() {
     return currentHTML;
 }
 
-function getInputValue(jqEl) {
-    switch (jqEl.prop("tagName")) {
-        case "SELECT":
-            return jqEl.children("option:selected").text();
-            break;
-        case "INPUT":
-        case "TEXTAREA":
-            return jqEl.val()
-            break;
-    }
-}
-
 function getAllCSS() {
     var allCSS = "";
     for (var i = 0, l = document.styleSheets.length; i < l; ++i) {
@@ -126,6 +90,56 @@ function getAllCSS() {
     return allCSS;
 }
 
+function objectArrayKeyType(key, objs) {
+    return getArrType(objectArrayKeyValues(key, objs));
+}
+
+function objectArrayKeyValues(key, objs) {
+    return objs.map(function (curr) {
+        return curr[key];
+    });
+}
+
+// filters values which are not of a certain type
+// then compares the size of the filtered array
+// to the size of the original array. if any values
+// were removed, then the array is not entirely 
+// of that type, default is string
+function getArrType(arr) {
+    var numArr = arr.filter(function (n) {
+        return !isNaN(n);
+    });
+    var dateArr = arr.filter(function (n) {
+        var d = new Date(n);
+        return !isNaN(d.valueOf());
+    });
+    if (numArr.length === arr.length) {
+        return "number";
+    }
+    if (dateArr.length === arr.length) {
+        return "datetime";
+    }
+    return "string";
+};
+
+function convertType(val, typeStr) {
+    // convert value based on three types
+    // used by google vis
+    switch (typeStr) {
+        case "number":
+            return Number(val);
+            break;
+        case "datetime":
+            return new Date(val);
+            break;
+        case "string":
+            return String(val)
+            break
+    }
+}
+
 function objectValuesToArray(obj) {
-    return $.map(obj, function (value, index) { return [value]; });
+    return Object.keys(obj).map(function (key) {
+        return obj[key];
+    });
 }
