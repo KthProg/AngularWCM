@@ -250,6 +250,10 @@
                     <option value="5TScoreByDept" data-firstcol="Department">Audit Score by Department per Month </option>
                     <option value="5TAuditScores" data-firstcol="ID">Audit Scores and Details (Table)</option>
                 </optgroup>
+                <optgroup label="QA"></optgroup>
+                <optgroup label="LPA">
+                    <option value="LPAAuditsByAuditor" data-firstcol="AuditorName">LPAs by Auditor</option>
+                </optgroup>
             </select>
             <select id="chart_type">
                 <option value="" selected="selected">Choose a Chart Type</option>

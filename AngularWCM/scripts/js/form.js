@@ -337,7 +337,7 @@
                     case "date":
                     case "datetime-local":
                     case "time":
-                        $scope.fields[k] = scopeField.val();
+                        $scope.fields[k] = scopeField.val().replace("T"," ");
                         break;
                 }
             }

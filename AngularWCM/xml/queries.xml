@@ -544,4 +544,12 @@
       </parameter>
     </parameters>
   </query>
+<query name="LPAAuditsByAuditor">
+  <connection>Safety</connection>
+  <qstring>
+    SELECT AuditorName, COUNT(*) AS Audits
+    FROM vLPA
+    GROUP BY AuditorName
+  </qstring>
+</query>
 </queries>
