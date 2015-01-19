@@ -1,5 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <queries>
+  <query name="GetTablesData">
+    <connection>Safety</connection>
+    <qstring>
+    SELECT col.TABLE_NAME,
+      col.COLUMN_NAME,
+      col.DATA_TYPE,
+      col.IS_NULLABLE,
+      REPLACE(REPLACE(col.COLUMN_DEFAULT, '(', ''), ')', '') AS COLUMN_DEFAULT,
+      CASE tc.CONSTRAINT_TYPE WHEN 'PRIMARY KEY' THEN 1 ELSE 0 END AS IsPK,
+      CASE tc.CONSTRAINT_TYPE WHEN 'FOREIGN KEY' THEN 1 ELSE 0 END AS IsFK,
+      COLUMNPROPERTY(OBJECT_ID(col.TABLE_NAME), col.COLUMN_NAME, 'IsIdentity') as IsID,
+      OBJECT_NAME(fki.object_id) AS REF_TABLE,
+      fki.name AS REF_COLUMN
+    FROM INFORMATION_SCHEMA.COLUMNS col
+      LEFT JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE ccu
+        ON col.TABLE_NAME = ccu.TABLE_NAME
+        AND col.COLUMN_NAME = ccu.COLUMN_NAME
+      LEFT JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
+        ON tc.CONSTRAINT_NAME = ccu.CONSTRAINT_NAME
+      LEFT JOIN (
+        select * 
+        from sys.foreign_key_columns fkc
+        join sys.all_columns ac
+          on ac.object_id = fkc.referenced_object_id
+          and ac.column_id = fkc.referenced_column_id
+      ) fki
+      ON OBJECT_NAME(fki.constraint_object_id) = ccu.CONSTRAINT_NAME
+    WHERE ? LIKE '%'''+col.TABLE_NAME+'''%'
+    </qstring>
+  </query>
+  <query name="SelectKeysAndValues">
+    <connection>Safety</connection>
+    <qstring>
+      EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ?)
+    </qstring>
+  </query>
+  <query name="SelectKeysAndValuesFilter">
+    <connection>Safety</connection>
+    <qstring>
+      EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ? + ' WHERE ' + ? + '=' + ?)
+    </qstring>
+  </query>
+  <query name="GetViewData">
+    <connection>Safety</connection>
+    <qstring>
+      SELECT TABLE_NAME
+      FROM INFORMATION_SCHEMA.VIEW_TABLE_USAGE
+      WHERE VIEW_NAME = ?
+    </qstring>
+  </query>
   <query name="Plants">
     <connection>Safety</connection>
     <qstring>SELECT DISTINCT PlantID, Plant FROM vPlantLayout</qstring>
@@ -116,7 +166,7 @@
   </query>
   <query name="SupervisorEmailsByLocation">
     <connection>Safety</connection>
-    <qstring>SELECT ID, SupervisorEmail FROM Supervisor WHERE PlantID=? AND (DepartmentID=? OR DepartmentID IS NULL) AND (ZoneID=? OR ZoneID IS NULL) </qstring>
+    <qstring>SELECT ID, SupervisorEmail FROM vSupervisor WHERE PlantID=? AND (DepartmentID=? OR DepartmentID IS NULL) AND (ZoneID=? OR ZoneID IS NULL) </qstring>
   </query>
   <query name="AuditLines">
     <connection>Safety</connection>

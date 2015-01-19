@@ -3,12 +3,16 @@
 <head>
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
 
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
+    
+    
     <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
 
     <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/css/Normalize.css" />
@@ -19,6 +23,7 @@
     <script>
         $(document.body).ready(function () {
             var scope = angular.element($("[ng-app='wcm']")).scope();
+
             scope.showLines = [];
             var zonesList = {
                 "Molding": [16, 17, 18, 19],
@@ -26,7 +31,7 @@
                 "Sequencing": [9, 10, 11],
                 "IP Warehouse": [64, 71],
                 "Thermoforming": [14, 15, 70],
-                "Shipping Receiving": [22,99]
+                "Shipping Receiving": [22, 99]
             };
             scope.showList = [
                 [0],
@@ -56,7 +61,7 @@
             ]
             scope.$apply(
                 function () {
-                    scope.$watch("fields['ZoneID']", function (n, o) {
+                    scope.$watch("tables['FiveT2'].records[0].fields['ZoneID'].value", function (n, o) {
                         scope.showLines = scope.showList.map(function (el) { return el.indexOf(Number(n)) > -1; });
                     });
                 });
@@ -91,42 +96,64 @@
         }
     </style>
 </head>
-
-<body
-    ng-app="wcm"
-    ng-controller="Form"
-    ng-init="setFormData('5T');">
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('5T (TEST FORM)', 'Safety', ['FiveT2', 'FiveTLine2'], 'vFiveT', {'FiveTLine2' : 23},  
+    [{'table':'FiveTLine2','record':0,'field':'Line','value':68},{'table':'FiveTLine2','record':1,'field':'Line','value':69},
+    {'table':'FiveTLine2','record':2,'field':'Line','value':70},{'table':'FiveTLine2','record':3,'field':'Line','value':71},
+    {'table':'FiveTLine2','record':4,'field':'Line','value':72},{'table':'FiveTLine2','record':5,'field':'Line','value':73},
+    {'table':'FiveTLine2','record':6,'field':'Line','value':74},{'table':'FiveTLine2','record':7,'field':'Line','value':75},
+    {'table':'FiveTLine2','record':8,'field':'Line','value':76},{'table':'FiveTLine2','record':9,'field':'Line','value':77},
+    {'table':'FiveTLine2','record':10,'field':'Line','value':78},{'table':'FiveTLine2','record':11,'field':'Line','value':79},
+    {'table':'FiveTLine2','record':12,'field':'Line','value':80},{'table':'FiveTLine2','record':13,'field':'Line','value':81},
+    {'table':'FiveTLine2','record':14,'field':'Line','value':82},{'table':'FiveTLine2','record':15,'field':'Line','value':83},
+    {'table':'FiveTLine2','record':16,'field':'Line','value':84},{'table':'FiveTLine2','record':17,'field':'Line','value':85},
+    {'table':'FiveTLine2','record':18,'field':'Line','value':86},{'table':'FiveTLine2','record':19,'field':'Line','value':87},
+    {'table':'FiveTLine2','record':20,'field':'Line','value':88},{'table':'FiveTLine2','record':21,'field':'Line','value':89},
+    {'table':'FiveTLine2','record':22,'field':'Line','value':90},{'table':'FiveTLine2','record':0,'field':'DetailsID','value':1},
+    {'table':'FiveTLine2','record':1,'field':'DetailsID','value':2},{'table':'FiveTLine2','record':2,'field':'DetailsID','value':3},
+    {'table':'FiveTLine2','record':3,'field':'DetailsID','value':4},{'table':'FiveTLine2','record':4,'field':'DetailsID','value':5},
+    {'table':'FiveTLine2','record':5,'field':'DetailsID','value':6},{'table':'FiveTLine2','record':6,'field':'DetailsID','value':7},
+    {'table':'FiveTLine2','record':7,'field':'DetailsID','value':8},{'table':'FiveTLine2','record':8,'field':'DetailsID','value':9},
+    {'table':'FiveTLine2','record':9,'field':'DetailsID','value':10},{'table':'FiveTLine2','record':10,'field':'DetailsID','value':11},
+    {'table':'FiveTLine2','record':11,'field':'DetailsID','value':12},{'table':'FiveTLine2','record':12,'field':'DetailsID','value':13},
+    {'table':'FiveTLine2','record':13,'field':'DetailsID','value':14},{'table':'FiveTLine2','record':14,'field':'DetailsID','value':15},
+    {'table':'FiveTLine2','record':15,'field':'DetailsID','value':16},{'table':'FiveTLine2','record':16,'field':'DetailsID','value':17},
+    {'table':'FiveTLine2','record':17,'field':'DetailsID','value':18},{'table':'FiveTLine2','record':18,'field':'DetailsID','value':19},
+    {'table':'FiveTLine2','record':19,'field':'DetailsID','value':20},{'table':'FiveTLine2','record':20,'field':'DetailsID','value':21},
+    {'table':'FiveTLine2','record':21,'field':'DetailsID','value':22},{'table':'FiveTLine2','record':22,'field':'DetailsID','value':23}]);">
     <table>
         <tr>
             <td colspan="3">
-                <h1>5T Checklist No. {{id + ( hasRecord ? " (Updating)" : " (New Form)" )}}</h1>
+                <h1>5T Checklist No.</h1>
+                <field name="tables['FiveT2'].records[0].fields['ID']" html='class="dkblue whitetext"'></field>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <div class="inputPlusLabel">
                     <strong>Date</strong>
-                    <input type="date" ng-model="fields['AuditDate']" placeholder="Date created" required>
+                    <field name="tables['FiveT2'].records[0].fields['AuditDate']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Auditor's Name</strong>
-                    <select ng-model="fields['AuditorID']" ng-options="k as v for (k,v) in queries['AuditorID'].options" required></select>
+                    <field name="tables['FiveT2'].records[0].fields['AuditorID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Plant</strong>
-                    <select ng-model="fields['PlantID']" ng-options="k as v for (k,v) in queries['PlantID'].options" required></select>
+                    <field name="tables['FiveT2'].records[0].fields['PlantID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Department</strong>
-                    <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options" required></select>
+                    <field name="tables['FiveT2'].records[0].fields['DepartmentID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Zone</strong>
-                    <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options" required></select>
+                    <field name="tables['FiveT2'].records[0].fields['ZoneID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Machine</strong>
-                    <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
+                    <field name="tables['FiveT2'].records[0].fields['MachineID']"></field>
                 </div>
             </td>
         </tr>
@@ -141,45 +168,26 @@
                 <h2>Remarks</h2>
             </td>
         </tr>
-
-        <?php 
-        $_GET["Query"] = "AuditLines";
-        $_GET["ASSOC"] = "true";
-        $_GET["Params"] = json_encode(array("5T"));
-        $_GET["ReturnQuery"] = "true";
-        $json_lines = require_once('/scripts/php/Query.php');
-        $last_category = "";
-        for($i = 0, $l = count($json_lines); $i < $l; ++$i){
-                if($last_category != $json_lines[$i]["Category"]){
-                    $last_category = $json_lines[$i]["Category"];
-        ?>
         <tr class="header">
             <td colspan="3">
-                <h3><?php echo $json_lines[$i]["Category"]; ?></h3>
+                <h3>5T</h3>
             </td>
         </tr>
-        <?php } ?>
-        <tr ng-show="showLines[<?php echo $i+1; ?>]">
+        <tr ng-repeat="rec in tables['FiveTLine2'].records track by $index" ng-show="showLines[$index + 1]">
             <td>
-                <span><?php echo "1.".($i+1).". ".$json_lines[$i]["SubCategory"]; ?></span>
+                <span>1.{{$index + 1}} {{tables['FiveTLine2'].records[$index].fields['Line'].options[tables['FiveTLine2'].records[$index].fields['Line'].value]}}</span>
             </td>
             <td>
-                <select onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" ng-model="fields['Rating<?php echo $i+1; ?>']" ng-options="k as v for (k,v) in { 0 : 'Low', 2 : 'Medium' , 4 : 'High'}" required>
-                    <option value=""></option>
-                </select>
+                <field name="tables['FiveTLine2'].records[$index].fields['Rating']" html="onchange='$(this).parent().next().children().first().attr(\'required\', $(this).val() == 0);'"></field>
                 <div class="helpButton" onclick="$(this).next().toggle()">?</div>
                 <div style="display: none; background-color: yellow; border: 1px dashed grey;">
-                    <?php
-                        echo str_replace("\r","<br>",$json_lines[$i]["Details"]);
-                    ?>
+                    {{tables['FiveTLine2'].records[$index].fields['DetailsID'].options[tables['FiveTLine2'].records[$index].fields['DetailsID'].value]}}
                 </div>
             </td>
             <td>
-                <textarea ng-model="fields['Remarks<?php echo $i+1; ?>']"></textarea>
+                <field name="tables['FiveTLine2'].records[$index].fields['Remark']"></field>
             </td>
         </tr>
-        <?php } ?>
-
         <tr>
             <td colspan="3">
                 <h3>Comments</h3>
@@ -189,16 +197,14 @@
         <!-- makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
         <tr>
             <td colspan="2">
-                <textarea maxlength="1000" ng-model="fields['Comments']" rows="6" cols="50" placeholder="Comments"></textarea><br />
+                <field name="tables['FiveT2'].records[0].fields['Comments']"></field><br />
             </td>
             <td>
-                <button ng-click="open()">Open</button>
-                <button ng-click="clear()">Clear</button>
-                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-                <button ng-click="update()" ng-show="hasRecord">Update</button>
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
             </td>
         </tr>
     </table>
-    </form>
 </body>
 </html>

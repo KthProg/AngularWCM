@@ -3,13 +3,14 @@
 <head>
     <title>SEWO</title>
 
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/sketch.js"></script>
     <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
 
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/FormClasses.css" />
@@ -17,226 +18,245 @@
 
     <title>SEWO</title>
 </head>
-
-<body ng-app="wcm"
-      ng-controller="Form"
-      ng-init="setFormData('SEWO');">
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('SEWO', 'Safety',['ESEWOs'], 'vSAFEs')">
     <table style="width: 100%;">
         <tr>
-            <td colspan="4" class="dkgrey whitetext">
+            <td colspan="5" class="dkgrey whitetext">
                 <h1>SEWO Report</h1>
             </td>
             <td colspan="3" class="ltgrey">
-                <h2>
-                    SEWO Number {{id + (hasRecord ? " (Updating)" : " (New Form)")}}
-                </h2>
+                <style>
+                    [name*='[\'SEWONumber\']'] input {
+                        background-color: inherit;
+                        border: none;
+                    }
+                </style>
+                <h2>SEWO Number<field name="fields['SEWONumber']"></field></h2>
             </td>
         </tr>
         <tr>
-            <td rowspan="23" class="vert-text green whitetext">
+            <td rowspan="31" class="vert-text green whitetext">
                 P<br>
                 L<br>
                 A<br>
                 N
             </td>
-            <td class="ltgrey">Accident Type</td>
+            <td colspan="2" class="ltgrey">Accident Type</td>
             <td>
-                <select ng-model="fields['AccidentTypeID']" ng-options="k as v for (k,v) in queries['AccidentTypeID'].options" required>
-                    <option value="">Accident Type</option>
-                </select>
+                <field name="fields['AccidentTypeID']"></field>
             </td>
             <td class="ltgrey">Sex</td>
             <td class="ltgrey">Position Type</td>
-            <td>
-                <select ng-model="fields['PlantID']" ng-options="k as v for (k,v) in queries['PlantID'].options" required>
-                    <option value="">Plant</option>
-                </select>
-            </td>
-            <td>
-                <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options" required></select>
-            </td>
+            <td class="ltgrey">PPE Supplied</td>
+            <td class="ltgrey">PPE in Use</td>
         </tr>
         <tr>
-            <td colspan="2">
-                <input type="text" ng-model="fields['InjuredName']" placeholder="Name of the injured" required />
+            <td colspan="3">
+                <field name="fields['InjuredName']"></field>
             </td>
             <td>
-                <select ng-model="fields['Sex']" ng-options='v as v for (k,v) in  ["Male","Female"] '>
-                    <option value="">Sex</option>
-                </select>
+                <field name="fields['Sex']"></field>
             </td>
             <td>
-                <select ng-model="fields['TypeOfPosition']" ng-options='v as v for (k,v) in  ["Permanent","Temporary"] '>
-                    <option value="">Position Type</option>
-                </select>
+                <field name="fields['TypeOfPosition']" options="['Permanent','Temporary']"></field>
             </td>
             <td>
-                <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options" required></select>
+                <field name="fields['PPESupplied']" options='["Yes","No"]'></field>
             </td>
             <td>
-                <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
+                <field name="fields['PPEInUse']" options='["Yes","No"]'></field>
             </td>
         </tr>
         <tr class="ltgrey">
-            <td colspan="2">Injured Job</td>
+            <td colspan="3">Injured Job</td>
             <td>Reported By</td>
             <td>Shift</td>
             <td>Injury Date</td>
             <td>Injury Time</td>
         </tr>
         <tr>
+            <td colspan="3">
+                <field name="fields['InjuredJob']"></field>
+            </td>
+            <td>
+                <field name="fields['ReportedBy']"></field>
+            </td>
+            <td>
+                <field name="fields['Shift']" options="['1','2','3']"></field>
+            </td>
+            <td>
+                <field name="fields['InjuryDate']"></field>
+            </td>
+            <td>
+                <field name="fields['InjuryTime']"></field>
+            </td>
+        </tr>
+        <tr class="ltgrey">
+            <td colspan="2">Injury Type</td>
+            <td>Usual Work</td>
+            <td>Plant</td>
+            <td>Department</td>
+            <td>Zone</td>
+            <td>Machine</td>
+        </tr>
+        <tr>
             <td colspan="2">
-                <input type="text" ng-model="fields['InjuredJob']" placeholder="Job of the injured" />
+                <field name="fields['InjuryTypeID']"></field>
             </td>
             <td>
-                <input type="text" ng-model="fields['ReportedBy']" placeholder="Report made by" />
+                <field name="fields['TypeofPosition']"></field>
+                <field name="fields['UsualWork']" options='["Yes","No"]'></field>
             </td>
             <td>
-                <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"]' required></select>
+                <field name="fields['PlantID']"></field>
             </td>
             <td>
-                <input type="date" ng-model="fields['InjuryDate']" placeholder="Injury Date" required />
+                <field name="fields['DepartmentID']"></field>
             </td>
             <td>
-                <input type="time" ng-model="fields['InjuryTime']" placeholder="Time of incident" />
+                <field name="fields['ZoneID']"></field>
+            </td>
+            <td>
+                <field name="fields['MachineID']"></field>
             </td>
         </tr>
         <tr>
-            <td class="dkgreen whitetext">SW+1H Analysis(Event Description)</td>
-            <td class="ltgrey">INJURY TYPE</td>
-            <td colspan="2" class="dkgreen whitetext">BODY CHART</td>
-            <td class="dkgreen whitetext">SKETCH</td>
-            <td class="dkgreen whitetext">CORRECTIVE ACTION</td>
+            <td colspan="3" class="dkgreen whitetext">5W + 1H Analysis</td>
+            <td colspan="2" rowspan="2" class="dkgreen whitetext">BODY CHART</td>
+            <td class="dkgreen whitetext" rowspan="2">SKETCH</td>
+            <td class="dkgreen whitetext" rowspan="2">CORRECTIVE ACTION</td>
         </tr>
         <tr>
-            <td>
-                <textarea ng-model="fields['WWhat']" placeholder="WHAT(Nature and body part)"></textarea>
+            <td colspan="3" class="dkgreen whitetext">What</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <field name="fields['WWhat']"></field>
             </td>
-            <td>
-                <select ng-model="fields['InjuryTypeID']" ng-options="k as v for (k,v) in queries['InjuryTypeID'].options" required>
-                    <option value=" ">
-                        Injury Type
-                    </option>
-                </select>
-            </td>
-            <td colspan="2" rowspan="6">
+            <td colspan="2" rowspan="11">
+                <style>
+                    [name*="BodyPartID"] input {
+                        height: 20%;
+                        /*change to select when done*/
+                    }
+                </style>
                 <img src="res/BodyChart.png" style="width: 200px; height: 200px;" />
-                <select ng-model="fields['BodyPartID']" ng-options="k as v for (k,v) in queries['BodyPartID'].options" required>
-                    <option value="">Body Part</option>
-                </select>
+                <field name="fields['BodyPartID']"></field>
             </td>
-            <td rowspan="6">
-                <button type="button" onclick="clearSketch()">Clear</button>
-                <input type="color" id="colorPicker" style="width: 30px; height: 20px;" />
-                <label for="brushSize">Brush Size:</label>
-                <input type="text" id="brushSize" placeholder="Size" value="2" />
-                <canvas id="sketchArea" onmousemove="drawSketch()" ng-mouseleave="saveSketch($event);" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>
+            <td rowspan="11">
+                <sketch name="fields['SketchURL']"></sketch>
             </td>
-            <td rowspan="6">
-                <textarea ng-model="fields['ActionDescription']" placeholder="Action Description"></textarea><!-- corrective action -->
+            <td rowspan="11">
+                <field name="fields['ActionDescription']"></field>
             </td>
         </tr>
         <tr>
-            <td>
-                <textarea ng-model="fields['WWhen']" placeholder="WHEN(when did it happen)"></textarea>
-            </td>
-            <td>
-                <select ng-model="fields['PPESupplied']" ng-options='v as v for (k,v) in  ["Yes","No"] '>
-                    <option value="">PPE Supplied?</option>
-                </select>
+            <td colspan="3" class="dkgreen whitetext">When</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <field name="fields['WWhen']"></field>
             </td>
         </tr>
         <tr>
-            <td>
-                <textarea ng-model="fields['WWhere']" placeholder="WHERE(Where is the job?)"></textarea>
+            <td colspan="3" class="dkgreen whitetext">Where</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <field name="fields['WWhere']"></field>
             </td>
-            <td>
-                <select ng-model="fields['PPEInUse']" ng-options='v as v for (k,v) in  ["Yes","No"] '>
-                    <option value="">PPE in use?</option>
-                </select>
+
+        </tr>
+        <tr>
+            <td colspan="3" class="dkgreen whitetext">Who</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <field name="fields['WWho']"></field>
             </td>
         </tr>
         <tr>
-            <td>
-                <textarea ng-model="fields['WWho']" placeholder="WHO(Who is doing the job?)"></textarea>
-            </td>
-            <td>
-                <select ng-model="fields['UsualWork']" ng-options='v as v for (k,v) in  ["Yes","No"] '>
-                    <option value="">Usual work?</option>
-                </select>
+            <td colspan="3" class="dkgreen whitetext">Which</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <field name="fields['WWhich']"></field>
             </td>
         </tr>
         <tr>
-            <td colspan="2">
-                <textarea ng-model="fields['WWhich']" placeholder="WHICH(Which kind of job?)"></textarea>
-            </td>
+            <td colspan="3" class="dkgreen whitetext">How</td>
+        </tr>
         <tr>
-            <td colspan="2">
-                <textarea ng-model="fields['HHow']" placeholder="HOW(How did this injury occur?)"></textarea>
+            <td colspan="3">
+                <field name="fields['HHow']"></field>
             </td>
         </tr>
         <tr>
-            <td class="ltgreen whitetext" colspan="7">Analysis Root Cause: Write "5 Why's" for the most probable cause</td>
+            <td class="ltgreen whitetext" colspan="8">Analysis Root Cause: Write "5 Why's" for the most probable cause</td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">1</td>
             <td colspan="7">
-                <input type="text" ng-model="fields['FiveWhy1']" placeholder="Why?" />
+                <field name="fields['FiveWhy1']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">..2</td>
             <td colspan="7">
-                <input type="text" ng-model="fields['FiveWhy2']" placeholder="Why?" />
+                <field name="fields['FiveWhy2']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">....3</td>
             <td colspan="7">
-                <input type="text" ng-model="fields['FiveWhy3']" placeholder="Why?" />
+                <field name="fields['FiveWhy3']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">......4</td>
             <td colspan="7">
-                <input type="text" ng-model="fields['FiveWhy4']" placeholder="Why?" />
+                <field name="fields['FiveWhy4']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">........5</td>
             <td colspan="7">
-                <input type="text" ng-model="fields['FiveWhy5']" placeholder="Why?" />
+                <field name="fields['FiveWhy5']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">Root Cause</td>
             <td colspan="7">
-                <input type="text" ng-model="fields['FiveWhyRootCause']" placeholder="Root cause" />
+                <field name="fields['FiveWhyRootCause']"></field>
             </td>
         </tr>
         <tr>
-            <td class="ltgreen whitetext" colspan="7">Categorize Root Cause</td>
+            <td class="ltgreen whitetext" colspan="8">Categorize Root Cause</td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">Root Cause Type</td>
             <td colspan="7">
-                <select ng-model="fields['RootCauseID']" ng-options="k as v for (k,v) in queries['RootCauseID'].options" required>
-                    <option value="">Root Cause Type</option>
-                </select>
+                <field name="fields['RootCauseID']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">2nd Root Cause</td>
             <td colspan="7">
-                <select ng-model="fields['SecondaryCauseID']" ng-options="k as v for (k,v) in queries['SecondaryCauseID'].options" required>
-                    <option value="">Secondary Root Cause</option>
-                </select>
+                <field name="fields['SecondaryCauseID']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">Micro Root Cause</td>
             <td colspan="7">
-                <select ng-model="fields['MicroCauseID']" ng-options="k as v for (k,v) in queries['MicroCauseID'].options" required>
-                    <option value="">Micro Root Cause</option>
-                </select>
+                <field name="fields['MicroCauseID']"></field>
             </td>
         </tr>
         <tr>
+            <td class="ltgreen whitetext">Action</td>
             <td colspan="7">
-                <select ng-model="fields['ActionID']" ng-options="k as v for (k,v) in queries['ActionID'].options" required>
-                    <option value="">Action</option>
-                </select>
+                <field name="fields['ActionID']"></field>
             </td>
         </tr>
         <tr>
@@ -244,31 +264,31 @@
                 D<br>
                 O
             </td>
-            <td colspan="2" class="dkblue whitetext">Action Plan</td>
+            <td colspan="3" class="dkblue whitetext">Action Plan</td>
             <td class="dkblue whitetext">RESPONSIBLE</td>
             <td class="dkblue whitetext">DUE DATE</td>
             <td class="dkblue whitetext">CLOSE DATE</td>
             <td class="dkblue whitetext">NOTES</td>
         </tr>
         <tr>
-            <td colspan="2" height="100px">
-                <textarea ng-model="fields['ActionPlan']" placeholder="Action plan"></textarea><!-- action plan -->
+            <td colspan="3" height="100px">
+                <field name="fields['ActionPlan']"></field>
             </td>
             <td>
-                <textarea ng-model="fields['Responsible']" placeholder="Responsible"></textarea><!-- responsible -->
+                <field name="fields['Responsible']"></field>
             </td>
             <td>
-                <textarea ng-model="fields['DueDate']" placeholder="Due date"></textarea><!-- due date -->
+                <field name="fields['DueDate']"></field>
             </td>
             <td>
-                <textarea ng-model="fields['CloseDate']" placeholder="Close date"></textarea><!-- close date -->
+                <field name="fields['CloseDate']"></field>
             </td>
             <td>
-                <textarea ng-model="fields['Notes']" placeholder="Notes"></textarea><!-- notes -->
+                <field name="fields['Notes']"></field>
             </td>
         </tr>
         <tr>
-            <td colspan="7">
+            <td colspan="8">
                 <table style="width: 100%;">
                     <tr>
                         <td rowspan="9" class="vert-text red whitetext">
@@ -291,17 +311,15 @@
                             <table style="width: 100%; height: 150px;">
                                 <tr>
                                     <td>
-                                        <select ng-model="fields['ExpansionPlan']" ng-options='v as v for (k,v) in  ["Yes","No"] '>
-                                            <option value="">Expansion Plan</option>
-                                        </select>
+                                        <field name="fields['ExpansionPlan']" options='["Yes","No"]'></field>
                                     </td>
                                     <td>
-                                        <textarea ng-model="fields['Location']" placeholder="Location"></textarea>
+                                        <field name="fields['Location']"></field>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <textarea ng-model="fields['Act']" placeholder="Act"></textarea>
+                                        <field name="fields['Act']"></field>
                                     </td>
                                 </tr>
                             </table>
@@ -311,7 +329,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="7">
+            <td colspan="8">
                 <table style="width: 100%;">
                     <tr class="ltgrey">
                         <td></td>
@@ -325,108 +343,106 @@
                     <tr>
                         <td class="ltgrey">Name</td>
                         <td>
-                            <input type="text" ng-model="fields['EmployeeName']" placeholder="Employee Name" />
+                            <field name="fields['EmployeeName']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['TeamLeadName']" placeholder="Team Lead Name" />
+                            <field name="fields['TeamLeadName']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['SupervisorName']" placeholder="Supervisor Name" />
+                            <field name="fields['SupervisorName']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['DeptManagerName']" placeholder="Dept Mgr Name" />
+                            <field name="fields['DeptManagerName']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['SafetyMgrName']" placeholder="Safety Mgr Name" />
+                            <field name="fields['SafetyMgrName']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['PlantMgrName']" placeholder="Plant Mgr Name" />
+                            <field name="fields['PlantMgrName']"></field>
                         </td>
                     </tr>
                     <tr>
                         <td class="ltgrey">Date</td>
                         <td>
-                            <input type="date" ng-model="fields['EmployeeDate']" placeholder="Employee Date" />
+                            <field name="fields['EmployeeDate']"></field>
                         </td>
                         <td>
-                            <input type="date" ng-model="fields['TeamLeadDate']" placeholder="Team Lead Date" />
+                            <field name="fields['TeamLeadDate']"></field>
                         </td>
                         <td>
-                            <input type="date" ng-model="fields['SupervisorDate']" placeholder="Supervisor Date" />
+                            <field name="fields['SupervisorDate']"></field>
                         </td>
                         <td>
-                            <input type="date" ng-model="fields['DeptManagerDate']" placeholder="Dept Mgr Date" />
+                            <field name="fields['DeptManagerDate']"></field>
                         </td>
                         <td>
-                            <input type="date" ng-model="fields['SafetyMgrDate']" placeholder="Safety Mgr Date" />
+                            <field name="fields['SafetyMgrDate']"></field>
                         </td>
                         <td>
-                            <input type="date" ng-model="fields['PlantMgrDate']" placeholder="Plant Mgr Date" />
+                            <field name="fields['PlantMgrDate']"></field>
                         </td>
                     </tr>
                     <tr>
                         <td class="ltgrey">Signature</td>
                         <td>
-                            <input type="text" ng-model="fields['EmployeeSignature']" placeholder="Employee Signature" />
+                            <field name="fields['EmployeeSignature']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['TeamLeadSignature']" placeholder="Team Lead Signature" />
+                            <field name="fields['TeamLeadSignature']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['SupervisorSignature']" placeholder="Supervisor Signature" />
+                            <field name="fields['SupervisorSignature']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['DeptManagerSignature']" placeholder="Dept Mgr Signature" />
+                            <field name="fields['DeptManagerSignature']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['SafetyMgrSignature']" placeholder="Safety Mgr Signature" />
+                            <field name="fields['SafetyMgrSignature']"></field>
                         </td>
                         <td>
-                            <input type="text" ng-model="fields['PlantMgrSignature']" placeholder="Plant Mgr Signature" />
+                            <field name="fields['PlantMgrSignature']"></field>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr class="ltgrey">
-            <td colspan="5">
+            <td colspan="6">
                 <h3>Injured Statement</h3>
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <h3>Witness Statement</h3>
             </td>
         </tr>
         <tr style="height: 200px;">
-            <td colspan="5">
-                <textarea ng-model="fields['InjuredStatement']" placeholder="Statement"></textarea>
+            <td colspan="6">
+                <field name="fields['InjuredStatement']"></field>
             </td>
             <td colspan="2">
-                <textarea ng-model="fields['WitnessStatement']" placeholder="Statement"></textarea>
+                <field name="fields['WitnessStatement']"></field>
             </td>
         </tr>
         <tr>
-            <td colspan="3">
-                <input type="text" ng-model="fields['InjuredSignature']" placeholder="Signature">
+            <td colspan="4">
+                <field name="fields['InjuredSignature']"></field>
             </td>
             <td colspan="2">
-                <input type="date" ng-model="fields['InjuredDate']" placeholder="Injured Date">
+                <field name="fields['InjuredDate']"></field>
             </td>
             <td>
-                <input type="text" ng-model="fields['WitnessSignature']" placeholder="Signature">
+                <field name="fields['WitnessSignature']"></field>
             </td>
             <td>
-                <input type="date" ng-model="fields['WitnessDate']" placeholder="Witness Date">
+                <field name="fields['WitnessDate']"></field>
             </td>
         </tr>
         <tr>
-            <td colspan="7">
-                <button ng-click="open()">Open</button>
-                <button ng-click="clear()">Clear</button>
-                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-                <button ng-click="update()" ng-show="hasRecord">Update</button>
+            <td colspan="8">
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
             </td>
         </tr>
     </table>
-    </form>
 </body>
 </html>

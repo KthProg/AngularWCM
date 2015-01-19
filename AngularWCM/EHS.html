@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
+    <script src="/scripts/js/wcm.js"></script>
+    <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
+
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/Normalize.css" />
+    <link rel="stylesheet" href="css/Checklist.css" />
+
+    <title>EHS</title>
+
+    <style>
+        h1{ 
+	        color: orange;
+        }
+
+        h3{
+	        background-color: orange;
+        }
+
+        strong{
+	        background-color: orange;
+        }
+    </style>
+</head>
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('EHS', 'Safety', ['EHS', 'EHSLine'], 'vEHS', {'EHSLine' : 48}, 
+    [{'table':'EHSLine','record':0,'field':'SubCategoryID','value':1},{'table':'EHSLine','record':1,'field':'SubCategoryID','value':2},
+    {'table':'EHSLine','record':2,'field':'SubCategoryID','value':3},{'table':'EHSLine','record':3,'field':'SubCategoryID','value':4},
+    {'table':'EHSLine','record':4,'field':'SubCategoryID','value':7},{'table':'EHSLine','record':5,'field':'SubCategoryID','value':8},
+    {'table':'EHSLine','record':6,'field':'SubCategoryID','value':9},{'table':'EHSLine','record':7,'field':'SubCategoryID','value':15},
+    {'table':'EHSLine','record':8,'field':'SubCategoryID','value':10},{'table':'EHSLine','record':9,'field':'SubCategoryID','value':11},
+    {'table':'EHSLine','record':10,'field':'SubCategoryID','value':12},{'table':'EHSLine','record':11,'field':'SubCategoryID','value':13},
+    {'table':'EHSLine','record':12,'field':'SubCategoryID','value':16},{'table':'EHSLine','record':13,'field':'SubCategoryID','value':14},
+    {'table':'EHSLine','record':14,'field':'SubCategoryID','value':17},{'table':'EHSLine','record':15,'field':'SubCategoryID','value':18},
+    {'table':'EHSLine','record':16,'field':'SubCategoryID','value':19},{'table':'EHSLine','record':17,'field':'SubCategoryID','value':20},
+    {'table':'EHSLine','record':18,'field':'SubCategoryID','value':21},{'table':'EHSLine','record':19,'field':'SubCategoryID','value':22},
+    {'table':'EHSLine','record':20,'field':'SubCategoryID','value':23},{'table':'EHSLine','record':21,'field':'SubCategoryID','value':24},
+    {'table':'EHSLine','record':22,'field':'SubCategoryID','value':25},{'table':'EHSLine','record':23,'field':'SubCategoryID','value':26},
+    {'table':'EHSLine','record':24,'field':'SubCategoryID','value':27},{'table':'EHSLine','record':25,'field':'SubCategoryID','value':57},
+    {'table':'EHSLine','record':26,'field':'SubCategoryID','value':58},{'table':'EHSLine','record':27,'field':'SubCategoryID','value':28},
+    {'table':'EHSLine','record':28,'field':'SubCategoryID','value':61},{'table':'EHSLine','record':29,'field':'SubCategoryID','value':59},
+    {'table':'EHSLine','record':30,'field':'SubCategoryID','value':60},{'table':'EHSLine','record':31,'field':'SubCategoryID','value':61},
+    {'table':'EHSLine','record':32,'field':'SubCategoryID','value':63},{'table':'EHSLine','record':33,'field':'SubCategoryID','value':29},
+    {'table':'EHSLine','record':34,'field':'SubCategoryID','value':30},{'table':'EHSLine','record':35,'field':'SubCategoryID','value':31},
+    {'table':'EHSLine','record':36,'field':'SubCategoryID','value':32},{'table':'EHSLine','record':37,'field':'SubCategoryID','value':33},
+    {'table':'EHSLine','record':38,'field':'SubCategoryID','value':34},{'table':'EHSLine','record':39,'field':'SubCategoryID','value':35},
+    {'table':'EHSLine','record':40,'field':'SubCategoryID','value':36},{'table':'EHSLine','record':41,'field':'SubCategoryID','value':38},
+    {'table':'EHSLine','record':42,'field':'SubCategoryID','value':39},{'table':'EHSLine','record':43,'field':'SubCategoryID','value':40},
+    {'table':'EHSLine','record':44,'field':'SubCategoryID','value':37},{'table':'EHSLine','record':45,'field':'SubCategoryID','value':41},
+    {'table':'EHSLine','record':46,'field':'SubCategoryID','value':42},{'table':'EHSLine','record':47,'field':'SubCategoryID','value':43},
+    {'table':'EHSLine','record':0,'field':'CategoryID','value':1},{'table':'EHSLine','record':1,'field':'CategoryID','value':1},
+    {'table':'EHSLine','record':2,'field':'CategoryID','value':1},{'table':'EHSLine','record':3,'field':'CategoryID','value':1},
+    {'table':'EHSLine','record':4,'field':'CategoryID','value':2},{'table':'EHSLine','record':5,'field':'CategoryID','value':2},
+    {'table':'EHSLine','record':6,'field':'CategoryID','value':2},{'table':'EHSLine','record':7,'field':'CategoryID','value':2},
+    {'table':'EHSLine','record':8,'field':'CategoryID','value':2},{'table':'EHSLine','record':9,'field':'CategoryID','value':2},
+    {'table':'EHSLine','record':10,'field':'CategoryID','value':2},{'table':'EHSLine','record':11,'field':'CategoryID','value':2},
+    {'table':'EHSLine','record':12,'field':'CategoryID','value':2},{'table':'EHSLine','record':13,'field':'CategoryID','value':2},
+    {'table':'EHSLine','record':14,'field':'CategoryID','value':8},{'table':'EHSLine','record':15,'field':'CategoryID','value':8},
+    {'table':'EHSLine','record':16,'field':'CategoryID','value':8},{'table':'EHSLine','record':17,'field':'CategoryID','value':8},
+    {'table':'EHSLine','record':18,'field':'CategoryID','value':8},{'table':'EHSLine','record':19,'field':'CategoryID','value':8},
+    {'table':'EHSLine','record':20,'field':'CategoryID','value':8},{'table':'EHSLine','record':21,'field':'CategoryID','value':9},
+    {'table':'EHSLine','record':22,'field':'CategoryID','value':9},{'table':'EHSLine','record':23,'field':'CategoryID','value':9},
+    {'table':'EHSLine','record':24,'field':'CategoryID','value':10},{'table':'EHSLine','record':25,'field':'CategoryID','value':3},
+    {'table':'EHSLine','record':26,'field':'CategoryID','value':3},{'table':'EHSLine','record':27,'field':'CategoryID','value':11},
+    {'table':'EHSLine','record':28,'field':'CategoryID','value':4},{'table':'EHSLine','record':29,'field':'CategoryID','value':4},
+    {'table':'EHSLine','record':30,'field':'CategoryID','value':4},{'table':'EHSLine','record':31,'field':'CategoryID','value':4},
+    {'table':'EHSLine','record':32,'field':'CategoryID','value':4},{'table':'EHSLine','record':33,'field':'CategoryID','value':12},
+    {'table':'EHSLine','record':34,'field':'CategoryID','value':12},{'table':'EHSLine','record':35,'field':'CategoryID','value':12},
+    {'table':'EHSLine','record':36,'field':'CategoryID','value':12},{'table':'EHSLine','record':37,'field':'CategoryID','value':12},
+    {'table':'EHSLine','record':38,'field':'CategoryID','value':12},{'table':'EHSLine','record':39,'field':'CategoryID','value':12},
+    {'table':'EHSLine','record':40,'field':'CategoryID','value':12},{'table':'EHSLine','record':41,'field':'CategoryID','value':13},
+    {'table':'EHSLine','record':42,'field':'CategoryID','value':13},{'table':'EHSLine','record':43,'field':'CategoryID','value':13},
+    {'table':'EHSLine','record':44,'field':'CategoryID','value':14},{'table':'EHSLine','record':45,'field':'CategoryID','value':15},
+    {'table':'EHSLine','record':46,'field':'CategoryID','value':15},{'table':'EHSLine','record':47,'field':'CategoryID','value':15}])">
+    <table>
+        <tr>
+            <td colspan="3">
+                <style>
+                    [name*='[\'ID\']'] input {
+                        background-color: inherit;
+                        border: none;
+                        color: orange;
+                    }
+                </style>
+                <h1>EHS No. <field name="tables['EHS'].records[0].fields['ID']"></h1>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="inputPlusLabel">
+                    <strong>Date</strong>
+                    <field name="tables['EHS'].records[0].fields['EHSDate']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Shift</strong>
+                    <field name="tables['EHS'].records[0].fields['Shift']" options="['1','2','3']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Auditor's Name</strong>
+                    <field name="tables['EHS'].records[0].fields['AuditorID']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Plant</strong>
+                    <field name="tables['EHS'].records[0].fields['PlantID']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Department</strong>
+                    <field name="tables['EHS'].records[0].fields['DepartmentID']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Zone</strong>
+                    <field name="tables['EHS'].records[0].fields['ZoneID']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Machine</strong>
+                    <field name="tables['EHS'].records[0].fields['MachineID']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Work Cell</strong>
+                    <field name="tables['EHS'].records[0].fields['WorkCellID']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Tool No.</strong>
+                    <field name="tables['EHS'].records[0].fields['MoldNo']">
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Supervisor</strong>
+                    <field name="tables['EHS'].records[0].fields['SupervisorID']">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <h2>Requirement</h2>
+            </td>
+            <td>
+                <h2>Select</h2>
+            </td>
+        </tr>
+        <tr ng-repeat-start="rec in tables['EHSLine'].records track by $index" class="header">
+            <td colspan="3">
+                <h3>
+                    {{( rec.fields['CategoryID'].value != tables['EHSLine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].options[rec.fields['CategoryID'].value]  : ''}}
+                </h3>
+            </td>
+        </tr>
+        <tr></tr>
+        <tr ng-repeat-end>
+            <td>
+                <span>
+                    {{$index + 1}}. {{rec.fields['SubCategoryID'].options[rec.fields['SubCategoryID'].value]}}
+                </span>
+            </td>
+            <td>
+                <label for="file{{$index + 1}}">
+                    <img src="res/upload.png" alt="Upload">
+                </label>
+                <input id="file{{$index + 1}}" type="file" onchange="//broadcast image upload, change label image" />
+            </td>
+            <td>
+                <field name="rec.fields['Compliant']" options="['Satisfactory','Unsafe Condition','Unsafe Act','Both']"></field>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <!-- extra tr makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
+        <tr></tr>
+        <tr>
+            <td colspan="2">
+                <field name="fields['Comments']"></field><br />
+            </td>
+            <td>
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

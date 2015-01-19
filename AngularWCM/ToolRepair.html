@@ -1,14 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
 
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
 
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/FormClasses.css" />
@@ -33,8 +35,6 @@
                                     }
                                 }
                             }
-                            //console.log(scope.contacts);
-                            //angular.element(scope.getFieldEl("ZoneID")).triggerHandler("change");
                         }
                     }, true);
                 });
@@ -42,12 +42,9 @@
     </script>
 </head>
 
-<body ng-app="wcm"
-      ng-controller="Form"
-      ng-init="setFormData('Tool Repair');
-      fields['IsService'] = '0';
-      fields['ReportedBy'] = 'Justin Thomason';
-      fields['Status'] = 1;">
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('Tool Repair', 'Safety', ['ToolIssues', 'ToolIssueRepairTypes'], 'vToolIssues')">
     <table id="repairTable">
         <tr>
             <td width="30px"></td>
@@ -57,7 +54,14 @@
         </tr>
         <tr>
             <td colspan="3" class="dkgrey whitetext"><h1>Tool Repair Form</h1></td>
-            <td class="dkgrey whitetext"><h2>Tool Repair #</h2>{{id + (hasRecord ? " (Updating)" : " (New Form)")}}</td>
+            <td class="dkgrey whitetext">
+                <style>
+                    [name*='ID'] input {
+                        background-color: inherit;
+                    }
+                </style>
+                <h2>Tool Repair #<field name="tables['ToolIssues'].records[0].fields['ID']"></field></h2>
+            </td>
         </tr>
         <tr>
             <td rowspan="16" class="red">T<br />o<br />o<br />l<br /> <br />R<br />e<br />p<br />a<br />i<br />r</td>
@@ -66,16 +70,25 @@
             <td class="red">Repair Type(s)</td>
         </tr>
         <tr>
-            <td><input type="text" ng-value="queries['ToolName'].options[0]" /></td><!-- ng-model="fields['ToolName']" -->
-            <td rowspan="11"><textarea ng-model="fields['Problems']"></textarea></td>
-            <td rowspan="11"><select ng-model="fields['RepairTypes']" ng-options="k as v for (k,v) in queries['RepairTypes'].options" multiple></select></td>
+            <td>{{fields['ToolName'].options[0]}}</td><!-- ng-model="fields['ToolName']" -->
+            <td rowspan="11"><field name="tables['ToolIssues'].records[0].fields['Problems']"></field></td>
+            <td rowspan="11">
+                <style>
+                    [name*='RepairTypeID'] select {
+                        height: auto;
+                        width: auto;
+                    }
+                </style>
+                <field ng-repeat="rec in tables['ToolIssueRepairTypes'].records" name="rec.fields['RepairTypeID']"></field>
+                <button ng-click="tables['ToolIssueRepairTypes'].copyRecord(0)">Add Repair</button>
+            </td><!-- multiple -->
         </tr>
         <tr>
             <td class="red">Tool Number</td>
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['ToolNumber']" ng-options="k as v for (k,v) in queries['ToolNumber'].options" required></select>
+                <field name="tables['ToolIssues'].records[0].fields['ToolNumber']"></field>
             </td>
         </tr>
         <tr>
@@ -83,7 +96,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options" required></select>
+                <field name="tables['ToolIssues'].records[0].fields['DepartmentID']"></field>
             </td>
         </tr>
         <tr>
@@ -91,7 +104,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options" required></select>
+                <field name="tables['ToolIssues'].records[0].fields['ZoneID']"></field>
             </td>
         </tr>
         <tr>
@@ -99,7 +112,7 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
+                <field name="tables['ToolIssues'].records[0].fields['MachineID']"></field>
             </td>
         </tr>
         <tr>
@@ -107,7 +120,7 @@
         </tr>
         <tr>
             <td>
-                <input type="text" ng-model="fields['ReportedBy']" />
+                <field name="tables['ToolIssues'].records[0].fields['ReportedBy']"></field>
             </td>
         </tr>
         <tr>
@@ -116,21 +129,19 @@
             <td class="red">Notes</td>
         </tr>
         <tr>
-            <td><input type="date" ng-model="fields['DateShipped']" /></td>
+            <td><field name="tables['ToolIssues'].records[0].fields['DateShipped']" /></td>
             <td>
-                <select ng-model="fields['RepairedLocation']" ng-options='v as v for (k,v) in ["Mayco","Mound"]' required>
-                    <option value=""></option>
-                </select>
+                <field name="tables['ToolIssues'].records[0].fields['RepairedLocation']" options="['Mayco','Mound']"></field>
             </td>
-            <td rowspan="3"><input type="text" ng-model="fields['Notes']" /></td>
+            <td rowspan="3"><field name="tables['ToolIssues'].records[0].fields['Notes']"></field></td>
         </tr>
         <tr>
             <td class="red">Due Date/Repair Date</td>
             <td class="red">Service</td>
         </tr>
         <tr>
-            <td><input type="date" ng-model="fields['DateReceived']" /></td>
-            <td><select ng-model="fields['IsService']" ng-options='k as v for (k,v) in [false,true]'></select></td>
+            <td><field name="tables['ToolIssues'].records[0].fields['DateReceived']"></field></td>
+            <td><field name="tables['ToolIssues'].records[0].fields['IsService']" options="{ 0 : false, 1 : true}"></field></td>
         </tr>
     </table>
     <table>
@@ -148,40 +159,38 @@
             <td class="ltblue">Shift Repaired On</td>
         </tr>
         <tr>
-            <td colspan="2" rowspan="5"><textarea ng-model="fields['ProblemsFixed']"></textarea></td>
+            <td colspan="2" rowspan="5"><field name="tables['ToolIssues'].records[0].fields['ProblemsFixed']"></field></td>
             <td>
-                <select ng-model="fields['RepairShift']" ng-options='v as v for (k,v) in [1,2,3] '></select>
+                <field name="tables['ToolIssues'].records[0].fields['RepairShift']" options="[1,2,3]"></field>
             </td>
         </tr>
         <tr>
             <td class="ltblue">Repair Cost</td>
         </tr>
         <tr>
-            <td><input type="number" ng-model="fields['RepairCost']" /></td>
+            <td><field name="tables['ToolIssues'].records[0].fields['RepairCost']"></field></td>
         </tr>
         <tr>
-            <td class="ltblue">Status (% Complete)</td>
+            <td class="ltblue">Status (% Complete, 0 to 1)</td>
         </tr>
         <tr>
-            <td rowspan="3"><input type="range" ng-model="fields['Status']" min="0" max="1" step="0.01" value="1" /></td>
+            <td rowspan="3"><field name="tables['ToolIssues'].records[0].fields['Status']"></field><!-- min="0" max="1" step="0.01" value="1" --></td>
         </tr>
         <tr>
             <td class="ltblue">Work Approved By</td>
             <td class="ltblue">Repaired By</td>
         </tr>
         <tr>
-            <td><input type="text" ng-model="fields['ApprovedBy']" /></td>
-            <td><input type="text" ng-model="fields['RepairedBy']" /></td>
+            <td><field name="tables['ToolIssues'].records[0].fields['ApprovedBy']"></field></td>
+            <td><field name="tables['ToolIssues'].records[0].fields['RepairedBy']"></field></td>
         </tr>
         <tr>
             <td colspan="4">
-                <button ng-click="open()">Open</button>
-                <button ng-click="clear()">Clear</button>
-                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-                <button ng-click="update()" ng-show="hasRecord">Update</button>
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
             </td>
         </tr>
     </table>
-    </form>
 </body>
 </html>

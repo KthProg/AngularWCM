@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -29,53 +29,41 @@
         }
     </style>
 
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
 
     <title>Unsafe Act</title>
 </head>
-
-<body ng-app="wcm"
-      ng-controller="Form"
-      ng-init="setFormData('Unsafe Act');
-      fields['Reviewed'] = '0'; ">
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('Unsafe Acts', 'Safety', ['UnsafeActs'], 'vUnsafeActs')">
     <h1>Unsafe Act Form</h1>
-    <h2>UA Number {{id + (hasRecord ? " (Updating)" : " (New Form)")}}</h2>
+    <h2>UA Number</h2>
+    <field name="fields['ID']"></field>
     <label>Plant</label>
-    <select ng-model="fields['PlantID']" ng-options="k as v for (k,v) in queries['PlantID'].options" required>
-        <option value=""></option>
-    </select>
+    <field name="fields['PlantID']"></field>
     <label>Department</label>
-    <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options" required>
-        <option value=""></option>
-    </select>
+    <field name="fields['DepartmentID']"></field>
     <label>Zone</label>
-    <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options" required>
-        <option value=""></option>
-    </select>
+    <field name="fields['ZoneID']"></field>
     <label>Shift</label>
-    <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"]' required>
-        <option value=""></option>
-    </select>
+    <field name="fields['Shift']" options="[1,2,3]"></field>
     <label>Type</label>
-    <select ng-model="fields['UATypeID']" ng-options="k as v for (k,v) in queries['UATypeID'].options" required>
-        <option value=""></option>
-    </select>
+    <field name="fields['UATypeID']"></field>
     <label>Micro Type</label>
-    <select ng-model="fields['UAMicroTypeID']" ng-options="k as v for (k,v) in queries['UAMicroTypeID'].options" required>
-        <option value=""></option>
-    </select>
+    <field name="fields['UAMicroTypeID']"></field>
     <label>Reviewed</label>
-    <input type="checkbox" ng-model="fields['Reviewed']" ng-true-value="1" ng-false-value="0" required />
-    <input type="file" id="file1" onchange="imgToBase64(this, 1);">
+    <field name="fields['Reviewed']"></field>
+    <imageupload name="fields['ImageURL']"></imageupload>
     <label>Comments</label>
-    <textarea ng-model="fields['Comments']" required></textarea>
-    <button ng-click="open()">Open</button>
-    <button ng-click="clear()">Clear</button>
-    <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-    <button ng-click="update()" ng-show="hasRecord">Update</button>
+    <field name="fields['Comments']"></field>
+    <button ng-click="form.reset()">Reset</button>
+    <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+    <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
 </body>

@@ -91,10 +91,6 @@ img[src*="BodyChart"]{
     height: 78%;
 }
 
-select[ng-model="fields['BodyPartID']"]{
-    height: 20%;
-}
-
 canvas{
     border: 1px dashed grey;
     cursor: crosshair;

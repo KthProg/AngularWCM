@@ -14,10 +14,12 @@ if(isset($_GET["Query"]) || isset($_POST["Query"])){
         $sent_return = false;
     }
     
-    require_once("Utilities.php");
+    require_once("Form.php");
 
-    $xml = simplexml_load_file("http://192.9.200.62:8080/xml/queries.xml");
+    $xml = simplexml_load_file("http://192.9.200.62/xml/queries.xml");
+    if(!$xml) { exit("Could not load xml file."); }
     $query = $xml->xpath("/queries/query[@name='".$sent_qry."']");
+    if(!$xml) { exit("Could not find query ".$sent_qry); }
     $query_string = $query[0]->qstring;  
     $connection_string = $query[0]->connection;
 
@@ -25,14 +27,14 @@ if(isset($_GET["Query"]) || isset($_POST["Query"])){
     if($conn){
         $stmt = $conn->prepare($query_string);
     }else{
-        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Query error.", "QUERY: ".$sent_qry."<br>PARAMS: ".$sent_params."<br>Error: ".print_r($stmt->errorInfo(), true));
+        send_error(array("Could not execute query ".$query_string." using connection ".$connection_string));
         exit("[]");
     }
 
     $fetch_type = ($sent_assoc != "false") ? PDO::FETCH_ASSOC : PDO::FETCH_NUM;
 
     if(!$stmt->execute(json_decode($sent_params))){
-        notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "Query error.", "QUERY: ".$sent_qry."<br>PARAMS: ".$sent_params."<br>Error: ".print_r($stmt->errorInfo(), true));
+        send_error($stmt->errorInfo());
         if($sent_return){
             return array();
         }else{

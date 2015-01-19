@@ -16,25 +16,27 @@
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BlueTag.html" />
     <Compile Include="Dashboard\Chart.php" />
-    <Compile Include="LPA.php" />
+    <Compile Include="EWO.html" />
+    <Compile Include="JSA.html" />
+    <Compile Include="LPA.html" />
     <Compile Include="Dashboard\Issues.html" />
-    <Compile Include="EHS.php" />
-    <Compile Include="scripts\php\getMaxID.php" />
+    <Compile Include="EHS.html" />
+    <Compile Include="PMTag.html" />
+    <Compile Include="QuickKaizen.html" />
+    <Compile Include="scripts\php\Form.php" />
     <Compile Include="scripts\php\getParams.php" />
-    <Compile Include="scripts\php\Open.php" />
     <Compile Include="scripts\php\Query.php" />
-    <Compile Include="scripts\php\SaveImage.php" />
-    <Compile Include="scripts\php\Submit.php" />
-    <Compile Include="scripts\php\Update.php" />
-    <Compile Include="scripts\php\Utilities.php" />
-    <Compile Include="5T.php" />
-    <Compile Include="WCC.php" />
+    <Compile Include="5T.html" />
+    <Compile Include="ToolRepair.html" />
+    <Compile Include="UCAN.html" />
+    <Compile Include="UnsafeAct.html" />
+    <Compile Include="WCC.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="Dashboard\" />
-    <Folder Include="json\" />
     <Folder Include="res\" />
     <Folder Include="xml\" />
     <Folder Include="scripts\" />
@@ -42,7 +44,6 @@
     <Folder Include="scripts\php\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BlueTag.html" />
     <Content Include="css\Checklist.css" />
     <Content Include="css\dashboard.css" />
     <Content Include="css\FormClasses.css" />
@@ -61,11 +62,6 @@
     <Content Include="Dashboard\PM.html" />
     <Content Include="Dashboard\LO.html" />
     <Content Include="Dashboard\SA.html" />
-    <Content Include="EWO.html" />
-    <Content Include="JSA.html" />
-    <Content Include="json\FormData.json" />
-    <Content Include="PMTag.html" />
-    <Content Include="QuickKaizen.html" />
     <Content Include="res\5t.gif" />
     <Content Include="res\am_header.png" />
     <Content Include="res\bluetag.gif" />
@@ -108,15 +104,16 @@
     <Content Include="res\wo.gif" />
     <Content Include="res\wo_header.png" />
     <Content Include="scripts\js\dashboard.js" />
-    <Content Include="scripts\js\sketch.js" />
+    <Content Include="scripts\js\field.js" />
+    <Content Include="scripts\js\format.js" />
+    <Content Include="scripts\js\form.js" />
+    <Content Include="scripts\js\record.js" />
+    <Content Include="scripts\js\table.js" />
     <Content Include="SEWO.html" />
     <Content Include="scripts\js\chart.js" />
     <Content Include="scripts\js\wcm.js" />
-    <Content Include="scripts\js\form.js" />
     <Content Include="scripts\js\issue.js" />
-    <Content Include="ToolRepair.html" />
-    <Content Include="UCAN.html" />
-    <Content Include="UnsafeAct.html" />
+    <Content Include="test.html" />
     <Content Include="xml\connections.xml" />
     <Content Include="xml\queries.xml" />
   </ItemGroup>

@@ -313,14 +313,23 @@
         </div>
         <div id="aggregate_control_panel">
             <label style="display: block; margin: 8px; text-align: center; color: white;">Main Controls</label>
-            <button ng-click="all_changeShowParams()" title="Show / Hide Parameters">&colone;</button>
-            <button ng-click="all_changeMinimized()" title="Minimize / Restore All">&ndash;</button>
-            <button ng-click="all_changeMaximized()" title="Maximize / Restore All">&#9744;</button>
-            <button ng-click="all_removeChart()" title="Remove All">&#215;</button>
-            <button ng-click="all_runQuery()" title="Render Charts">&#8635;</button>
-            <a ng-click="all_viewImage()" title="Download Images"><button>&#9988;</button></a><!-- view as image -->
-            <button ng-click="all_getCSVFile()" title="Download CSV Files">&#8681;</button><!-- export -->
-            <button ng-click="all_changeShowTypes()" title="Show / Hide Chart Options">&#8735;</button><!-- change chart type -->
+            <table style="border-collapse: collapse;">
+                <tr>
+                    <td><button ng-click="all_changeShowParams()" title="Show / Hide Parameters">&colone;</button></td>
+                    <td><button ng-click="all_changeMinimized()" title="Minimize / Restore All">&ndash;</button></td>
+                    <td><button ng-click="all_changeMaximized()" title="Maximize / Restore All">&#9744;</button></td>
+                </tr>
+                <tr>
+                    <td><button ng-click="all_removeChart()" title="Remove All">&#215;</button></td>
+                    <td><button ng-click="all_runQuery()" title="Render Charts">&#8635;</button></td>
+                    <td><button ng-click="all_viewImage()" title="Download Images">&#9988;</button></td><!-- view as image -->
+                </tr>
+                <tr>
+                    <td><button ng-click="all_getCSVFile()" title="Download CSV Files">&#8681;</button></td><!-- export -->
+                    <td><button ng-click="all_changeShowTypes()" title="Show / Hide Chart Options">&#8735;</button></td><!-- change chart type -->
+                    <td></td>
+                </tr>
+            </table>
         </div>
     </div>
     <div id="main_panel">

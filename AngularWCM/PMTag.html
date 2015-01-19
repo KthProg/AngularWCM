@@ -1,14 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
 
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/FormClasses.css" />
@@ -23,14 +25,21 @@
 
     <title>PM Tag</title>
 </head>
-
-<body ng-app="wcm"
-      ng-controller="Form"
-      ng-init="setFormData('PM Tag');">
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('PM Tag', 'Safety', ['PMTags'], 'vPPMTags')">
     <table>
         <tr>
             <td colspan="3" class="dkgrey whitetext"><h1>PM Tag Form</h1></td>
-            <td class="ltgrey"><h2>Tag No {{id + (hasRecord ?" (Updating)" : " (New Form)")}}</h2></td>
+            <td class="ltgrey">
+                <style>
+                    [name*='[\'TagNo\']'] input {
+                        background-color: inherit;
+                        border: none;
+                    }
+                </style>
+                <h2>Tag No <field name="fields['TagNo']"></field></h2>
+            </td>
         </tr>
         <tr class="ltgrey">
             <td>Original Tag No</td>
@@ -39,13 +48,13 @@
             <td>Problem</td>
         </tr>
         <tr>
-            <td><input type="number" ng-model="fields['OldTagNo']" /></td>
-            <td><input type="date" ng-model="fields['Date']" /></td>
+            <td><field name="fields['OldTagNo']"></field></td>
+            <td><field name="fields['Date']"></field></td>
             <td>
-                <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options"></select>
+                <field name="fields['DepartmentID']"></field>
             </td>
             <td rowspan="7">
-                <textarea ng-model="fields['Problem']"></textarea>
+                <field name="fields['Problem']"></field>
             </td>
         </tr>
         <tr class="ltgrey">
@@ -54,10 +63,10 @@
             <td>Zone</td>
         </tr>
         <tr>
-            <td><input type="text" ng-model="fields['SignedBy']" /></td>
-            <td rowspan="5"><textarea ng-model="fields['Notes']"></textarea></td>
+            <td><field name="fields['SignedBy']"></field></td>
+            <td rowspan="5"><field name="fields['Notes']"></field></td>
             <td>
-                <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options"></select>
+                <field name="fields['ZoneID']"></field>
             </td>
         </tr>
         <tr class="ltgrey">
@@ -65,9 +74,9 @@
             <td>Machine</td>
         </tr>
         <tr>
-            <td><input type="text" ng-model="fields['WorkCompletedBy']" /></td>
+            <td><field name="fields['WorkCompletedBy']"></field></td>
             <td>
-                <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
+                <field name="fields['MachineID']"></field>
             </td>
         </tr>
         <tr class="ltgrey">
@@ -75,26 +84,24 @@
             <td>Date Completed</td>
         </tr>
         <tr>
-            <td><select ng-model="fields['Status']" ng-options='v as v for (k,v) in ["Open","Complete","Missing"]'></select></td>
-            <td><input type="date" ng-model="fields['WorkCompletedDate']" /></td>
+            <td><field name="fields['Status']" options="['Open','Complete','Missing']"></field></td>
+            <td><field name="fields['WorkCompletedDate']"></field></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="4">Repair Description</td>
         </tr>
         <tr>
             <td colspan="4">
-                <textarea ng-model="fields['RepairDescription']"></textarea>
+                <field name="fields['RepairDescription']"></field>
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <button ng-click="open()">Open</button>
-                <button ng-click="clear()">Clear</button>
-                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-                <button ng-click="update()" ng-show="hasRecord">Update</button>
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
             </td>
         </tr>
     </table>
-    </form>
 </body>
 </html>

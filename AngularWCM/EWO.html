@@ -1,29 +1,28 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 <head>
     <meta charset="utf-8">
 
     <title>EWO</title>
 
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/sketch.js"></script>
     <script src="/scripts/js/form.js"></script>
-
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/FormClasses.css" />
     <link rel="stylesheet" href="css/SEWO.css" />
 
+
     <title>EWO</title>
 </head>
-
-<body
-      ng-app="wcm"
-      ng-controller="Form"
-      ng-init="setFormData('EWO');">
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('EWO', 'Safety', ['EWOs'], 'vEWOs')">
     <table>
         <tr>
             <td width="2.3%"></td>
@@ -54,22 +53,22 @@
             <td colspan="2">Date/Time Finished</td>
         </tr>
         <tr>
-            <td colspan="3">{{id + (hasRecord ? " (Updating)" : " (New Form)")}}</td>
+            <td colspan="3"><field name="fields['ID']"></field></td>
             <td>
-                <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options"></select>
+                <field name="fields['DepartmentID']"></field>
             </td>
             <td>
-                <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
+                <field name="fields['MachineID']"></field>
             </td>
             <td colspan="2">
-                <select ng-model="fields['FailureType']" ng-options='k as v for (k,v) in  ["Electrical","Mechanical","Both"]'></select>
+                <field name="fields['FailureType']" options="['Electrical','Mechanical','Both']"></field>
             </td>
             <td>
-                <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in  ["1","2","3"]'></select>
+                <field name="fields['Shift']" options="[1,2,3]"></field>
             </td>
-            <td colspan="2"><input ng-model="fields['DateTimeOccurred']" type="datetime-local" placeholder="yyyy-mm-dd hh:mm:ss" /></td>
-            <td><input ng-model="fields['DateTimeStarted']" type="datetime-local" placeholder="yyyy-mm-dd hh:mm:ss" /></td>
-            <td colspan="2"><input ng-model="fields['DateTimeCompleted']" type="datetime-local" placeholder="yyyy-mm-dd hh:mm:ss" /></td>
+            <td colspan="2"><field name="fields['DateTimeOccurred']"></field></td>
+            <td><field name="fields['DateTimeStarted']"></field></td>
+            <td colspan="2"><field name="fields['DateTimeCompleted']"></field></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="3" height="10px">Maintenance Person(s)</td>
@@ -81,29 +80,29 @@
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="3"><input ng-model="fields['MaintenancePersons']" type="text" /></td>
+            <td colspan="3"><field name="fields['MaintenancePersons']"></field>
             <td>
-                <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options"></select>
+                <field name="fields['ZoneID']"></field>
             </td>
             <td>
-                <select ng-model="fields['SubSystemID']" ng-options="k as v for (k,v) in queries['SubSystemID'].options"></select>
+                <field name="fields['SubSystemID']"></field>
             </td>
             <td colspan="3">
-                <select ng-model="fields['Component']"></select>
+                <field name="fields['Component']"></field>
             </td>
             <td colspan="2"></td> <!-- time occurred -->
             <td></td><!-- time started -->
             <td colspan="2"></td><!-- time completed -->
         </tr>
         <tr>
-            <td colspan="6" rowspan="2" height="150px"><textarea ng-model="fields['ProblemDescription']" placeholder="Description of failure"></textarea><!-- Description of failure and sketch (if possible) --></td>
-            <td colspan="6"><textarea ng-model="fields['ActivitiesDescription']" placeholder="Description of activities"></textarea><!-- Description of activites --></td>
+            <td colspan="6" rowspan="2" height="150px"><field name="fields['ProblemDescription']"></field><!-- Description of failure and sketch (if possible) --></td>
+            <td colspan="6"><field name="fields['ActivitiesDescription']"></field><!-- Description of activites --></td>
             <td rowspan="2">
-                <label for="tempRepairCB">Check if Temp. Repair</label><input id="tempRepairCB" type="checkbox" ng-model="fields['TempRepair']" style="height: 50%;" ng-true-value="1" ng-false-value="0" />
+                <label for="tempRepairCB">Check if Temp. Repair</label><field name="fields['TempRepair']"></field>
             </td>
         </tr>
         <tr>
-            <td colspan="6"><textarea ng-model="fields['SpareParts']" placeholder="Spare parts used"></textarea><!-- Spare parts used (part number if available). --></td>
+            <td colspan="6"><field name="fields['SpareParts']"></field><!-- Spare parts used (part number if available). --></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="13" height="10px">Analysis of root causes</td>
@@ -114,34 +113,34 @@
         </tr>
         <tr>
             <td rowspan="20" class="dkgrey whitetext">D<br />e<br />f<br />i<br />n<br />i<br />t<br />i<br />o<br />n<br /> <br />o<br />f<br /> <br />p<br />r<br />o<br />b<br />l<br />e<br />m<br /> <br />a<br />n<br />d<br /> <br />a<br />n<br />a<br />l<br />y<br />s<br />i<br />s<br /> <br />o<br />f<br /> <br />r<br />o<br />o<br />t<br /> <br />c<br />a<br />u<br />s<br />e<br />s</td>
-            <td colspan="7" height="30px"><input ng-model="fields['What']" type="text" placeholder="What" /></td>
+            <td colspan="7" height="30px"><field name="fields['What']"></field></td>
             <td class="ltgrey">1</td>
-            <td colspan="4"><input ng-model="fields['Cause1']" type="text" /></td>
+            <td colspan="4"><field name="fields['Cause1']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><input ng-model="fields['When']" type="text" placeholder="When" /></td>
+            <td colspan="7" height="30px"><field name="fields['When']"></field></td>
             <td class="ltgrey">2</td>
-            <td colspan="4"><input ng-model="fields['Cause2']" type="text" /></td>
+            <td colspan="4"><field name="fields['Cause2']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><input ng-model="fields['Where']" type="text" placeholder="Where" /></td>
+            <td colspan="7" height="30px"><field name="fields['Where']"></field></td>
             <td class="ltgrey">3</td>
-            <td colspan="4"><input ng-model="fields['Cause3']" type="text" /></td>
+            <td colspan="4"><field name="fields['Cause3']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><input ng-model="fields['Who']" type="text" placeholder="Who" /></td>
+            <td colspan="7" height="30px"><field name="fields['Who']"></field></td>
             <td class="ltgrey">4</td>
-            <td colspan="4"><input ng-model="fields['Cause4']" type="text" /></td>
+            <td colspan="4"><field name="fields['Cause4']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><input ng-model="fields['Why']" type="text" placeholder="Why" /></td>
+            <td colspan="7" height="30px"><field name="fields['Why']"></field></td>
             <td class="ltgrey">5</td>
-            <td colspan="4"><input ng-model="fields['Cause5']" type="text" /></td>
+            <td colspan="4"><field name="fields['Cause5']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><input ng-model="fields['How']" type="text" placeholder="How" /></td>
+            <td colspan="7" height="30px"><field name="fields['How']"></field></td>
             <td class="ltgrey">6</td>
-            <td colspan="4"><input ng-model="fields['Cause6']" type="text" /></td>
+            <td colspan="4"><field name="fields['Cause6']"></field></td>
         </tr>
         <tr>
             <td colspan="6" class="ltgrey" height="30px">Check on Possible Causes (Should only be one)</td>
@@ -149,65 +148,61 @@
         </tr>
         <tr>
             <td class="ltgrey" height="30px">1</td>
-            <td colspan="5"><input ng-model="fields['CheckCause1']" type="text" /></td>
+            <td colspan="5"><field name="fields['CheckCause1']" type="text" /></td>
             <td colspan="6">
-                <select ng-model="fields['RootCause']" ng-options="k as v for (k,v) in queries['RootCause'].options"></select>
+                <field name="fields['RootCause']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">2</td>
-            <td colspan="5"><input ng-model="fields['CheckCause2']" type="text" /></td>
+            <td colspan="5"><field name="fields['CheckCause2']"></field></td>
             <td colspan="6">
-                <select ng-model="fields['SecondaryRootCause']" ng-options="k as v for (k,v) in queries['SecondaryRootCause'].options"></select>
+                <field name="fields['SecondaryRootCause']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">3</td>
-            <td colspan="5"><input ng-model="fields['CheckCause3']" type="text" /></td>
+            <td colspan="5"><field name="fields['CheckCause3']"></field>
             <td colspan="6">
-                <select ng-model="fields['ActionType']" ng-options="k as v for (k,v) in queries['ActionType'].options"></select>
+                <field name="fields['ActionType']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">4</td>
-            <td colspan="5"><input ng-model="fields['CheckCause4']" type="text" /></td>
+            <td colspan="5"><field name="fields['CheckCause4']"></field></td>
             <td colspan="6" rowspan="19">
-                <button type="button" onclick="clearSketch()">Clear</button>
-                <input type="color" id="colorPicker" style="width: 30px; height: 20px;" />
-                <label for="brushSize">Brush Size:</label>
-                <input type="text" id="brushSize" placeholder="Size" value="2" />
-                <canvas id="sketchArea" onmousemove="drawSketch()" ng-mouseleave="saveSketch($event);" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>
+                <sketch name="fields['SketchURL']"></sketch>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">5</td>
-            <td colspan="5"><input ng-model="fields['CheckCause5']" type="text" /></td>
+            <td colspan="5"><field name="fields['CheckCause5']"></field></td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">6</td>
-            <td colspan="5"><input ng-model="fields['CheckCause6']" type="text" /></td>
+            <td colspan="5"><field name="fields['CheckCause6']"></field></td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">No.</td>
-            <td colspan="5"><input ng-model="fields['CauseNum']" type="number" placeholder="Enter Cause Number" /></td>
+            <td colspan="5"><field name="fields['CauseNum']"></field></td>
         </tr>
         <tr>
             <td colspan="6" class="ltgrey" height="10px">5 Why Analysis</td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><input ng-model="fields['FiveWhy1']" type="text" placeholder="Why" /><!-- Why 1 --></td>
+            <td colspan="6" height="20px"><field name="fields['FiveWhy1']"></field><!-- Why 1 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><input ng-model="fields['FiveWhy2']" type="text" placeholder="Why" /><!-- Why 2 --></td>
+            <td colspan="6" height="20px"><field name="fields['FiveWhy2']"></field><!-- Why 2 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><input ng-model="fields['FiveWhy3']" type="text" placeholder="Why" /><!-- Why 3 --></td>
+            <td colspan="6" height="20px"><field name="fields['FiveWhy3']"></field><!-- Why 3 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><input ng-model="fields['FiveWhy4']" type="text" placeholder="Why" /><!-- Why 4 --></td>
+            <td colspan="6" height="20px"><field name="fields['FiveWhy4']"></field><!-- Why 4 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><input ng-model="fields['FiveWhy5']" type="text" placeholder="Why" /><!-- Why 5 --></td>
+            <td colspan="6" height="20px"><field name="fields['FiveWhy5']"></field><!-- Why 5 --></td>
         </tr>
         <tr>
             <td rowspan="11" class="dkgrey whitetext">A<br />c<br />t<br />i<br />o<br />n<br />s<br /> <br />T<br />a<br />k<br />e<br />n</td>
@@ -217,21 +212,21 @@
         </tr>
         <tr>
             <td height="20px" class="ltgrey">1</td>
-            <td colspan="3"><input ng-model="fields['ARC1']" type="text" /></td>
-            <td><input ng-model="fields['ARCWho1']" type="text" /></td>
-            <td><input ng-model="fields['ARCWhen1']" type="date" /></td>
+            <td colspan="3"><field name="fields['ARC1']"></field></td>
+            <td><field name="fields['ARCWho1']"></field></td>
+            <td><field name="fields['ARCWhen1']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">2</td>
-            <td colspan="3"><input ng-model="fields['ARC2']" type="text" /></td>
-            <td><input ng-model="fields['ARCWho2']" type="text" /></td>
-            <td><input ng-model="fields['ARCWhen2']" type="date" /></td>
+            <td colspan="3"><field name="fields['ARC2']"></field></td>
+            <td><field name="fields['ARCWho2']"></field></td>
+            <td><field name="fields['ARCWhen2']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">3</td>
-            <td colspan="3"><input ng-model="fields['ARC3']" type="text" /></td>
-            <td><input ng-model="fields['ARCWho3']" type="text" /></td>
-            <td><input ng-model="fields['ARCWhen3']" type="date" /></td>
+            <td colspan="3"><field name="fields['ARC3']"></field></td>
+            <td><field name="fields['ARCWho3']"></field></td>
+            <td><field name="fields['ARCWhen3']"></field></td>
         </tr>
         <tr>
             <td colspan="4" class="ltgrey" height="10px">Actions To Sustain Equipment Conditions</td>
@@ -240,27 +235,27 @@
         </tr>
         <tr>
             <td height="20px" class="ltgrey">1</td>
-            <td colspan="3"><input ng-model="fields['ASEC1']" type="text" /></td>
-            <td><input ng-model="fields['ASECWho1']" type="text" /></td>
-            <td><input ng-model="fields['ASECWhen1']" type="date" /></td>
+            <td colspan="3"><field name="fields['ASEC1']"></field></td>
+            <td><field name="fields['ASECWho1']"></field></td>
+            <td><field name="fields['ASECWhen1']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">2</td>
-            <td colspan="3"><input ng-model="fields['ASEC2']" type="text" /></td>
-            <td><input ng-model="fields['ASECWho2']" type="text" /></td>
-            <td><input ng-model="fields['ASECWhen2']" type="date" /></td>
+            <td colspan="3"><field name="fields['ASEC2']"></field></td>
+            <td><field name="fields['ASECWho2']"></field></td>
+            <td><field name="fields['ASECWhen2']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">3</td>
-            <td colspan="3"><input ng-model="fields['ASEC3']" type="text" /></td>
-            <td><input ng-model="fields['ASECWho3']" type="text" /></td>
-            <td><input ng-model="fields['ASECWhen3']" type="date" /></td>
+            <td colspan="3"><field name="fields['ASEC3']"></field></td>
+            <td><field name="fields['ASECWho3']"></field></td>
+            <td><field name="fields['ASECWhen3']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">4</td>
-            <td colspan="3"><input ng-model="fields['ASEC4']" type="text" /></td>
-            <td><input ng-model="fields['ASECWho4']" type="text" /></td>
-            <td><input ng-model="fields['ASECWhen4']" type="date" /></td>
+            <td colspan="3"><field name="fields['ASEC4']"></field></td>
+            <td><field name="fields['ASECWho4']"></field></td>
+            <td><field name="fields['ASECWhen4']"></field></td>
         </tr>
         <tr>
             <td colspan="2" class="ltgrey" height="10px">Analysis performed by</td>
@@ -271,19 +266,18 @@
             <td class="ltgrey">Date</td>
         </tr>
         <tr>
-            <td colspan="2" height="20px"><input ng-model="fields['Responsible']" type="text" /></td>
-            <td colspan="3"><input ng-model="fields['Results']" type="text" /></td>
-            <td><input ng-model="fields['DateComplete']" type="date" /></td>
-            <td colspan="2"><input ng-model="fields['CheckedBy']" type="text" /></td>
-            <td colspan="3"><input ng-model="fields['Signature']" type="text" /></td>
-            <td><input ng-model="fields['DateChecked']" type="date" /></td>
+            <td colspan="2" height="20px"><field name="fields['Responsible']"></field></td>
+            <td colspan="3"><field name="fields['Results']"></field></td>
+            <td><field name="fields['DateComplete']"></field></td>
+            <td colspan="2"><field name="fields['CheckedBy']"></field></td>
+            <td colspan="3"><field name="fields['Signature']"></field></td>
+            <td><field name="fields['DateChecked']"></field></td>
         </tr>
         <tr>
             <td colspan="13">
-                <button ng-click="open()">Open</button>
-                <button ng-click="clear()">Clear</button>
-                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-                <button ng-click="update()" ng-show="hasRecord">Update</button>
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
             </td>
         </tr>
     </table>

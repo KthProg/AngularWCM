@@ -1,14 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
 
-     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
 
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/FormClasses.css" />
@@ -23,13 +25,20 @@
 
     <title>Blue Tag</title>
 </head>
-
-<body ng-app="wcm"
-      ng-controller="Form"
-      ng-init="setFormData('Blue Tag');">
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('Blue Tag', 'Safety', ['BlueTags'], 'vBlueTag')">
     <table>
-        <tr>
-            <td colspan="5" class="dkblue whitetext"><h1>Blue Tag Number {{id + (hasRecord ? " (Updating)" : " (New Form)")}}</h1></td>
+        <tr class="dkblue whitetext">
+            <td colspan="5">
+                <style>
+                    [name*='[\'ID\']'] input {
+                        background-color: inherit;
+                        border: none;
+                    }
+                </style>
+                <h1>Blue Tag Number <field name="fields['ID']"></field></h1>
+            </td>
         </tr>
         <tr>
             <td class="ltgrey">Tag#</td>
@@ -38,14 +47,12 @@
             <td class="ltgrey">Name</td>
         </tr>
         <tr>
-            <td><input type="number" ng-model="fields['TagNo']" placeholder="Tag Number" value="" required="required" /></td>
-            <td><input type="number" ng-model="fields['WONo']" value="" /></td>
+            <td><field name="fields['TagNo']" html='required="required"'></field></td>
+            <td><field name="fields['WONo']"></field></td>
             <td>
-                <select ng-model="fields['TagType']" ng-options="v as v for (k,v) in ['WO','AM']">
-                    <option value="">Tag Type</option>
-                </select>
+                <field name="fields['TagType']" options="['WO','AM']"></field>
             </td>
-            <td><input type="text" ng-model="fields['Name']" placeholder="Name" value="" /></td>
+            <td><field name="fields['Name']"></field></td>
         </tr>
         <tr>
             <td class="ltgrey">Date Opened</td>
@@ -54,15 +61,15 @@
             <td class="ltgrey">Zone</td>
         </tr>
         <tr>
-            <td><input type="date" ng-model="fields['OpenDate']" placeholder="yyyy-mm-dd" value="" required="required" /></td>
+            <td><field name="fields['OpenDate']" html='required="required"'></field></td>
             <td>
-                <select ng-model="fields['Shift']" ng-options='v as v for (k,v) in ["1","2","3"]'></select>
+                <field name="fields['Shift']" options="[1,2,3]"></field>
             </td>
             <td>
-                <select ng-model="fields['DepartmentID']" ng-options="k as v for (k,v) in queries['DepartmentID'].options"></select>
+                <field name="fields['DepartmentID']"></field>
             </td>
             <td>
-                <select ng-model="fields['ZoneID']" ng-options="k as v for (k,v) in queries['ZoneID'].options"></select>
+                <field name="fields['ZoneID']"></field>
             </td>
         </tr>
         <tr>
@@ -73,26 +80,26 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="fields['MachineID']" ng-options="k as v for (k,v) in queries['MachineID'].options"></select>
+                <field name="fields['MachineID']"></field>
             </td>
             <td>
-                <select ng-model="fields['ProblemType']" ng-options="v as v for (k,v) in ['Oil leak','Water leak','Grease/lube leak','Air leak','Contamination','Out of operating range','Vibration','Wrong temperature','Wrong pressure','Difficult to lube','Difficult to clean','Irregular function','Loose/missing fastener','Other']"></select>
+                <field name="fields['ProblemType']" options="['Oil leak','Water leak','Grease/lube leak','Air leak','Contamination','Out of operating range',
+                    'Vibration','Wrong temperature','Wrong pressure','Difficult to lube','Difficult to clean','Irregular function','Loose/missing fastener','Other']"></field>
             </td>
-            <td><input type="date" ng-model="fields['CompletedDate']" placeholder="Completed Date" /></td>
-            <td><input type="text" ng-model="fields['CompletedBy']" placeholder="Completed By" /></td>
+            <td><field name="fields['CompletedDate']"></field></td>
+            <td><field name="fields['CompletedBy']"></field></td>
         </tr>
         <tr>
             <td colspan="4" class="ltgrey">Details</td>
         </tr>
         <tr>
-            <td colspan="4" height="100"><input type="text" ng-model="fields['Details']" placeholder="Details" value="" /></td>
+            <td colspan="4" height="100"><field name="fields['Details']"></field></td>
         </tr>
         <tr>
             <td colspan="4">
-                <button ng-click="open()">Open</button>
-                <button ng-click="clear()">Clear</button>
-                <button ng-click="submit()" ng-show="!hasRecord">Submit</button>
-                <button ng-click="update()" ng-show="hasRecord">Update</button>
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
             </td>
         </tr>
     </table>

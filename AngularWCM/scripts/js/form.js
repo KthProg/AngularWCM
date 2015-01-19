@@ -1,450 +1,221 @@
-﻿function Form ($scope, $http) {
-
+﻿function Form($scope, $http) {
+    $scope.form = this;
+    $scope.tables = {};
+    //$scope.records = [];
     $scope.fields = {};
-    $scope.queries = {};
 
-    var name = "";
-    var table = "";
-    var pk = "";
-    $scope.id = -1;
-    $scope.contacts = [];
-    var emailBody = "";
-    var connection = "";
+    $scope.isObject = angular.isObject;
+    $scope.isArray = angular.isArray;
 
-    $scope.hasRecord = false;
-    //$scope.sendEmail = true;
-
-    // given a form name, fetches the rest of the necessary data
-    // from a JSON file. also sets the ID to the next ID (getMaxID)
-    // gets the inital options for selects with no parameters
-    // and watches the selects for changes so that it can update
-    // their options asynchronously
-    $scope.setFormData = function (formName) {
-        name = formName;
-        $http.get("/json/FormData.json") // FormData.json for development
-        .success(function (resp) {
-            connection = resp[name]["Connection"];
-            table = resp[name]["Table"];
-            pk = resp[name]["PK"];
-            // concats in case Zone foremen emails are being set (as opposed to setting it directly)
-            addContacts(resp[name]["Emails"]);
-            $scope.queries = resp[name]["Queries"];
-            getMaxID();
-            getInitialOptions();
-            watchSelects();
-            setRightClickEventToSearch();
-        });
-    };
-
-    var getMaxID = function () {
-        $http({
-            method: "POST",
-            url: "/scripts/php/getMaxID.php",
-            data: fieldsToRequestString() + "&" + getFormDataString(),
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .success(
-        function (resp) {
-            // set ID to one more than ther Max ID (new form)
-            $scope.id = Number(++resp);
-        });
-    };
-
-    var getInitialOptions = function () {
-        // get options for all selects who's queries have no reference parameters
-        for (var q in $scope.queries) {
-            var hasRefs = $scope.queries[q].params.reduce(function (prev, curr) {
-                return { ref: (prev.ref || (curr.ref || false)) };
-            }, { ref: false });
-            if (!hasRefs.ref) {
-                getOptions(q);
-            }
-        }
-    };
-
-    var getOptions = function (field) {
-        // replaces query parameters witht he value they reference,
-        // or the initial value if the parameter is not a reference
-        var vals = replaceParamsWithValues($scope.queries[field].params);
-        // execute the named query (stored in XML file) with the parameter values
-        $http.get("/scripts/php/Query.php?Query=" + encodeURIComponent($scope.queries[field].name) + "&Params=" + encodeURIComponent(JSON.stringify(vals)))
-        .success(
-        function (resp) {
-            // if successful, update the options with the response array
-            // angular will automatically reflect those changes in the DOM
-            $scope.queries[field].options = resp;
-        });
-    };
-
-    var replaceParamsWithValues = function (params) {
-        var results = [];
-        for (var i = 0, l = params.length; i < l; ++i) {
-            // if the parameter is a reference to another input (not a static value)
-            // then get the value of that reference and push it onto the result array
-            if (params[i].ref) {
-                var refVal = refNameToValue(params[i].returns, params[i].name);
-                results.push(refVal);
-            } else {
-                // otherwise, just add the static parameter value to the result array
-                results.push(params[i].name);
-            }
-        }
-        return results;
-    };
-
-    var refNameToValue = function (type, refName) {
-        switch (type) {
-            case 'value':
-                // you can just use angular's internal value in the case that
-                // the reference is by value
-                var refVal = $scope.fields[refName];
-                break;
-            case 'text':
-                // for a text value, you have to get the input that corresponds
-                // to that field, then get the text of the selected option
-                // TODO: allow this to handle inputs as well
-                var refEl = getFieldEl(refName).find('option:selected');
-                var refVal = refEl.text();
-                break;
-        }
-        return refVal;
-    };
-
-    // don't even ask, it's crazy.
-    var watchSelects = function () {
-        for (var q in $scope.queries) {
-            var prms = $scope.queries[q].params;
-            // if this query has at least one parameter
-            if (prms.length > 0) {
-                // the last element is always the name of the field
-                // that triggers this query when it is updated
-                var lastEl = prms.slice(-1).pop();
-                // the name of the field we want to watch is the
-                // name of the reference the parameter refers to
-                var watch = lastEl.name;
-                // $scope.getOptions('nameOfQueryFieldHere')
-                var updateStr = "getOptions('" + q + "')";
-                // evaluating the anonymous function with the above text as an argument
-                // sets a watch on the field which will trigger the query
-                // when that field changes, the string above is eval'd
-                // which gets the new options
-                (function (str) {
-                    $scope.$watch("fields['" + watch + "']", function () {
-                        eval(str);
-                    });
-                })(updateStr)
-            }
-        }
-    };
-    
-    var setRightClickEventToSearch = function () {
-        $("select, input, textarea").each(function () {
-            this.oncontextmenu = function () { return false; };
-
-            $(this).mousedown(function (e) {
-                if (e.which == 3) {
-                    var field = $(e.target).attr("ng-model").split("'")[1];
-                    if (e.target.options) {
-                        var optionText = "";
-                        for (var i = 0, l = e.target.options.length; i < l; ++i) {
-                            optionText += e.target.options[i].text + " : " + e.target.options[i].value + "\n";
-                        }
-                    }
-                    var searchFor = prompt("Enter a search term.\nFor drop-downs, a list of possible search terms are below (use the number, not the text).\n" + (optionText || ""));
-                    if (searchFor) {
-                        searchForms(field, searchFor);
-                    } else {
-                        alert("Empty or invalid search term.");
-                    }
-                    return false;
-                }
-                return true;
-            });
-        });
-    };
-
-    var searchForms = function (field, searchFor) {
-        $http.get("/scripts/php/Query.php?Query=SearchForm&Params=" + JSON.stringify([pk, table, field, searchFor]))
-        .success(function (resp) {
-            var ids = objectValuesToArray(resp);
-            if (ids.length > 0) {
-                var userFriendlyIDs = ids.reduce(function (prev, curr) {
-                    return prev + ", " + curr;
-                });
-                alert(userFriendlyIDs);
-            } else {
-                alert("No results.");
-            }
-        });
-    };
-
-    $scope.open = function () {
-        // if valid, set id equal to the id input by the user
-        var id = prompt('Enter the id of the form you would like to open');
-        if (!(id == undefined || isNaN(id))) {
-            $scope.id = id;
-        }
-        $http({
-            method: "POST",
-            url: "/scripts/php/Open.php",
-            data: getFormDataString(),
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .success(
-        function (resp) {
-            if (resp !== null && typeof resp === 'object') {
-                $scope.hasRecord = true;
-                $scope.id = Number(resp[pk]);
-                // remove the primary key (pk) value from the response object
-                // so that it isn't sent on update / submit
-                delete resp[pk];
-                // for each key in the response
-                // if an element bound to that field exists
-                // set that fields value to the value
-                // returned by the server
-                //for (var v in resp) {
-                    //if (getFieldEl(v)) {
-                //        $scope.fields[v] = resp[v];
-                    //}
-                //}
-                $scope.fields = resp;
-                // if this form has a sketch (SketchURL is the standard column name)
-                // then render that sketch
-                // TODO: don't hardcode sketch fields here, move into FormData.json
-                if (resp["SketchURL"] != undefined) {
-                    $scope.fields["SketchURL"] = resp["SketchURL"];
-                    showSketch($scope.fields["SketchURL"]);
-                }
-                // JSON arrays are used for multi-selects, the conversion of JSON text
-                // in this context, to an array, appears to be automatic
-                // other conversions are done by the formatSrvToClient function
-                formatSrvToClient();
-            } else {
-                alert(name + " number " + $scope.id + " does not exist!");
-            }
-        });
-    };
-
-    var getFieldEl = function (field) {
-        // returns the field when a matching input exists
-        // otherwise, returns false
-        // useful because it can be checked as 
-        // if (fieldVar = getFieldEl(f))
-        var fe = $('[ng-model="fields[\'' + field + '\']"]');
-        if (fe.length !== 0) {
-            return fe;
-        } else {
-            return false;
-        }
-    };
-
-    var showSketch = function (sketchURL) {
-        var sketchArea = $("canvas");
-        var sketchCtx = sketchArea[0].getContext("2d");
-
-        var img = new Image();
-        // string is invalid URL if spaces are not
-        // replaced with +
-        img.src = sketchURL.replace(/ /g, "+");
-        img.onload = function () {
-            sketchCtx.drawImage(img, 0, 0);
-        }
-    };
-
-    var formatSrvToClient = function () {
-        for (var k in $scope.fields) {
-            f = $scope.fields[k];
-            // if the data from the server is null or undefined, set the value to blank
-            // otherwise, convert to a string ("" + val) (implicit conversion)
-            if (f == null || f == undefined) {
-                $scope.fields[k] = "";
-            } else {
-                $scope.fields[k] = "" + f;
-            }
-            // if an input (select, textarea, input)
-            // has a model with field name 'f' then 
-            // convert it to the type appropriate for
-            // that input
-            var scopeField;
-            if (scopeField = getFieldEl(k)) {
-                switch (scopeField.attr("type")) {
-                    case "date":
-                    case "time":
-                    case "datetime-local":
-                        $scope.fields[k] = new Date(Date.parse(f));
-                        break;
-                    case "number":
-                    case "range":
-                    case "checkbox":
-                        $scope.fields[k] = Number(f);
-                        break;
-                }
-            }
-        }
-    };
-
-    $scope.update = function () {
-        updateOrSubmit(true);
-    };
-
-    $scope.submit = function () {
-        updateOrSubmit(false);
-    };
-
-    var updateOrSubmit = function (updating) {
-        if (formIsValid()) {
-            emailBody = alterHTMLForEmail();
-            formatClientToSrv();
-            $http({
-                method: "POST",
-                url: "/scripts/php/" + (updating ? "Update" : "Submit") + ".php",
-                data: fieldsToRequestString() + "&" + getFormDataString(),
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            })
-            .success(
-            function (resp) {
-                $(document.body).html(resp);
-            });
-        } else {
-            alert("Some inputs are not valid, these should appear highlighted in red. Fill these out to submit the form.");
-        }
-    };
-
-    var formIsValid = function () {
-        return $.makeArray($("select, input, textarea")).reduce(
-            function (p, c) {
-                return (p && (([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1) || $(c).is(':hidden')));
-            }, true);
-    };
-
-    var formatClientToSrv = function () {
-        for (var k in $scope.fields) {
-            var f = $scope.fields[k];
-            // if the data on the client is null or undefined, set the value to blank
-            // otherwise, conver to a string ("" + val)
-            if (f == null || f == undefined) {
-                f = "";
-            }
-            // if an input (select, textarea, input)
-            // has a model with field name 'f' then 
-            // convert it to the format appropriate for
-            // sql server, based on the input type
-            var scopeField;
-            if (scopeField = getFieldEl(k)) {
-                switch (scopeField.attr("type")) {
-                    // use the value stored in the input for
-                    // dates and times
-                    case "date":
-                    case "datetime-local":
-                    case "time":
-                        $scope.fields[k] = scopeField.val().replace("T"," ");
-                        break;
-                }
-            }
-        }
-    };
-
-    var getFormDataString = function () {
-        // creates a URL encoded JSON string
-        // containing the data indentifying the form
-        // this data is passed to PHP scripts
-        // for opening a form and getting the next ID
-        var dataObj = {
-            Name: name,
-            Table: table,
-            PK: pk,
-            ID: $scope.id,
-            Contacts: $scope.contacts.join(";"),
-            EmailBody: emailBody,
-            Connection: connection
-        }
-        return "FormData=" + encodeURIComponent(JSON.stringify(dataObj));
-    };
-
-    var fieldsToRequestString = function () {
-        // creates a URL encoded JSON string
-        // containing the field data for this form
-        // this data is passed to PHP scripts
-        // for updating and submitting
-        return "Fields=" + encodeURIComponent(JSON.stringify($scope.fields));
-    };
-
-    $scope.clear = function () {
-        window.location.reload();
-    };
-
-    $scope.uploadImage = function(name, line, URI){
-        // send data from asynchronously uploaded image (as image URI)
-        // to PHP script which will write data to file
-        if (name != "" && URI != "") {
-            $http({
-                method: "POST",
-                url: "/scripts/php/SaveImage.php",
-                data: "Image=" + encodeURIComponent(URI) + "&FileName=" + encodeURIComponent(name) + "&Line=" + encodeURIComponent(line) + "&" + getFormDataString(),
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            })
-            .success(alert);
-        }
-    };
-
-    $scope.saveSketch = function (e) {
-        // puts sketch data in sketchurl field
-        // generally activated by leaving a canvas
-        // sketch area
-        // string is invalid URL if spaces are not
-        // replaced with +
-        $scope.fields["SketchURL"] = e.target.toDataURL().replace(/ /g, "+");
-    };
-
-    //updates the contacts list
-    $scope.$watchCollection("[fields['PlantID'], fields['DepartmentID'], fields['ZoneID']]", function (n, o) {
-
-        getSupervisorEmailsByLocation(o[0], o[1], o[2],
-            function (resp) {
-                var respArray = objectValuesToArray(resp);
-                removeContacts(respArray);
-            });
-
-        getSupervisorEmailsByLocation(n[0], n[1], n[2],
-            function (resp) {
-                var respArray = objectValuesToArray(resp);
-                addContacts(respArray);
-            });
-        
-    }, true);
-
-    var getSupervisorEmailsByLocation = function (plantid, deptid, zoneid, callback) {
-        $http.get("/scripts/php/Query.php?Query=SupervisorEmailsByLocation&Params=" + encodeURIComponent(JSON.stringify([plantid || "1", deptid || "0", zoneid || "0"])))
-        .success(callback);
-    };
-
-    var removeContacts = function (arr) {
-        for (var i = 0, l = arr.length; i < l; ++i) {
-            var index = $scope.contacts.indexOf(arr[i]);
-            if (index > -1) {
-                $scope.contacts.splice(index, 1);
-            }
-        }
-    };
-
-    var addContacts = function (arr) {
-        $scope.contacts = $scope.contacts.concat(arr);
-    };
-
-    var imgToBase64 = function (imgEl, line) {
-
-        var fileReader = new FileReader();
-
-        fileReader.onload = function (e) {
-            $scope.uploadImage(name, line, e.target.result);
-        }
-
-        var name = imgEl.files[0].fileName || imgEl.files[0].name;
-        var line = line;
-        fileReader.readAsDataURL(imgEl.files[0]);
-    }
+    this.scope = $scope;
+    this.http = $http;
+    this.name = "";
+    this.view = "";
+    this.emailBody = "";
+    this.hasRecord = false;
+    this.tables = {};
+    this.mainTable = "";
 }
 
-// if you don't know what this does,
-// get the hell out of here
+Form.prototype.initialize = function (name, connection, tables, view, tableRecordCount, defaultValues) {
+    tableRecordCount = tableRecordCount || {};
+
+    this.connection = connection;
+    this.name = name;
+    this.view = view;
+    this.mainTable = tables[0];
+    var form = this;
+    tables.forEach(function (tbl, i) {
+        form.scope.tables[tbl] = new Table(form.scope, form.http, tbl, connection, undefined, [], (i == 0), Number(tableRecordCount[tbl] || 1))
+        form.scope.tables[tbl].addRecord();
+    });
+
+    // if there is only one table, add the fields to the scope for convenience
+    // since there won't be any name conflicts anyways
+    if (tables.length == 1) {
+        form.scope.fields = form.scope.tables[this.mainTable].records[0].fields;
+    }
+
+    var tblStr = "'" + tables.join("','") + "'";
+    form.http.get("/scripts/php/Query.php?Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
+    .success(function (resp) {
+        resp.forEach(function (f) {
+            form.scope.tables[f.TABLE_NAME].records[0].fields[f.COLUMN_NAME] = new Field(form.scope, form.http, f.TABLE_NAME,
+                                                        f.COLUMN_NAME, f.DATA_TYPE, f.COLUMN_DEFAULT,
+                                                        (f.IsPK == "1"), (f.IsFK == "1"), f.REF_TABLE,
+                                                        f.REF_COLUMN, f.IS_NULLABLE == "YES",
+                                                        (f.REF_TABLE ? (tblStr.indexOf("'"+f.REF_TABLE+"'") > -1 ? "values" : "options") : "none"),
+                                                        (f.IS_IDENTITY == "1"), 0);
+        });
+        form.getAllFKData();
+        form.scope.tables[form.mainTable].getMaxID();
+        form.scope.tables[form.mainTable].watchIDForOpen();
+        form.addDefaultRecords();
+        form.setDefaultValues(defaultValues);
+        console.log(form.scope.tables);
+    });
+    this.setRightClickEventToSearch();
+    //this.watchForImageUpload();
+};
+
+Form.prototype.setDefaultValues = function (defaultValues) {
+    var form = this;
+    if (defaultValues) {
+        defaultValues.forEach(function (dv) {
+            form.scope.tables[dv.table].records[dv.record].fields[dv.field].defaultValue = dv.value;
+            form.scope.tables[dv.table].records[dv.record].fields[dv.field].setValue(dv.value);
+        });
+    }
+};
+
+Form.prototype.addDefaultRecords = function () {
+    this.applyToAllTables("addDefaultRecords");
+};
+
+Form.prototype.setRightClickEventToSearch = function () {
+    var form = this;
+    $("select, input, textarea").each(function () {
+        this.oncontextmenu = function () { return false; };
+        $(this).mousedown(function (e) {
+            if (e.which != 3) { return true; }
+            var field = $(e.target).attr("ng-model").split("'")[1];
+            var ops = e.target.options;
+            var optionText = "";
+            if (ops) {
+                for (var i = 0, l = ops.length; i < l; ++i) {
+                    optionText += ops[i].text + " : " + ops[i].value + "\n";
+                }
+            }
+            var searchFor = prompt("Enter a search term.\nFor drop-downs, a list of possible search terms are below (use the number, not the text).\n" + (optionText || ""));
+            if (searchFor) {
+                form.searchForms(field, searchFor);
+            } else {
+                alert("Empty or invalid search term.");
+            }
+            return false;
+        });
+    });
+};
+
+Form.prototype.searchForms = function (field, searchFor) {
+    this.http.get("/scripts/php/Query.php?Query=SearchForm&Params=" + JSON.stringify([this.scope.tables[this.mainTable].getPK(), this.view, field, searchFor]))
+    .success(function (resp) {
+        var ids = objectValuesToArray(resp);
+        if (ids.length > 0) {
+            var userFriendlyIDs = ids.reduce(function (prev, curr) {
+                return prev + ", " + curr;
+            });
+            alert(userFriendlyIDs);
+        } else {
+            alert("No results.");
+        }
+    });
+};
+
+Form.prototype.getAllFKData = function () {
+    this.applyToAllFields("getFKTableInfo", null);
+};
+
+Form.prototype.applyToAllFields = function (funcStr) {
+    var form = this;
+    Object.keys(form.scope.tables).forEach(function (t) {
+        form.scope.tables[t].records.forEach(function (rec) {
+            Object.keys(rec.fields).forEach(function (f) {
+                var field = rec.fields[f];
+                field[funcStr]();
+            });
+        });
+    });
+};
+
+Form.prototype.clearAll = function () {
+    this.applyToAllFields("clearValue");
+    this.hasRecord = false;
+};
+
+Form.prototype.reset = function () {
+    location.reload();
+};
+
+Form.prototype.open = function () {
+    this.applyToAllTables("open");
+};
+
+Form.prototype.applyToAllTables = function (funcStr) {
+    var form = this;
+    Object.keys(form.scope.tables).forEach(function (t) {
+        var tbl = form.scope.tables[t];
+        tbl[funcStr]();
+    });
+};
+
+Form.prototype.setPKs = function () {
+    this.applyToAllTables("setPKFromFields");
+};
+
+Form.prototype.getFormDataObjectWithTables = function () {
+    var formDataObj = this.toDataObj();
+    var tblsDataObj = this.getTablesDataObj();
+    formDataObj["tables"] = tblsDataObj;
+    return formDataObj;
+};
+
+Form.prototype.getFormDataStringWithTables = function () {
+    return "Form=" + encodeURIComponent(JSON.stringify(this.getFormDataObjectWithTables()));
+};
+
+Form.prototype.toDataObj = function () {
+    return {
+        Name: this.name,
+        View: this.view,
+        EmailBody: this.emailBody
+    };
+};
+
+Form.prototype.getTablesDataObj = function () {
+    var tblsDataObj = [];
+    var form = this;
+    Object.keys(form.scope.tables).forEach(function (t) {
+        tblsDataObj.push(form.scope.tables[t].getDataObjectWithRecords());
+    });
+    return tblsDataObj;
+};
+
+Form.prototype.getTablesDataString = function () {
+    return "Tables=" + encodeURIComponent(JSON.stringify(this.getTablesDataObj()));
+};
+
+Form.prototype.update = function () {
+    this.updateOrSubmit(true);
+};
+
+Form.prototype.submit = function () {
+    this.updateOrSubmit(false);
+};
+
+Form.prototype.updateOrSubmit = function (updating) {
+    var form = this;
+    if (this.formIsValid()) {
+        this.emailBody = alterHTMLForEmail();
+        this.http({
+            method: "POST",
+            url: "/scripts/php/Form.php",
+            data: form.getFormDataStringWithTables() + "&Function=" + (updating ? "Update" : "Submit"),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .success(function (resp) {
+            $(document.body).html(resp);
+        });
+    } else {
+        alert("Some inputs are not valid, these should appear highlighted in red. Fill these out to submit the form.");
+    }
+};
+
+Form.prototype.formIsValid = function () {
+    return $.makeArray($("select, input, textarea")).reduce(
+        function (p, c) {
+            return (p && (([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1) || $(c).is(':hidden')));
+        }, true);
+};
+
 app.controller("Form", Form);

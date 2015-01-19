@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
+    <script src="/scripts/js/wcm.js"></script>
+    <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
+
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/Normalize.css" />
+    <link rel="stylesheet" href="/css/Checklist.css" />
+
+    <title>5T Checklist</title>
+
+    <script>
+        $(document.body).ready(function () {
+            var scope = angular.element($("[ng-app='wcm']")).scope();
+
+            scope.showLines = [];
+            var zonesList = {
+                "Molding": [16, 17, 18, 19],
+                "IP Assembly": [1, 2, 3, 4, 5, 6, 7, 8, 63],
+                "Sequencing": [9, 10, 11],
+                "IP Warehouse": [64, 71],
+                "Thermoforming": [14, 15, 70],
+                "Shipping Receiving": [22, 99]
+            };
+            scope.showList = [
+                [0],
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["Molding"].concat(zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["IP Warehouse"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["IP Warehouse"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
+                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"])
+            ]
+            scope.$apply(
+                function () {
+                    scope.$watch("tables['FiveT'].records[0].fields['ZoneID'].value", function (n, o) {
+                        scope.showLines = scope.showList.map(function (el) { return el.indexOf(Number(n)) > -1; });
+                    });
+                });
+        });
+    </script>
+    <style>
+        h1{ 
+	        color: teal;
+        }
+
+        h3{
+	        background-color: teal;
+        }
+
+        strong{
+	        background-color: teal;
+        }
+
+        .helpButton {
+            float: right;
+            font-size: 2em;
+            width: 1em; 
+            height: 1em; 
+            border-radius: 50%; 
+            border: 1px solid black; 
+            text-align: center; 
+            vertical-align: middle;
+        }
+        .helpButton:hover { 
+            background-color: teal;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body ng-app="wcm" 
+    ng-controller="Form" 
+    ng-init="form.initialize('5T', 'Safety', ['FiveT', 'FiveTLine'], 'vFiveT', {'FiveTLine' : 23},  
+    [{'table':'FiveTLine','record':0,'field':'Line','value':68},{'table':'FiveTLine','record':1,'field':'Line','value':69},
+    {'table':'FiveTLine','record':2,'field':'Line','value':70},{'table':'FiveTLine','record':3,'field':'Line','value':71},
+    {'table':'FiveTLine','record':4,'field':'Line','value':72},{'table':'FiveTLine','record':5,'field':'Line','value':73},
+    {'table':'FiveTLine','record':6,'field':'Line','value':74},{'table':'FiveTLine','record':7,'field':'Line','value':75},
+    {'table':'FiveTLine','record':8,'field':'Line','value':76},{'table':'FiveTLine','record':9,'field':'Line','value':77},
+    {'table':'FiveTLine','record':10,'field':'Line','value':78},{'table':'FiveTLine','record':11,'field':'Line','value':79},
+    {'table':'FiveTLine','record':12,'field':'Line','value':80},{'table':'FiveTLine','record':13,'field':'Line','value':81},
+    {'table':'FiveTLine','record':14,'field':'Line','value':82},{'table':'FiveTLine','record':15,'field':'Line','value':83},
+    {'table':'FiveTLine','record':16,'field':'Line','value':84},{'table':'FiveTLine','record':17,'field':'Line','value':85},
+    {'table':'FiveTLine','record':18,'field':'Line','value':86},{'table':'FiveTLine','record':19,'field':'Line','value':87},
+    {'table':'FiveTLine','record':20,'field':'Line','value':88},{'table':'FiveTLine','record':21,'field':'Line','value':89},
+    {'table':'FiveTLine','record':22,'field':'Line','value':90},{'table':'FiveTLine','record':0,'field':'DetailsID','value':1},
+    {'table':'FiveTLine','record':1,'field':'DetailsID','value':2},{'table':'FiveTLine','record':2,'field':'DetailsID','value':3},
+    {'table':'FiveTLine','record':3,'field':'DetailsID','value':4},{'table':'FiveTLine','record':4,'field':'DetailsID','value':5},
+    {'table':'FiveTLine','record':5,'field':'DetailsID','value':6},{'table':'FiveTLine','record':6,'field':'DetailsID','value':7},
+    {'table':'FiveTLine','record':7,'field':'DetailsID','value':8},{'table':'FiveTLine','record':8,'field':'DetailsID','value':9},
+    {'table':'FiveTLine','record':9,'field':'DetailsID','value':10},{'table':'FiveTLine','record':10,'field':'DetailsID','value':11},
+    {'table':'FiveTLine','record':11,'field':'DetailsID','value':12},{'table':'FiveTLine','record':12,'field':'DetailsID','value':13},
+    {'table':'FiveTLine','record':13,'field':'DetailsID','value':14},{'table':'FiveTLine','record':14,'field':'DetailsID','value':15},
+    {'table':'FiveTLine','record':15,'field':'DetailsID','value':16},{'table':'FiveTLine','record':16,'field':'DetailsID','value':17},
+    {'table':'FiveTLine','record':17,'field':'DetailsID','value':18},{'table':'FiveTLine','record':18,'field':'DetailsID','value':19},
+    {'table':'FiveTLine','record':19,'field':'DetailsID','value':20},{'table':'FiveTLine','record':20,'field':'DetailsID','value':21},
+    {'table':'FiveTLine','record':21,'field':'DetailsID','value':22},{'table':'FiveTLine','record':22,'field':'DetailsID','value':23}]);">
+    <table>
+        <tr>
+            <td colspan="3" class="dkblue whitetext">
+                <style>
+                    [name*='[\'ID\']'] input {
+                        background-color: inherit;
+                        border: none;
+                        color: teal;
+                    }
+                </style>
+                <h1>5T Checklist No. <field name="tables['FiveT'].records[0].fields['ID']"></field></h1>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="inputPlusLabel">
+                    <strong>Date</strong>
+                    <field name="tables['FiveT'].records[0].fields['AuditDate']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Auditor's Name</strong>
+                    <field name="tables['FiveT'].records[0].fields['AuditorID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Plant</strong>
+                    <field name="tables['FiveT'].records[0].fields['PlantID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Department</strong>
+                    <field name="tables['FiveT'].records[0].fields['DepartmentID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Zone</strong>
+                    <field name="tables['FiveT'].records[0].fields['ZoneID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Machine</strong>
+                    <field name="tables['FiveT'].records[0].fields['MachineID']"></field>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 35%;">
+                <h2>Checks</h2>
+            </td>
+            <td style="width: 30%;">
+                <h2>Rating</h2>
+            </td>
+            <td style="width: 35%;">
+                <h2>Remarks</h2>
+            </td>
+        </tr>
+        <tr class="header">
+            <td colspan="3">
+                <h3>5T</h3>
+            </td>
+        </tr>
+        <tr ng-repeat="rec in tables['FiveTLine'].records track by $index" ng-show="!form.hasRecord ? showLines[$index + 1] : (rec.fields['Rating'].value != undefined)">
+            <td>
+                <span>1.{{$index + 1}} {{rec.fields['Line'].options[rec.fields['Line'].value]}}</span>
+            </td>
+            <td>
+                <field name="rec.fields['Rating']"></field> <!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
+                <div class="helpButton" onclick="$(this).next().toggle()">?</div>
+                <div style="display: none; background-color: yellow; border: 1px dashed grey;">
+                    {{rec.fields['DetailsID'].options[rec.fields['DetailsID'].value]}}
+                </div>
+            </td>
+            <td>
+                <field name="rec.fields['Remark']"></field>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <h3>Comments</h3>
+            </td>
+        </tr>
+        <tr></tr>
+        <!-- makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
+        <tr>
+            <td colspan="2">
+                <field name="tables['FiveT'].records[0].fields['Comments']"></field><br />
+            </td>
+            <td>
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
