@@ -14,7 +14,6 @@
 
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/FormClasses.css" />
-    <link rel="stylesheet" href="css/SEWO.css" />
 
     <title>SEWO</title>
 </head>
@@ -54,7 +53,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['InjuredName']"></field>
+                <field name="fields['InjudkredName']"></field>
             </td>
             <td>
                 <field name="fields['Sex']"></field>
@@ -70,7 +69,7 @@
             </td>
         </tr>
         <tr class="ltgrey">
-            <td colspan="3">Injured Job</td>
+            <td colspan="3">Injudkred Job</td>
             <td>Reported By</td>
             <td>Shift</td>
             <td>Injury Date</td>
@@ -78,13 +77,13 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['InjuredJob']"></field>
+                <field name="fields['InjudkredJob']"></field>
             </td>
             <td>
                 <field name="fields['ReportedBy']"></field>
             </td>
             <td>
-                <field name="fields['Shift']" options="['1','2','3']"></field>
+                <field name="fields['Shift']" options="[1,2,3]"></field>
             </td>
             <td>
                 <field name="fields['InjuryDate']"></field>
@@ -137,7 +136,7 @@
             </td>
             <td colspan="2" rowspan="11">
                 <style>
-                    [name*="BodyPartID"] input {
+                    [name*="BodyPartID"] select {
                         height: 20%;
                         /*change to select when done*/
                     }
@@ -260,7 +259,7 @@
             </td>
         </tr>
         <tr>
-            <td rowspan="2" class="vert-text ltblue whitetext">
+            <td rowspan="2" class="vert-text blue whitetext">
                 D<br>
                 O
             </td>
@@ -291,7 +290,7 @@
             <td colspan="8">
                 <table style="width: 100%;">
                     <tr>
-                        <td rowspan="9" class="vert-text red whitetext">
+                        <td rowspan="9" class="vert-text dkred whitetext">
                             C<br>
                             H<br>
                             E<br>
@@ -408,7 +407,7 @@
         </tr>
         <tr class="ltgrey">
             <td colspan="6">
-                <h3>Injured Statement</h3>
+                <h3>Injudkred Statement</h3>
             </td>
             <td colspan="3">
                 <h3>Witness Statement</h3>
@@ -416,7 +415,7 @@
         </tr>
         <tr style="height: 200px;">
             <td colspan="6">
-                <field name="fields['InjuredStatement']"></field>
+                <field name="fields['InjudkredStatement']"></field>
             </td>
             <td colspan="2">
                 <field name="fields['WitnessStatement']"></field>
@@ -424,10 +423,10 @@
         </tr>
         <tr>
             <td colspan="4">
-                <field name="fields['InjuredSignature']"></field>
+                <field name="fields['InjudkredSignature']"></field>
             </td>
             <td colspan="2">
-                <field name="fields['InjuredDate']"></field>
+                <field name="fields['InjudkredDate']"></field>
             </td>
             <td>
                 <field name="fields['WitnessSignature']"></field>

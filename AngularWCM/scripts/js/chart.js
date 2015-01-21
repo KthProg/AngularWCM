@@ -68,6 +68,7 @@ Chart.prototype.getTrendlineObject = function (seriesCount) {
     }
 };
 
+
 Chart.prototype.getColData = function () {
     this.dataTable = new google.visualization.DataTable();
     // TODO: keep column order
@@ -77,6 +78,38 @@ Chart.prototype.getColData = function () {
     var keys = Object.keys(this.data[0]);
     keys.splice(keys.indexOf(this.firstCol), 1);
     keys.unshift(this.firstCol);
+
+    var objectArrayKeyValues = function (key, objs) {
+        return objs.map(function (curr) {
+            return curr[key];
+        });
+    };
+
+    // filters values which are not of a certain type
+    // then compares the size of the filtered array
+    // to the size of the original array. if any values
+    // were removed, then the array is not entirely 
+    // of that type, default is string
+    var getArrType = function (arr) {
+        var numArr = arr.filter(function (n) {
+            return !isNaN(n);
+        });
+        var dateArr = arr.filter(function (n) {
+            var d = new Date(n);
+            return !isNaN(d.valueOf());
+        });
+        if (numArr.length === arr.length) {
+            return "number";
+        }
+        if (dateArr.length === arr.length) {
+            return "datetime";
+        }
+        return "string";
+    };
+
+    var objectArrayKeyType = function (key, objs) {
+        return getArrType(objectArrayKeyValues(key, objs));
+    };
 
     // adds type information for each column
     // also decides whether or not ALL columns
@@ -118,6 +151,22 @@ Chart.prototype.getColData = function () {
         ch.dataTable.addColumn(keyMetaData[k].type, k);
         return k;
     });
+
+    var convertType = function (val, typeStr) {
+        // convert value based on three types
+        // used by google vis
+        switch (typeStr) {
+            case "number":
+                return Number(val);
+                break;
+            case "datetime":
+                return new Date(val);
+                break;
+            case "string":
+                return String(val)
+                break
+        }
+    };
 
     // add all of the other rows
     // convert values to their detected types

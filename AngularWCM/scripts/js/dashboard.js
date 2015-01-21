@@ -63,6 +63,12 @@
 
     $scope.getCSVFile = function (ci) {
         var chart = $scope.charts[ci];
+        var download = function (filename, text) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            pom.setAttribute('download', filename);
+            pom.click();
+        };
         download(chart.query + ".csv", chart.csv);
     };
 
@@ -191,6 +197,23 @@
             el.showTypes = !el.showTypes;
         });
     };
+
+    var sendNoParamQuery = function (query) {
+        var queryResult;
+        $.ajax({
+            async: false,
+            data: {
+                Query: query,
+                Params: "[]"
+            },
+            dataType: "json",
+            success: function (data) {
+                queryResult = data;
+            },
+            url: "/scripts/php/Query.php"
+        });
+        return queryResult;
+    }
 
     $scope.getParams = function () {
         $http.get("/scripts/php/getParams.php?Query=" + $scope.query)

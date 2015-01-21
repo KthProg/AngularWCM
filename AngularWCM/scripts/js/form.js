@@ -52,10 +52,24 @@ Form.prototype.initialize = function (name, connection, tables, view, tableRecor
         form.scope.tables[form.mainTable].watchIDForOpen();
         form.addDefaultRecords();
         form.setDefaultValues(defaultValues);
-        console.log(form.scope.tables);
     });
     this.setRightClickEventToSearch();
-    //this.watchForImageUpload();
+    this.watchForImageUpload();
+};
+
+Form.prototype.watchForImageUpload = function () {
+    this.scope.$on("saveImage", function (event, args) {
+        var field = event.targetScope.$eval(args.target.id);
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            field.value = e.target.result.replace(/ /g, "+");
+            console.log(field.value);
+            field.resizeImage();
+            console.log(field.value);
+            event.targetScope.$apply(function () { });
+        };
+        reader.readAsDataURL(args.target.files[0]);
+    });
 };
 
 Form.prototype.setDefaultValues = function (defaultValues) {
@@ -100,6 +114,11 @@ Form.prototype.setRightClickEventToSearch = function () {
 Form.prototype.searchForms = function (field, searchFor) {
     this.http.get("/scripts/php/Query.php?Query=SearchForm&Params=" + JSON.stringify([this.scope.tables[this.mainTable].getPK(), this.view, field, searchFor]))
     .success(function (resp) {
+        var objectValuesToArray = function (obj) {
+            return Object.keys(obj).map(function (key) {
+                return obj[key];
+            });
+        };
         var ids = objectValuesToArray(resp);
         if (ids.length > 0) {
             var userFriendlyIDs = ids.reduce(function (prev, curr) {
@@ -196,7 +215,7 @@ Form.prototype.submit = function () {
 Form.prototype.updateOrSubmit = function (updating) {
     var form = this;
     if (this.formIsValid()) {
-        this.emailBody = alterHTMLForEmail();
+        this.emailBody = this.alterHTMLForEmail();
         this.http({
             method: "POST",
             url: "/scripts/php/Form.php",
@@ -217,5 +236,52 @@ Form.prototype.formIsValid = function () {
             return (p && (([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1) || $(c).is(':hidden')));
         }, true);
 };
+
+Form.prototype.alterHTMLForEmail = function () {
+
+    var getAllCSS = function () {
+        var allCSS = "";
+        for (var i = 0, l = document.styleSheets.length; i < l; ++i) {
+            if (document.styleSheets[i].cssRules) { // if this css doc has any rules (sometimes it's null)
+                for (var j = 0, l2 = document.styleSheets[i].cssRules.length; j < l2; ++j) {
+                    allCSS += document.styleSheets[i].cssRules[j].cssText;
+                }
+            }
+        }
+        return allCSS;
+    }
+
+    var getInputValue = function (jqEl) {
+        switch (jqEl.prop("tagName")) {
+            case "SELECT":
+                return jqEl.children("option:selected").text();
+                break;
+            case "INPUT":
+            case "TEXTAREA":
+                return jqEl.val()
+                break;
+        }
+    };
+
+    var currentHTML = "<html>\r\n\t<head>\r\n\t\t<style>\r\n";
+    //add style rules
+    currentHTML += getAllCSS();
+    currentHTML += "\t\t</style>\r\n\t</head>\r\n\t<body>\r\n";
+    currentHTML += $(document.body).html();
+    $("input, select, textarea").each(function () {
+        var model = $(this).parent().attr("name");
+        if (model) {
+            //regex is basically: <field(anything)field['whatever'](anything)</field>
+            //which essentially finds the element that's bound to that model field
+            //the replace(],\\]) and replace([, \\[) are to escape the special characters [ and ] in the regex.
+            var thisRegex = "<field.*" + model.replace(/\]/g, "\\]").replace(/\[/g, "\\[") + ".*</field>";
+            //the input is replaced with a textarea containing its value (if a select, then the selected text)
+            currentHTML = currentHTML.replace(new RegExp(thisRegex, "i"), "<textarea>" + getInputValue($(this)) + "</textarea>");
+        }
+    });
+    currentHTML += "\t</body>\r\n</html>";
+
+    return currentHTML;
+}
 
 app.controller("Form", Form);

@@ -156,6 +156,12 @@
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Operator(s)</strong>
+                    <style>
+                        [name*='Operator'] textarea {
+                            height: 1.7em;
+                            width: 9.8em;
+                        }
+                    </style>
                     <field name="tables['LPA'].records[0].fields['Operator']" />
                 </div>
                 <div class="inputPlusLabel">
@@ -170,7 +176,10 @@
                     <strong>Machine</strong>
                     <field name="tables['LPA'].records[0].fields['MachineID']"></field>
                 </div>
-
+                <div class="inputPlusLabel">
+                    <strong>Tool No.</strong>
+                    <field name="tables['LPA'].records[0].fields['MoldNo']"></field>
+                </div>
             </td>
         </tr>
         <tr>

@@ -48,10 +48,8 @@
     <Content Include="css\dashboard.css" />
     <Content Include="css\FormClasses.css" />
     <Content Include="css\issues.css" />
-    <Content Include="css\Media.css" />
     <Content Include="css\normalize.css" />
     <Content Include="css\reporting.css" />
-    <Content Include="css\SEWO.css" />
     <Content Include="Dashboard.html" />
     <Content Include="Dashboard\AM.html" />
     <Content Include="Dashboard\PD.html" />

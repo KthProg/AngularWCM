@@ -25,11 +25,6 @@ td input, td select, td textarea {
     height:0px;
 }
 
-#brushSize{
-    width:10%;
-    height:auto;
-}
-
 #submitButton{
     height: auto;
     width: auto;
@@ -55,6 +50,10 @@ td input, td select, td textarea {
     background-color: rgb(218,150,148);
 }
 
+.dkred {
+    background-color: rgb(218,24,24);
+}
+
 .ltgreen {
     background-color: rgb(34,150,48);
 }
@@ -71,6 +70,10 @@ td input, td select, td textarea {
     background-color:rgb(146,205,220);
 }
 
+.blue {
+    background-color:rgb(40,40,150);
+}
+
 .dkblue {
     background-color: rgb(0,32,96);
 }
@@ -85,14 +88,6 @@ td input, td select, td textarea {
 
 ol li {
     line-height: 1.5em;
-}
-
-img[src*="BodyChart"]{
-    height: 78%;
-}
-
-select[name=BodyPart]{
-    height: 20%;
 }
 
 canvas{

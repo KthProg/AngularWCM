@@ -163,10 +163,7 @@
                 </span>
             </td>
             <td>
-                <label for="file{{$index + 1}}">
-                    <img src="res/upload.png" alt="Upload">
-                </label>
-                <input id="file{{$index + 1}}" type="file" onchange="//broadcast image upload, change label image" />
+                <imageupload name="rec.fields['ImageURL']"></imageupload>
             </td>
             <td>
                 <field name="rec.fields['Compliant']" options="['Satisfactory','Unsafe Condition','Unsafe Act','Both']"></field>

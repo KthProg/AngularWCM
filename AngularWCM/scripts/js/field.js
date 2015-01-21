@@ -42,11 +42,6 @@
     this.value = "";
     this.defaultValue = defaultValue;
     this.setValue(defaultValue);
-
-    this.isSketch = false;
-    this.isImage = false;
-
-    this.watchForImageUpload();
 }
 
 Field.prototype.setValue = function (val) {
@@ -113,43 +108,47 @@ Field.prototype.getSketchOrImageEl = function () {
 
 Field.prototype.clearSketch = function () {
     var sketchArea = this.getSketchOrImageEl();
-    var sketchCtx = sketchArea[0].getContext("2d");
-    sketchCtx.clearRect(0, 0, sketchArea.width(), sketchArea.height());
+    if (sketchArea && (sketchArea.prop("tagName") == "CANVAS")) {
+        var sketchCtx = sketchArea[0].getContext("2d");
+        sketchCtx.clearRect(0, 0, sketchArea.width(), sketchArea.height());
+    }
 };
 
 Field.prototype.drawSketch = function () {
     var sketchArea = this.getSketchOrImageEl();
     var sketchCtx = sketchArea[0].getContext("2d");
+    var sa = sketchArea;
+    var sc = sketchCtx;
 
-    var off = sketchArea.offset();
-
+    var off = sa.offset();
     var relX = (mouse.x - off.left);
     var relY = (mouse.y - off.top);
     var pRelX = (mouse.prevX - off.left);
     var pRelY = (mouse.prevY - off.top);
 
-    sketchCtx.strokeStyle = $("#colorPicker").val();
-    sketchCtx.lineWidth = $("#brushSize").val();
+    sc.strokeStyle = sa.siblings("input[type='color']").val();
+    sc.lineWidth = sa.siblings("input[type='number']").val();
 
     if (mouse.leftDown) {
-        sketchCtx.beginPath();
-        sketchCtx.moveTo(pRelX, pRelY);
-        sketchCtx.lineTo(relX, relY);
-        sketchCtx.stroke();
+        sc.beginPath();
+        sc.moveTo(pRelX, pRelY);
+        sc.lineTo(relX, relY);
+        sc.stroke();
     }
 }
 
 Field.prototype.renderSketch = function () {
         this.clearSketch();
-
-        var sketchCtx = this.getSketchOrImageEl()[0].getContext("2d");
-
-        var img = new Image();
-        // string is invalid URL if spaces are not
-        // replaced with +
-        img.src = this.value.replace(/ /g, "+");
-        img.onload = function () {
-            sketchCtx.drawImage(img, 0, 0);
+        var sketchArea = this.getSketchOrImageEl();
+        if (sketchArea && (sketchArea.prop("tagName") == "CANVAS")) {
+            var sketchCtx = sketchArea[0].getContext("2d");
+            var img = new Image();
+            // string is invalid URL if spaces are not
+            // replaced with +
+            img.src = this.value.replace(/ /g, "+");
+            img.onload = function () {
+                sketchCtx.drawImage(img, 0, 0);
+            };
         }
 };
 
@@ -290,20 +289,39 @@ Field.prototype.getOptions = function (val) {
     }
 };
 
-Field.prototype.watchForImageUpload = function () {
-    var field = this;
-    this.scope.$on("saveImage", function (event, args) {
-        var fieldImgEl = field.getSketchOrImageEl();
-        if (fieldImgEl) {
-            if (fieldImgEl[0].id = args.imgEl.id) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    field.value = e.target.result.replace(/ /g, "+");
-                };
-                reader.readAsDataURL(args.imgEl.files[0]);
-            }
+Field.prototype.resizeImage = function () {
+    var MAX_WIDTH = 800;
+    var MAX_HEIGHT = 600;
+
+    var img = new Image();
+    img.src = this.value;
+
+    var width = img.width;
+    var height = img.height;
+
+    if (width > height) {
+        if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
         }
-    });
+    } else {
+        if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+        }
+    }
+
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+
+    this.value = canvas.toDataURL("image/jpeg", 0.5);
+
+    canvas = null;
+    img = null;
 };
 
 app.directive('field', function () {
@@ -331,10 +349,10 @@ app.directive('field', function () {
 
 app.directive('sketch', function () {
     var template = '<button type="button" ng-click="field.clearSketch()">Clear</button>';
-    template += '<input type="color" id="colorPicker" style="width: 30px; height: 20px;" />';
-    template += '<label for="brushSize">Brush Size:</label>';
-    template += '<input type="text" id="brushSize" placeholder="Size" value="2" />';
-    template += '<canvas ng-init="field.isSketch = true" id="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']" ng-mousemove="field.drawSketch()" ng-mouseleave="field.saveSketch($event);" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>';
+    template += '<input type="color" style="width: 30px; height: 20px;" />';
+    template += '<label>Brush Size:</label>';
+    template += '<input style="width: 90px; height: 40px;" type="number" min="1" max="50" step="1" value="2" />';
+    template += '<canvas id="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']" ng-mousemove="field.drawSketch()" ng-mouseleave="field.saveSketch($event);" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>';
 
     return {
         restrict: "E",
@@ -346,7 +364,15 @@ app.directive('sketch', function () {
 });
 
 app.directive('imageupload', function () {
-    var template = '<input ng-init="field.isImage = true" type="file" onchange="angular.element($(\'[ng-app=wcm]\')).scope().$broadcast(\'saveImage\', {imgEl: this})" id="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']"  />';
+    var template = '<span>';
+    template += '<label for="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']">';
+    template += '<img src="res/upload.png" alt="Upload">';
+    template += '</label>';
+    template += '<input type="file" style="display: none;" onchange="angular.element($(\'[ng-app=wcm]\')).scope().$broadcast(\'saveImage\', {target: this})" id="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']"  />';
+    template += '</span>';
+    template += '<span ng-if="field.value">';
+    template += '<img height="50px" width="50px" src="{{field.value}}" />';
+    template += '</span>';
     return {
         restrict: "E",
         template: template,

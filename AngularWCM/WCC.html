@@ -94,7 +94,7 @@
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Shift</strong>
-                    <field name="tables['WCC'].records[0].fields['Shift']" options"[1,2,3]"></field>
+                    <field name="tables['WCC'].records[0].fields['Shift']" options="[1,2,3]"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Auditor's Name</strong>
@@ -153,10 +153,7 @@
                 </span>
             </td>
             <td>
-                <label for="file{{$index + 1}}">
-                    <img src="res/upload.png" alt="Upload">
-                </label>
-                <input id="file{{$index + 1}}" type="file" onchange="//broadcast image upload, change label image" />
+                <imageupload name="rec.fields['ImageURL']"></imageupload>
             </td>
             <td>
                 <field name="rec.fields['Compliant']" options="['Satisfactory','Unsafe Condition','Unsafe Act','Both']"></field>
@@ -171,7 +168,7 @@
         <!-- makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
         <tr>
             <td colspan="2">
-                <textarea maxlength="1000" ng-model="tables['WCC'].records[0].fields['Comments']" rows="6" cols="50" placeholder="Comments"></textarea><br />
+                <field name="tables['WCC'].records[0].fields['Comments']" placeholder="Comments"></field><br />
             </td>
             <td>
                 <button ng-click="form.reset()">Reset</button>

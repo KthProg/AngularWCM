@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -18,27 +18,27 @@
     <title>Tool Repair Form</title>
 
     <script>
-        $(document.body).ready(function () {
-            var scope = angular.element($("[ng-app='wcm']")).scope();
-            scope.$apply(
-                function () {
-                    scope.$watch("fields['RepairedLocation']", function (n, o) {
-                        var moundContacts = ["jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com","newberry@ventureglobalengineering.com"];
-                        if (n != o) {
-                            if (!scope.hasRecord && n == "Mound") {
-                                scope.contacts = scope.contacts.concat(moundContacts);
-                            } else {
-                                for (var i = 0, l = moundContacts.length; i < l; ++i) {
-                                    var index = scope.contacts.indexOf(moundContacts[i]);
-                                    if(index > -1){
-                                        scope.contacts.splice(index, 1);
-                                    }
-                                }
-                            }
-                        }
-                    }, true);
-                });
-        });
+        //$(document.body).ready(function () {
+        //    var scope = angular.element($("[ng-app='wcm']")).scope();
+        //    scope.$apply(
+        //        function () {
+        //            scope.$watch("fields['RepairedLocation']", function (n, o) {
+        //                var moundContacts = ["jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com","newberry@ventureglobalengineering.com"];
+        //                if (n != o) {
+        //                    if (!scope.hasRecord && n == "Mound") {
+        //                        scope.contacts = scope.contacts.concat(moundContacts);
+        //                    } else {
+        //                        for (var i = 0, l = moundContacts.length; i < l; ++i) {
+        //                            var index = scope.contacts.indexOf(moundContacts[i]);
+        //                            if(index > -1){
+        //                                scope.contacts.splice(index, 1);
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }, true);
+        //        });
+        //});
     </script>
 </head>
 
@@ -47,10 +47,10 @@
     ng-init="form.initialize('Tool Repair', 'Safety', ['ToolIssues', 'ToolIssueRepairTypes'], 'vToolIssues')">
     <table id="repairTable">
         <tr>
-            <td width="30px"></td>
-            <td width="200px"></td>
-            <td width="200px"></td>
-            <td width="200px"></td>
+            <td width="10%"></td>
+            <td width="30%"></td>
+            <td width="30%"></td>
+            <td width="30%"></td>
         </tr>
         <tr>
             <td colspan="3" class="dkgrey whitetext"><h1>Tool Repair Form</h1></td>
@@ -70,7 +70,7 @@
             <td class="red">Repair Type(s)</td>
         </tr>
         <tr>
-            <td>{{fields['ToolName'].options[0]}}</td><!-- ng-model="fields['ToolName']" -->
+            <td>{{tables['ToolIssues'].records[0].fields['MoldDescID'].options[tables['ToolIssues'].records[0].fields['ToolNumber'].value]}}</td><!-- ng-model="fields['ToolName']" -->
             <td rowspan="11"><field name="tables['ToolIssues'].records[0].fields['Problems']"></field></td>
             <td rowspan="11">
                 <style>
@@ -142,47 +142,6 @@
         <tr>
             <td><field name="tables['ToolIssues'].records[0].fields['DateReceived']"></field></td>
             <td><field name="tables['ToolIssues'].records[0].fields['IsService']" options="{ 0 : false, 1 : true}"></field></td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td width="30px"></td>
-            <td width="200px"></td>
-            <td width="200px"></td>
-            <td width="200px"></td>
-        </tr>
-        <tr>
-            <td rowspan="9" class="ltblue">T<br />o<br />o<br />l<br /> <br />A<br />n<br />a<br />l<br />y<br />s<br />i<br />s</td>
-        </tr>
-        <tr>
-            <td colspan="2" class="ltblue">Work Completed (semi-colon separated)</td>
-            <td class="ltblue">Shift Repaired On</td>
-        </tr>
-        <tr>
-            <td colspan="2" rowspan="5"><field name="tables['ToolIssues'].records[0].fields['ProblemsFixed']"></field></td>
-            <td>
-                <field name="tables['ToolIssues'].records[0].fields['RepairShift']" options="[1,2,3]"></field>
-            </td>
-        </tr>
-        <tr>
-            <td class="ltblue">Repair Cost</td>
-        </tr>
-        <tr>
-            <td><field name="tables['ToolIssues'].records[0].fields['RepairCost']"></field></td>
-        </tr>
-        <tr>
-            <td class="ltblue">Status (% Complete, 0 to 1)</td>
-        </tr>
-        <tr>
-            <td rowspan="3"><field name="tables['ToolIssues'].records[0].fields['Status']"></field><!-- min="0" max="1" step="0.01" value="1" --></td>
-        </tr>
-        <tr>
-            <td class="ltblue">Work Approved By</td>
-            <td class="ltblue">Repaired By</td>
-        </tr>
-        <tr>
-            <td><field name="tables['ToolIssues'].records[0].fields['ApprovedBy']"></field></td>
-            <td><field name="tables['ToolIssues'].records[0].fields['RepairedBy']"></field></td>
         </tr>
         <tr>
             <td colspan="4">
