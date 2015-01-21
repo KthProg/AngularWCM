@@ -42,6 +42,33 @@
       EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ? + ' WHERE ' + ? + '=' + ?)
     </qstring>
   </query>
+  <query name="GetContactsFromTableAndID">
+    <connection>Safety</connection>
+    <qstring>
+      declare @sql varchar(max) = '
+        select s.SupervisorEmail
+        from '+?+' e
+          join SupervisorInfo s
+            on s.PlantID=e.'+?+'
+            and (s.DepartmentID=e.'+?+' or s.DepartmentID is null)
+            and (s.ZoneID=e.'+?+' or s.ZoneID is null)
+        where '+?+'='+cast(? as varchar(max))
+
+      EXEC(@sql)
+    </qstring>
+  </query>
+  <query name="GetAllEmails">
+    <connection>Safety</connection>
+    <qstring>SELECT * FROM Emails</qstring>
+  </query>
+  <query name="GetTopIssues">
+    <connection>Safety</connection>
+    <qstring>SELECT * FROM vTopIssue</qstring>
+  </query>
+  <query name="DeleteEmail">
+    <connection>Safety</connection>
+    <qstring>DELETE FROM Emails WHERE ID=?</qstring>
+  </query>
   <query name="GetViewData">
     <connection>Safety</connection>
     <qstring>

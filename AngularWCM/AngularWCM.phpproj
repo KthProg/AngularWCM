@@ -25,10 +25,14 @@
     <Compile Include="EHS.html" />
     <Compile Include="PMTag.html" />
     <Compile Include="QuickKaizen.html" />
+    <Compile Include="scripts\php\AlertOpenIssues.php" />
     <Compile Include="scripts\php\Form.php" />
     <Compile Include="scripts\php\getParams.php" />
-    <Compile Include="scripts\php\Query.php" />
     <Compile Include="5T.html" />
+    <Compile Include="scripts\php\SendEmails.php" />
+    <Compile Include="scripts\php\smtp\class.phpmailer.php" />
+    <Compile Include="scripts\php\smtp\class.smtp.php" />
+    <Compile Include="scripts\php\smtp\PHPMailerAutoload.php" />
     <Compile Include="ToolRepair.html" />
     <Compile Include="UCAN.html" />
     <Compile Include="UnsafeAct.html" />
@@ -38,6 +42,7 @@
     <Folder Include="css\" />
     <Folder Include="Dashboard\" />
     <Folder Include="res\" />
+    <Folder Include="scripts\php\smtp\" />
     <Folder Include="xml\" />
     <Folder Include="scripts\" />
     <Folder Include="scripts\js\" />

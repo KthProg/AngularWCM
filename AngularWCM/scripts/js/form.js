@@ -37,7 +37,7 @@ Form.prototype.initialize = function (name, connection, tables, view, tableRecor
     }
 
     var tblStr = "'" + tables.join("','") + "'";
-    form.http.get("/scripts/php/Query.php?Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
+    form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
     .success(function (resp) {
         resp.forEach(function (f) {
             form.scope.tables[f.TABLE_NAME].records[0].fields[f.COLUMN_NAME] = new Field(form.scope, form.http, f.TABLE_NAME,
@@ -112,7 +112,7 @@ Form.prototype.setRightClickEventToSearch = function () {
 };
 
 Form.prototype.searchForms = function (field, searchFor) {
-    this.http.get("/scripts/php/Query.php?Query=SearchForm&Params=" + JSON.stringify([this.scope.tables[this.mainTable].getPK(), this.view, field, searchFor]))
+    this.http.get("/scripts/php/Form.php?Function=Query&Query=SearchForm&Params=" + JSON.stringify([this.scope.tables[this.mainTable].getPK(), this.view, field, searchFor]))
     .success(function (resp) {
         var objectValuesToArray = function (obj) {
             return Object.keys(obj).map(function (key) {

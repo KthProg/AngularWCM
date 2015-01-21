@@ -78,7 +78,7 @@
     };
 
     $scope.openLayout = function () {
-        $http.get("/scripts/php/Query.php?ASSOC=true&Query=OpenDashboardLayout&Params=" + encodeURIComponent(JSON.stringify([$("#open_layout").val()])))
+        $http.get("/scripts/php/Form.php?Function=Query&ASSOC=true&Query=OpenDashboardLayout&Params=" + encodeURIComponent(JSON.stringify([$("#open_layout").val()])))
         .success(
         function (resp) {
             var newChartsArr = JSON.parse(resp[0]["LayoutJSON"]);
@@ -105,8 +105,8 @@
         var secondParam = (updating ? $("#open_layout").val() : $("#layout_name").val());
         $http({
             method: "POST",
-            url: "/scripts/php/Query.php",
-            data: "Query=" + (updating ? "Update" : "Save") + "DashboardLayout&Params=" + encodeURIComponent(JSON.stringify([JSON.stringify(chartsCopy), secondParam])),
+            url: "/scripts/php/Form.php",
+            data: "Function=Query&Query=" + (updating ? "Update" : "Save") + "DashboardLayout&Params=" + encodeURIComponent(JSON.stringify([JSON.stringify(chartsCopy), secondParam])),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(
@@ -201,6 +201,7 @@
     var sendNoParamQuery = function (query) {
         var queryResult;
         $.ajax({
+            type: "POST",
             async: false,
             data: {
                 Query: query,
@@ -210,7 +211,7 @@
             success: function (data) {
                 queryResult = data;
             },
-            url: "/scripts/php/Query.php"
+            url: "/scripts/php/Form.php"
         });
         return queryResult;
     }

@@ -23,8 +23,8 @@ Chart.prototype.chartData = function () {
     // execute query with params
     // if successful call renderChartData
     $.ajax({
-        url: "/scripts/php/Query.php",
-        type: "GET",
+        url: "/scripts/php/Form.php",
+        type: "POST",
         dataType: "json",
         data: {
             Query: this.query,

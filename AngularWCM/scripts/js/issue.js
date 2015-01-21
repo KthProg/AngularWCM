@@ -10,8 +10,9 @@
 
     $scope.$on('filter', function (event, args) {
         $("select option:selected").each(function () {
-            $scope.filter[$(this).parent().attr("name")] = $(this).text();
+            $scope.filter[$(this).parent().parent().attr("id")] = $(this).text();
         });
+        console.log($scope.filter);
         $scope.getAllIssues();
     });
 
@@ -56,7 +57,7 @@
     };
 
     $scope.getIssues = function (query, assignTo) {
-        $http.get("/scripts/php/Query.php?Query=" + query + "&ASSOC=true&Params=[]")
+        $http.get("/scripts/php/Form.php?Function=Query&Query=" + query + "&ASSOC=true&Params=[]")
         .success(function (resp) {
             var formatted = $scope.formatResponse(resp);
             var filtered = $scope.filterResponse(formatted);
@@ -77,24 +78,17 @@
 
     $scope.filterResponse = function (resp) {
         resp = resp.filter(function (n) {
-            var valid = true;
-            for (var k in $scope.filter) {
-                if ($scope.filter[k]) {
-                    if (n[k] == undefined || n[k] == $scope.filter[k]) {
-                        valid = true;
-                    } else {
-                        valid = false;
-                        break;
-                    }
-                }
-            }
-            return valid;
+            return Object.keys($scope.filter).reduce(function (prev, el) {
+                if (!$scope.filter[el]) { return true; }
+                return prev && (n[el] == undefined || n[el] == $scope.filter[el]);
+            }, true);
         });
+        console.log(resp);
         return resp;
     };
 
     $scope.openIssue = function (name, id, line) {
-        $http.get("/scripts/php/Query.php?Query=OpenIssue&Params=" + JSON.stringify([name, id, line]))
+        $http.get("/scripts/php/Form.php?Function=Query&Query=OpenIssue&Params=" + JSON.stringify([name, id, line]))
         .success(function (resp) {
             $scope.getAllIssues();
         });
@@ -103,7 +97,7 @@
     $scope.closeIssue = function (name, id, line) {
         var actionTaken = prompt("Enter in the action taken to close this issue.");
         if (actionTaken) {
-            $http.get("/scripts/php/Query.php?Query=CloseIssue&Params=" + JSON.stringify([name, id, line, actionTaken]))
+            $http.get("/scripts/php/Form.php?Function=Query&Query=CloseIssue&Params=" + JSON.stringify([name, id, line, actionTaken]))
             .success(function (resp) {
                 $scope.getAllIssues();
             });

@@ -1,83 +1,86 @@
 <?php
 
 if(isset($_POST["Function"]) || isset($_GET["Function"])){
-    $func = isset($_POST["Function"]) ? $_POST["Function"] : $_GET["Function"];
+    $is_post = isset($_POST["Function"]);
+    $func = $is_post ? $_POST["Function"] : $_GET["Function"];
     switch($func){
         case "Open":
-            open();
+            $form_data = $is_post ? $_POST["Form"] : $_GET["Form"];
+            $res = open(json_decode($form_data));
+            echo json_encode($res);
             break;
         case "getMaxID":
-            getMaxID();
+            $form_data = $is_post ? $_POST["Form"] : $_GET["Form"];
+            $res = getMaxID(json_decode($form_data));
+            echo $res;
             break;
         //case "saveImage":
         //    saveImage();
         //    break;
         case "Submit":
-            submit();
+            $form_data = $is_post ? $_POST["Form"] : $_GET["Form"];
+            submit(json_decode($form_data));
             break;
         case "Update":
-            update();
+            $form_data = $is_post ? $_POST["Form"] : $_GET["Form"];
+            update(json_decode($form_data));
+            break;
+        case "Query":
+            $qry = $is_post ? $_POST["Query"] : $_GET["Query"];
+            $params = $is_post ? $_POST["Params"] : $_GET["Params"];
+            $assoc = isset($_POST["ASSOC"]) ? $_POST["ASSOC"] : isset($_GET["ASSOC"]) ? $_GET["ASSOC"] : null;
+            $res = execute_query($qry, json_decode($params), (isset($assoc) ? PDO::FETCH_ASSOC : PDO::FETCH_NUM));
+            echo json_encode($res);
             break;
     }
 }
 
-function getMaxID() {
-    if(isset($_POST["Form"])){
-        $form_data = json_decode($_POST["Form"]);
+function getMaxID($form_data) {
+    $conn = get_connection($form_data->Connection);
+
+    $query = "SELECT MAX({$form_data->PK}) FROM {$form_data->Table}";
+    $query = ms_escape_string($query);
+
+    if($conn){
+        $stmt = $conn->prepare($query);
+    }else{
+        exit("-1");
+    }
+
+    if(!$stmt->execute()){
+        // failed to execute, table or primary key incorrect
+        exit("-1");
+    }
         
-        $conn = get_connection($form_data->Connection);
-
-        $query = "SELECT MAX({$form_data->PK}) FROM {$form_data->Table}";
-        $query = ms_escape_string($query);
-
-        if($conn){
-            $stmt = $conn->prepare($query);
-        }else{
-            exit("-1");
-        }
-
-        if(!$stmt->execute()){
-            // failed to execute, table or primary key incorrect
-            exit("-1");
-        }
-        
-        if($row = $stmt->fetch(PDO::FETCH_NUM)){
-            // executed and row returned
-            // first column (only column) has max pk
-            echo $row[0];
-        }else{
-            // empty result set
-            exit("-1");
-        }
+    if($row = $stmt->fetch(PDO::FETCH_NUM)){
+        // executed and row returned
+        // first column (only column) has max pk
+        return $row[0];
+    }else{
+        // empty result set
+        exit("-1");
     }
 }
 
-function open(){
-    if(isset($_POST["Form"]) || isset($_GET["Form"])){
-        $form_json = isset($_POST["Form"]) ? $_POST["Form"] : $_GET["Form"];
-        $form_data = json_decode($form_json);
+function open($form_data){
+    $query = "SELECT * FROM {$form_data->Table} WHERE {$form_data->OpenBy}=?";
+    $query = ms_escape_string($query);
+    $conn = get_connection($form_data->Connection);
+    if(!$conn){ return; }
+    $stmt = $conn->prepare($query);
         
-        $query = "SELECT * FROM {$form_data->Table} WHERE {$form_data->OpenBy}=?";
-        $query = ms_escape_string($query);
-        $conn = get_connection($form_data->Connection);
-        if($conn){
-            $stmt = $conn->prepare($query);
-        }else{
-            return;
-        }
+    if(!$stmt->execute(array($form_data->OpenByValue))){
+        send_error($stmt->errorInfo());
+        return;
+    }
         
-        if(!$stmt->execute(array($form_data->OpenByValue))){
-            send_error($stmt->errorInfo());
-            return;
-        }
-        
-        if($rows = $stmt->fetchAll(PDO::FETCH_ASSOC)){
-            echo json_encode($rows);
-        }
+    if($rows = $stmt->fetchAll(PDO::FETCH_ASSOC)){
+        return $rows;
     }
 }
 
 function send_error($error_info){
+    print_r($error_info);
     notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>ERROR: ".print_r($error_info, true));
 }
 
@@ -117,14 +120,12 @@ function send_error($error_info){
 //    return $data;
 //}
 
-function submit() {
-    $form = json_decode($_POST["Form"]);
-    execute_query_upload_files_and_notify("prepare_inserts", $form->Name." number ".$form->tables[0]->ID." submitted.", $form->Name." number ".$form->tables[0]->ID." not submitted.");
+function submit($form) {
+    execute_query_upload_files_and_notify("prepare_inserts", $form, $form->Name." number ".$form->tables[0]->ID." submitted.", $form->Name." number ".$form->tables[0]->ID." not submitted.");
 }
 
-function update() {
-    $form = json_decode($_POST["Form"]);
-    execute_query_upload_files_and_notify("prepare_updates", $form->Name." number ".$form->tables[0]->ID." updated.", $form->Name." number ".$form->tables[0]->ID." not updated.");
+function update($form) {
+    execute_query_upload_files_and_notify("prepare_updates", $form, $form->Name." number ".$form->tables[0]->ID." updated.", $form->Name." number ".$form->tables[0]->ID." not updated.");
 }
 
 // uses xpath to create a connection by name from an XML file
@@ -132,7 +133,9 @@ function get_connection($connection_name){
     $con = (string)$connection_name;
     
     $xml = simplexml_load_file("http://192.9.200.62/xml/connections.xml");
+    if(!$xml) { exit("Could not load xml file."); }
     $con_nodes = $xml->xpath("/connections/connection[@name='".$con."']");
+    if(!$con_nodes) { exit("Could not load find connection ".$con."."); }
     $con_data = $con_nodes[0];
 
     try{
@@ -170,11 +173,10 @@ function ms_escape_string($data) {
 
 // ... does what it says...
 // the update and submit code both call this with different $query_funcs
-function execute_query_upload_files_and_notify($query_func, $success, $failure){
-    $form = json_decode($_POST["Form"]);
+function execute_query_upload_files_and_notify($query_func, $form, $success, $failure){
     $conn = get_connection($form->tables[0]->Connection);
     
-    $queries = $query_func();
+    $queries = $query_func($form);
     $all_successful = true;
     
     foreach($queries as $query){
@@ -203,9 +205,10 @@ function execute_query_upload_files_and_notify($query_func, $success, $failure){
 // another script sends the emails every 5 minutes
 // this is to prevent browsers hanging on mobile devices
 function insert_notification($subject, $body, $table, $id){
+    $is_new = ($id == null);
     $conn = get_connection("Safety");
-    $stmt = $conn->prepare("INSERT INTO Emails (Subj, Body, TableName, FormID) VALUES(?, ?, ?, ".(($id == null) ? "(SELECT MAX({$table->PK}) FROM {$table->Table})" : "?").")");
-    $params = ($id == null) ? array($subject, $body, $table->Table) : array($subject, $body, $table->Table, $id);
+    $stmt = $conn->prepare("INSERT INTO Emails (New, Subj, Body, TableName, FormID) VALUES(?, ?, ?, ?, ".($is_new ? "(SELECT MAX({$table->PK}) FROM {$table->Table})" : "?").")");
+    $params = $is_new ? array(1, $subject, $body, $table->Table) : array(0, $subject, $body, $table->Table, $id);
     if($stmt->execute($params)){
         echo "Email query executed (Email will send in 0-5 minutes)<br>";
     }else{
@@ -214,9 +217,8 @@ function insert_notification($subject, $body, $table, $id){
     }
 }
 
-function prepare_inserts(){
+function prepare_inserts($form){
     $queries = array();
-    $form = json_decode($_POST["Form"]);
     foreach($form->tables as $table){
         for($i = 0, $l = count($table->records); $i < $l; ++$i){
             $values = array();
@@ -232,9 +234,8 @@ function prepare_inserts(){
     return $queries;
 }
 
-function prepare_updates(){
+function prepare_updates($form){
     $queries = array();
-    $form = json_decode($_POST["Form"]);
     foreach($form->tables as $table){
         for($i = 0, $l = count($table->records); $i < $l; ++$i){
             $values = array();
@@ -319,6 +320,42 @@ function notify($contacts, $subject, $body){
         echo "Email query executed (Email will send in 0-5 minutes)<br>";
     }else{
         echo "Email query not executed<br>";
+    }
+}
+
+function execute_query($query, $params, $fetch_type = PDO::FETCH_NUM) {
+    $xml = simplexml_load_file("http://192.9.200.62:8080/xml/queries.xml");
+    if(!$xml) { exit("Could not load xml file."); }
+    $query_nodes = $xml->xpath("/queries/query[@name='".$query."']");
+    if(!$query_nodes) { exit("Could not find query ".$query); }
+    $query_string = $query_nodes[0]->qstring;  
+    $connection_string = $query_nodes[0]->connection;
+
+    $conn = get_connection($connection_string);
+    if($conn){
+        $stmt = $conn->prepare($query_string);
+    }else{
+        send_error(array("Could not execute query ".$query_string." using connection ".$connection_string));
+        return array();
+    }
+
+    if(!$stmt->execute($params)){
+        send_error($stmt->errorInfo());
+        return array();
+    }
+        
+    if(!($rows = $stmt->fetchAll($fetch_type))){
+        return array();
+    }
+
+    if($fetch_type != PDO::FETCH_NUM){
+        return $rows;
+    }else{
+        $filtered = array();
+        foreach($rows as $row){
+            $filtered[$row[0]] = $row[1];
+        }
+        return $filtered;
     }
 }
 

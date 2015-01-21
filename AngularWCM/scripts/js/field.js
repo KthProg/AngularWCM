@@ -208,7 +208,7 @@ Field.prototype.getFKTableInfo = function () {
     if (!this.isFK) { return false; }
     if (this.bindingType == "options") {
         var field = this;
-        this.http.get("/scripts/php/Query.php?Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'"+this.fkTable+"'"])))
+        this.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'"+this.fkTable+"'"])))
         .success(function (resp) {
             resp.forEach(function (f) {
                 if (f.IsFK == "1") {
@@ -272,7 +272,7 @@ Field.prototype.watchDependency = function () {
 Field.prototype.getInitialOptions = function () {
     var field = this;
     if (Object.keys(this.boundField).length == 0) {
-        field.http.get("/scripts/php/Query.php?Query=SelectKeysAndValues&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable])))
+        field.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValues&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable])))
         .success(function (resp) {
             field.options = resp;
         });
@@ -282,7 +282,7 @@ Field.prototype.getInitialOptions = function () {
 Field.prototype.getOptions = function (val) {
     if (val) {
         var field = this;
-        field.http.get("/scripts/php/Query.php?Query=SelectKeysAndValuesFilter&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val])))
+        field.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValuesFilter&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val])))
         .success(function (resp) {
             field.options = resp;
         });

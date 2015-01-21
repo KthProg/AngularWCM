@@ -3,11 +3,12 @@
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
-    <!-- <script src="/scripts/js/wcm.js"></script>
-    <script src="/scripts/js/form.js"></script>
-    <script src="/scripts/js/issue.js"></script> -->
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
     <script src="/scripts/js/issue.js"></script>
 
     <meta charset="utf-8">
@@ -23,18 +24,17 @@
         <h3>Safety Issues Dashboard</h3>
     </header>
     <div>
-        <div ng-controller="Form"
-            ng-init="setFormData('Issues Filter');">
+        <div ng-controller="Form" ng-init="form.initialize('Issues Filter', 'Safety', ['DummyIssuesTable'], '')">
             <form>
-                <div class="filter">Plant:<select name="Plant" ng-model="fields['plants']" ng-options="k as v for (k,v) in queries['plants'].options"></select></div>
-                <div class="filter">Department:<select name="Department" ng-model="fields['departments']" ng-options="k as v for (k,v) in queries['departments'].options"></select></div>
-                <div class="filter">Zone:<select name="Zone" ng-model="fields['zones']" ng-options="k as v for (k,v) in queries['zones'].options"></select></div>
-                <div class="filter">Machine:<select name="Machine" ng-model="fields['machines']" ng-options="k as v for (k,v) in queries['machines'].options"></select></div>
-                <div class="filter">Supervisor:<select name="SupervisorName" ng-model="fields['supervisors']" ng-options="k as v for (k,v) in queries['supervisors'].options"></select></div>
-                <div class="filter">Shift:<select name="Shift" ng-model="fields['shifts']" ng-options='v as v for (k,v) in [1,2,3]'></select></div>
-                <div class="filter">Severity:<select name="Severity" ng-model="fields['severities']" ng-options='v as v for (k,v) in ["Low","Medium","High"]'></select></div>
-                <div class="filter">Category:<select name="Category" ng-model="fields['categories']" ng-options='v as v for (k,v) in ["Housekeeping","None","Crane","Ergonomics","Emergency Evacuation Routes/Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></select></div>
-                <div class="filter">Form:<select name="Name" ng-model="fields['names']" ng-options='v as v for (k,v) in ["EHS","WCC","SEWO","UCAN","Unsafe Act"]'></select></div>
+                <div class="filter">Plant:<field id="Plant" name="fields['PlantID']"></field></div>
+                <div class="filter">Department:<field id="Department" name="fields['DepartmentID']"></field></div>
+                <div class="filter">Zone:<field id="Zone" name="fields['ZoneID']"></field></div>
+                <div class="filter">Machine:<field id="Machine" name="fields['MachineID']"></field></div>
+                <div class="filter">Supervisor:<field id="SupervisorName" name="fields['SupervisorID']"></field></div>
+                <div class="filter">Shift:<field id="Shift" name="fields['Shift']" options="[1,2,3]"></field></div>
+                <div class="filter">Severity:<field id="Severity" name="fields['Severity']" options="['low','medium','high']"></field></div>
+                <div class="filter">Category:<field id="Category" name="fields['Category']" options='["Housekeeping","None","Crane","Ergonomics","Emergency evacuation routes","Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></field></div>
+                <div class="filter">Form:<field id="Name" name="fields['Form']" options='["EHS","WCC","SEWO","UCAN","Unsafe Act"]'></field></div>
                 <div class="filter">
                     <button type="button" onclick="angular.element('[ng-app]').injector().get('$rootScope').$broadcast('filter');">Apply</button>
                     <button type="button" onclick="window.location.reload()">Clear</button>

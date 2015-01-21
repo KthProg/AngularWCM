@@ -41,7 +41,7 @@
       <publishTime>10/22/2014 13:32:55</publishTime>
     </File>
     <File Include="Dashboard/Issues.html">
-      <publishTime>11/19/2014 13:55:51</publishTime>
+      <publishTime>01/21/2015 18:46:44</publishTime>
     </File>
     <File Include="Dashboard/LO.html">
       <publishTime>01/19/2015 21:28:09</publishTime>
@@ -203,43 +203,55 @@
       <publishTime>10/27/2014 19:21:16</publishTime>
     </File>
     <File Include="scripts/js/chart.js">
-      <publishTime>01/21/2015 16:47:57</publishTime>
+      <publishTime>01/21/2015 19:25:39</publishTime>
     </File>
     <File Include="scripts/js/dashboard.js">
-      <publishTime>01/21/2015 16:51:35</publishTime>
+      <publishTime>01/21/2015 19:28:35</publishTime>
     </File>
     <File Include="scripts/js/field.js">
-      <publishTime>01/21/2015 14:09:43</publishTime>
+      <publishTime>01/21/2015 20:02:23</publishTime>
     </File>
     <File Include="scripts/js/form.js">
-      <publishTime>01/21/2015 16:49:47</publishTime>
+      <publishTime>01/21/2015 20:00:16</publishTime>
     </File>
     <File Include="scripts/js/format.js">
       <publishTime>01/16/2015 20:53:45</publishTime>
     </File>
     <File Include="scripts/js/issue.js">
-      <publishTime>11/26/2014 13:31:46</publishTime>
+      <publishTime>01/21/2015 20:00:18</publishTime>
     </File>
     <File Include="scripts/js/record.js">
       <publishTime>01/08/2015 15:45:02</publishTime>
     </File>
     <File Include="scripts/js/table.js">
-      <publishTime>01/14/2015 21:13:41</publishTime>
+      <publishTime>01/21/2015 20:00:18</publishTime>
     </File>
     <File Include="scripts/js/wcm.js">
       <publishTime>01/21/2015 16:52:39</publishTime>
     </File>
+    <File Include="scripts/php/AlertOpenIssues.php">
+      <publishTime>01/21/2015 21:13:43</publishTime>
+    </File>
     <File Include="scripts/php/Form.php">
-      <publishTime>01/21/2015 16:11:38</publishTime>
+      <publishTime>01/21/2015 21:01:45</publishTime>
     </File>
     <File Include="scripts/php/getParams.php">
       <publishTime>01/14/2015 14:29:05</publishTime>
     </File>
-    <File Include="scripts/php/Query.php">
-      <publishTime>01/14/2015 14:37:50</publishTime>
+    <File Include="scripts/php/SendEmails.php">
+      <publishTime>01/21/2015 21:07:20</publishTime>
+    </File>
+    <File Include="scripts/php/smtp/class.phpmailer.php">
+      <publishTime>01/21/2015 18:35:42</publishTime>
+    </File>
+    <File Include="scripts/php/smtp/class.smtp.php">
+      <publishTime>01/21/2015 18:35:41</publishTime>
+    </File>
+    <File Include="scripts/php/smtp/PHPMailerAutoload.php">
+      <publishTime>01/21/2015 18:35:39</publishTime>
     </File>
     <File Include="SEWO.html">
-      <publishTime>01/21/2015 14:03:40</publishTime>
+      <publishTime>01/21/2015 20:38:15</publishTime>
     </File>
     <File Include="test.html">
       <publishTime>01/18/2015 17:27:56</publishTime>
@@ -260,7 +272,7 @@
       <publishTime>08/29/2014 15:09:25</publishTime>
     </File>
     <File Include="xml/queries.xml">
-      <publishTime>01/16/2015 18:58:22</publishTime>
+      <publishTime>01/21/2015 21:10:41</publishTime>
     </File>
   </ItemGroup>
 </Project>
