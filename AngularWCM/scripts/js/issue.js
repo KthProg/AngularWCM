@@ -87,17 +87,17 @@
         return resp;
     };
 
-    $scope.openIssue = function (name, id, line) {
-        $http.get("/scripts/php/Form.php?Function=Query&Query=OpenIssue&Params=" + JSON.stringify([name, id, line]))
+    $scope.openIssue = function (name, id, subcategory) {
+        $http.get("/scripts/php/Form.php?Function=Query&Query=OpenIssue&Params=" + JSON.stringify([name, id, subcategory]))
         .success(function (resp) {
             $scope.getAllIssues();
         });
     };
 
-    $scope.closeIssue = function (name, id, line) {
+    $scope.closeIssue = function (name, id, subcategory) {
         var actionTaken = prompt("Enter in the action taken to close this issue.");
         if (actionTaken) {
-            $http.get("/scripts/php/Form.php?Function=Query&Query=CloseIssue&Params=" + JSON.stringify([name, id, line, actionTaken]))
+            $http.get("/scripts/php/Form.php?Function=Query&Query=CloseIssue&Params=" + JSON.stringify([name, id, subcategory, actionTaken]))
             .success(function (resp) {
                 $scope.getAllIssues();
             });
@@ -108,5 +108,52 @@
 
     $scope.getAllIssues();
 }
+
+app.directive('issueheader', function () {
+    var template = '{{i.Name}} {{i.ID}}.{{i.SubCategoryID}} - {{i.Compliancy}}';
+
+    return {
+        restrict: "E",
+        template: template,
+        scope: {
+            i: "=issue"
+        }
+    };
+});
+
+app.directive('issuedetails', function () {
+    var template = 'Line Item: {{i.SubCategory}}<br />';
+    template += 'Category:  {{i.Category}}<br />';
+    template += 'Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />';
+    template += 'Created: {{i.OpenDate}}<br />';
+    template += 'Days Open: {{i.DaysOpen}}<br />';
+    template += 'Details: {{i.Details}}';
+
+    return {
+        restrict: "E",
+        template: template,
+        scope: {
+            i: "=issue"
+        }
+    };
+});
+
+app.directive('issueseverity', function () {
+    var template = '<span ng-switch="i.Severity">';
+    template += '<div ng-switch-when="Low"> </div>';
+    template += '<div ng-switch-when="Medium"> </div>';
+    template += '<div ng-switch-when="High"> </div>';
+    template += '</span>';
+
+    return {
+        restrict: "E",
+        template: template,
+        scope: {
+            i: "=issue"
+        }
+    };
+});
+
+
 
 app.controller("Issues", Issues);

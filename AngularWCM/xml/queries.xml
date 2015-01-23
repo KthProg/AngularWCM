@@ -165,11 +165,11 @@
   </query>
   <query name="CloseIssue">
     <connection>Safety</connection>
-    <qstring>INSERT INTO ClosedIssues (FormName, FormNum, LineNum, ActionTaken) VALUES (?, ?, ?, ?)</qstring>
+    <qstring>INSERT INTO ClosedIssues (FormName, FormNum, SubCategory, ActionTaken) VALUES (?, ?, ?, ?)</qstring>
   </query>
   <query name="OpenIssue">
     <connection>Safety</connection>
-    <qstring>DELETE FROM ClosedIssues WHERE FormName=? AND FormNum=? AND LineNum=?</qstring>
+    <qstring>DELETE FROM ClosedIssues WHERE FormName=? AND FormNum=? AND SubCategory=?</qstring>
   </query>
   <query name="GetOpenIssues">
     <connection>Safety</connection>

@@ -168,6 +168,7 @@ Table.prototype.open = function () {
     })
     .success(function (resp) {
         if (resp) {
+            console.log(resp);
             tbl.clear();
             if (resp instanceof Array) {
                 resp.forEach(function (row, rowi) {
