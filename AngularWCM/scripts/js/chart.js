@@ -29,9 +29,13 @@ Chart.prototype.chartData = function () {
         data: {
             Query: this.query,
             Params: JSON.stringify(params),
-            ASSOC: "true"
+            ASSOC: "true",
+            Function: "Query"
         },
-        success: this.renderChartData,
+        success: function (resp) {
+            console.log(resp);
+            this.renderChartData(resp);
+        },
         error: logError,
         context: this
     });

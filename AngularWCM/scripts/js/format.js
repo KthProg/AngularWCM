@@ -112,6 +112,26 @@ Formatter.jsObjToString = function (val, type) {
     }
 };
 
+Formatter.preventNullsIfNeccessary = function (val, type, bindingType, nullable) {
+    // prevent null values on
+    // non-nullable fields
+    if (val == null) {
+        if (!nullable) {
+            return Formatter.stringToJSObj("", type);
+        }
+        if (bindingType == "options") {
+            // the table from which this field derives it's values
+            // must specify a record with a PK value of -1
+            // and a default value in case a value is not selected
+            // null would be used, but SQL Server does not allow
+            // nulls as PK values, despite being part of the ANSI
+            // SQL standard, -1 is a substitute
+            return -1;
+        }
+    }
+    return val;
+};
+
 Formatter.toLocalDateTime = function (UTCDateTime) {
     var ud = UTCDateTime;
     var offset = ud.getTimezoneOffset();

@@ -10,10 +10,8 @@ Record.prototype.makeCopy = function () {
     var fields = {};
     Object.keys(this.fields).forEach(function (f) {
         fields[f] = rec.fields[f].makeCopy();
-        // don't copy primary key values
-        if (fields[f].isPK) {
-            fields[f].setValue(null);
-        }
+        // don't copy values
+        fields[f].setValue(null)
         fields[f].recNum = rec.scope.tables[rec.table].records.length;
         fields[f].getFKTableInfo();
     });

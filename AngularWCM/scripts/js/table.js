@@ -160,6 +160,7 @@ Table.prototype.toDataString = function () {
 
 Table.prototype.open = function () {
     var tbl = this;
+
     this.http({
         method: "POST",
         url: "/scripts/php/Form.php",
@@ -167,31 +168,26 @@ Table.prototype.open = function () {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     .success(function (resp) {
-        if (resp) {
-            console.log(resp);
-            tbl.clear();
-            if (resp instanceof Array) {
-                resp.forEach(function (row, rowi) {
-                    if(rowi == 0){
-                        for (var f in row) {
-                            tbl.records[rowi].fields[f].setValue(row[f]);
-                        }
-                    } else {
-                        if (tbl.records.length < (rowi + 1)) {
-                            tbl.copyRecord(0);
-                        }
-                        for (var f in row) {
-                            tbl.records[rowi].fields[f].setValue(row[f]);
-                        }
-                    }
-                });
-            }
-            tbl.scope.form.hasRecord = true;
-        } else {
+        if (!resp) {
             alert(tbl.name + " number " + tbl.getOpenByValue() + " does not exist.");
             tbl.clear();
             tbl.scope.form.hasRecord = false;
+            return;
         }
+        tbl.clear();
+        if (!(resp instanceof Array)) {
+            alert("Invalid data returned: expected Array.");
+            return;
+        }
+        resp.forEach(function (row, rowi) {
+            if (tbl.records.length < (rowi + 1)) {
+                tbl.copyRecord(0);
+            }
+            for (var f in row) {
+                tbl.records[rowi].fields[f].setValue(row[f]);
+            }
+        });
+        tbl.scope.form.hasRecord = true;
     });
 };
 
@@ -199,9 +195,11 @@ Table.prototype.clear = function () {
     while(this.records.length > this.minRecordCount){
         this.records.pop();
     }
-    for (var f in this.fields) {
-        this.records[0].fields[f].clearValues();
-    }
+    this.records.forEach(function (rec) {
+        for (var f in rec.fields) {
+            rec.fields[f].clearValue();
+        }
+    });
 };
 
 

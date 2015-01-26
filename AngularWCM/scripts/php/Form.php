@@ -29,8 +29,13 @@ if(isset($_POST["Function"]) || isset($_GET["Function"])){
         case "Query":
             $qry = $is_post ? $_POST["Query"] : $_GET["Query"];
             $params = $is_post ? $_POST["Params"] : $_GET["Params"];
-            $assoc = isset($_POST["ASSOC"]) ? $_POST["ASSOC"] : isset($_GET["ASSOC"]) ? $_GET["ASSOC"] : null;
-            $res = execute_query($qry, json_decode($params), (isset($assoc) ? PDO::FETCH_ASSOC : PDO::FETCH_NUM));
+            $assoc = null;
+            if(isset($_POST["ASSOC"])){
+                $assoc = $_POST["ASSOC"];
+            }else if(isset($_GET["ASSOC"])){
+                $assoc = $_GET["ASSOC"];
+            }
+            $res = execute_query($qry, json_decode($params), (($assoc != null) ? PDO::FETCH_ASSOC : PDO::FETCH_NUM));
             echo json_encode($res);
             break;
     }
@@ -149,6 +154,10 @@ function execute_query_upload_files_and_notify($query_func, $form, $success, $fa
             
             if($stmt->execute($query["Values"])){
                 echo $success."<br>";
+                //echo "<pre>";
+                //print_r($stmt->errorInfo());
+                //print_r($query);
+                //echo "</pre>";
                 $all_successful = $all_successful && true;
             }else{
                 echo $failure."<br>";
@@ -172,7 +181,7 @@ function execute_query_upload_files_and_notify($query_func, $form, $success, $fa
 function insert_notification($subject, $body, $table, $id){
     $is_new = ($id == null);
     $conn = get_connection("Safety");
-    $stmt = $conn->prepare("INSERT INTO Emails (New, Subj, Body, TableName, FormID) VALUES(?, ?, ?, ?, ".($is_new ? "(SELECT MAX({$table->PK}) FROM {$table->Table})" : "?").")");
+    $stmt = $conn->prepare("INSERT INTO Emails (New, Subj, Body, TableName, FormID) VALUES(?, ?, ?, ?, ".($is_new ? "(SELECT (MAX({$table->PK}) + 1) FROM {$table->Table})" : "?").")");
     $params = $is_new ? array(1, $subject, $body, $table->Table) : array(0, $subject, $body, $table->Table, $id);
     if($stmt->execute($params)){
         echo "Email query executed (Email will send in 0-5 minutes)<br>";
@@ -210,7 +219,8 @@ function prepare_updates($form){
                 $query = record_to_insert_sql($table, $record, array($table->PK));
                 $values = record_to_values($record, array($table->PK));
             } else {
-                $query = record_to_update_sql($table, $table->records[0], array($table->PK));
+                //$query = record_to_update_sql($table, $table->records[0], array($table->PK));
+                $query = record_to_update_sql($table, $record, array($table->PK));
                 $values = record_to_values($record, array());
             }
             $queries[] = array("Query" => ms_escape_string($query), "Values" => $values, "Table" => $table->Table);
@@ -308,8 +318,10 @@ function execute_query($query, $params, $fetch_type = PDO::FETCH_NUM) {
         send_error($stmt->errorInfo());
         return array();
     }
-        
-    if(!($rows = $stmt->fetchAll($fetch_type))){
+    
+    $rows = $stmt->fetchAll($fetch_type);
+    
+    if(!$rows){
         return array();
     }
 

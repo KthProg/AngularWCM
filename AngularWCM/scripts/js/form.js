@@ -4,9 +4,6 @@
     //$scope.records = [];
     $scope.fields = {};
 
-    $scope.isObject = angular.isObject;
-    $scope.isArray = angular.isArray;
-
     this.scope = $scope;
     this.http = $http;
     this.name = "";
@@ -48,12 +45,14 @@ Form.prototype.initialize = function (name, connection, tables, view, tableRecor
                                                         (f.IS_IDENTITY == "1"), 0);
         });
         form.getAllFKData();
-        form.scope.tables[form.mainTable].getMaxID();
-        form.scope.tables[form.mainTable].watchIDForOpen();
         form.addDefaultRecords();
         form.setDefaultValues(defaultValues);
+        form.scope.tables[form.mainTable].getMaxID();
+        form.scope.tables[form.mainTable].watchIDForOpen();
     });
-    this.setRightClickEventToSearch();
+    this.scope.$on('$viewContentLoaded', function () {
+        form.setRightClickEventToSearch();
+    });
     this.watchForImageUpload();
 };
 

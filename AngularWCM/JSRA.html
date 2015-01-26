@@ -1,0 +1,357 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Job Safety Risk Assessment</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
+    <script src="/scripts/js/wcm.js"></script>
+    <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
+
+    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/Normalize.css" />
+    <link rel="stylesheet" href="/css/Checklist.css" />
+
+    <style>
+        h1 {
+            color: darkorchid;
+        }
+
+        h3 {
+            background-color: darkorchid;
+        }
+
+        strong {
+            background-color: darkorchid;
+        }
+    </style>
+</head>
+<body ng-app="wcm"
+      ng-controller="Form"
+      ng-init="form.initialize('JSRA', 'Safety', ['JSRA', 'JSRALine', 'JSRAPPERequirements', 'JSRAPermits', 'JSRAPersonnel'], 'vWCC', {'JSRALine' : 56},
+   [{'table':'JSRALine','record':0,'field':'CategoryID','value':1},
+    {'table':'JSRALine','record':1,'field':'CategoryID','value':1},{'table':'JSRALine','record':2,'field':'CategoryID','value':1},
+    {'table':'JSRALine','record':3,'field':'CategoryID','value':1},{'table':'JSRALine','record':4,'field':'CategoryID','value':1},
+    {'table':'JSRALine','record':5,'field':'CategoryID','value':1},{'table':'JSRALine','record':6,'field':'CategoryID','value':1},
+    {'table':'JSRALine','record':7,'field':'CategoryID','value':1},{'table':'JSRALine','record':8,'field':'CategoryID','value':1},
+    {'table':'JSRALine','record':9,'field':'CategoryID','value':1},{'table':'JSRALine','record':10,'field':'CategoryID','value':1},
+    {'table':'JSRALine','record':11,'field':'CategoryID','value':1},{'table':'JSRALine','record':12,'field':'CategoryID','value':1},
+    {'table':'JSRALine','record':13,'field':'CategoryID','value':2},{'table':'JSRALine','record':14,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':15,'field':'CategoryID','value':2},{'table':'JSRALine','record':16,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':17,'field':'CategoryID','value':2},{'table':'JSRALine','record':18,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':19,'field':'CategoryID','value':2},{'table':'JSRALine','record':20,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':21,'field':'CategoryID','value':2},{'table':'JSRALine','record':22,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':23,'field':'CategoryID','value':2},{'table':'JSRALine','record':24,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':25,'field':'CategoryID','value':2},{'table':'JSRALine','record':26,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':27,'field':'CategoryID','value':2},{'table':'JSRALine','record':28,'field':'CategoryID','value':2},
+    {'table':'JSRALine','record':29,'field':'CategoryID','value':3},{'table':'JSRALine','record':30,'field':'CategoryID','value':3},
+    {'table':'JSRALine','record':31,'field':'CategoryID','value':3},{'table':'JSRALine','record':32,'field':'CategoryID','value':3},
+    {'table':'JSRALine','record':33,'field':'CategoryID','value':4},{'table':'JSRALine','record':34,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':35,'field':'CategoryID','value':4},{'table':'JSRALine','record':36,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':37,'field':'CategoryID','value':4},{'table':'JSRALine','record':38,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':39,'field':'CategoryID','value':4},{'table':'JSRALine','record':40,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':41,'field':'CategoryID','value':4},{'table':'JSRALine','record':42,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':43,'field':'CategoryID','value':4},{'table':'JSRALine','record':44,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':45,'field':'CategoryID','value':4},{'table':'JSRALine','record':46,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':47,'field':'CategoryID','value':4},{'table':'JSRALine','record':48,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':49,'field':'CategoryID','value':4},{'table':'JSRALine','record':50,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':51,'field':'CategoryID','value':4},{'table':'JSRALine','record':52,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':53,'field':'CategoryID','value':4},{'table':'JSRALine','record':54,'field':'CategoryID','value':4},
+    {'table':'JSRALine','record':55,'field':'CategoryID','value':4},{'table':'JSRALine','record':0,'field':'SubCategoryID','value':1},
+    {'table':'JSRALine','record':1,'field':'SubCategoryID','value':2},{'table':'JSRALine','record':2,'field':'SubCategoryID','value':3},
+    {'table':'JSRALine','record':3,'field':'SubCategoryID','value':4},{'table':'JSRALine','record':4,'field':'SubCategoryID','value':5},
+    {'table':'JSRALine','record':5,'field':'SubCategoryID','value':6},{'table':'JSRALine','record':6,'field':'SubCategoryID','value':7},
+    {'table':'JSRALine','record':7,'field':'SubCategoryID','value':8},{'table':'JSRALine','record':8,'field':'SubCategoryID','value':9},
+    {'table':'JSRALine','record':9,'field':'SubCategoryID','value':10},{'table':'JSRALine','record':10,'field':'SubCategoryID','value':11},
+    {'table':'JSRALine','record':11,'field':'SubCategoryID','value':12},{'table':'JSRALine','record':12,'field':'SubCategoryID','value':13},
+    {'table':'JSRALine','record':13,'field':'SubCategoryID','value':14},{'table':'JSRALine','record':14,'field':'SubCategoryID','value':15},
+    {'table':'JSRALine','record':15,'field':'SubCategoryID','value':16},{'table':'JSRALine','record':16,'field':'SubCategoryID','value':17},
+    {'table':'JSRALine','record':17,'field':'SubCategoryID','value':18},{'table':'JSRALine','record':18,'field':'SubCategoryID','value':19},
+    {'table':'JSRALine','record':19,'field':'SubCategoryID','value':20},{'table':'JSRALine','record':20,'field':'SubCategoryID','value':21},
+    {'table':'JSRALine','record':21,'field':'SubCategoryID','value':22},{'table':'JSRALine','record':22,'field':'SubCategoryID','value':23},
+    {'table':'JSRALine','record':23,'field':'SubCategoryID','value':24},{'table':'JSRALine','record':24,'field':'SubCategoryID','value':25},
+    {'table':'JSRALine','record':25,'field':'SubCategoryID','value':26},{'table':'JSRALine','record':26,'field':'SubCategoryID','value':27},
+    {'table':'JSRALine','record':27,'field':'SubCategoryID','value':28},{'table':'JSRALine','record':28,'field':'SubCategoryID','value':29},
+    {'table':'JSRALine','record':29,'field':'SubCategoryID','value':30},{'table':'JSRALine','record':30,'field':'SubCategoryID','value':31},
+    {'table':'JSRALine','record':31,'field':'SubCategoryID','value':32},{'table':'JSRALine','record':32,'field':'SubCategoryID','value':33},
+    {'table':'JSRALine','record':33,'field':'SubCategoryID','value':34},{'table':'JSRALine','record':34,'field':'SubCategoryID','value':35},
+    {'table':'JSRALine','record':35,'field':'SubCategoryID','value':36},{'table':'JSRALine','record':36,'field':'SubCategoryID','value':37},
+    {'table':'JSRALine','record':37,'field':'SubCategoryID','value':38},{'table':'JSRALine','record':38,'field':'SubCategoryID','value':39},
+    {'table':'JSRALine','record':39,'field':'SubCategoryID','value':40},{'table':'JSRALine','record':40,'field':'SubCategoryID','value':41},
+    {'table':'JSRALine','record':41,'field':'SubCategoryID','value':42},{'table':'JSRALine','record':42,'field':'SubCategoryID','value':43},
+    {'table':'JSRALine','record':43,'field':'SubCategoryID','value':44},{'table':'JSRALine','record':44,'field':'SubCategoryID','value':45},
+    {'table':'JSRALine','record':45,'field':'SubCategoryID','value':46},{'table':'JSRALine','record':46,'field':'SubCategoryID','value':47},
+    {'table':'JSRALine','record':47,'field':'SubCategoryID','value':48},{'table':'JSRALine','record':48,'field':'SubCategoryID','value':49},
+    {'table':'JSRALine','record':49,'field':'SubCategoryID','value':50},{'table':'JSRALine','record':50,'field':'SubCategoryID','value':51},
+    {'table':'JSRALine','record':51,'field':'SubCategoryID','value':52},{'table':'JSRALine','record':52,'field':'SubCategoryID','value':53},
+    {'table':'JSRALine','record':53,'field':'SubCategoryID','value':54},{'table':'JSRALine','record':54,'field':'SubCategoryID','value':55},
+    {'table':'JSRALine','record':55,'field':'SubCategoryID','value':56},{'table':'JSRALine','record':0,'field':'DetailsID','value':1},
+    {'table':'JSRALine','record':1,'field':'DetailsID','value':2},{'table':'JSRALine','record':2,'field':'DetailsID','value':3},
+    {'table':'JSRALine','record':3,'field':'DetailsID','value':4},{'table':'JSRALine','record':4,'field':'DetailsID','value':5},
+    {'table':'JSRALine','record':5,'field':'DetailsID','value':6},{'table':'JSRALine','record':6,'field':'DetailsID','value':7},
+    {'table':'JSRALine','record':7,'field':'DetailsID','value':8},{'table':'JSRALine','record':8,'field':'DetailsID','value':9},
+    {'table':'JSRALine','record':9,'field':'DetailsID','value':10},{'table':'JSRALine','record':10,'field':'DetailsID','value':11},
+    {'table':'JSRALine','record':11,'field':'DetailsID','value':12},{'table':'JSRALine','record':12,'field':'DetailsID','value':13},
+    {'table':'JSRALine','record':13,'field':'DetailsID','value':14},{'table':'JSRALine','record':14,'field':'DetailsID','value':15},
+    {'table':'JSRALine','record':15,'field':'DetailsID','value':16},{'table':'JSRALine','record':16,'field':'DetailsID','value':17},
+    {'table':'JSRALine','record':17,'field':'DetailsID','value':18},{'table':'JSRALine','record':18,'field':'DetailsID','value':19},
+    {'table':'JSRALine','record':19,'field':'DetailsID','value':20},{'table':'JSRALine','record':20,'field':'DetailsID','value':21},
+    {'table':'JSRALine','record':21,'field':'DetailsID','value':22},{'table':'JSRALine','record':22,'field':'DetailsID','value':23},
+    {'table':'JSRALine','record':23,'field':'DetailsID','value':24},{'table':'JSRALine','record':24,'field':'DetailsID','value':25},
+    {'table':'JSRALine','record':25,'field':'DetailsID','value':26},{'table':'JSRALine','record':26,'field':'DetailsID','value':27},
+    {'table':'JSRALine','record':27,'field':'DetailsID','value':28},{'table':'JSRALine','record':28,'field':'DetailsID','value':29},
+    {'table':'JSRALine','record':29,'field':'DetailsID','value':30},{'table':'JSRALine','record':30,'field':'DetailsID','value':31},
+    {'table':'JSRALine','record':31,'field':'DetailsID','value':32},{'table':'JSRALine','record':32,'field':'DetailsID','value':33},
+    {'table':'JSRALine','record':33,'field':'DetailsID','value':34},{'table':'JSRALine','record':34,'field':'DetailsID','value':35},
+    {'table':'JSRALine','record':35,'field':'DetailsID','value':36},{'table':'JSRALine','record':36,'field':'DetailsID','value':37},
+    {'table':'JSRALine','record':37,'field':'DetailsID','value':38},{'table':'JSRALine','record':38,'field':'DetailsID','value':39},
+    {'table':'JSRALine','record':39,'field':'DetailsID','value':40},{'table':'JSRALine','record':40,'field':'DetailsID','value':41},
+    {'table':'JSRALine','record':41,'field':'DetailsID','value':42},{'table':'JSRALine','record':42,'field':'DetailsID','value':43},
+    {'table':'JSRALine','record':43,'field':'DetailsID','value':44},{'table':'JSRALine','record':44,'field':'DetailsID','value':45},
+    {'table':'JSRALine','record':45,'field':'DetailsID','value':46},{'table':'JSRALine','record':46,'field':'DetailsID','value':47},
+    {'table':'JSRALine','record':47,'field':'DetailsID','value':48},{'table':'JSRALine','record':48,'field':'DetailsID','value':49},
+    {'table':'JSRALine','record':49,'field':'DetailsID','value':50},{'table':'JSRALine','record':50,'field':'DetailsID','value':51},
+    {'table':'JSRALine','record':51,'field':'DetailsID','value':52},{'table':'JSRALine','record':52,'field':'DetailsID','value':53},
+    {'table':'JSRALine','record':53,'field':'DetailsID','value':54},{'table':'JSRALine','record':54,'field':'DetailsID','value':55},
+    {'table':'JSRALine','record':55,'field':'DetailsID','value':56}])">
+    <table>
+        <!-- <tr>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+            <td width="6.25%"></td>
+        </tr> -->
+        <tr></tr>
+        <tr>
+            <style>
+                [name*='[\'ID\']'] input {
+                    background-color: inherit;
+                    border: none;
+                    color: darkorchid;
+                }
+            </style>
+            <td colspan="16"><h1>JSRA Number <field name="tables['JSRA'].records[0].fields['ID']"></field></h1></td>
+        </tr>
+        <tr>
+            <td colspan="16">
+                <div class="inputPlusLabel">
+                    <strong>Date</strong>
+                    <field name="tables['JSRA'].records[0].fields['JSRADate']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Plant</strong>
+                    <field name="tables['JSRA'].records[0].fields['PlantID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Department</strong>
+                    <field name="tables['JSRA'].records[0].fields['DepartmentID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Zone</strong>
+                    <field name="tables['JSRA'].records[0].fields['ZoneID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Work Cell</strong>
+                    <field name="tables['JSRA'].records[0].fields['WorkCellID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Machine</strong>
+                    <field name="tables['JSRA'].records[0].fields['MachineID']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Shift</strong>
+                    <field name="tables['JSRA'].records[0].fields['Shift']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Supervisor</strong>
+                    <field name="tables['JSRA'].records[0].fields['SupervisorID']"></field>
+                </div>
+                <style>
+                    [name*='TaskAnalyzed'] textarea {
+                        height: 1.7em;
+                        width: 9.8em;
+                    }
+                </style>
+
+                <div class="inputPlusLabel">
+                    <strong>Task Analyzed</strong>
+                    <field name="tables['JSRA'].records[0].fields['TaskAnalyzed']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>SMP / WO Number</strong>
+                    <field name="tables['JSRA'].records[0].fields['SMPOrWONumber']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Number of Trades</strong>
+                    <field name="tables['JSRA'].records[0].fields['NumberOfTrades']"></field>
+                </div>
+                <div class="inputPlusLabel">
+                    <strong>Total Hours</strong>
+                    <field name="tables['JSRA'].records[0].fields['TotalHours']"></field>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="16" style="background-color: orchid; border-top: 1px dashed black;">Step 1 - Determine what risks are present while performing task</td>
+        </tr>
+        <tr>
+            <td colspan="6"><h2>Risk Type</h2></td>
+            <td colspan="8"><h2>Risk Description</h2></td>
+            <td colspan="2"><h2>Applies</h2></td>
+        </tr>
+        <tr ng-repeat-start="rec in tables['JSRALine'].records track by $index" class="header">
+            <td colspan="16">
+                <h3>
+                    {{( rec.fields['CategoryID'].value != tables['JSRALine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].options[rec.fields['CategoryID'].value]  : ''}}
+                </h3>
+            </td>
+        </tr>
+        <tr></tr>
+        <tr ng-repeat-end>
+            <td colspan="6">
+                {{rec.fields['SubCategoryID'].options[rec.fields['SubCategoryID'].value]}}
+            </td>
+            <td colspan="8">
+                {{rec.fields['DetailsID'].options[rec.fields['DetailsID'].value]}}
+            </td>
+            <td colspan="2">
+                <field name="rec.fields['Applies']"></field>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="16" style="background-color: orchid; border-top: 1px dashed black;">Step 2 - Determine risk score and identify a corrective action</td>
+        </tr>
+        <tr ng-repeat-start="rec in tables['JSRALine'].records track by $index" ng-show="rec.fields['Applies'].value == 1">
+            <td colspan="16">
+                <h3>{{$index + 1}}. {{rec.fields['SubCategoryID'].options[rec.fields['SubCategoryID'].value]}}</h3>
+            </td>
+        </tr>
+        <tr style="background-color: orchid;" ng-show="rec.fields['Applies'].value == 1">
+            <td colspan="4">Controllable</td>
+            <td colspan="4">Pre-Severity</td>
+            <td colspan="4">Pre-Probability</td>
+            <td colspan="4">Pre-Mitigation</td>
+        </tr>
+        <tr ng-show="rec.fields['Applies'].value == 1">
+            <td colspan="4"><field name="rec.fields['Controllable']"></field></td>
+            <td colspan="4"><field name="rec.fields['PreSeverity']" options="{1 : 'No near misses have occurred, injury is unlikely', 2 : 'Near miss has occurred / first aid possible', 3 : 'First aid has occurred / recordable is possible', 4 : 'Recordable injury has occurred / serious injury is possible', 5 : 'Serious injury resulting in lost time has occurred'}"></field></td>
+            <td colspan="4"><field name="rec.fields['PreProbability']" options="{1 : 'Worker is not subjected to any risk of injury', 2 : 'There is a slight chance of injury to the worker', 3 : 'The worker will be injured if no counter-measures are implemented'}"></field></td>
+            <td colspan="4"><field name="rec.fields['PreMitigation']" options="{1 : 'Controls meet or exceed standards', 2 : 'Current controls are not sufficient', 3 : 'No controls exist - operator is exposed to hazard'}"></field></td>
+        </tr>
+        <tr style="background-color: orchid;" ng-show="rec.fields['Applies'].value == 1">
+            <td colspan="4">Corrective Action</td>
+            <td colspan="4">Post-Severity</td>
+            <td colspan="4">Post-Probability</td>
+            <td colspan="4">Post-Mitigation</td>
+        </tr>
+        <tr ng-repeat-end ng-show="rec.fields['Applies'].value == 1">
+            <td colspan="4"><field name="rec.fields['ActionTaken']"></field></td>
+            <td colspan="4"><field name="rec.fields['PostSeverity']" options="{1 : 'No near misses have occurred, injury is unlikely', 2 : 'Near miss has occurred / first aid possible', 3 : 'First aid has occurred / recordable is possible', 4 : 'Recordable injury has occurred / serious injury is possible', 5 : 'Serious injury resulting in lost time has occurred'}"></field></td>
+            <td colspan="4"><field name="rec.fields['PostProbability']" options="{1 : 'Worker is not subjected to any risk of injury', 2 : 'There is a slight chance of injury to the worker', 3 : 'The worker will be injured if no counter-measures are implemented'}"></field></td>
+            <td colspan="4"><field name="rec.fields['PostMitigation']" options="{1 : 'Controls meet or exceed standards', 2 : 'Current controls are not sufficient', 3 : 'No controls exist - operator is exposed to hazard'}"></field></td>
+        </tr>
+        <tr style="background-color: slategrey">
+            <td style="color: white" colspan="16">
+                Permits Required
+            </td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                Name of Permit
+            </td>
+            <td colspan="3">
+                Required
+            </td>
+            <td colspan="3">
+                Acquired
+            </td>
+        </tr>
+        <tr ng-repeat="rec in tables['JSRAPermits'].records">
+            <td colspan="10"><field name="rec.fields['PermitName']"></field></td>
+            <td colspan="3"><field name="rec.fields['PermitRequired']"></field></td>
+            <td colspan="3"><field name="rec.fields['PermitAcquired']"></field></td>
+        </tr>
+        <tr>
+            <td>
+                <button ng-click="tables['JSRAPermits'].copyRecord(0)">Add Permit</button>
+            </td>
+        </tr>
+        <tr style="background-color: steelblue">
+            <td style="color: white" colspan="16">PPE Requirements</td>
+        </tr>
+        <tr ng-repeat="rec in tables['JSRAPPERequirements'].records">
+            <td colspan="16">
+                <field name="rec.fields['PPEID']"></field>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="16">
+                <button ng-click="tables['JSRAPPERequirements'].copyRecord(0)">Add PPE</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                Name
+            </td>
+            <td colspan="5">
+                Signature
+            </td>
+            <td colspan="2">
+                Time In
+            </td>
+            <td colspan="2">
+                Time Out
+            </td>
+            <td colspan="2">
+                Hours
+            </td>
+        </tr>
+        <tr ng-repeat="rec in tables['JSRAPersonnel'].records">
+            <td colspan="5">
+                {{rec.fields['JSRAID'].value}}
+                <field name="rec.fields['Name']"></field>
+            </td>
+            <td colspan="5">
+                <field name="rec.fields['Signature']"></field>
+            </td>
+            <td colspan="2">
+                <field name="rec.fields['TimeIn']"></field>
+            </td>
+            <td colspan="2">
+                <field name="rec.fields['TimeOut']"></field>
+            </td>
+            <td colspan="2">
+                {{rec.fields['TimeOut'].value.getHours() - rec.fields['TimeIn'].value.getHours()}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="16">
+                <button ng-click="tables['JSRAPersonnel'].copyRecord(0)">Add Person</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="16">
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
+                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

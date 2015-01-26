@@ -205,7 +205,8 @@
             async: false,
             data: {
                 Query: query,
-                Params: "[]"
+                Params: "[]",
+                Function: "Query"
             },
             dataType: "json",
             success: function (data) {

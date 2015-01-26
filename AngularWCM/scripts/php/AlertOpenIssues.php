@@ -10,13 +10,14 @@ if($stmt->execute()){
 		if($email["SupervisorName"] == $last_supervisor){
 			$body.= 
 <<<EOT
-$email[rank] .
-$email[Name] number $email[ID] on line $email[LineNum],
-issue: $email[LineItem], details: $email[Details],
-location: $email[Department] - $email[Zone] - $email[Machine],
-days open: $email[DaysOpen], severity: $email[Severity],
-compliancy type: $email[Compliancy]
-<br>
+$email[rank] . $email[Name] number $email[ID].$email[LineNum]<br>
+Issue: $email[LineItem]<br>
+Details: $email[Details]<br>
+Location: $email[Department] - $email[Zone] - $email[Machine]<br>
+Days Open: $email[DaysOpen]<br>
+Severity: $email[Severity]<br>
+Compliancy: $email[Compliancy]<br>
+<br><br>
 EOT;
 		} else {
 			notify($last_supervisor_email, $body, $conn);
@@ -30,16 +31,17 @@ please take care of these issues as soon as possible. You may have less than ten
 Visit http://192.9.200.62/Dashboard/Issues.html in your internet browser to view your issues.
 Select your name from the supervisors drop-down then press 'apply' to filter.<br><br>
 
-To close and issue, click on the checkbox for that issue. You will be prompted to enter the
-action taken to close the issue. Once the action is entered, the issue is closed.
+To close an issue, click on the checkbox for that issue. You will be prompted to enter the
+action taken to close the issue. Once the action is entered, the issue is closed.<br><br>
 				
-$email[rank] .
-$email[Name] number $email[ID] on line $email[LineNum],
-issue: $email[LineItem], details: $email[Details],
-location: $email[Department] - $email[Zone] - $email[Machine],
-days open: $email[DaysOpen], severity: $email[Severity],
-compliancy type: $email[Compliancy]
-<br>
+$email[rank] . $email[Name] number $email[ID].$email[LineNum]<br>
+Issue: $email[LineItem]<br>
+Details: $email[Details]<br>
+Location: $email[Department] - $email[Zone] - $email[Machine]<br>
+Days Open: $email[DaysOpen]<br>
+Severity: $email[Severity]<br>
+Compliancy: $email[Compliancy]<br>
+<br><br>
 EOT;
 		}
 		$last_supervisor = $email["SupervisorName"];

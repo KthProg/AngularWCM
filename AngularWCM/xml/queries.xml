@@ -621,12 +621,15 @@
       </parameter>
     </parameters>
   </query>
-<query name="LPAAuditsByAuditor">
+<query name="LPAAuditsByAuditorThisWeek">
   <connection>Safety</connection>
   <qstring>
-    SELECT AuditorName, COUNT(*) AS Audits
-    FROM vLPA
-    GROUP BY AuditorName
+    SELECT au.AuditorName, COUNT(*) AS Audits
+    FROM LPA l
+	    JOIN Auditor au
+		    ON au.ID = l.AuditorID
+    WHERE DATEPART(wk, l.AuditDate)=DATEPART(wk, GETDATE())
+    GROUP BY au.AuditorName
   </qstring>
 </query>
 </queries>

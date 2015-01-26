@@ -19,7 +19,6 @@
     <Compile Include="BlueTag.html" />
     <Compile Include="Dashboard\Chart.php" />
     <Compile Include="EWO.html" />
-    <Compile Include="JSA.html" />
     <Compile Include="LPA.html" />
     <Compile Include="Dashboard\Issues.html" />
     <Compile Include="EHS.html" />
@@ -65,6 +64,7 @@
     <Content Include="Dashboard\PM.html" />
     <Content Include="Dashboard\LO.html" />
     <Content Include="Dashboard\SA.html" />
+    <Content Include="JSRA.html" />
     <Content Include="res\5t.gif" />
     <Content Include="res\am_header.png" />
     <Content Include="res\bluetag.gif" />

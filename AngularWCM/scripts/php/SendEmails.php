@@ -7,7 +7,7 @@ require_once("Form.php");
 
 $MOUND_CONTACTS = array("jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com","newberry@ventureglobalengineering.com");
 $DEFAULT_CONTACTS = array(
-    "ESEWOs" => array("phelps@njt-na.com")
+    "ESEWOs" => array("phelps@njt-na.com", "pittam@mayco-mi.com")
     );
 $GREG_AND_I = array("hooks@njt-na.com","gwilloughby@mayco-mi.com");
 

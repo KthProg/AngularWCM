@@ -63,32 +63,12 @@ Field.prototype.clearValue = function () {
 
 Field.prototype.format = function () {
     this.value = Formatter.stringToJSObj(this.value, this.type);
-    this.value = this.preventNullsIfNeccessary(this.value);
-};
-
-Field.prototype.preventNullsIfNeccessary = function (val) {
-    // prevent null values on
-    // non-nullable fields
-    if (val == null) {
-        if (!this.nullable) {
-            return Formatter.stringToJSObj("", this.type);
-        }
-        if (this.bindingType == "options") {
-            // the table from which this field derives it's values
-            // must specify a record with a PK value of -1
-            // and a default value in case a value is not selected
-            // null would be used, but SQL Server does not allow
-            // nulls as PK values, despite being part of the ANSI
-            // SQL standard, -1 is a substitute
-            return -1;
-        }
-    }
-    return val;
+    this.value = Formatter.preventNullsIfNeccessary(this.value, this.type, this.bindingType, this.nullable);
 };
 
 Field.prototype.getAsString = function () {
     var val = Formatter.jsObjToString(this.value, this.type);
-    val = this.preventNullsIfNeccessary(val);
+    val = Formatter.preventNullsIfNeccessary(this.value, this.type, this.bindingType, this.nullable);
     return val;
 };
 
@@ -250,22 +230,30 @@ Field.prototype.getFKTableInfo = function () {
 Field.prototype.watchDependency = function () {
     if (!this.boundField) { return false; }
     var field = this;
-    var watchText = "tables['" + this.boundField.table + "'].records[" + this.recNum + "].fields['" + this.boundField.name + "'].value"
-    if (this.bindingType == "options") {
-        (function (f, wt) {
-            field.scope.$watch(wt,
-                function (n) {
-                    f.getOptions(n);
-                });
-        })(field, watchText);
-        return true;
-    } else if (this.bindingType == "values") {
-        (function (f, wt) {
-            field.scope.$watch(wt,
-                function (n) {
-                    f.value = n;
-                });
-        })(field, watchText);
+    
+    if (this.boundField.table != undefined
+        && this.recNum != undefined
+        && this.boundField.name != undefined) {
+        var watchText = "tables['" + this.boundField.table + "'].records[" + this.recNum + "].fields['" + this.boundField.name + "'].value";
+        if (!field.scope.$eval(watchText)) {
+            watchText = "tables['" + this.boundField.table + "'].records[0].fields['" + this.boundField.name + "'].value";
+        }
+        if (this.bindingType == "options") {
+            (function (f, wt) {
+                field.scope.$watch(wt,
+                    function (n) {
+                        f.getOptions(n);
+                    });
+            })(field, watchText);
+            return true;
+        } else if (this.bindingType == "values") {
+            (function (f, wt) {
+                field.scope.$watch(wt,
+                    function (n) {
+                        f.value = n;
+                    });
+            })(field, watchText);
+        }
     }
 };
 
@@ -330,7 +318,7 @@ app.directive('field', function () {
     template += '<option ng-if="ops.length" ng-repeat="(k,v) in ops" value="{{v}}">{{v}}</option>';
     template += '<option ng-if="!ops.length" ng-repeat="(k,v) in ops" value="{{k}}">{{v}}</option>';
     template += '</select>';
-    template += '<textarea ng-if="field.bindingType != \'options\' && !ops && ([\'text\',\'ntext\',\'nvarchar\',\'varchar\'].indexOf(field.type) > -1)" ng-model="field.value"></textarea>';
+    template += '<textarea ng-if="field.bindingType != \'options\' && !ops && ([\'text\',\'ntext\',\'nvarchar\',\'varchar\'].indexOf(field.type) > -1)" placeholder="{{field.name}}" ng-model="field.value"></textarea>';
     template += '<input ng-if="field.bindingType != \'options\' && !ops && ([\'double\',\'float\',\'int\',\'money\'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" />';
     template += '<input ng-if="field.bindingType != \'options\' && !ops && field.type == \'bit\'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" />';
     template += '<input ng-if="field.bindingType != \'options\' && !ops && field.type == \'date\'" type="date" ng-model="field.value" />';

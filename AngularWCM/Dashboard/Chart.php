@@ -252,7 +252,7 @@
                 </optgroup>
                 <optgroup label="QA"></optgroup>
                 <optgroup label="LPA">
-                    <option value="LPAAuditsByAuditor" data-firstcol="AuditorName">LPAs by Auditor</option>
+                    <option value="LPAAuditsByAuditorThisWeek" data-firstcol="AuditorName">LPAs by Auditor this Week</option>
                 </optgroup>
             </select>
             <select id="chart_type">
