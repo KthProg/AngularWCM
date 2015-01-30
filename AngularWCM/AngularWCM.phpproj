@@ -32,6 +32,7 @@
     <Compile Include="scripts\php\smtp\class.phpmailer.php" />
     <Compile Include="scripts\php\smtp\class.smtp.php" />
     <Compile Include="scripts\php\smtp\PHPMailerAutoload.php" />
+    <Compile Include="scripts\php\ValidateOfficeLogin.php" />
     <Compile Include="ToolRepair.html" />
     <Compile Include="UCAN.html" />
     <Compile Include="UnsafeAct.html" />
@@ -40,6 +41,7 @@
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="Dashboard\" />
+    <Folder Include="templates\" />
     <Folder Include="res\" />
     <Folder Include="scripts\php\smtp\" />
     <Folder Include="xml\" />
@@ -88,6 +90,7 @@
     <Content Include="res\fi.gif" />
     <Content Include="res\fi_header.png" />
     <Content Include="res\jsa.gif" />
+    <Content Include="res\jsra.png" />
     <Content Include="res\lo.gif" />
     <Content Include="res\LO_main.jpg" />
     <Content Include="res\lpa.gif" />
@@ -116,7 +119,9 @@
     <Content Include="scripts\js\chart.js" />
     <Content Include="scripts\js\wcm.js" />
     <Content Include="scripts\js\issue.js" />
-    <Content Include="test.html" />
+    <Content Include="templates\imageupload.html" />
+    <Content Include="templates\sketch.html" />
+    <Content Include="templates\field.html" />
     <Content Include="xml\connections.xml" />
     <Content Include="xml\queries.xml" />
   </ItemGroup>

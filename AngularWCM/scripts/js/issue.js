@@ -77,14 +77,12 @@
     };
 
     $scope.filterResponse = function (resp) {
-        resp = resp.filter(function (n) {
+        return resp.filter(function (n) {
             return Object.keys($scope.filter).reduce(function (prev, el) {
-                if (!$scope.filter[el]) { return true; }
+                if (!$scope.filter[el]) { return prev && true; }
                 return prev && (n[el] == undefined || n[el] == $scope.filter[el]);
             }, true);
         });
-        console.log(resp);
-        return resp;
     };
 
     $scope.openIssue = function (name, id, subcategory) {

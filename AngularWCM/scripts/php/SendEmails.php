@@ -7,7 +7,8 @@ require_once("Form.php");
 
 $MOUND_CONTACTS = array("jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com","newberry@ventureglobalengineering.com");
 $DEFAULT_CONTACTS = array(
-    "ESEWOs" => array("phelps@njt-na.com", "pittam@mayco-mi.com")
+    "ESEWOs" => array("phelps@njt-na.com", "pittam@mayco-mi.com", "mbommarito@mayco-mi.com"),
+    "ToolIssues" => array("thomason@mayco-mi.com")
     );
 $GREG_AND_I = array("hooks@njt-na.com","gwilloughby@mayco-mi.com");
 
@@ -17,37 +18,23 @@ foreach($emails as $email){
 	$location = get_location_fields($table_info);
     $pk = get_pk($table_info);
     $contacts = execute_query("GetContactsFromTableAndID", array($email["TableName"], $location["Plants"], $location["Departments"], $location["Zones"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
-    //echo "<pre>";
-    //print_r($contacts);
-    //echo"</pre>";
     $contacts_arr = array_map(function($el){
         return $el["SupervisorEmail"];
     }, $contacts);
-    //echo "<pre>";
-    //print_r($contacts_arr);
-    //echo"</pre>";
     
+    $record_info = execute_query("GetRecord", array($email["TableName"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
     //add mound contacts if a new tool repair form
-    if($email["TableName"] == "ToolIssues" && $email["New"] == 1){
+    if($email["TableName"] == "ToolIssues" && $email["New"] == 1 && $record_info[0]["RepairedLocation"] == "Mound"){
         $contacts_arr = array_merge($contacts_arr, $MOUND_CONTACTS);
     }
-    //echo "<pre>";
-    //print_r($contacts_arr);
-    //echo"</pre>";
     
     //add any default contacts
     if(isset($DEFAULT_CONTACTS[$email["TableName"]])){
         $contacts_arr = array_merge($contacts_arr, $DEFAULT_CONTACTS[$email["TableName"]]);
     }
-    //echo "<pre>";
-    //print_r($contacts_arr);
-    //echo"</pre>";
     
     //add me and greg
     $contacts_arr = array_merge($contacts_arr, $GREG_AND_I);
-    //echo "<pre>";
-    //print_r($contacts_arr);
-    //echo"</pre>";
     
     send_email($email, $contacts_arr);
 }

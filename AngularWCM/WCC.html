@@ -35,63 +35,28 @@
 <body ng-app="wcm"
       ng-controller="Form"
       ng-init="form.initialize('WCC', 'Safety', ['WCC', 'WCCLine'], 'vWCC', {'WCCLine' : 37},
-    [{'table':'WCCLine','record':0,'field':'SubCategoryID','value':1},{'table':'WCCLine','record':1,'field':'SubCategoryID','value':2},
-    {'table':'WCCLine','record':2,'field':'SubCategoryID','value':3},{'table':'WCCLine','record':3,'field':'SubCategoryID','value':5},
-    {'table':'WCCLine','record':4,'field':'SubCategoryID','value':6},{'table':'WCCLine','record':5,'field':'SubCategoryID','value':4},
-    {'table':'WCCLine','record':6,'field':'SubCategoryID','value':7},{'table':'WCCLine','record':7,'field':'SubCategoryID','value':8},
-    {'table':'WCCLine','record':8,'field':'SubCategoryID','value':9},{'table':'WCCLine','record':9,'field':'SubCategoryID','value':15},
-    {'table':'WCCLine','record':10,'field':'SubCategoryID','value':10},{'table':'WCCLine','record':11,'field':'SubCategoryID','value':11},
-    {'table':'WCCLine','record':12,'field':'SubCategoryID','value':12},{'table':'WCCLine','record':13,'field':'SubCategoryID','value':13},
-    {'table':'WCCLine','record':14,'field':'SubCategoryID','value':14},{'table':'WCCLine','record':15,'field':'SubCategoryID','value':56},
-    {'table':'WCCLine','record':16,'field':'SubCategoryID','value':58},{'table':'WCCLine','record':17,'field':'SubCategoryID','value':59},
-    {'table':'WCCLine','record':18,'field':'SubCategoryID','value':64},{'table':'WCCLine','record':19,'field':'SubCategoryID','value':65},
-    {'table':'WCCLine','record':20,'field':'SubCategoryID','value':66},{'table':'WCCLine','record':21,'field':'SubCategoryID','value':67},
-    {'table':'WCCLine','record':22,'field':'SubCategoryID','value':61},{'table':'WCCLine','record':23,'field':'SubCategoryID','value':62},
-    {'table':'WCCLine','record':24,'field':'SubCategoryID','value':63},{'table':'WCCLine','record':25,'field':'SubCategoryID','value':53},
-    {'table':'WCCLine','record':26,'field':'SubCategoryID','value':54},{'table':'WCCLine','record':27,'field':'SubCategoryID','value':55},
-    {'table':'WCCLine','record':28,'field':'SubCategoryID','value':50},{'table':'WCCLine','record':29,'field':'SubCategoryID','value':51},
-    {'table':'WCCLine','record':30,'field':'SubCategoryID','value':52},{'table':'WCCLine','record':31,'field':'SubCategoryID','value':44},
-    {'table':'WCCLine','record':32,'field':'SubCategoryID','value':45},{'table':'WCCLine','record':33,'field':'SubCategoryID','value':46},
-    {'table':'WCCLine','record':34,'field':'SubCategoryID','value':47},{'table':'WCCLine','record':35,'field':'SubCategoryID','value':48},
-    {'table':'WCCLine','record':36,'field':'SubCategoryID','value':49},
-    {'table':'WCCLine','record':0,'field':'CategoryID','value':1},{'table':'WCCLine','record':1,'field':'CategoryID','value':1},
-    {'table':'WCCLine','record':2,'field':'CategoryID','value':1},{'table':'WCCLine','record':3,'field':'CategoryID','value':1},
-    {'table':'WCCLine','record':4,'field':'CategoryID','value':1},{'table':'WCCLine','record':5,'field':'CategoryID','value':1},
-    {'table':'WCCLine','record':6,'field':'CategoryID','value':2},{'table':'WCCLine','record':7,'field':'CategoryID','value':2},
-    {'table':'WCCLine','record':8,'field':'CategoryID','value':2},{'table':'WCCLine','record':9,'field':'CategoryID','value':2},
-    {'table':'WCCLine','record':10,'field':'CategoryID','value':2},{'table':'WCCLine','record':11,'field':'CategoryID','value':2},
-    {'table':'WCCLine','record':12,'field':'CategoryID','value':2},{'table':'WCCLine','record':13,'field':'CategoryID','value':2},
-    {'table':'WCCLine','record':14,'field':'CategoryID','value':2},{'table':'WCCLine','record':15,'field':'CategoryID','value':3},
-    {'table':'WCCLine','record':16,'field':'CategoryID','value':3},{'table':'WCCLine','record':17,'field':'CategoryID','value':4},
-    {'table':'WCCLine','record':18,'field':'CategoryID','value':4},{'table':'WCCLine','record':19,'field':'CategoryID','value':4},
-    {'table':'WCCLine','record':20,'field':'CategoryID','value':4},{'table':'WCCLine','record':21,'field':'CategoryID','value':4},
-    {'table':'WCCLine','record':22,'field':'CategoryID','value':4},{'table':'WCCLine','record':23,'field':'CategoryID','value':4},
-    {'table':'WCCLine','record':24,'field':'CategoryID','value':4},{'table':'WCCLine','record':25,'field':'CategoryID','value':5},
-    {'table':'WCCLine','record':26,'field':'CategoryID','value':5},{'table':'WCCLine','record':27,'field':'CategoryID','value':5},
-    {'table':'WCCLine','record':28,'field':'CategoryID','value':6},{'table':'WCCLine','record':29,'field':'CategoryID','value':6},
-    {'table':'WCCLine','record':30,'field':'CategoryID','value':6},{'table':'WCCLine','record':31,'field':'CategoryID','value':7},
-    {'table':'WCCLine','record':32,'field':'CategoryID','value':7},{'table':'WCCLine','record':33,'field':'CategoryID','value':7},
-    {'table':'WCCLine','record':34,'field':'CategoryID','value':7},{'table':'WCCLine','record':35,'field':'CategoryID','value':7},
-    {'table':'WCCLine','record':36,'field':'CategoryID','value':7},
-    {'table':'WCCLine','record':0,'field':'Severity','value':'High'},{'table':'WCCLine','record':1,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':2,'field':'Severity','value':'High'},{'table':'WCCLine','record':3,'field':'Severity','value':'Medium'},
-    {'table':'WCCLine','record':4,'field':'Severity','value':'Low'},{'table':'WCCLine','record':5,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':6,'field':'Severity','value':'High'},{'table':'WCCLine','record':7,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':8,'field':'Severity','value':'Medium'},{'table':'WCCLine','record':9,'field':'Severity','value':'Medium'},
-    {'table':'WCCLine','record':10,'field':'Severity','value':'Medium'},{'table':'WCCLine','record':11,'field':'Severity','value':'Medium'},
-    {'table':'WCCLine','record':12,'field':'Severity','value':'High'},{'table':'WCCLine','record':13,'field':'Severity','value':'Medium'},
-    {'table':'WCCLine','record':14,'field':'Severity','value':'High'},{'table':'WCCLine','record':15,'field':'Severity','value':'Low'},
-    {'table':'WCCLine','record':16,'field':'Severity','value':'Low'},{'table':'WCCLine','record':17,'field':'Severity','value':'Medium'},
-    {'table':'WCCLine','record':18,'field':'Severity','value':'High'},{'table':'WCCLine','record':19,'field':'Severity','value':'Medium'},
-    {'table':'WCCLine','record':20,'field':'Severity','value':'Medium'},{'table':'WCCLine','record':21,'field':'Severity','value':'Low'},
-    {'table':'WCCLine','record':22,'field':'Severity','value':'High'},{'table':'WCCLine','record':23,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':24,'field':'Severity','value':'Low'},{'table':'WCCLine','record':25,'field':'Severity','value':'Medium'},
-    {'table':'WCCLine','record':26,'field':'Severity','value':'High'},{'table':'WCCLine','record':27,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':28,'field':'Severity','value':'Medium'},{'table':'WCCLine','record':29,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':30,'field':'Severity','value':'High'},{'table':'WCCLine','record':31,'field':'Severity','value':'Low'},
-    {'table':'WCCLine','record':32,'field':'Severity','value':'Low'},{'table':'WCCLine','record':33,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':34,'field':'Severity','value':'High'},{'table':'WCCLine','record':35,'field':'Severity','value':'High'},
-    {'table':'WCCLine','record':36,'field':'Severity','value':'High'}])">
+      {'WCCLine' : {
+        0 : { 'SubCategoryID' : 1, 'CategoryID' : 1, 'Severity' : 'High'}, 1 : {'SubCategoryID' : 2, 'CategoryID' : 1, 'Severity' : 'High'},
+        2 : {'SubCategoryID' : 3, 'CategoryID' : 1, 'Severity' : 'High'}, 3 : {'SubCategoryID' : 5, 'CategoryID' : 1, 'Severity' : 'Medium'},
+        4 : { 'SubCategoryID' : 6 , 'CategoryID' : 1, 'Severity' : 'Low'}, 5 : {'SubCategoryID' : 4, 'CategoryID' : 1, 'Severity' : 'High'},
+        6 : {'SubCategoryID' : 7, 'CategoryID' : 2, 'Severity' : 'High'}, 7 : {'SubCategoryID' : 8, 'CategoryID' : 2, 'Severity' : 'High'},
+        8 : { 'SubCategoryID' : 9, 'CategoryID' : 2, 'Severity' : 'Medium' }, 9 : {'SubCategoryID' : 15, 'CategoryID' : 2, 'Severity' : 'Medium'},
+        10 : {'SubCategoryID' : 10, 'CategoryID' : 2, 'Severity' : 'Medium'}, 11 : {'SubCategoryID' : 11, 'CategoryID' : 2, 'Severity' : 'Medium'},
+        12 : { 'SubCategoryID' : 12, 'CategoryID' : 2, 'Severity' : 'High' }, 13 : {'SubCategoryID' : 13, 'CategoryID' : 2, 'Severity' : 'Medium'},
+        14 : {'SubCategoryID' : 14, 'CategoryID' : 2, 'Severity' : 'High'}, 15 : {'SubCategoryID' : 56, 'CategoryID' : 3, 'Severity' : 'Low'},
+        16 : { 'SubCategoryID' : 58, 'CategoryID' : 3, 'Severity' : 'Low' }, 17 : {'SubCategoryID' : 59, 'CategoryID' : 4, 'Severity' : 'Medium'},
+        18 : {'SubCategoryID' : 64, 'CategoryID' : 4, 'Severity' : 'High'}, 19 : {'SubCategoryID' : 65, 'CategoryID' : 4, 'Severity' : 'Medium'},
+        20 : { 'SubCategoryID' : 66, 'CategoryID' : 4, 'Severity' : 'Medium' }, 21 : {'SubCategoryID' : 67, 'CategoryID' : 4, 'Severity' : 'Low'},
+        22 : {'SubCategoryID' : 61, 'CategoryID' : 4, 'Severity' : 'High'}, 23 : {'SubCategoryID' : 62, 'CategoryID' : 4, 'Severity' : 'High'},
+        24 : { 'SubCategoryID' : 63, 'CategoryID' : 4, 'Severity' : 'Low' }, 25 : {'SubCategoryID' : 53, 'CategoryID' : 5, 'Severity' : 'Medium'},
+        26 : {'SubCategoryID' : 54, 'CategoryID' : 5, 'Severity' : 'High'}, 27 : {'SubCategoryID' : 55, 'CategoryID' : 5, 'Severity' : 'High'},
+        28 : { 'SubCategoryID' : 50, 'CategoryID' : 6, 'Severity' : 'High' }, 29 : {'SubCategoryID' : 51, 'CategoryID' : 6, 'Severity' : 'High'},
+        30 : {'SubCategoryID' : 52, 'CategoryID' : 6, 'Severity' : 'High'}, 31 : {'SubCategoryID' : 44, 'CategoryID' : 7, 'Severity' : 'Low'},
+        32 : { 'SubCategoryID' : 45, 'CategoryID' : 7, 'Severity' : 'Low' }, 33 : {'SubCategoryID' : 46, 'CategoryID' : 7, 'Severity' : 'High'},
+        34 : {'SubCategoryID' : 47, 'CategoryID' : 7, 'Severity' : 'High'}, 35 : {'SubCategoryID' : 48, 'CategoryID' : 7, 'Severity' : 'High'},
+        36 : { 'SubCategoryID' : 49, 'CategoryID' : 7, 'Severity' : 'High'}
+        }
+      })">
     <table>
         <tr>
             <td colspan="3">
@@ -160,7 +125,7 @@
         <tr ng-repeat-start="rec in tables['WCCLine'].records track by $index" class="header">
             <td colspan="3">
                 <h3>
-                    {{( rec.fields['CategoryID'].value != tables['WCCLine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].options[rec.fields['CategoryID'].value]  : ''}}
+                    {{( rec.fields['CategoryID'].value != tables['WCCLine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].getOptionText(rec.fields['CategoryID'].value)  : ''}}
                 </h3>
             </td>
         </tr>
@@ -168,7 +133,7 @@
         <tr ng-repeat-end>
             <td>
                 <span>
-                    {{$index + 1}}. {{rec.fields['SubCategoryID'].options[rec.fields['SubCategoryID'].value]}}
+                    {{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}
                 </span>
             </td>
             <td>

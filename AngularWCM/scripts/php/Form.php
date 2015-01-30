@@ -87,11 +87,11 @@ function open($form_data){
 
 function send_error($error_info){
     print_r($error_info);
-    notify("wcm-500dx.external_tasks.1163497.hooks@reply.redbooth.com", "An error occurred.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>ERROR: ".print_r($error_info, true));
+    notify("hooks@njt-na.com", "An error occurred.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>ERROR: ".print_r($error_info, true));
 }
 
 function submit($form) {
-    execute_query_upload_files_and_notify("prepare_inserts", $form, $form->Name." number ".$form->tables[0]->ID." submitted.", $form->Name." number ".$form->tables[0]->ID." not submitted.");
+    execute_query_upload_files_and_notify("prepare_inserts", $form, "New ".$form->Name." submitted.", $form->Name." not submitted.");
 }
 
 function update($form) {

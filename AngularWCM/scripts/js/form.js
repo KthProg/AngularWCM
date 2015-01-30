@@ -1,8 +1,5 @@
 ﻿function Form($scope, $http) {
     $scope.form = this;
-    $scope.tables = {};
-    //$scope.records = [];
-    $scope.fields = {};
 
     this.scope = $scope;
     this.http = $http;
@@ -12,32 +9,39 @@
     this.hasRecord = false;
     this.tables = {};
     this.mainTable = "";
+
+    $scope.tables = this.tables;
+    //$scope.records = [];
+    $scope.fields = {};
 }
 
 Form.prototype.initialize = function (name, connection, tables, view, tableRecordCount, defaultValues) {
     tableRecordCount = tableRecordCount || {};
 
+    // given connection name, should fetch data from xml file?
     this.connection = connection;
     this.name = name;
+    // only appears to be used for searching...
     this.view = view;
+    // may not be neccessary
     this.mainTable = tables[0];
     var form = this;
     tables.forEach(function (tbl, i) {
-        form.scope.tables[tbl] = new Table(form.scope, form.http, tbl, connection, undefined, [], (i == 0), Number(tableRecordCount[tbl] || 1))
-        form.scope.tables[tbl].addRecord();
+        form.tables[tbl] = new Table(form, tbl, connection, undefined, [], (i == 0), Number(tableRecordCount[tbl] || 1))
+        form.tables[tbl].addRecord();
     });
 
     // if there is only one table, add the fields to the scope for convenience
     // since there won't be any name conflicts anyways
     if (tables.length == 1) {
-        form.scope.fields = form.scope.tables[this.mainTable].records[0].fields;
+        form.scope.fields = form.tables[this.mainTable].records[0].fields;
     }
 
     var tblStr = "'" + tables.join("','") + "'";
     form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
     .success(function (resp) {
         resp.forEach(function (f) {
-            form.scope.tables[f.TABLE_NAME].records[0].fields[f.COLUMN_NAME] = new Field(form.scope, form.http, f.TABLE_NAME,
+            form.tables[f.TABLE_NAME].records[0].fields[f.COLUMN_NAME] = new Field(form, form.tables[f.TABLE_NAME], form.tables[f.TABLE_NAME].records[0],
                                                         f.COLUMN_NAME, f.DATA_TYPE, f.COLUMN_DEFAULT,
                                                         (f.IsPK == "1"), (f.IsFK == "1"), f.REF_TABLE,
                                                         f.REF_COLUMN, f.IS_NULLABLE == "YES",
@@ -47,8 +51,8 @@ Form.prototype.initialize = function (name, connection, tables, view, tableRecor
         form.getAllFKData();
         form.addDefaultRecords();
         form.setDefaultValues(defaultValues);
-        form.scope.tables[form.mainTable].getMaxID();
-        form.scope.tables[form.mainTable].watchIDForOpen();
+        //form.tables[form.mainTable].getMaxID();
+        form.tables[form.mainTable].watchIDForOpen();
     });
     this.scope.$on('$viewContentLoaded', function () {
         form.setRightClickEventToSearch();
@@ -62,9 +66,7 @@ Form.prototype.watchForImageUpload = function () {
         var reader = new FileReader();
         reader.onload = function (e) {
             field.value = e.target.result.replace(/ /g, "+");
-            console.log(field.value);
             field.resizeImage();
-            console.log(field.value);
             event.targetScope.$apply(function () { });
         };
         reader.readAsDataURL(args.target.files[0]);
@@ -74,9 +76,13 @@ Form.prototype.watchForImageUpload = function () {
 Form.prototype.setDefaultValues = function (defaultValues) {
     var form = this;
     if (defaultValues) {
-        defaultValues.forEach(function (dv) {
-            form.scope.tables[dv.table].records[dv.record].fields[dv.field].defaultValue = dv.value;
-            form.scope.tables[dv.table].records[dv.record].fields[dv.field].setValue(dv.value);
+        Object.keys(defaultValues).forEach(function (t) {
+            Object.keys(defaultValues[t]).forEach(function (r) {
+                Object.keys(defaultValues[t][r]).forEach(function (f) {
+                    form.tables[t].records[r].fields[f].defaultValue = defaultValues[t][r][f];
+                    form.tables[t].records[r].fields[f].setValue(defaultValues[t][r][f]);
+                });
+            })
         });
     }
 };
@@ -111,7 +117,7 @@ Form.prototype.setRightClickEventToSearch = function () {
 };
 
 Form.prototype.searchForms = function (field, searchFor) {
-    this.http.get("/scripts/php/Form.php?Function=Query&Query=SearchForm&Params=" + JSON.stringify([this.scope.tables[this.mainTable].getPK(), this.view, field, searchFor]))
+    this.http.get("/scripts/php/Form.php?Function=Query&Query=SearchForm&Params=" + JSON.stringify([this.tables[this.mainTable].getPK(), this.view, field, searchFor]))
     .success(function (resp) {
         var objectValuesToArray = function (obj) {
             return Object.keys(obj).map(function (key) {
@@ -136,8 +142,8 @@ Form.prototype.getAllFKData = function () {
 
 Form.prototype.applyToAllFields = function (funcStr) {
     var form = this;
-    Object.keys(form.scope.tables).forEach(function (t) {
-        form.scope.tables[t].records.forEach(function (rec) {
+    Object.keys(form.tables).forEach(function (t) {
+        form.tables[t].records.forEach(function (rec) {
             Object.keys(rec.fields).forEach(function (f) {
                 var field = rec.fields[f];
                 field[funcStr]();
@@ -161,8 +167,8 @@ Form.prototype.open = function () {
 
 Form.prototype.applyToAllTables = function (funcStr) {
     var form = this;
-    Object.keys(form.scope.tables).forEach(function (t) {
-        var tbl = form.scope.tables[t];
+    Object.keys(form.tables).forEach(function (t) {
+        var tbl = form.tables[t];
         tbl[funcStr]();
     });
 };
@@ -193,8 +199,8 @@ Form.prototype.toDataObj = function () {
 Form.prototype.getTablesDataObj = function () {
     var tblsDataObj = [];
     var form = this;
-    Object.keys(form.scope.tables).forEach(function (t) {
-        tblsDataObj.push(form.scope.tables[t].getDataObjectWithRecords());
+    Object.keys(form.tables).forEach(function (t) {
+        tblsDataObj.push(form.tables[t].getDataObjectWithRecords());
     });
     return tblsDataObj;
 };

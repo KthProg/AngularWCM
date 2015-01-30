@@ -1,6 +1,5 @@
-﻿function Table(scope, http, name, connection, pk, ids, isMain, recCount) {
-    this.scope = scope;
-    this.http = http;
+﻿function Table(form, name, connection, pk, ids, isMain, recCount) {
+    this.form = form;
 
     this.name = name;
     this.connection = connection;
@@ -27,7 +26,7 @@ Table.prototype.setPKFromFields = function () {
 
 Table.prototype.getMaxID = function () {
     var tbl = this;
-    this.http({
+    this.form.http({
         method: "POST",
         url: "/scripts/php/Form.php",
         data: tbl.toDataString() + "&Function=getMaxID",
@@ -40,11 +39,11 @@ Table.prototype.getMaxID = function () {
 
 Table.prototype.watchIDForOpen = function () {
     var tbl = this;
-    this.scope.$watch("tables['" + this.name + "'].records[0].fields['" + tbl.getPK() + "'].value", function (n, o) {
+    this.form.scope.$watch("tables['" + this.name + "'].records[0].fields['" + tbl.getPK() + "'].value", function (n, o) {
         if (n) {
-            tbl.scope.form.open();
+            tbl.form.open();
         } else {
-            tbl.scope.form.clearAll();
+            tbl.form.clearAll();
         }
     });
 };
@@ -52,7 +51,8 @@ Table.prototype.watchIDForOpen = function () {
 Table.prototype.setID = function (id) {
     var pk = this.getPK();
     if (pk) {
-        this.records[0].fields[this.getPK()].setValue(id);
+        //this.records[0].fields[this.getPK()].setValue(id);
+        this.records[0].fields[this.getPK()].defaultValue = id;
     } else {
         console.log("Error no pk, got " + pk);
     }
@@ -161,17 +161,17 @@ Table.prototype.toDataString = function () {
 Table.prototype.open = function () {
     var tbl = this;
 
-    this.http({
+    this.form.http({
         method: "POST",
         url: "/scripts/php/Form.php",
         data: tbl.toDataString() + "&Function=Open",
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     .success(function (resp) {
-        if (!resp) {
+        if (resp.length == 0) {
             alert(tbl.name + " number " + tbl.getOpenByValue() + " does not exist.");
             tbl.clear();
-            tbl.scope.form.hasRecord = false;
+            tbl.form.hasRecord = false;
             return;
         }
         tbl.clear();
@@ -187,7 +187,7 @@ Table.prototype.open = function () {
                 tbl.records[rowi].fields[f].setValue(row[f]);
             }
         });
-        tbl.scope.form.hasRecord = true;
+        tbl.form.hasRecord = true;
     });
 };
 
@@ -204,11 +204,13 @@ Table.prototype.clear = function () {
 
 
 Table.prototype.addRecord = function () {
-    this.records.push(new Record(this.scope, this.name));
+    this.records.push(new Record(this.form, this));
 };
 
 Table.prototype.copyRecord = function (i) {
-    this.records.push(this.records[i].makeCopy());
+    var newRec = this.records[i].makeCopy();
+    this.records.push(newRec);
+    this.records[this.records.length - 1].getAllFKInfo();
 };
 
 Table.prototype.addDefaultRecords = function () {

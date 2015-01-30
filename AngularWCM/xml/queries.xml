@@ -36,6 +36,12 @@
       EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ?)
     </qstring>
   </query>
+  <query name="GetRecord">
+    <connection>Safety</connection>
+    <qstring>
+      EXEC('SELECT * FROM ' + ? + ' WHERE ' + ? + '=' + ?)
+    </qstring>
+  </query>
   <query name="SelectKeysAndValuesFilter">
     <connection>Safety</connection>
     <qstring>
@@ -63,7 +69,7 @@
   </query>
   <query name="GetTopIssues">
     <connection>Safety</connection>
-    <qstring>SELECT * FROM vTopIssue</qstring>
+    <qstring>SELECT * FROM vTopIssues</qstring>
   </query>
   <query name="DeleteEmail">
     <connection>Safety</connection>

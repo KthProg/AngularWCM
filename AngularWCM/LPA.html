@@ -60,73 +60,42 @@
     </script>
     <style>
         h1{ 
-	        color: limegreen;
+	        color: rgb(204, 255, 204);
         }
 
         h3{
-	        background-color: limegreen;
+	        background-color: rgb(204, 255, 204);
         }
 
         strong{
-	        background-color: limegreen;
+	        background-color: rgb(204, 255, 204);
         }
     </style>
 </head>
-<body ng-app="wcm" 
-    ng-controller="Form" 
-    ng-init="form.initialize('LPA', 'Safety', ['LPA', 'LPALine'], 'vLPA', {'LPALine' : 52}, 
-    [{'table':'LPALine','record':0,'field':'CategoryID','value':17},{'table':'LPALine','record':1,'field':'CategoryID','value':17},
-    {'table':'LPALine','record':2,'field':'CategoryID','value':18},{'table':'LPALine','record':3,'field':'CategoryID','value':18},
-    {'table':'LPALine','record':4,'field':'CategoryID','value':18},{'table':'LPALine','record':5,'field':'CategoryID','value':19},
-    {'table':'LPALine','record':6,'field':'CategoryID','value':19},{'table':'LPALine','record':7,'field':'CategoryID','value':19},
-    {'table':'LPALine','record':8,'field':'CategoryID','value':19},{'table':'LPALine','record':9,'field':'CategoryID','value':20},
-    {'table':'LPALine','record':10,'field':'CategoryID','value':20},{'table':'LPALine','record':11,'field':'CategoryID','value':20},
-    {'table':'LPALine','record':12,'field':'CategoryID','value':20},{'table':'LPALine','record':13,'field':'CategoryID','value':20},
-    {'table':'LPALine','record':14,'field':'CategoryID','value':20},{'table':'LPALine','record':15,'field':'CategoryID','value':20},
-    {'table':'LPALine','record':16,'field':'CategoryID','value':20},{'table':'LPALine','record':17,'field':'CategoryID','value':20},
-    {'table':'LPALine','record':18,'field':'CategoryID','value':20},{'table':'LPALine','record':19,'field':'CategoryID','value':20},
-    {'table':'LPALine','record':20,'field':'CategoryID','value':20},{'table':'LPALine','record':21,'field':'CategoryID','value':20},
-    {'table':'LPALine','record':22,'field':'CategoryID','value':20},{'table':'LPALine','record':23,'field':'CategoryID','value':21},
-    {'table':'LPALine','record':24,'field':'CategoryID','value':21},{'table':'LPALine','record':25,'field':'CategoryID','value':21},
-    {'table':'LPALine','record':26,'field':'CategoryID','value':21},{'table':'LPALine','record':27,'field':'CategoryID','value':21},
-    {'table':'LPALine','record':28,'field':'CategoryID','value':21},{'table':'LPALine','record':29,'field':'CategoryID','value':21},
-    {'table':'LPALine','record':30,'field':'CategoryID','value':21},{'table':'LPALine','record':31,'field':'CategoryID','value':21},
-    {'table':'LPALine','record':32,'field':'CategoryID','value':22},{'table':'LPALine','record':33,'field':'CategoryID','value':22},
-    {'table':'LPALine','record':34,'field':'CategoryID','value':22},{'table':'LPALine','record':35,'field':'CategoryID','value':22},
-    {'table':'LPALine','record':36,'field':'CategoryID','value':23},{'table':'LPALine','record':37,'field':'CategoryID','value':23},
-    {'table':'LPALine','record':38,'field':'CategoryID','value':23},{'table':'LPALine','record':39,'field':'CategoryID','value':23},
-    {'table':'LPALine','record':40,'field':'CategoryID','value':24},{'table':'LPALine','record':41,'field':'CategoryID','value':25},
-    {'table':'LPALine','record':42,'field':'CategoryID','value':25},{'table':'LPALine','record':43,'field':'CategoryID','value':25},
-    {'table':'LPALine','record':44,'field':'CategoryID','value':25},{'table':'LPALine','record':45,'field':'CategoryID','value':25},
-    {'table':'LPALine','record':46,'field':'CategoryID','value':25},{'table':'LPALine','record':47,'field':'CategoryID','value':26},
-    {'table':'LPALine','record':48,'field':'CategoryID','value':26},{'table':'LPALine','record':49,'field':'CategoryID','value':26},
-    {'table':'LPALine','record':50,'field':'CategoryID','value':27},{'table':'LPALine','record':51,'field':'CategoryID','value':27},
-    {'table':'LPALine','record':0,'field':'SubCategoryID','value':91},{'table':'LPALine','record':1,'field':'SubCategoryID','value':92},
-    {'table':'LPALine','record':2,'field':'SubCategoryID','value':93},{'table':'LPALine','record':3,'field':'SubCategoryID','value':94},
-    {'table':'LPALine','record':4,'field':'SubCategoryID','value':142},{'table':'LPALine','record':5,'field':'SubCategoryID','value':95},
-    {'table':'LPALine','record':6,'field':'SubCategoryID','value':109},{'table':'LPALine','record':7,'field':'SubCategoryID','value':110},
-    {'table':'LPALine','record':8,'field':'SubCategoryID','value':111},{'table':'LPALine','record':9,'field':'SubCategoryID','value':112},
-    {'table':'LPALine','record':10,'field':'SubCategoryID','value':113},{'table':'LPALine','record':11,'field':'SubCategoryID','value':114},
-    {'table':'LPALine','record':12,'field':'SubCategoryID','value':115},{'table':'LPALine','record':13,'field':'SubCategoryID','value':116},
-    {'table':'LPALine','record':14,'field':'SubCategoryID','value':117},{'table':'LPALine','record':15,'field':'SubCategoryID','value':118},
-    {'table':'LPALine','record':16,'field':'SubCategoryID','value':96},{'table':'LPALine','record':17,'field':'SubCategoryID','value':97},
-    {'table':'LPALine','record':18,'field':'SubCategoryID','value':98},{'table':'LPALine','record':19,'field':'SubCategoryID','value':99},
-    {'table':'LPALine','record':20,'field':'SubCategoryID','value':100},{'table':'LPALine','record':21,'field':'SubCategoryID','value':101},
-    {'table':'LPALine','record':22,'field':'SubCategoryID','value':102},{'table':'LPALine','record':23,'field':'SubCategoryID','value':103},
-    {'table':'LPALine','record':24,'field':'SubCategoryID','value':104},{'table':'LPALine','record':25,'field':'SubCategoryID','value':105},
-    {'table':'LPALine','record':26,'field':'SubCategoryID','value':106},{'table':'LPALine','record':27,'field':'SubCategoryID','value':107},
-    {'table':'LPALine','record':28,'field':'SubCategoryID','value':108},{'table':'LPALine','record':29,'field':'SubCategoryID','value':119},
-    {'table':'LPALine','record':30,'field':'SubCategoryID','value':120},{'table':'LPALine','record':31,'field':'SubCategoryID','value':121},
-    {'table':'LPALine','record':32,'field':'SubCategoryID','value':122},{'table':'LPALine','record':33,'field':'SubCategoryID','value':123},
-    {'table':'LPALine','record':34,'field':'SubCategoryID','value':124},{'table':'LPALine','record':35,'field':'SubCategoryID','value':125},
-    {'table':'LPALine','record':36,'field':'SubCategoryID','value':126},{'table':'LPALine','record':37,'field':'SubCategoryID','value':127},
-    {'table':'LPALine','record':38,'field':'SubCategoryID','value':128},{'table':'LPALine','record':39,'field':'SubCategoryID','value':129},
-    {'table':'LPALine','record':40,'field':'SubCategoryID','value':130},{'table':'LPALine','record':41,'field':'SubCategoryID','value':131},
-    {'table':'LPALine','record':42,'field':'SubCategoryID','value':132},{'table':'LPALine','record':43,'field':'SubCategoryID','value':133},
-    {'table':'LPALine','record':44,'field':'SubCategoryID','value':134},{'table':'LPALine','record':45,'field':'SubCategoryID','value':135},
-    {'table':'LPALine','record':46,'field':'SubCategoryID','value':136},{'table':'LPALine','record':47,'field':'SubCategoryID','value':137},
-    {'table':'LPALine','record':48,'field':'SubCategoryID','value':138},{'table':'LPALine','record':49,'field':'SubCategoryID','value':139},
-    {'table':'LPALine','record':50,'field':'SubCategoryID','value':140},{'table':'LPALine','record':51,'field':'SubCategoryID','value':141}])">
+<body ng-app="wcm"
+      ng-controller="Form"
+      ng-init="form.initialize('LPA', 'Safety', ['LPA', 'LPALine'], 'vLPA', {'LPALine' : 52},
+    {'LPALine' : {
+        0 : { 'CategoryID' : 17, 'SubCategoryID' : 91 }, 1 : { 'CategoryID' : 17, 'SubCategoryID' : 92 }, 2 : { 'CategoryID' : 18, 'SubCategoryID' : 93 },
+        3 : { 'CategoryID' : 18, 'SubCategoryID' : 94 }, 4 : { 'CategoryID' : 18, 'SubCategoryID' : 142 }, 5 : { 'CategoryID' : 19, 'SubCategoryID' : 95 },
+      6 : { 'CategoryID' : 19, 'SubCategoryID' : 109 }, 7 : { 'CategoryID' : 19, 'SubCategoryID' : 110 }, 8 : { 'CategoryID' : 19, 'SubCategoryID' : 111 },
+      9 : { 'CategoryID' : 20, 'SubCategoryID' : 112 }, 10 : { 'CategoryID' : 20, 'SubCategoryID' :113 }, 11 : { 'CategoryID' : 20, 'SubCategoryID' : 114 },
+      12 : { 'CategoryID' : 20, 'SubCategoryID' : 115 }, 13 : { 'CategoryID' : 20, 'SubCategoryID' : 116 }, 14 : { 'CategoryID' : 20, 'SubCategoryID' : 117 },
+      15 : { 'CategoryID' : 20, 'SubCategoryID' : 118 }, 16 : { 'CategoryID' : 20, 'SubCategoryID' : 96 }, 17 : { 'CategoryID' : 20, 'SubCategoryID' : 97 },
+      18 : { 'CategoryID' : 20, 'SubCategoryID' : 98 }, 19 : { 'CategoryID' : 20, 'SubCategoryID' : 99 }, 20 : { 'CategoryID' : 20, 'SubCategoryID' :100 },
+      21 : { 'CategoryID' : 20, 'SubCategoryID' : 101 }, 22 : { 'CategoryID' : 20, 'SubCategoryID' : 102 }, 23 : { 'CategoryID' : 21, 'SubCategoryID' : 103 },
+      24 : { 'CategoryID' : 21, 'SubCategoryID' : 104 }, 25 : { 'CategoryID' : 21, 'SubCategoryID' : 105 }, 26 : { 'CategoryID' : 21, 'SubCategoryID' : 106 },
+      27 : { 'CategoryID' : 21, 'SubCategoryID' : 107 }, 28 : { 'CategoryID' : 21, 'SubCategoryID' : 108 }, 29 : { 'CategoryID' : 21, 'SubCategoryID' : 119 },
+      30 : { 'CategoryID' : 21, 'SubCategoryID' : 120 }, 31 : { 'CategoryID' : 21, 'SubCategoryID' : 121 }, 32 : { 'CategoryID' : 22, 'SubCategoryID' : 122 },
+      33 : { 'CategoryID' : 22, 'SubCategoryID' : 123 }, 34 : { 'CategoryID' : 22, 'SubCategoryID' : 124 }, 35 : { 'CategoryID' : 22, 'SubCategoryID' : 125 },
+      36 : { 'CategoryID' : 23, 'SubCategoryID' : 126 }, 37 : { 'CategoryID' : 23, 'SubCategoryID' : 127 }, 38 : { 'CategoryID' : 23, 'SubCategoryID' : 128 },
+      39 : { 'CategoryID' : 23, 'SubCategoryID' : 129 }, 40 : { 'CategoryID' : 24, 'SubCategoryID' : 130 }, 41 : { 'CategoryID' : 25, 'SubCategoryID' : 131 },
+      42 : { 'CategoryID' : 25, 'SubCategoryID' : 132 }, 43 : { 'CategoryID' : 25, 'SubCategoryID' : 133 }, 44 : { 'CategoryID' : 25, 'SubCategoryID' : 134 },
+      45 : { 'CategoryID' : 25, 'SubCategoryID' : 135 }, 46 : { 'CategoryID' : 25, 'SubCategoryID' : 136 }, 47 : { 'CategoryID' : 26, 'SubCategoryID' : 137 },
+      48 : { 'CategoryID' : 26, 'SubCategoryID' : 138 }, 49 : { 'CategoryID' : 26, 'SubCategoryID' : 139 }, 50 : { 'CategoryID' : 27, 'SubCategoryID' : 140 },
+      51 : { 'CategoryID' : 27, 'SubCategoryID' : 141 }
+      }
+    })">
     <table>
         <tr>
             <td colspan="3">
@@ -134,7 +103,7 @@
                     [name*='[\'ID\']'] input {
                         background-color: inherit;
                         border: none;
-                        color: limegreen;
+                        color: rgb(204, 255, 204);
                     }
                 </style>
                 <h1>Layered Process Audit No. <field name="tables['LPA'].records[0].fields['ID']"></h1>
@@ -192,13 +161,13 @@
         </tr>
         <tr ng-repeat-start="rec in tables['LPALine'].records track by $index" ng-show="!form.hasRecord ? showLines[$index + 1] : (rec.fields['Rating'].value != undefined)" class="header">
             <td colspan="3">
-                <h3>{{( rec.fields['CategoryID'].value != tables['LPALine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].options[rec.fields['CategoryID'].value]  : ''}}</h3>
+                <h3>{{( rec.fields['CategoryID'].value != tables['LPALine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].getOptionText(rec.fields['CategoryID'].value)  : ''}}</h3>
             </td>
         </tr>
         <tr></tr>
         <tr ng-repeat-end ng-show="!form.hasRecord ? showLines[$index + 1] : (rec.fields['Rating'].value != undefined)">
             <td>
-                <span>1.{{$index + 1}}. {{rec.fields['SubCategoryID'].options[rec.fields['SubCategoryID'].value]}}</span>
+                <span>1.{{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}</span>
             </td>
             <td>
                 <field name="rec.fields['Rating']" options="{ '-1' : 'N/A', '0' : 'No', '1' : 'Yes' }"></field><!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->

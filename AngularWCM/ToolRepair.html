@@ -20,7 +20,7 @@
 
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('Tool Repair', 'Safety', ['ToolIssues', 'ToolIssueRepairTypes'], 'vToolIssues')">
+    ng-init="form.initialize('Tool Repair', 'Safety', ['ToolIssues', 'ToolIssueRepairTypes'], 'vToolIssues', {''ToolIssues' {0: {'IsService' : 0 }}})">
     <table id="repairTable">
         <tr>
             <td width="10%"></td>
@@ -46,7 +46,7 @@
             <td class="red">Repair Type(s)</td>
         </tr>
         <tr>
-            <td>{{tables['ToolIssues'].records[0].fields['MoldDescID'].options[tables['ToolIssues'].records[0].fields['ToolNumber'].value]}}</td><!-- ng-model="fields['ToolName']" -->
+            <td>{{tables['ToolIssues'].records[0].fields['MoldDescID'].getOptionText(tables['ToolIssues'].records[0].fields['ToolNumber'].value)}}</td><!-- ng-model="fields['ToolName']" -->
             <td rowspan="11"><field name="tables['ToolIssues'].records[0].fields['Problems']"></field></td>
             <td rowspan="11">
                 <style>
@@ -55,7 +55,7 @@
                         width: auto;
                     }
                 </style>
-                <field ng-repeat="rec in tables['ToolIssueRepairTypes'].records" name="rec.fields['RepairTypeID']"></field>
+                <field ng-repeat-start="rec in tables['ToolIssueRepairTypes'].records" name="rec.fields['RepairTypeID']"></field><br ng-repeat-end />
                 <button ng-click="tables['ToolIssueRepairTypes'].copyRecord(0)">Add Repair</button>
             </td><!-- multiple -->
         </tr>
@@ -117,7 +117,7 @@
         </tr>
         <tr>
             <td><field name="tables['ToolIssues'].records[0].fields['DateReceived']"></field></td>
-            <td><field name="tables['ToolIssues'].records[0].fields['IsService']" options="{ 0 : false, 1 : true}"></field></td>
+            <td><field name="tables['ToolIssues'].records[0].fields['IsService']"></field></td>
         </tr>
         <tr>
             <td colspan="4">

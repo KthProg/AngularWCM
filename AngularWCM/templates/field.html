@@ -1,0 +1,11 @@
+﻿<select ng-if="field.bindingType == 'options' || ops" ng-model="field.value">
+    <option ng-if="field.bindingType == 'options'" ng-repeat="op in field.options | orderBy: 'v'" value="{{op.k}}">{{op.v}}</option>
+    <option ng-if="ops.length" ng-repeat="op in ops | orderBy: '+'" value="{{op}}">{{op}}</option>
+    <option ng-if="!ops.length" ng-repeat="(k,v) in ops" value="{{k}}">{{v}}</option>
+</select>
+<textarea ng-if="field.bindingType != 'options' && !ops && (['text','ntext','nvarchar','varchar'].indexOf(field.type) > -1)" placeholder="{{field.name}}" ng-model="field.value"></textarea>
+<input ng-if="field.bindingType != 'options' && !ops && (['double','float','int','money'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" />
+<input ng-if="field.bindingType != 'options' && !ops && field.type == 'bit'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" />
+<input ng-if="field.bindingType != 'options' && !ops && field.type == 'date'" type="date" ng-model="field.value" />
+<input ng-if="field.bindingType != 'options' && !ops && field.type == 'time'" type="time" ng-model="field.value" />
+<input ng-if="field.bindingType != 'options' && !ops && field.type == 'datetime'" type="datetime-local" ng-model="field.value" />

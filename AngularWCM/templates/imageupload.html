@@ -1,0 +1,11 @@
+﻿<span>
+    <label for="tables['{{field.table.name}}'].records[{{field.getRecordNumber()}}].fields['{{field.name}}']">
+        <img src="res/upload.png" alt="Upload">
+    </label>
+    <input type="file" style="display: none;" 
+           onchange="angular.element($('[ng-app=wcm]')).scope().$broadcast('saveImage', {target: this})" 
+           id="tables['{{field.table.name}}'].records[{{field.getRecordNumber()}}].fields['{{field.name}}']" />
+</span>
+<span ng-if="field.value">
+    <img style="height:50px; width: 50px;" src="{{field.value}}" />
+</span>

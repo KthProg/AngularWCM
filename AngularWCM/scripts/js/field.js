@@ -1,8 +1,11 @@
-﻿function Field(scope, http, table, name, type, defaultValue, isPK, isFK, fkTable, fkColumn, nullable, bindingType, isID, recNum) {
-    this.scope = scope;
-    this.http = http;
+﻿function Field(form, table, record, name, type, defaultValue, isPK, isFK, fkTable, fkColumn, nullable, bindingType, isID) {
+    //this.scope = scope;
+    //this.http = http;
 
     this.connection = "Safety";
+
+    this.form = form;
+    this.record = record;
     this.table = table;
 
     this.name = name;
@@ -16,7 +19,6 @@
     this.isPK = isPK;
     this.isFK = isFK;
     this.isID = isID;
-    this.recNum = recNum;
     this.isOpenBy = false;
 
     // table and column which the foriegn key
@@ -78,7 +80,7 @@ Field.prototype.saveSketch = function () {
 };
 
 Field.prototype.getSketchOrImageEl = function () {
-    var se = $('[id="tables[\'' + this.table + '\'].records[' + this.recNum + '].fields[\'' + this.name + '\']"]');
+    var se = $('[id="tables[\'' + this.table.name + '\'].records[' + this.getRecordNumber() + '].fields[\'' + this.name + '\']"]');
     if (se.length !== 0) {
         return se;
     } else {
@@ -137,10 +139,11 @@ Field.prototype.isImageURI = function () {
 };
 
 Field.prototype.makeCopy = function () {
-    var field = new Field(this.scope, this.http, this.table,
+    var field = new Field(this.form, this.table, this.record,
                           this.name, this.type, this.defaultValue,
                           this.isPK, this.isFK, this.fkTable,
-                          this.fkColumn, this.nullable, this.bindingType, this.recNum);
+                          this.fkColumn, this.nullable, this.bindingType,
+                          this.isID);
     for (var k in this) {
         field[k] = this[k];
     }
@@ -160,35 +163,44 @@ Field.prototype.toDataString = function () {
 
 Field.prototype.getBoundField = function () {
     var f1 = this;
-    Object.keys(f1.scope.tables).forEach(function (t) {
-        if (f1.scope.tables[t].records[f1.recNum]) {
-            var recNum = f1.recNum;
-        } else {
-            var recNum = 0;
-        }
-        Object.keys(f1.scope.tables[t].records[recNum].fields).forEach(function (f) {
-            var f2 = f1.scope.tables[t].records[recNum].fields[f];
-            // if the foreign key of the field f2 points to the
-            // table which the field f1 has as it's own foreign
-            // key, the by extension the field f1 is bound to
-            // the field f2
-            if (f2.fkTable != "" && f1.boundTable != ""
-                && f2.fkColumn != "" && f1.boundColumn != "") {
-                if (f2.fkTable == f1.boundTable
-                    && f2.fkColumn == f1.boundColumn) {
-                    f1.boundField = f2;
-                    return true;
+    // bounnd field already set
+    if(Object.keys(f1.boundField).length > 0){ return true; }
+
+    Object.keys(f1.form.tables).some(function (t) {
+        var recNum = f1.getRecordNumber();
+        if (f1.form.tables[t].records[recNum] == undefined) { recNum = 0; }
+        return Object.keys(f1.form.tables[t].records[recNum].fields).some(function (f) {
+            var f2 = f1.form.tables[t].records[recNum].fields[f];
+            if (f1.isFK && f2.isFK) {
+                if (f2.fkTable != "" && f1.boundTable != ""
+                    && f2.fkColumn != "" && f1.boundColumn != "") {
+                    // if the foreign key of the field f2 points to the
+                    // table which the field f1 has as it's own foreign
+                    // key, the by extension the field f1 is bound to
+                    // the field f2, the converse is also true (else if)
+                    if (f2.fkTable == f1.boundTable
+                        && f2.fkColumn == f1.boundColumn) {
+                        f1.boundField = f2;
+                        return true;
+                    } else if (f1.fkTable == f2.boundTable
+                        && f1.fkColumn == f2.boundColumn) {
+                        f2.boundField = f1;
+                    }
                 }
             }
         });
     });
 };
 
+Field.prototype.getRecordNumber = function () {
+    return this.table.records.indexOf(this.record);
+};
+
 Field.prototype.getFKTableInfo = function () {
     if (!this.isFK) { return false; }
     if (this.bindingType == "options") {
         var field = this;
-        this.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'"+this.fkTable+"'"])))
+        this.form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'"+this.fkTable+"'"])))
         .success(function (resp) {
             resp.forEach(function (f) {
                 if (f.IsFK == "1") {
@@ -205,15 +217,12 @@ Field.prototype.getFKTableInfo = function () {
         });
     } else if (this.bindingType == "values") {
         var f1 = this;
-        Object.keys(f1.scope.tables).forEach(function (t) {
-            if (f1.scope.tables[t].records[f1.recNum]) {
-                var recNum = f1.recNum;
-            } else {
-                var recNum = 0;
-            }
-            Object.keys(f1.scope.tables[t].records[recNum].fields).forEach(function (f) {
-                var f2 = f1.scope.tables[t].records[recNum].fields[f];
-                if (f2.table == f1.fkTable
+        Object.keys(f1.form.tables).some(function (t) {
+            var recNum = f1.getRecordNumber();
+            if (f1.form.tables[t].records[recNum] == undefined) { recNum = 0; }
+            return Object.keys(f1.form.tables[t].records[recNum].fields).forEach(function (f) {
+                var f2 = f1.form.tables[t].records[recNum].fields[f];
+                if (f2.table.name == f1.fkTable
                     && f2.name == f1.fkColumn) {
                     f1.boundField = f2;
                     if (f2.isPK) {
@@ -228,19 +237,19 @@ Field.prototype.getFKTableInfo = function () {
 };
 
 Field.prototype.watchDependency = function () {
-    if (!this.boundField) { return false; }
+    if (Object.keys(this.boundField).length == 0) { return false; }
     var field = this;
-    
-    if (this.boundField.table != undefined
-        && this.recNum != undefined
+
+    if (this.boundField.table.name != undefined
+        //&& this.recNum != undefined
         && this.boundField.name != undefined) {
-        var watchText = "tables['" + this.boundField.table + "'].records[" + this.recNum + "].fields['" + this.boundField.name + "'].value";
-        if (!field.scope.$eval(watchText)) {
-            watchText = "tables['" + this.boundField.table + "'].records[0].fields['" + this.boundField.name + "'].value";
+        var watchText = "tables['" + this.boundField.table.name + "'].records[" + this.getRecordNumber() + "].fields['" + this.boundField.name + "'].value";
+        if (!field.form.scope.$eval(watchText)) {
+            watchText = "tables['" + this.boundField.table.name + "'].records[0].fields['" + this.boundField.name + "'].value";
         }
         if (this.bindingType == "options") {
             (function (f, wt) {
-                field.scope.$watch(wt,
+                field.form.scope.$watch(wt,
                     function (n) {
                         f.getOptions(n);
                     });
@@ -248,7 +257,7 @@ Field.prototype.watchDependency = function () {
             return true;
         } else if (this.bindingType == "values") {
             (function (f, wt) {
-                field.scope.$watch(wt,
+                field.form.scope.$watch(wt,
                     function (n) {
                         f.value = n;
                     });
@@ -260,9 +269,11 @@ Field.prototype.watchDependency = function () {
 Field.prototype.getInitialOptions = function () {
     var field = this;
     if (Object.keys(this.boundField).length == 0) {
-        field.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValues&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable])))
+        field.form.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValues&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable])))
         .success(function (resp) {
-            field.options = resp;
+            field.options = Object.keys(resp).map(function (key) {
+                return { k: key, v: resp[key] };
+            });
         });
     }
 };
@@ -270,11 +281,24 @@ Field.prototype.getInitialOptions = function () {
 Field.prototype.getOptions = function (val) {
     if (val) {
         var field = this;
-        field.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValuesFilter&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val])))
+        field.form.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValuesFilter&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val])))
         .success(function (resp) {
-            field.options = resp;
+            field.options = Object.keys(resp).map(function (key) {
+                return { k: key, v: resp[key] };
+            });
         });
     }
+};
+
+Field.prototype.getOptionText = function (value) {
+    var text = "";
+    this.options.some(function (op) {
+        if (op.k == value) {
+            text = op.v;
+            return true;
+        }
+    });
+    return text;
 };
 
 Field.prototype.resizeImage = function () {
@@ -313,21 +337,9 @@ Field.prototype.resizeImage = function () {
 };
 
 app.directive('field', function () {
-    var template = '<select ng-if="field.bindingType == \'options\' || ops" ng-model="field.value" >';
-    template += '<option ng-if="field.bindingType == \'options\'" ng-repeat="(k,v) in field.options" value="{{k}}">{{v}}</option>';
-    template += '<option ng-if="ops.length" ng-repeat="(k,v) in ops" value="{{v}}">{{v}}</option>';
-    template += '<option ng-if="!ops.length" ng-repeat="(k,v) in ops" value="{{k}}">{{v}}</option>';
-    template += '</select>';
-    template += '<textarea ng-if="field.bindingType != \'options\' && !ops && ([\'text\',\'ntext\',\'nvarchar\',\'varchar\'].indexOf(field.type) > -1)" placeholder="{{field.name}}" ng-model="field.value"></textarea>';
-    template += '<input ng-if="field.bindingType != \'options\' && !ops && ([\'double\',\'float\',\'int\',\'money\'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" />';
-    template += '<input ng-if="field.bindingType != \'options\' && !ops && field.type == \'bit\'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" />';
-    template += '<input ng-if="field.bindingType != \'options\' && !ops && field.type == \'date\'" type="date" ng-model="field.value" />';
-    template += '<input ng-if="field.bindingType != \'options\' && !ops && field.type == \'time\'" type="time" ng-model="field.value" />';
-    template += '<input ng-if="field.bindingType != \'options\' && !ops && field.type == \'datetime\'" type="datetime-local" ng-model="field.value" />';
-
     return {
         restrict: "E",
-        template: template,
+        templateUrl: "/templates/field.html",
         scope : {
             field: "=name",
             ops: "=options"
@@ -336,15 +348,9 @@ app.directive('field', function () {
 });
 
 app.directive('sketch', function () {
-    var template = '<button type="button" ng-click="field.clearSketch()">Clear</button>';
-    template += '<input type="color" style="width: 30px; height: 20px;" />';
-    template += '<label>Brush Size:</label>';
-    template += '<input style="width: 90px; height: 40px;" type="number" min="1" max="50" step="1" value="2" />';
-    template += '<canvas id="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']" ng-mousemove="field.drawSketch()" ng-mouseleave="field.saveSketch($event);" style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>';
-
     return {
         restrict: "E",
-        template: template,
+        templateUrl: "/templates/sketch.html",
         scope: {
             field: "=name"
         }
@@ -352,18 +358,9 @@ app.directive('sketch', function () {
 });
 
 app.directive('imageupload', function () {
-    var template = '<span>';
-    template += '<label for="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']">';
-    template += '<img src="res/upload.png" alt="Upload">';
-    template += '</label>';
-    template += '<input type="file" style="display: none;" onchange="angular.element($(\'[ng-app=wcm]\')).scope().$broadcast(\'saveImage\', {target: this})" id="tables[\'{{field.table}}\'].records[{{field.recNum}}].fields[\'{{field.name}}\']"  />';
-    template += '</span>';
-    template += '<span ng-if="field.value">';
-    template += '<img height="50px" width="50px" src="{{field.value}}" />';
-    template += '</span>';
     return {
         restrict: "E",
-        template: template,
+        templateUrl: "/templates/imageupload.html",
         scope: {
             field: "=name"
         }

@@ -20,93 +20,41 @@
 
     <style>
         h1{ 
-	        color: orange;
+	        color: rgb(204, 255, 153);
         }
 
         h3{
-	        background-color: orange;
+	        background-color: rgb(204, 255, 153);
         }
 
         strong{
-	        background-color: orange;
+	        background-color: rgb(204, 255, 153);
         }
     </style>
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
       ng-init="form.initialize('EHS', 'Safety', ['EHS', 'EHSLine'], 'vEHS', {'EHSLine' : 48},
-    [{'table':'EHSLine','record':0,'field':'SubCategoryID','value':1},{'table':'EHSLine','record':1,'field':'SubCategoryID','value':2},
-    {'table':'EHSLine','record':2,'field':'SubCategoryID','value':3},{'table':'EHSLine','record':3,'field':'SubCategoryID','value':4},
-    {'table':'EHSLine','record':4,'field':'SubCategoryID','value':7},{'table':'EHSLine','record':5,'field':'SubCategoryID','value':8},
-    {'table':'EHSLine','record':6,'field':'SubCategoryID','value':9},{'table':'EHSLine','record':7,'field':'SubCategoryID','value':15},
-    {'table':'EHSLine','record':8,'field':'SubCategoryID','value':10},{'table':'EHSLine','record':9,'field':'SubCategoryID','value':11},
-    {'table':'EHSLine','record':10,'field':'SubCategoryID','value':12},{'table':'EHSLine','record':11,'field':'SubCategoryID','value':13},
-    {'table':'EHSLine','record':12,'field':'SubCategoryID','value':16},{'table':'EHSLine','record':13,'field':'SubCategoryID','value':14},
-    {'table':'EHSLine','record':14,'field':'SubCategoryID','value':17},{'table':'EHSLine','record':15,'field':'SubCategoryID','value':18},
-    {'table':'EHSLine','record':16,'field':'SubCategoryID','value':19},{'table':'EHSLine','record':17,'field':'SubCategoryID','value':20},
-    {'table':'EHSLine','record':18,'field':'SubCategoryID','value':21},{'table':'EHSLine','record':19,'field':'SubCategoryID','value':22},
-    {'table':'EHSLine','record':20,'field':'SubCategoryID','value':23},{'table':'EHSLine','record':21,'field':'SubCategoryID','value':24},
-    {'table':'EHSLine','record':22,'field':'SubCategoryID','value':25},{'table':'EHSLine','record':23,'field':'SubCategoryID','value':26},
-    {'table':'EHSLine','record':24,'field':'SubCategoryID','value':27},{'table':'EHSLine','record':25,'field':'SubCategoryID','value':57},
-    {'table':'EHSLine','record':26,'field':'SubCategoryID','value':58},{'table':'EHSLine','record':27,'field':'SubCategoryID','value':28},
-    {'table':'EHSLine','record':28,'field':'SubCategoryID','value':61},{'table':'EHSLine','record':29,'field':'SubCategoryID','value':59},
-    {'table':'EHSLine','record':30,'field':'SubCategoryID','value':60},{'table':'EHSLine','record':31,'field':'SubCategoryID','value':61},
-    {'table':'EHSLine','record':32,'field':'SubCategoryID','value':63},{'table':'EHSLine','record':33,'field':'SubCategoryID','value':29},
-    {'table':'EHSLine','record':34,'field':'SubCategoryID','value':30},{'table':'EHSLine','record':35,'field':'SubCategoryID','value':31},
-    {'table':'EHSLine','record':36,'field':'SubCategoryID','value':32},{'table':'EHSLine','record':37,'field':'SubCategoryID','value':33},
-    {'table':'EHSLine','record':38,'field':'SubCategoryID','value':34},{'table':'EHSLine','record':39,'field':'SubCategoryID','value':35},
-    {'table':'EHSLine','record':40,'field':'SubCategoryID','value':36},{'table':'EHSLine','record':41,'field':'SubCategoryID','value':38},
-    {'table':'EHSLine','record':42,'field':'SubCategoryID','value':39},{'table':'EHSLine','record':43,'field':'SubCategoryID','value':40},
-    {'table':'EHSLine','record':44,'field':'SubCategoryID','value':37},{'table':'EHSLine','record':45,'field':'SubCategoryID','value':41},
-    {'table':'EHSLine','record':46,'field':'SubCategoryID','value':42},{'table':'EHSLine','record':47,'field':'SubCategoryID','value':43},
-    {'table':'EHSLine','record':0,'field':'CategoryID','value':1},{'table':'EHSLine','record':1,'field':'CategoryID','value':1},
-    {'table':'EHSLine','record':2,'field':'CategoryID','value':1},{'table':'EHSLine','record':3,'field':'CategoryID','value':1},
-    {'table':'EHSLine','record':4,'field':'CategoryID','value':2},{'table':'EHSLine','record':5,'field':'CategoryID','value':2},
-    {'table':'EHSLine','record':6,'field':'CategoryID','value':2},{'table':'EHSLine','record':7,'field':'CategoryID','value':2},
-    {'table':'EHSLine','record':8,'field':'CategoryID','value':2},{'table':'EHSLine','record':9,'field':'CategoryID','value':2},
-    {'table':'EHSLine','record':10,'field':'CategoryID','value':2},{'table':'EHSLine','record':11,'field':'CategoryID','value':2},
-    {'table':'EHSLine','record':12,'field':'CategoryID','value':2},{'table':'EHSLine','record':13,'field':'CategoryID','value':2},
-    {'table':'EHSLine','record':14,'field':'CategoryID','value':8},{'table':'EHSLine','record':15,'field':'CategoryID','value':8},
-    {'table':'EHSLine','record':16,'field':'CategoryID','value':8},{'table':'EHSLine','record':17,'field':'CategoryID','value':8},
-    {'table':'EHSLine','record':18,'field':'CategoryID','value':8},{'table':'EHSLine','record':19,'field':'CategoryID','value':8},
-    {'table':'EHSLine','record':20,'field':'CategoryID','value':8},{'table':'EHSLine','record':21,'field':'CategoryID','value':9},
-    {'table':'EHSLine','record':22,'field':'CategoryID','value':9},{'table':'EHSLine','record':23,'field':'CategoryID','value':9},
-    {'table':'EHSLine','record':24,'field':'CategoryID','value':10},{'table':'EHSLine','record':25,'field':'CategoryID','value':3},
-    {'table':'EHSLine','record':26,'field':'CategoryID','value':3},{'table':'EHSLine','record':27,'field':'CategoryID','value':11},
-    {'table':'EHSLine','record':28,'field':'CategoryID','value':4},{'table':'EHSLine','record':29,'field':'CategoryID','value':4},
-    {'table':'EHSLine','record':30,'field':'CategoryID','value':4},{'table':'EHSLine','record':31,'field':'CategoryID','value':4},
-    {'table':'EHSLine','record':32,'field':'CategoryID','value':4},{'table':'EHSLine','record':33,'field':'CategoryID','value':12},
-    {'table':'EHSLine','record':34,'field':'CategoryID','value':12},{'table':'EHSLine','record':35,'field':'CategoryID','value':12},
-    {'table':'EHSLine','record':36,'field':'CategoryID','value':12},{'table':'EHSLine','record':37,'field':'CategoryID','value':12},
-    {'table':'EHSLine','record':38,'field':'CategoryID','value':12},{'table':'EHSLine','record':39,'field':'CategoryID','value':12},
-    {'table':'EHSLine','record':40,'field':'CategoryID','value':12},{'table':'EHSLine','record':41,'field':'CategoryID','value':13},
-    {'table':'EHSLine','record':42,'field':'CategoryID','value':13},{'table':'EHSLine','record':43,'field':'CategoryID','value':13},
-    {'table':'EHSLine','record':44,'field':'CategoryID','value':14},{'table':'EHSLine','record':45,'field':'CategoryID','value':15},
-    {'table':'EHSLine','record':46,'field':'CategoryID','value':15},{'table':'EHSLine','record':47,'field':'CategoryID','value':15},
-    {'table':'EHSLine','record':0,'field':'Severity','value':'High'},{'table':'EHSLine','record':1,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':2,'field':'Severity','value':'High'},{'table':'EHSLine','record':3,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':4,'field':'Severity','value':'High'},{'table':'EHSLine','record':5,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':6,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':7,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':8,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':9,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':10,'field':'Severity','value':'High'},{'table':'EHSLine','record':11,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':12,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':13,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':14,'field':'Severity','value':'High'},{'table':'EHSLine','record':15,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':16,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':17,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':18,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':19,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':20,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':21,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':22,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':23,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':24,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':25,'field':'Severity','value':'Low'},
-    {'table':'EHSLine','record':26,'field':'Severity','value':'Low'},{'table':'EHSLine','record':27,'field':'Severity','value':'Low'},
-    {'table':'EHSLine','record':28,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':29,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':30,'field':'Severity','value':'High'},{'table':'EHSLine','record':31,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':32,'field':'Severity','value':'Low'},{'table':'EHSLine','record':33,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':34,'field':'Severity','value':'High'},{'table':'EHSLine','record':35,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':36,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':37,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':38,'field':'Severity','value':'High'},{'table':'EHSLine','record':39,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':40,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':41,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':42,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':43,'field':'Severity','value':'High'},
-    {'table':'EHSLine','record':44,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':45,'field':'Severity','value':'Medium'},
-    {'table':'EHSLine','record':46,'field':'Severity','value':'Medium'},{'table':'EHSLine','record':47,'field':'Severity','value':'Medium'}])">
+        {'EHSLine':
+            {
+                '0':{'SubCategoryID':1,'CategoryID':1,'Severity':'High'},'1':{'SubCategoryID':2,'CategoryID':1,'Severity':'High'},'2':{'SubCategoryID':3,'CategoryID':1,'Severity':'High'},
+                '3':{'SubCategoryID':4,'CategoryID':1,'Severity':'High'},'4':{'SubCategoryID':7,'CategoryID':2,'Severity':'High'},'5':{'SubCategoryID':8,'CategoryID':2,'Severity':'High'},
+                '6':{'SubCategoryID':9,'CategoryID':2,'Severity':'Medium'},'7':{'SubCategoryID':15,'CategoryID':2,'Severity':'Medium'},'8':{'SubCategoryID':10,'CategoryID':2,'Severity':'Medium'},
+                '9':{'SubCategoryID':11,'CategoryID':2,'Severity':'Medium'},'10':{'SubCategoryID':12,'CategoryID':2,'Severity':'High'},'11':{'SubCategoryID':13,'CategoryID':2,'Severity':'Medium'},
+                '12':{'SubCategoryID':16,'CategoryID':2,'Severity':'Medium'},'13':{'SubCategoryID':14,'CategoryID':2,'Severity':'High'},'14':{'SubCategoryID':17,'CategoryID':8,'Severity':'High'},
+                '15':{'SubCategoryID':18,'CategoryID':8,'Severity':'High'},'16':{'SubCategoryID':19,'CategoryID':8,'Severity':'Medium'},'17':{'SubCategoryID':20,'CategoryID':8,'Severity':'Medium'},
+                '18':{'SubCategoryID':21,'CategoryID':8,'Severity':'Medium'},'19':{'SubCategoryID':22,'CategoryID':8,'Severity':'Medium'},'20':{'SubCategoryID':23,'CategoryID':8,'Severity':'Medium'},
+                '21':{'SubCategoryID':24,'CategoryID':9,'Severity':'Medium'},'22':{'SubCategoryID':25,'CategoryID':9,'Severity':'Medium'},'23':{'SubCategoryID':26,'CategoryID':9,'Severity':'High'},
+                '24':{'SubCategoryID':27,'CategoryID':10,'Severity':'Medium'},'25':{'SubCategoryID':57,'CategoryID':3,'Severity':'Low'},'26':{'SubCategoryID':58,'CategoryID':3,'Severity':'Low'},
+                '27':{'SubCategoryID':28,'CategoryID':11,'Severity':'Low'},'28':{'SubCategoryID':61,'CategoryID':4,'Severity':'Medium'},'29':{'SubCategoryID':59,'CategoryID':4,'Severity':'High'},
+                '30':{'SubCategoryID':60,'CategoryID':4,'Severity':'High'},'31':{'SubCategoryID':61,'CategoryID':4,'Severity':'High'},'32':{'SubCategoryID':63,'CategoryID':4,'Severity':'Low'},
+                '33':{'SubCategoryID':29,'CategoryID':12,'Severity':'High'},'34':{'SubCategoryID':30,'CategoryID':12,'Severity':'High'},'35':{'SubCategoryID':31,'CategoryID':12,'Severity':'High'},
+                '36':{'SubCategoryID':32,'CategoryID':12,'Severity':'Medium'},'37':{'SubCategoryID':33,'CategoryID':12,'Severity':'High'},'38':{'SubCategoryID':34,'CategoryID':12,'Severity':'High'},
+                '39':{'SubCategoryID':35,'CategoryID':12,'Severity':'High'},'40':{'SubCategoryID':36,'CategoryID':12,'Severity':'Medium'},'41':{'SubCategoryID':38,'CategoryID':13,'Severity':'Medium'},
+                '42':{'SubCategoryID':39,'CategoryID':13,'Severity':'Medium'},'43':{'SubCategoryID':40,'CategoryID':13,'Severity':'High'},'44':{'SubCategoryID':37,'CategoryID':14,'Severity':'Medium'},
+                '45':{'SubCategoryID':41,'CategoryID':15,'Severity':'Medium'},'46':{'SubCategoryID':42,'CategoryID':15,'Severity':'Medium'},'47':{'SubCategoryID':43,'CategoryID':15,'Severity':'Medium'}
+            }
+        })">
     <table>
         <tr>
             <td colspan="3">
@@ -114,7 +62,7 @@
                     [name*='[\'ID\']'] input {
                         background-color: inherit;
                         border: none;
-                        color: orange;
+                        color: rgb(204, 255, 153);
                     }
                 </style>
                 <h1>EHS No. <field name="tables['EHS'].records[0].fields['ID']"></h1>
@@ -175,7 +123,7 @@
         <tr ng-repeat-start="rec in tables['EHSLine'].records track by $index" class="header">
             <td colspan="3">
                 <h3>
-                    {{( rec.fields['CategoryID'].value != tables['EHSLine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].options[rec.fields['CategoryID'].value]  : ''}}
+                    {{( rec.fields['CategoryID'].value != tables['EHSLine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].getOptionText(rec.fields['CategoryID'].value)  : ''}}
                 </h3>
             </td>
         </tr>
@@ -183,7 +131,7 @@
         <tr ng-repeat-end>
             <td>
                 <span>
-                    {{$index + 1}}. {{rec.fields['SubCategoryID'].options[rec.fields['SubCategoryID'].value]}}
+                    {{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}
                 </span>
             </td>
             <td>
