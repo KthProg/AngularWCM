@@ -49,9 +49,13 @@ Form.prototype.createInitialTablesAndRecords = function (tables, tableRecordCoun
 Form.prototype.createInitialFields = function (tables, tableRecordCount, defaultValues) {
     var form = this;
     var tblStr = "'" + tables.join("','") + "'";
-    form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
+    form.http.get("/scripts/php/Form.php?Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
     .success(function (resp) {
-        if (!(resp instanceof Array)) { alert("Something went wrong!"); }
+        if (!(resp instanceof Array)) {
+            alert("Something went wrong!");
+            console.log(resp);
+            return;
+        }
         resp.forEach(function (f) {
             for (var i = 0, l = Number(tableRecordCount[f.TABLE_NAME] || 1) ; i < l; ++i) {
                 var table = form.tables[f.TABLE_NAME];
@@ -204,7 +208,7 @@ Form.prototype.executeQueries = function () {
         form.http({
             method: "POST",
             url: "/scripts/php/Form.php",
-            data: "Function=Query&Query=" + qry.query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
+            data: "Query=" + qry.query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).success(function (resp) {
             if ((resp instanceof Array) && ("-3" in resp)) {
@@ -243,7 +247,7 @@ Form.prototype.addEmail = function () {
     this.http({
         method: "POST",
         url: "/scripts/php/Form.php",
-        data: "Function=Query&Query=" + query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(params)),
+        data: "Query=" + query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(params)),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).success(function (resp) {
         if (!(resp instanceof Array)) {

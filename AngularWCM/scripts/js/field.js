@@ -173,7 +173,7 @@ Field.prototype.getFKTableData = function () {
     if (!this.isFK) { return false; }
     if (this.bindingType == "options") {
         var field = this;
-        this.form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'" + this.fkTable + "'"])))
+        this.form.http.get("/scripts/php/Form.php?Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'" + this.fkTable + "'"])))
         .success(function (resp) {
             resp.forEach(function (f) {
                 if (f.IsFK == "1") {
@@ -245,22 +245,26 @@ Field.prototype.watchDependency = function () {
 Field.prototype.getOptions = function (val) {
     var field = this;
     var optionsSuccess = function (resp) {
+        if (!(resp instanceof Array)) {
+            console.log(resp);
+            return [];
+        }
         field.options = resp.map(function (row) {
             return { k: Number(row[0]), v: row[1] };
         });
     };
 
     if (val) {
-        var query = "SelectKeysAndValuesFilter";
-        var params = encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val]));
+        var query = "EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ? + ' WHERE ' + ? + '=' + ?)";
+        var params = [this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val];
     } else if (Object.keys(this.boundField).length == 0) {
-        var query = "SelectKeysAndValues";
-        var params = encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable]));
+        var query = "EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ?)";
+        var params = [this.fkColumn, this.fkTextField, this.fkTable];
     } else {
         return;
     }
 
-    this.form.http.get("/scripts/php/Form.php?Function=Query&Query="+query+"&Named=true&Params=" + params).success(optionsSuccess);
+    this.form.http.get("/scripts/php/Form.php?Query="+encodeURIComponent(query)+"&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
 };
 
 Field.prototype.getOptionText = function (key) {

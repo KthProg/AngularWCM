@@ -8,11 +8,15 @@ require_once("Form.php");
 $MOUND_CONTACTS = array("jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com","newberry@ventureglobalengineering.com");
 $DEFAULT_CONTACTS = array(
     "ESEWOs" => array("phelps@njt-na.com", "pittam@mayco-mi.com", "mbommarito@mayco-mi.com"),
-    "ToolIssues" => array("thomason@mayco-mi.com")
+    "ToolIssues" => array("thomason@mayco-mi.com"),
+    "UnsafeActs" => array("phelps@njt-na.com"),
+    "UCANs" => array("phelps@njt-na.com"),
+    "WCC" => array("phelps@njt-na.com"),
+    "EHS" => array("phelps@njt-na.com")
     );
 $GREG_AND_I = array("hooks@njt-na.com","gwilloughby@mayco-mi.com");
 
-$emails = execute_query("GetAllEmails", array(), PDO::FETCH_ASSOC);
+$emails = execute_query("SELECT * FROM Emails", array(), PDO::FETCH_ASSOC);
 foreach($emails as $email){
     $table_info = execute_query("GetTablesData", array("'{$email["TableName"]}'"), PDO::FETCH_ASSOC);
 	$location = get_location_fields($table_info);
@@ -22,7 +26,7 @@ foreach($emails as $email){
         return $el["SupervisorEmail"];
     }, $contacts);
     
-    $record_info = execute_query("GetRecord", array($email["TableName"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
+    $record_info = execute_query("EXEC('SELECT * FROM [' + ? + '] WHERE [' + ? + ']=' + ?)", array($email["TableName"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
     //add mound contacts if a new tool repair form
     if($email["TableName"] == "ToolIssues" && $email["New"] == 1 && $record_info[0]["RepairedLocation"] == "Mound"){
         $contacts_arr = array_merge($contacts_arr, $MOUND_CONTACTS);
@@ -101,7 +105,7 @@ function send_email($email, $contacts){
 }
 
 function delete_email($id){
-    execute_query("DeleteEmail", array($id), PDO::FETCH_ASSOC);
+    execute_query("DELETE FROM Emails WHERE ID=?", array($id), PDO::FETCH_ASSOC);
 }
 
 ?>

@@ -78,7 +78,7 @@
     };
 
     $scope.openLayout = function () {
-        $http.get("/scripts/php/Form.php?Function=Query&ASSOC=true&Query=OpenDashboardLayout&Params=" + encodeURIComponent(JSON.stringify([$("#open_layout").val()])))
+        $http.get("/scripts/php/Form.php?ASSOC=true&Query=OpenDashboardLayout&Params=" + encodeURIComponent(JSON.stringify([$("#open_layout").val()])))
         .success(
         function (resp) {
             var newChartsArr = JSON.parse(resp[0]["LayoutJSON"]);
@@ -106,7 +106,7 @@
         $http({
             method: "POST",
             url: "/scripts/php/Form.php",
-            data: "Function=Query&Query=" + (updating ? "Update" : "Save") + "DashboardLayout&Params=" + encodeURIComponent(JSON.stringify([JSON.stringify(chartsCopy), secondParam])),
+            data: "Query=" + (updating ? "Update" : "Save") + "DashboardLayout&Params=" + encodeURIComponent(JSON.stringify([JSON.stringify(chartsCopy), secondParam])),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(

@@ -5,7 +5,7 @@ require_once("\\smtp\\class.smtp.php");
 
 require_once("Form.php");
 
-$emails = execute_query("GetTopIssues", array(), PDO::FETCH_ASSOC);
+$emails = execute_query("SELECT * FROM vTopIssues", array(), PDO::FETCH_ASSOC);
 if($emails){
     for($i = 0, $l = count($emails); $i < $l; ++$i){
 		$email = $emails[$i];

@@ -1,576 +1,548 @@
-{  
-	"GetTablesData":{  
+{ 
+	"GetTablesData":{ 
 		"connection":"Safety",
-		"qstring":"\n    SELECT col.TABLE_NAME,\n      col.COLUMN_NAME,\n      col.DATA_TYPE,\n      col.IS_NULLABLE,\n      REPLACE(REPLACE(col.COLUMN_DEFAULT, '(', ''), ')', '') AS COLUMN_DEFAULT,\n      CASE tc.CONSTRAINT_TYPE WHEN 'PRIMARY KEY' THEN 1 ELSE 0 END AS IsPK,\n      CASE tc.CONSTRAINT_TYPE WHEN 'FOREIGN KEY' THEN 1 ELSE 0 END AS IsFK,\n      COLUMNPROPERTY(OBJECT_ID(col.TABLE_NAME), col.COLUMN_NAME, 'IsIdentity') as IsID,\n      OBJECT_NAME(fki.object_id) AS REF_TABLE,\n      fki.name AS REF_COLUMN\n    FROM INFORMATION_SCHEMA.COLUMNS col\n      LEFT JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE ccu\n        ON col.TABLE_NAME = ccu.TABLE_NAME\n        AND col.COLUMN_NAME = ccu.COLUMN_NAME\n      LEFT JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc\n        ON tc.CONSTRAINT_NAME = ccu.CONSTRAINT_NAME\n      LEFT JOIN (\n        select * \n        from sys.foreign_key_columns fkc\n        join sys.all_columns ac\n          on ac.object_id = fkc.referenced_object_id\n          and ac.column_id = fkc.referenced_column_id\n      ) fki\n      ON OBJECT_NAME(fki.constraint_object_id) = ccu.CONSTRAINT_NAME\n    WHERE ? LIKE '%'''+col.TABLE_NAME+'''%'\n    "
+		"qstring":" SELECT col.TABLE_NAME, col.COLUMN_NAME, col.DATA_TYPE, col.IS_NULLABLE, REPLACE(REPLACE(col.COLUMN_DEFAULT, '(', ''), ')', '') AS COLUMN_DEFAULT, CASE tc.CONSTRAINT_TYPE WHEN 'PRIMARY KEY' THEN 1 ELSE 0 END AS IsPK, CASE tc.CONSTRAINT_TYPE WHEN 'FOREIGN KEY' THEN 1 ELSE 0 END AS IsFK, COLUMNPROPERTY(OBJECT_ID(col.TABLE_NAME), col.COLUMN_NAME, 'IsIdentity') as IsID, OBJECT_NAME(fki.object_id) AS REF_TABLE, fki.name AS REF_COLUMN FROM INFORMATION_SCHEMA.COLUMNS col LEFT JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE ccu ON col.TABLE_NAME = ccu.TABLE_NAME AND col.COLUMN_NAME = ccu.COLUMN_NAME LEFT JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc ON tc.CONSTRAINT_NAME = ccu.CONSTRAINT_NAME LEFT JOIN ( select * from sys.foreign_key_columns fkc join sys.all_columns ac on ac.object_id = fkc.referenced_object_id and ac.column_id = fkc.referenced_column_id ) fki ON OBJECT_NAME(fki.constraint_object_id) = ccu.CONSTRAINT_NAME WHERE ? LIKE '%'''+col.TABLE_NAME+'''%' "
 	},
-	"SelectKeysAndValues":{  
+	"GetContactsFromTableAndID":{ 
 		"connection":"Safety",
-		"qstring":"\n      EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ?)\n    "
+		"qstring":"declare @sql varchar(max) = 'select s.SupervisorEmail from '+?+' e join SupervisorInfo s on s.PlantID=e.'+?+' and (s.DepartmentID=e.'+?+' or s.DepartmentID is null) and (s.ZoneID=e.'+?+' or s.ZoneID is null) where '+?+'='+cast(? as varchar(max)) EXEC(@sql) "
 	},
-	"GetRecord":{  
-		"connection":"Safety",
-		"qstring":"\n      EXEC('SELECT * FROM ' + ? + ' WHERE ' + ? + '=' + ?)\n    "
-	},
-	"SelectKeysAndValuesFilter":{  
-		"connection":"Safety",
-		"qstring":"\n      EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ? + ' WHERE ' + ? + '=' + ?)\n    "
-	},
-	"GetContactsFromTableAndID":{  
-		"connection":"Safety",
-		"qstring":"\n      declare @sql varchar(max) = '\n        select s.SupervisorEmail\n        from '+?+' e\n          join SupervisorInfo s\n            on s.PlantID=e.'+?+'\n            and (s.DepartmentID=e.'+?+' or s.DepartmentID is null)\n            and (s.ZoneID=e.'+?+' or s.ZoneID is null)\n        where '+?+'='+cast(? as varchar(max))\n\n      EXEC(@sql)\n    "
-	},
-	"GetAllEmails":{  
-		"connection":"Safety",
-		"qstring":"SELECT * FROM Emails"
-	},
-	"GetTopIssues":{  
-		"connection":"Safety",
-		"qstring":"SELECT * FROM vTopIssues"
-	},
-	"DeleteEmail":{  
-		"connection":"Safety",
-		"qstring":"DELETE FROM Emails WHERE ID=?"
-	},
-	"GetViewData":{  
-		"connection":"Safety",
-		"qstring":"\n      SELECT TABLE_NAME\n      FROM INFORMATION_SCHEMA.VIEW_TABLE_USAGE\n      WHERE VIEW_NAME = ?\n    "
-	},
-	"Plants":{  
+	"Plants":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT PlantID, Plant FROM vPlantLayout"
 	},
-	"Departments":{  
+	"Departments":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT DepartmentID, Department FROM vPlantLayout WHERE PlantID=?"
 	},
-	"Zones":{  
+	"Zones":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ZoneID, Zone FROM vPlantLayout WHERE PlantID=? AND DepartmentID=?"
 	},
-	"WorkCells":{  
+	"WorkCells":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT WorkCellID, WorkCell FROM vPlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?"
 	},
-	"Machines":{  
+	"Machines":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT MachineID, Machine FROM vPlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=?"
 	},
-	"Subsystems":{  
+	"Subsystems":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT PartID, Part FROM vPlantLayout WHERE PlantID=? AND DepartmentID=? AND ZoneID=? AND MachineID=?"
 	},
-	"Auditors":{  
+	"Auditors":{ 
 		"connection":"Safety",
-		"qstring":"\n      SELECT au.ID, au.AuditorName\n      FROM Auditor au\n      JOIN Auditor_Types at\n      ON at.AuditorID=au.ID\n      WHERE at.AuditorType=?\n    "
+		"qstring":" SELECT au.ID, au.AuditorName FROM Auditor au JOIN Auditor_Types at ON at.AuditorID=au.ID WHERE at.AuditorType=? "
 	},
-	"Supervisors":{  
+	"Supervisors":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ID, SupervisorName FROM Supervisor"
 	},
-	"AccidentTypes":{  
+	"AccidentTypes":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ID, AccidentType FROM AccidentTypes"
 	},
-	"InjuryTypes":{  
+	"InjuryTypes":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ID, InjuryType FROM InjuryTypes"
 	},
-	"BodyParts":{  
+	"BodyParts":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ID, BodyPart FROM BodyParts"
 	},
-	"CurrentTools":{  
+	"CurrentTools":{ 
 		"connection":"Mattec",
 		"qstring":"SELECT DISTINCT MoldIDs.MoldNo, MoldIDs.MoldID FROM vJobProd JOIN MoldIDs ON MoldIDs.MoldNo=vJobProd.MoldNo WHERE MachID=?"
 	},
-	"Tools":{  
+	"Tools":{ 
 		"connection":"Mattec",
 		"qstring":"SELECT DISTINCT MoldNo, MoldID FROM MoldIDs"
 	},
-	"RootCauses":{  
+	"RootCauses":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT RCID, RootCause FROM vRootCause"
 	},
-	"SecondaryCauses":{  
+	"SecondaryCauses":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT SRCID, SecondaryRootCause FROM vRootCause WHERE RCID=?"
 	},
-	"MicroCauses":{  
+	"MicroCauses":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT MRCID, MicroRootCause FROM vRootCause WHERE RCID=? AND SRCID=?"
 	},
-	"Actions":{  
+	"Actions":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ActionID, Action FROM vRootCause WHERE RCID=? AND SRCID=?"
 	},
-	"EWORootCauses":{  
+	"EWORootCauses":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT RCID, RootCause FROM vEWO_RootCause"
 	},
-	"EWOSecondaryCauses":{  
+	"EWOSecondaryCauses":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT SRCID, SecondaryRootCause FROM vEWO_RootCause WHERE RCID=?"
 	},
-	"EWOActions":{  
+	"EWOActions":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ActionID, Action FROM vEWO_RootCause WHERE RCID=? AND SRCID=?"
 	},
-	"CloseIssue":{  
+	"CloseIssue":{ 
 		"connection":"Safety",
 		"qstring":"INSERT INTO ClosedIssues (FormName, FormNum, SubCategory, ActionTaken) VALUES (?, ?, ?, ?)"
 	},
-	"OpenIssue":{  
+	"OpenIssue":{ 
 		"connection":"Safety",
 		"qstring":"DELETE FROM ClosedIssues WHERE FormName=? AND FormNum=? AND SubCategory=?"
 	},
-	"GetOpenIssues":{  
+	"GetOpenIssues":{ 
 		"connection":"Safety",
 		"qstring":"SELECT * FROM vOpenIssues"
 	},
-	"GetClosedIssues":{  
+	"GetClosedIssues":{ 
 		"connection":"Safety",
 		"qstring":"SELECT * FROM vClosedIssues"
 	},
-	"UATypes":{  
+	"UATypes":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT UATID, UAType FROM vUATypes"
 	},
-	"UAMicroTypes":{  
+	"UAMicroTypes":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT UAMTID, UAMicroType FROM vUATypes WHERE UATID=?"
 	},
-	"RepairTypes":{  
+	"RepairTypes":{ 
 		"connection":"Safety",
 		"qstring":"SELECT ID, RepairType FROM RepairTypes"
 	},
-	"SupervisorEmailsByLocation":{  
+	"SupervisorEmailsByLocation":{ 
 		"connection":"Safety",
 		"qstring":"SELECT ID, SupervisorEmail FROM vSupervisor WHERE PlantID=? AND (DepartmentID=? OR DepartmentID IS NULL) AND (ZoneID=? OR ZoneID IS NULL) "
 	},
-	"AuditLines":{  
+	"AuditLines":{ 
 		"connection":"Safety",
 		"qstring":"SELECT Category, SubCategory, Details FROM vAuditLines WHERE FormName=? ORDER BY Line"
 	},
-	"AllMachinesMattec":{  
+	"AllMachinesMattec":{ 
 		"connection":"Mattec",
 		"qstring":"SELECT MachNo, MachID FROM MachCon"
 	},
-	"AllMachines":{  
+	"AllMachines":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT MachineID, Plant + ' - ' + Department + ' - ' + Zone + ' - ' + Machine FROM vPlantLayout"
 	},
-	"AllZones":{  
+	"AllZones":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT ZoneID, Plant + ' - ' + Department + ' - ' + Zone FROM vPlantLayout"
 	},
-	"AllDepartments":{  
+	"AllDepartments":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT DepartmentID, Plant + ' - ' + Department FROM vPlantLayout"
 	},
-	"AllToolsText":{  
+	"AllToolsText":{ 
 		"connection":"Mattec",
 		"qstring":"SELECT DISTINCT MoldID, MoldID FROM MoldIDs"
 	},
-	"GetToolDesc":{  
+	"GetToolDesc":{ 
 		"connection":"Mattec",
 		"qstring":"SELECT TOP 1 0, MoldDesc FROM MoldIDs WHERE MoldID=?"
 	},
-	"GetDashboardLayouts":{  
+	"GetDashboardLayouts":{ 
 		"connection":"Safety",
 		"qstring":"SELECT ID, Name FROM ReportingLayouts"
 	},
-	"OpenDashboardLayout":{  
+	"OpenDashboardLayout":{ 
 		"connection":"Safety",
 		"qstring":"SELECT LayoutJSON FROM ReportingLayouts WHERE ID=?"
 	},
-	"SaveDashboardLayout":{  
+	"SaveDashboardLayout":{ 
 		"connection":"Safety",
 		"qstring":"INSERT INTO ReportingLayouts (LayoutJSON, Name) VALUES(?, ?)"
 	},
-	"UpdateDashboardLayout":{  
+	"UpdateDashboardLayout":{ 
 		"connection":"Safety",
 		"qstring":"UPDATE ReportingLayouts SET LayoutJSON=? WHERE ID=?"
 	},
-	"MachMTBF":{  
+	"MachMTBF":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMachMTBF @startDate=?, @endDate=?, @failureType=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		},
-		"Failure Type":{  
+		"Failure Type":{ 
 			"type":"select",
-			"options":[  
-					{  
-					"_value":"major",
-					"__text":"major"
+			"options":[ 
+					{ 
+					"value":"major",
+					"text":"major"
 					},
-					{  
-					"_value":"minor",
-					"__text":"minor"
+					{ 
+					"value":"minor",
+					"text":"minor"
 					}
 				]
 		}
 		}
 	},
-	"MachMTTR":{  
+	"MachMTTR":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMachMTTR @startDate=?, @endDate=?, @failureType=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		},
-		"Failure Type":{  
+		"Failure Type":{ 
 			"type":"select",
-			"options":[  
-					{  
-					"_value":"major",
-					"__text":"major"
+			"options":[ 
+					{ 
+					"value":"major",
+					"text":"major"
 					},
-					{  
-					"_value":"minor",
-					"__text":"minor"
+					{ 
+					"value":"minor",
+					"text":"minor"
 					}
 				]
 		}
 		}
 	},
-	"MachDowntime":{  
+	"MachDowntime":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMachDowntime @startDate=?, @endDate=?, @failureType=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		},
-		"Failure Type":{  
+		"Failure Type":{ 
 			"type":"select",
-			"options":[  
-					{  
-					"_value":"major",
-					"__text":"major"
+			"options":[ 
+					{ 
+					"value":"major",
+					"text":"major"
 					},
-					{  
-					"_value":"minor",
-					"__text":"minor"
+					{ 
+					"value":"minor",
+					"text":"minor"
 					}
 				]
 		}
 		}
 	},
-	"MaintDowntime":{  
+	"MaintDowntime":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMaintDowntime @startDate=?, @endDate=?, @failureType=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		},
-		"Failure Type":{  
+		"Failure Type":{ 
 			"type":"select",
-			"options":[  
-					{  
-					"_value":"major",
-					"__text":"major"
+			"options":[ 
+					{ 
+					"value":"major",
+					"text":"major"
 					},
-					{  
-					"_value":"minor",
-					"__text":"minor"
+					{ 
+					"value":"minor",
+					"text":"minor"
 					}
 				]
 		}
 		}
 	},
-	"MachScrap":{  
+	"MachScrap":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMachScrap @startDate=?, @endDate=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		}
 		}
 	},
-	"MoldOEE":{  
+	"MoldOEE":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pAllMoldOEE @startDate=?, @endDate=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		}
 		}
 	},
-	"MachOEE":{  
+	"MachOEE":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pAllMachOEE @startDate=?, @endDate=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		}
 		}
 	},
-	"ToolMTBF":{  
+	"ToolMTBF":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMoldMTBF @startDate=?, @endDate=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		}
 		}
 	},
-	"PMDue":{  
+	"PMDue":{ 
 		"connection":"Safety",
 		"qstring":"SELECT * FROM vNextPM"
 	},
-	"WCCPerAuditor":{  
+	"WCCPerAuditor":{ 
 		"connection":"Safety",
 		"qstring":"SELECT AuditorName, COUNT(*) AS Audits FROM vWCC GROUP BY AuditorName"
 	},
-	"EHSPerAuditor":{  
+	"EHSPerAuditor":{ 
 		"connection":"Safety",
 		"qstring":"SELECT AuditorName, COUNT(*) AS Audits FROM vEHS GROUP BY AuditorName"
 	},
-	"WCCPerWorkCell":{  
+	"WCCPerWorkCell":{ 
 		"connection":"Safety",
 		"qstring":"SELECT Department + ' - ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vWCC GROUP BY Department + ' - ' + WorkCell"
 	},
-	"EHSPerWorkCell":{  
+	"EHSPerWorkCell":{ 
 		"connection":"Safety",
 		"qstring":"SELECT Department + ' - ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vEHS GROUP BY Department + ' - ' + WorkCell"
 	},
-	"WCCPerZone":{  
+	"WCCPerZone":{ 
 		"connection":"Safety",
 		"qstring":"SELECT Department + ' - ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vWCC GROUP BY Department + ' - ' + Zone"
 	},
-	"EHSPerZone":{  
+	"EHSPerZone":{ 
 		"connection":"Safety",
 		"qstring":"SELECT Department + ' - ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vEHS GROUP BY Department + ' - ' + Zone"
 	},
-	"AgingReport":{  
+	"AgingReport":{ 
 		"connection":"Safety",
-		"qstring":"SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM vOpenIssues WHERE DaysOpen>0 ORDER By DaysOpen"
+		"qstring":"SELECT Name + ' #' + CAST(ID AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM vOpenIssues WHERE DaysOpen>0 ORDER By DaysOpen"
 	},
-	"SeverityReport":{  
+	"SeverityReport":{ 
 		"connection":"Safety",
 		"qstring":"SELECT Severity, COUNT(*) AS [Open] FROM vOpenIssues GROUP BY Severity"
 	},
-	"IssuesBySeverity":{  
+	"IssuesBySeverity":{ 
 		"connection":"Safety",
-		"qstring":"SELECT Name + ' #' + CAST(ID  AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, Severity FROM vOpenIssues ORDER BY Severity"
+		"qstring":"SELECT Name + ' #' + CAST(ID AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, Severity FROM vOpenIssues ORDER BY Severity"
 	},
-	"ZonesNotEHSd":{  
+	"ZonesNotEHSd":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vEHS WHERE Plant + ' ' + Department + ' ' + Zone IS NOT NULL)"
 	},
-	"ZonesNotWCCd":{  
+	"ZonesNotWCCd":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone AS Zone FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + Zone NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + Zone FROM vWCC WHERE Plant + ' ' + Department + ' ' + Zone IS NOT NULL)"
 	},
-	"WorkCellsNotEHSd":{  
+	"WorkCellsNotEHSd":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vEHS WHERE Plant + ' ' + Department + ' ' + WorkCell IS NOT NULL)"
 	},
-	"WorkCellsNotWCCd":{  
+	"WorkCellsNotWCCd":{ 
 		"connection":"Safety",
 		"qstring":"SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell AS WorkCell FROM vPlantLayout WHERE Plant + ' ' + Department + ' ' + WorkCell NOT IN (SELECT DISTINCT Plant + ' ' + Department + ' ' + WorkCell FROM vWCC WHERE Plant + ' ' + Department + ' ' + WorkCell IS NOT NULL)"
 	},
-	"AuditorsWithoutWCCs":{  
+	"AuditorsWithoutWCCs":{ 
 		"connection":"Safety",
-		"qstring":"\n      SELECT DISTINCT AuditorName, AuditorType\n      FROM Auditor au\n      JOIN Auditor_Types at\n      ON at.AuditorID=au.ID\n      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vWCC WHERE AuditorName IS NOT NULL)\n        AND AuditorType='WCC'\n    "
+		"qstring":" SELECT DISTINCT AuditorName, AuditorType FROM Auditor au JOIN Auditor_Types at ON at.AuditorID=au.ID WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vWCC WHERE AuditorName IS NOT NULL) AND AuditorType='WCC' "
 	},
-	"AuditorsWithoutEHSs":{  
+	"AuditorsWithoutEHSs":{ 
 		"connection":"Safety",
-		"qstring":"\n      SELECT DISTINCT AuditorName, AuditorType\n      FROM Auditor au\n      JOIN Auditor_Types at\n      ON at.AuditorID=au.ID\n      WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vEHS WHERE AuditorName IS NOT NULL)\n        AND AuditorType='EHS'\n    "
+		"qstring":" SELECT DISTINCT AuditorName, AuditorType FROM Auditor au JOIN Auditor_Types at ON at.AuditorID=au.ID WHERE AuditorName NOT IN (SELECT DISTINCT AuditorName FROM vEHS WHERE AuditorName IS NOT NULL) AND AuditorType='EHS' "
 	},
-	"OilPerPress":{  
+	"OilPerPress":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pOilUsage @start=?, @end=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		}
 		}
 	},
-	"TagTrend":{  
+	"TagTrend":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pTagTrend @userYear=?",
-		"parameters":{  
-		"Year":{  
+		"parameters":{ 
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"TagTrendMach":{  
+	"TagTrendMach":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pTagTrendMach @userYear=?, @mach=?",
-		"parameters":{  
-		"Year":{  
+		"parameters":{ 
+		"Year":{ 
 			"type":"number"
 		},
-		"Machine":{  
+		"Machine":{ 
 			"type":"select",
 			"query":"AllMachines"
 		}
 		}
 	},
-	"PressStratification":{  
+	"PressStratification":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pPressStratification"
 	},
-	"EWOsVsBreakdowns":{  
+	"EWOsVsBreakdowns":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pEWOsVsBreakdowns @startDate=?, @endDate=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		}
 		}
 	},
-	"PMTagDetail":{  
+	"PMTagDetail":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pPMTagDetail @mach=?, @year=?",
-		"parameters":{  
-		"Machine":{  
+		"parameters":{ 
+		"Machine":{ 
 			"type":"select",
 			"query":"AllMachines"
 		},
-		"Year":{  
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"UCANDetail":{  
+	"UCANDetail":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pUCANDetail @mach=?, @year=?",
-		"parameters":{  
-		"Machine":{  
+		"parameters":{ 
+		"Machine":{ 
 			"type":"select",
 			"query":"AllMachines"
 		},
-		"Year":{  
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"NumberOfIssuesByLine":{  
+	"NumberOfIssuesByLine":{ 
 		"connection":"Safety",
-		"qstring":"\n      SELECT al.SubCategory AS [Line Item],\n      COUNT(*) AS Total\n      FROM vOpenIssues i\n      JOIN vAuditLines al\n      ON al.FormName=i.Name\n      AND al.Line=i.LineNum\n      GROUP BY al.SubCategory\n    "
+		"qstring":" SELECT al.SubCategory AS [Line Item], COUNT(*) AS Total FROM vOpenIssues i JOIN vAuditLines al ON al.FormName=i.Name AND al.Line=i.LineNum GROUP BY al.SubCategory "
 	},
-	"MachOEEByMonth":{  
+	"MachOEEByMonth":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMachOEEByMonth @year=?",
-		"parameters":{  
-		"Year":{  
+		"parameters":{ 
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"MachDownCodesByMonth":{  
+	"MachDownCodesByMonth":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pMachDownTimeByMonth @startDate=?, @endDate=?, @machine=?, @failureType=?",
-		"parameters":{  
-		"Start Date":{  
+		"parameters":{ 
+		"Start Date":{ 
 			"type":"date"
 		},
-		"End Date":{  
+		"End Date":{ 
 			"type":"date"
 		},
-		"Machine":{  
+		"Machine":{ 
 			"type":"select",
 			"query":"AllMachinesMattec"
 		},
-		"Failure Type":{  
+		"Failure Type":{ 
 			"type":"select",
-			"options":[  
-					{  
-					"_value":"major",
-					"__text":"major"
+			"options":[ 
+					{ 
+					"value":"major",
+					"text":"major"
 					},
-					{  
-					"_value":"minor",
-					"__text":"minor"
+					{ 
+					"value":"minor",
+					"text":"minor"
 					}
 				]
 		}
 		}
 	},
-	"5TScoreByMachine":{  
+	"5TScoreByMachine":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pFiveTScoreByMachinePerMonth @machine=?, @year=?",
-		"parameters":{  
-		"Machine":{  
+		"parameters":{ 
+		"Machine":{ 
 			"type":"select",
 			"query":"AllMachines"
 		},
-		"Year":{  
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"5TScoreByZone":{  
+	"5TScoreByZone":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pFiveTScoreByZonePerMonth @zone=?, @year=?",
-		"parameters":{  
-		"Zone":{  
+		"parameters":{ 
+		"Zone":{ 
 			"type":"select",
 			"query":"AllZones"
 		},
-		"Year":{  
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"5TScoreByDept":{  
+	"5TScoreByDept":{ 
 		"connection":"Safety",
 		"qstring":"EXEC pFiveTScoreByDeptPerMonth @dept=?, @year=?",
-		"parameters":{  
-		"Department":{  
+		"parameters":{ 
+		"Department":{ 
 			"type":"select",
 			"query":"AllDepartments"
 		},
-		"Year":{  
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"5TAuditScores":{  
+	"5TAuditScores":{ 
 		"connection":"Safety",
 		"qstring":"SELECT ID, AuditDate, Plant, Department, Zone, Machine, [Total Score], [Total Possible] FROM vFiveT WHERE YEAR(AuditDate)=?",
-		"parameters":{  
-		"Year":{  
+		"parameters":{ 
+		"Year":{ 
 			"type":"number"
 		}
 		}
 	},
-	"LPAAuditsByAuditorThisWeek":{  
+	"LPAAuditsByAuditorThisWeek":{ 
 		"connection":"Safety",
-		"qstring":"\n    SELECT au.AuditorName, COUNT(*) AS Audits\n    FROM LPA l\n\t    JOIN Auditor au\n\t\t    ON au.ID = l.AuditorID\n    WHERE DATEPART(wk, l.AuditDate)=DATEPART(wk, GETDATE())\n    GROUP BY au.AuditorName\n  "
+		"qstring":" SELECT au.AuditorName, COUNT(*) AS Audits FROM LPA l JOIN Auditor au ON au.ID = l.AuditorID WHERE DATEPART(wk, l.AuditDate)=DATEPART(wk, GETDATE()) GROUP BY au.AuditorName "
 	}
 }

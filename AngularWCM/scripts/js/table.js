@@ -68,7 +68,7 @@ Table.prototype.open = function () {
     this.form.http({
         method: "POST",
         url: "/scripts/php/Form.php",
-        data: "Function=Query&Query=SELECT * FROM ["+tbl.name+"] WHERE ["+tbl.getOpenBy()+"]=?&ASSOC=true&Connection="+tbl.connection+"&Params="+JSON.stringify([tbl.getOpenByValue()]),
+        data: "Query=SELECT * FROM ["+tbl.name+"] WHERE ["+tbl.getOpenBy()+"]=?&ASSOC=true&Connection="+tbl.connection+"&Params="+JSON.stringify([tbl.getOpenByValue()]),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     .success(function (resp) {

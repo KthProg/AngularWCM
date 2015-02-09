@@ -57,7 +57,7 @@
     };
 
     $scope.getIssues = function (query, assignTo) {
-        $http.get("/scripts/php/Form.php?Function=Query&Query=" + query + "&ASSOC=true&Params=[]")
+        $http.get("/scripts/php/Form.php?Query=" + query + "&ASSOC=true&Params=[]")
         .success(function (resp) {
             var formatted = $scope.formatResponse(resp);
             var filtered = $scope.filterResponse(formatted);
@@ -86,7 +86,7 @@
     };
 
     $scope.openIssue = function (name, id, subcategory) {
-        $http.get("/scripts/php/Form.php?Function=Query&Query=OpenIssue&Params=" + JSON.stringify([name, id, subcategory]))
+        $http.get("/scripts/php/Form.php?Query=OpenIssue&Params=" + JSON.stringify([name, id, subcategory]))
         .success(function (resp) {
             $scope.getAllIssues();
         });
@@ -95,7 +95,7 @@
     $scope.closeIssue = function (name, id, subcategory) {
         var actionTaken = prompt("Enter in the action taken to close this issue.");
         if (actionTaken) {
-            $http.get("/scripts/php/Form.php?Function=Query&Query=CloseIssue&Params=" + JSON.stringify([name, id, subcategory, actionTaken]))
+            $http.get("/scripts/php/Form.php?Query=CloseIssue&Params=" + JSON.stringify([name, id, subcategory, actionTaken]))
             .success(function (resp) {
                 $scope.getAllIssues();
             });
