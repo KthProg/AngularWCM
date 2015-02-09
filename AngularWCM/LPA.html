@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+    
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -12,7 +12,7 @@
     <script src="/scripts/js/field.js"></script>
     <script src="/scripts/js/format.js"></script>
 
-    <link href="http://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
+    
     <link rel="stylesheet" href="css/Normalize.css" />
     <link rel="stylesheet" href="css/Checklist.css" />
 
@@ -31,8 +31,8 @@
         Assembly -> Sequencing
         Molding/IP Mfg -> Molding, Foam, Thermoforming
         */
-        $(document.body).ready(function () {
-            var scope = angular.element($("[ng-app='wcm']")).scope();
+        document.addEventListener("DOMContentLoaded", function () {
+            var scope = angular.element(document.querySelector("[ng-app='wcm']")).scope();
             scope.showLines = [];
             scope.showList = [
                 [0],
@@ -74,7 +74,7 @@
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="form.initialize('LPA', 'Safety', ['LPA', 'LPALine'], 'vLPA', {'LPALine' : 52},
+      ng-init="form.initialize('LPA', 'Safety', ['LPA', 'LPALine'], {'LPALine' : 52},
     {'LPALine' : {
         0 : { 'CategoryID' : 17, 'SubCategoryID' : 91 }, 1 : { 'CategoryID' : 17, 'SubCategoryID' : 92 }, 2 : { 'CategoryID' : 18, 'SubCategoryID' : 93 },
         3 : { 'CategoryID' : 18, 'SubCategoryID' : 94 }, 4 : { 'CategoryID' : 18, 'SubCategoryID' : 142 }, 5 : { 'CategoryID' : 19, 'SubCategoryID' : 95 },

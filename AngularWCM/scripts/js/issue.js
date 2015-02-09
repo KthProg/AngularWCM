@@ -9,8 +9,8 @@
     $scope.closedIssues = [{ Name: "Initializing" }];
 
     $scope.$on('filter', function (event, args) {
-        $("select option:selected").each(function () {
-            $scope.filter[$(this).parent().parent().attr("id")] = $(this).text();
+        [].splice.call(document.querySelectorAll("select option:selected")).forEach(function (op) {
+            $scope.filter[op.parentNode.parentNode.id] = op.innerText;
         });
         console.log($scope.filter);
         $scope.getAllIssues();

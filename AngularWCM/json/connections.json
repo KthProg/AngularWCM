@@ -1,0 +1,21 @@
+{
+	"Safety" : {
+		"__comment" : "host has two escaped backslashes, equivalent to two normal backslashes",
+		"host": "10.1.10.50\\SQL2008",
+		"user": "safety1",
+		"password": "Safety",
+		"database": "Safety"
+	},
+	"Mattec" : {
+		"host": "192.9.200.26",
+		"user": "datanat1",
+		"password": "datanat1",
+		"database": "Mattec_Prohelp"
+	},
+	"OpenCommercialIssues" : {
+		"host": "c4g66qc7dm.database.windows.net",
+		"user": "db_dceb449d_70fa_45e2_aa34_ad9b90bd6cbc_ExternalReader",
+		"password": "zMYF>YJGm&S&98y",
+		"database": "db_dceb449d_70fa_45e2_aa34_ad9b90bd6cbc"
+	}
+}

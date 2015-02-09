@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -29,12 +29,13 @@
         }
     </style>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
     <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/imageupload.js"></script>
     <script src="/scripts/js/field.js"></script>
     <script src="/scripts/js/format.js"></script>
 
@@ -42,7 +43,7 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('Unsafe Acts', 'Safety', ['UnsafeActs'], 'vUnsafeActs')">
+    ng-init="form.initialize('Unsafe Acts', 'Safety', ['UnsafeActs'])">
     <h1>Unsafe Act Form</h1>
     <h2>UA Number</h2>
     <field name="fields['ID']"></field>

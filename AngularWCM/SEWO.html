@@ -3,12 +3,13 @@
 <head>
     <title>SEWO</title>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.18/angular.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
     <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/sketch.js"></script>
     <script src="/scripts/js/field.js"></script>
     <script src="/scripts/js/format.js"></script>
 
@@ -19,7 +20,7 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('SEWO', 'Safety',['ESEWOs'], 'vSAFEs')">
+    ng-init="form.initialize('SEWO', 'Safety', ['ESEWOs'])">
     <table style="width: 100%;">
         <tr>
             <td colspan="5" class="dkgrey whitetext">
@@ -141,7 +142,7 @@
                         /*change to select when done*/
                     }
                 </style>
-                <img src="res/BodyChart.png" style="width: 200px; height: 200px;" />
+                <img src="http://192.9.200.62:8080/res/BodyChart.png" style="width: 200px; height: 200px;" />
                 <field name="fields['BodyPartID']"></field>
             </td>
             <td rowspan="11">

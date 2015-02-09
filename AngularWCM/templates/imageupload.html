@@ -1,11 +1,12 @@
-﻿<span>
+﻿<span ng-if="field.form.viewing == false">
     <label for="tables['{{field.table.name}}'].records[{{field.getRecordNumber()}}].fields['{{field.name}}']">
         <img src="res/upload.png" alt="Upload">
     </label>
-    <input type="file" style="display: none;" 
-           onchange="angular.element($('[ng-app=wcm]')).scope().$broadcast('saveImage', {target: this})" 
+    <input accept="image/*" type="file" style="display: none;"
+           onchange="angular.element(document.querySelector('[ng-app=wcm]')).scope().$eval(this.id).image.save()"
            id="tables['{{field.table.name}}'].records[{{field.getRecordNumber()}}].fields['{{field.name}}']" />
 </span>
 <span ng-if="field.value">
-    <img style="height:50px; width: 50px;" src="{{field.value}}" />
+    <img style="height: 50px; width: 50px; cursor: pointer;" src="{{field.value}}" 
+         onclick="if (this.style.width == '50px') { this.style.width = '800px'; this.style.height = '600px' } else { this.style.width = '50px'; this.style.height = '50px'; }" />
 </span>

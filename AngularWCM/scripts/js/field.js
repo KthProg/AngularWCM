@@ -41,21 +41,61 @@
     // the text vallues for the options for this field 
     this.fkTextField = ""
 
-    this.value = "";
-    this.defaultValue = defaultValue;
-    this.setValue(defaultValue);
+    this.defaultValue = defaultValue ? defaultValue : null;
+    this.setValue(defaultValue || "");
+
+    try {
+        this.sketch = new Sketch(this.getIDString());
+    } catch (e) {
+        //console.log(e.message);
+        try {
+            this.image = new ImageUpload(this.getIDString());
+        } catch (e) {
+            //console.log(e.message);
+        }
+    }
+
+    this.watchSketchOrImage();
 }
 
 Field.prototype.setValue = function (val) {
     this.value = val;
     this.format();
-    if (this.isImageURI()) {
-        this.renderSketch();
-    } else {
-        var se = this.getSketchOrImageEl();
-        if (se) {
-            this.clearSketch();
+    this.updateSketchOrImage();
+};
+
+Field.prototype.updateSketchOrImage = function () {
+    var se = this.getSketchOrImageEl();
+    if (se && this.value) {
+        if (se.tagName == "CANVAS") {
+            this.sketch.uri = this.value.replace(/ /g, "+");
+            this.sketch.render();
+        } else if (se.tagName == "INPUT") {
+            this.image.uri = this.value.replace(/ /g, "+");
         }
+    }
+};
+
+Field.prototype.getIDString = function (tbl, recNum, field) {
+    var table = tbl || this.table.name;
+    var rec = recNum || this.getRecordNumber();
+    var f = field || this.name;
+    return "tables['" + table + "'].records[" + rec + "].fields['" + f + "']";
+};
+
+Field.prototype.watchSketchOrImage = function () {
+    var f = this;
+    var se = this.getSketchOrImageEl();
+    if (!se) { return; }
+    var idStr = this.getIDString();
+    if (this.sketch) {
+        this.form.scope.$watch(idStr + ".sketch.uri", function (n) {
+            f.setValue(n);
+        });
+    } else if (this.image) {
+        this.form.scope.$watch(idStr + ".image.uri", function (n) {
+            f.setValue(n);
+        });
     }
 };
 
@@ -65,78 +105,27 @@ Field.prototype.clearValue = function () {
 
 Field.prototype.format = function () {
     this.value = Formatter.stringToJSObj(this.value, this.type);
-    this.value = Formatter.preventNullsIfNeccessary(this.value, this.type, this.bindingType, this.nullable);
+    this.value = Formatter.preventNullsIfNeccessary(this.value, this.type, this.nullable);
 };
 
 Field.prototype.getAsString = function () {
     var val = Formatter.jsObjToString(this.value, this.type);
-    val = Formatter.preventNullsIfNeccessary(this.value, this.type, this.bindingType, this.nullable);
+    val = Formatter.preventNullsIfNeccessary(val, this.type, this.nullable);
     return val;
 };
 
-Field.prototype.saveSketch = function () {
-    var sketchArea = this.getSketchOrImageEl();
-    this.value = sketchArea[0].toDataURL().replace(/ /g, "+");
-};
-
 Field.prototype.getSketchOrImageEl = function () {
-    var se = $('[id="tables[\'' + this.table.name + '\'].records[' + this.getRecordNumber() + '].fields[\'' + this.name + '\']"]');
-    if (se.length !== 0) {
+    var se = document.getElementById(this.getIDString());
+    if (se) {
         return se;
     } else {
         return false;
     }
 };
 
-Field.prototype.clearSketch = function () {
-    var sketchArea = this.getSketchOrImageEl();
-    if (sketchArea && (sketchArea.prop("tagName") == "CANVAS")) {
-        var sketchCtx = sketchArea[0].getContext("2d");
-        sketchCtx.clearRect(0, 0, sketchArea.width(), sketchArea.height());
-    }
-};
-
-Field.prototype.drawSketch = function () {
-    var sketchArea = this.getSketchOrImageEl();
-    var sketchCtx = sketchArea[0].getContext("2d");
-    var sa = sketchArea;
-    var sc = sketchCtx;
-
-    var off = sa.offset();
-    var relX = (mouse.x - off.left);
-    var relY = (mouse.y - off.top);
-    var pRelX = (mouse.prevX - off.left);
-    var pRelY = (mouse.prevY - off.top);
-
-    sc.strokeStyle = sa.siblings("input[type='color']").val();
-    sc.lineWidth = sa.siblings("input[type='number']").val();
-
-    if (mouse.leftDown) {
-        sc.beginPath();
-        sc.moveTo(pRelX, pRelY);
-        sc.lineTo(relX, relY);
-        sc.stroke();
-    }
-}
-
-Field.prototype.renderSketch = function () {
-        this.clearSketch();
-        var sketchArea = this.getSketchOrImageEl();
-        if (sketchArea && (sketchArea.prop("tagName") == "CANVAS")) {
-            var sketchCtx = sketchArea[0].getContext("2d");
-            var img = new Image();
-            // string is invalid URL if spaces are not
-            // replaced with +
-            img.src = this.value.replace(/ /g, "+");
-            img.onload = function () {
-                sketchCtx.drawImage(img, 0, 0);
-            };
-        }
-};
-
-Field.prototype.isImageURI = function () {
-    return (String(this.value).indexOf("data:image") > -1);
-};
+//Field.prototype.isImageURI = function () {
+//    return (String(this.value).indexOf("data:image") > -1);
+//};
 
 Field.prototype.makeCopy = function () {
     var field = new Field(this.form, this.table, this.record,
@@ -150,20 +139,9 @@ Field.prototype.makeCopy = function () {
     return field;
 };
 
-Field.prototype.toDataObject = function () {
-    return {
-        name: this.name,
-        value: this.getAsString()
-    };
-};
-
-Field.prototype.toDataString = function () {
-    return encodeURIComponent(JSON.stringify(this.toDataObject));
-};
-
 Field.prototype.getBoundField = function () {
     var f1 = this;
-    // bounnd field already set
+    // bound field already set
     if(Object.keys(f1.boundField).length > 0){ return true; }
 
     Object.keys(f1.form.tables).some(function (t) {
@@ -196,11 +174,11 @@ Field.prototype.getRecordNumber = function () {
     return this.table.records.indexOf(this.record);
 };
 
-Field.prototype.getFKTableInfo = function () {
+Field.prototype.getFKTableData = function () {
     if (!this.isFK) { return false; }
     if (this.bindingType == "options") {
         var field = this;
-        this.form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'"+this.fkTable+"'"])))
+        this.form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'" + this.fkTable + "'"])))
         .success(function (resp) {
             resp.forEach(function (f) {
                 if (f.IsFK == "1") {
@@ -212,7 +190,7 @@ Field.prototype.getFKTableInfo = function () {
                 }
             });
             field.getBoundField();
-            field.getInitialOptions();
+            field.getOptions();
             field.watchDependency();
         });
     } else if (this.bindingType == "values") {
@@ -225,6 +203,16 @@ Field.prototype.getFKTableInfo = function () {
                 if (f2.table.name == f1.fkTable
                     && f2.name == f1.fkColumn) {
                     f1.boundField = f2;
+                    // if this field is bound to the primary key
+                    // of another table which exists in this form (not external)
+                    // then it must be the field which the records are filtered by
+                    // for instance, TBL_1 is the main table with PK_1 as the primary key
+                    // TBL_2 also has an ID field, but it will be opened by FK_2_PK_1
+                    // which is a foreign key pointing to the PK_1 field of TBL_1
+                    // since FK_2_PK_1 then determines what record in TBL_1 each
+                    // record in TBL_2 is associated with. thus the distinction
+                    // between the primary key, and the field which the records are
+                    // actually 'opened by'
                     if (f2.isPK) {
                         f1.isOpenBy = true;
                     }
@@ -240,100 +228,55 @@ Field.prototype.watchDependency = function () {
     if (Object.keys(this.boundField).length == 0) { return false; }
     var field = this;
 
-    if (this.boundField.table.name != undefined
-        //&& this.recNum != undefined
-        && this.boundField.name != undefined) {
-        var watchText = "tables['" + this.boundField.table.name + "'].records[" + this.getRecordNumber() + "].fields['" + this.boundField.name + "'].value";
-        if (!field.form.scope.$eval(watchText)) {
-            watchText = "tables['" + this.boundField.table.name + "'].records[0].fields['" + this.boundField.name + "'].value";
-        }
-        if (this.bindingType == "options") {
-            (function (f, wt) {
-                field.form.scope.$watch(wt,
-                    function (n) {
-                        f.getOptions(n);
-                    });
-            })(field, watchText);
-            return true;
-        } else if (this.bindingType == "values") {
-            (function (f, wt) {
-                field.form.scope.$watch(wt,
-                    function (n) {
-                        f.value = n;
-                    });
-            })(field, watchText);
-        }
-    }
-};
+    if (this.boundField.table.name == undefined || this.boundField.name == undefined) { return; }
 
-Field.prototype.getInitialOptions = function () {
-    var field = this;
-    if (Object.keys(this.boundField).length == 0) {
-        field.form.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValues&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable])))
-        .success(function (resp) {
-            field.options = Object.keys(resp).map(function (key) {
-                return { k: key, v: resp[key] };
-            });
-        });
+    // watch the bound field associated with the same record number
+    var watchText = this.boundField.getIDString() + ".value";
+    // if the bound field does not exist for this record, 
+    // then watch the bound field in the first record (record 0)
+    if (!field.form.scope.$eval(watchText)) {
+        watchText = this.boundField.getIDString(undefined, 0) + ".value";
     }
+
+    if (this.bindingType == "options") {
+        var bindingFunc = function (n) { field.getOptions(n); };
+    } else if (this.bindingType == "values") {
+        var bindingFunc = function (n) { field.value = n; };
+    }
+
+    field.form.scope.$watch(watchText, bindingFunc);
 };
 
 Field.prototype.getOptions = function (val) {
-    if (val) {
-        var field = this;
-        field.form.http.get("/scripts/php/Form.php?Function=Query&Query=SelectKeysAndValuesFilter&Params=" + encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val])))
-        .success(function (resp) {
-            field.options = Object.keys(resp).map(function (key) {
-                return { k: key, v: resp[key] };
-            });
+    var field = this;
+    var optionsSuccess = function (resp) {
+        field.options = resp.map(function (row) {
+            return { k: Number(row[0]), v: row[1] };
         });
+    };
+
+    if (val) {
+        var query = "SelectKeysAndValuesFilter";
+        var params = encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val]));
+    } else if (Object.keys(this.boundField).length == 0) {
+        var query = "SelectKeysAndValues";
+        var params = encodeURIComponent(JSON.stringify([this.fkColumn, this.fkTextField, this.fkTable]));
+    } else {
+        return;
     }
+
+    this.form.http.get("/scripts/php/Form.php?Function=Query&Query="+query+"&Named=true&Params=" + params).success(optionsSuccess);
 };
 
-Field.prototype.getOptionText = function (value) {
+Field.prototype.getOptionText = function (key) {
     var text = "";
     this.options.some(function (op) {
-        if (op.k == value) {
+        if (op.k == key) {
             text = op.v;
             return true;
         }
     });
     return text;
-};
-
-Field.prototype.resizeImage = function () {
-    var MAX_WIDTH = 800;
-    var MAX_HEIGHT = 600;
-
-    var img = new Image();
-    img.src = this.value;
-
-    var width = img.width;
-    var height = img.height;
-
-    if (width > height) {
-        if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-        }
-    } else {
-        if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-        }
-    }
-
-    var canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, width, height);
-
-    this.value = canvas.toDataURL("image/jpeg", 0.5);
-
-    canvas = null;
-    img = null;
 };
 
 app.directive('field', function () {
@@ -366,22 +309,3 @@ app.directive('imageupload', function () {
         }
     };
 });
-
-//update mouse for sketches
-
-var mouse = { x: 0, y: 0, prevX: 0, prevY: 0, leftDown: false, leftUp: false };
-
-document.addEventListener('mousemove', function (e) {
-    mouse.prevX = mouse.x;
-    mouse.prevY = mouse.y;
-    mouse.x = e.pageX || e.clientX;
-    mouse.y = e.pageY || e.clientY;
-}, false);
-
-document.addEventListener('mousedown', function (e) {
-    mouse.leftDown = (e.button === 0);
-}, false);
-
-document.addEventListener('mouseup', function (e) {
-    mouse.leftDown = false;
-}, false);

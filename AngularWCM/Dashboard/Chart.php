@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WCM Reporting</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -268,12 +268,12 @@
             </select>
             <div id="params">
                 <div ng-repeat="param in parameters">
-                    <label>{{ param['@attributes'].name }}</label>
+                    <label>{{ param.name }}</label>
                     <div ng-if="['text','date','datetime','datetime-local','time','range','number'].indexOf(param.type) > -1">
                         <input type="{{ param.type }}" ng-model="param.value" />
                     </div>
                     <div ng-if="param.type=='select'">
-                        <select ng-model="param.value" ng-options="k as v for (k,v) in param.options.option"></select>
+                        <select ng-model="param.value" ng-options="k as v for (k,v) in param.options"></select>
                     </div>
                     <div ng-if="param.type=='textarea'">
                         <textarea ng-model="param.value"></textarea>

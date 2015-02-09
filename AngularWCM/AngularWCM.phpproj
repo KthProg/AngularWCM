@@ -26,7 +26,6 @@
     <Compile Include="QuickKaizen.html" />
     <Compile Include="scripts\php\AlertOpenIssues.php" />
     <Compile Include="scripts\php\Form.php" />
-    <Compile Include="scripts\php\getParams.php" />
     <Compile Include="5T.html" />
     <Compile Include="scripts\php\SendEmails.php" />
     <Compile Include="scripts\php\smtp\class.phpmailer.php" />
@@ -41,10 +40,10 @@
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="Dashboard\" />
+    <Folder Include="json\" />
     <Folder Include="templates\" />
     <Folder Include="res\" />
     <Folder Include="scripts\php\smtp\" />
-    <Folder Include="xml\" />
     <Folder Include="scripts\" />
     <Folder Include="scripts\js\" />
     <Folder Include="scripts\php\" />
@@ -66,6 +65,8 @@
     <Content Include="Dashboard\PM.html" />
     <Content Include="Dashboard\LO.html" />
     <Content Include="Dashboard\SA.html" />
+    <Content Include="json\connections.json" />
+    <Content Include="json\queries.json" />
     <Content Include="JSRA.html" />
     <Content Include="res\5t.gif" />
     <Content Include="res\am_header.png" />
@@ -113,7 +114,9 @@
     <Content Include="scripts\js\field.js" />
     <Content Include="scripts\js\format.js" />
     <Content Include="scripts\js\form.js" />
+    <Content Include="scripts\js\imageupload.js" />
     <Content Include="scripts\js\record.js" />
+    <Content Include="scripts\js\sketch.js" />
     <Content Include="scripts\js\table.js" />
     <Content Include="SEWO.html" />
     <Content Include="scripts\js\chart.js" />
@@ -122,7 +125,5 @@
     <Content Include="templates\imageupload.html" />
     <Content Include="templates\sketch.html" />
     <Content Include="templates\field.html" />
-    <Content Include="xml\connections.xml" />
-    <Content Include="xml\queries.xml" />
   </ItemGroup>
 </Project>

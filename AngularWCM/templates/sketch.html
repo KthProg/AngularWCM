@@ -1,7 +1,12 @@
-﻿<button type="button" ng-click="field.clearSketch()">Clear</button>
-<input type="color" style="width: 30px; height: 20px;" />
-<label>Brush Size:</label>
-<input style="width: 90px; height: 40px;" type="number" min="1" max="50" step="1" value="2" />
-<canvas id="tables['{{field.table.name}}'].records[{{field.getRecordNumber()}}].fields['{{field.name}}']" 
-        ng-mousemove="field.drawSketch()" ng-mouseleave="field.saveSketch($event);" 
-        style="border: 1px solid grey; cursor: crosshair;">Your browser does not support this sketch box.</canvas>
+﻿<span ng-if="field.form.viewing == false">
+    <button type="button" ng-click="field.sketch.clear()">Clear</button>
+    <input type="color" style="width: 30px; height: 20px;" />
+    <label>Brush Size:</label>
+    <input style="width: 90px; height: 40px;" type="number" min="1" max="50" step="1" value="2" />
+    <canvas width="400" height="300" id="tables['{{field.table.name}}'].records[{{field.getRecordNumber()}}].fields['{{field.name}}']"
+            ng-mousemove="field.sketch.draw()" ng-mouseleave="field.sketch.save($event);"
+            style="border: 1px solid grey; cursor: crosshair;">
+        Your browser does not support this sketch box.
+    </canvas>
+</span>
+<img ng-if="field.form.viewing == true" src="{{field.value}}" />

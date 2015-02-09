@@ -1,11 +1,32 @@
-﻿<select ng-if="field.bindingType == 'options' || ops" ng-model="field.value">
-    <option ng-if="field.bindingType == 'options'" ng-repeat="op in field.options | orderBy: 'v'" value="{{op.k}}">{{op.v}}</option>
-    <option ng-if="ops.length" ng-repeat="op in ops | orderBy: '+'" value="{{op}}">{{op}}</option>
-    <option ng-if="!ops.length" ng-repeat="(k,v) in ops" value="{{k}}">{{v}}</option>
-</select>
-<textarea ng-if="field.bindingType != 'options' && !ops && (['text','ntext','nvarchar','varchar'].indexOf(field.type) > -1)" placeholder="{{field.name}}" ng-model="field.value"></textarea>
-<input ng-if="field.bindingType != 'options' && !ops && (['double','float','int','money'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" />
-<input ng-if="field.bindingType != 'options' && !ops && field.type == 'bit'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" />
-<input ng-if="field.bindingType != 'options' && !ops && field.type == 'date'" type="date" ng-model="field.value" />
-<input ng-if="field.bindingType != 'options' && !ops && field.type == 'time'" type="time" ng-model="field.value" />
-<input ng-if="field.bindingType != 'options' && !ops && field.type == 'datetime'" type="datetime-local" ng-model="field.value" />
+﻿<span ng-if="field.form.viewing == false">
+    <select ng-if="field.bindingType == 'options'" ng-model="field.value" ng-options="o.k as o.v for o in field.options | orderBy: 'v'" required><option value=""></option></select>
+    <!-- if the ops object is an array of values -->
+    <select ng-if="ops && !ops[0].k" ng-model="field.value" ng-options="op for op in ops | orderBy : '+'"><option value=""></option></select>
+    <!-- if the ops object is an array of objects -->
+    <select ng-if="ops && ops[0].k" ng-model="field.value" ng-options="o.k as o.v for o in ops"><option value=""></option></select>
+    <span ng-if="field.bindingType != 'options' && !ops">
+        <textarea ng-if="(['text','ntext','nvarchar','varchar'].indexOf(field.type) > -1)" placeholder="{{field.name}}" ng-model="field.value"></textarea>
+        <input ng-if="(['double','float','int','money'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" />
+        <input ng-if="field.type == 'bit'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" />
+        <input ng-if="field.type == 'date'" type="date" ng-model="field.value" />
+        <input ng-if="field.type == 'time'" type="time" ng-model="field.value" />
+        <input ng-if="field.type == 'datetime'" type="datetime-local" ng-model="field.value" />
+    </span>
+</span>
+<span ng-if="field.form.viewing == true">
+    <span ng-if="field.bindingType == 'options'">
+        <span ng-if="field.bindingType == 'options'">{{field.getOptionText(field.value)}}</span>
+    </span>
+    <span ng-if="ops">
+        <!-- if the ops object is an array -->
+        <span ng-if="ops.length">{{field.value}}</span>
+        <!-- if the ops object is NOT an array -->
+        <span ng-if="!ops.length">{{field.getOptionText(field.value)}}</span>
+    </span>
+    <span ng-if="field.bindingType != 'options' && !ops">
+        <span ng-if="(['date','time','datetime'].indexOf(field.type) == -1)">{{field.value}}</span>
+        <span ng-if="field.type =='datetime'">{{field.value.toLocaleString()}}</span>
+        <span ng-if="field.type =='date'">{{field.value.toLocaleDateString()}}</span>
+        <span ng-if="field.type =='time'">{{field.value.toLocaleTimeString()}}</span>
+    </span>
+</span>

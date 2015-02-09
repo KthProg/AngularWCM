@@ -198,42 +198,74 @@
         });
     };
 
-    var sendNoParamQuery = function (query) {
-        var queryResult;
+    $scope.getParams = function () {
+        $http.get("/xml/queries.xml")
+        .success(function (resp) {
+            var xml = $.parseXML(resp);
+            var parametersXML = $(xml).find("query[name='" + $scope.query + "'] parameter");
+            var parameters = [];
+            parametersXML.each(function () {
+                parameters.push({});
+                var thisParam = parameters[parameters.length - 1];
+                thisParam["name"] = this.getAttribute("name");
+                var properties = $(this).children();
+                properties.each(function () {
+                    if (this.tagName != "options") {
+                        thisParam[this.tagName] = this.textContent;
+                    } else {
+                        var optionsXML = $(this).children();
+                        var options = {};
+                        optionsXML.each(function () {
+                            options[this.getAttribute("value")] = this.textContent;
+                        });
+                        thisParam["options"] = options;
+                    }
+                });
+                $scope.parameters = parameters;
+            });
+            $scope.getParameterOptions();
+        });
+    }
+
+    $scope.getParameterOptions = function () {
+        $scope.parameters.forEach(function (prm) {
+            if (prm.query) {
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        Query: prm.query,
+                        Params: "[]",
+                        Function: "Query"
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        prm.options = data;
+                        $scope.$apply();
+                    },
+                    url: "/scripts/php/Form.php"
+                });
+            }
+        });
+    };
+
+    $scope.getLayouts = function () {
         $.ajax({
             type: "POST",
-            async: false,
             data: {
-                Query: query,
+                Query: "GetDashboardLayouts",
                 Params: "[]",
                 Function: "Query"
             },
             dataType: "json",
             success: function (data) {
-                queryResult = data;
+                $scope.layouts = data;
+                $scope.$apply();
             },
             url: "/scripts/php/Form.php"
         });
-        return queryResult;
-    }
+    };
 
-    $scope.getParams = function () {
-        $http.get("/scripts/php/getParams.php?Query=" + $scope.query)
-        .success(function (resp) {
-            if (resp["parameter"] instanceof Array) {
-                $scope.parameters = resp["parameter"];
-            } else {
-                $scope.parameters = [resp["parameter"]];
-            }
-            $scope.parameters.forEach(function (el) {
-                if (el.query) {
-                    el["options"] = { option: sendNoParamQuery(el.query) };
-                }
-            });
-        });
-    }
-
-    $scope.layouts = sendNoParamQuery("GetDashboardLayouts");
+    $scope.getLayouts();
 }
 
 app.controller("Dashboard", Dashboard);

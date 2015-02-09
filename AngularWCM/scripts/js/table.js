@@ -1,40 +1,12 @@
-﻿function Table(form, name, connection, pk, ids, isMain, recCount) {
+﻿function Table(form, name, connection, isMain, recCount) {
     this.form = form;
 
     this.name = name;
     this.connection = connection;
-    this.pk = pk;
     this.openBy = "";
-    this.ids = ids;
     this.isMain = isMain;
     this.records = [];
     this.minRecordCount = recCount;
-}
-
-Table.prototype.setPKFromFields = function () {
-    var tbl = this;
-    var ret = false;
-    Object.keys(tbl.records[0].fields).forEach(function (f) {
-        var field = tbl.records[0].fields[f];
-        if (field.isPK) {
-            tbl.pk = field.name;
-            ret = true;
-        }
-    });
-    return ret;
-};
-
-Table.prototype.getMaxID = function () {
-    var tbl = this;
-    this.form.http({
-        method: "POST",
-        url: "/scripts/php/Form.php",
-        data: tbl.toDataString() + "&Function=getMaxID",
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })
-    .success(function (resp) {
-        tbl.setID(++resp);
-    });
 }
 
 Table.prototype.watchIDForOpen = function () {
@@ -48,77 +20,15 @@ Table.prototype.watchIDForOpen = function () {
     });
 };
 
-Table.prototype.setID = function (id) {
-    var pk = this.getPK();
-    if (pk) {
-        //this.records[0].fields[this.getPK()].setValue(id);
-        this.records[0].fields[this.getPK()].defaultValue = id;
-    } else {
-        console.log("Error no pk, got " + pk);
-    }
-};
-
-Table.prototype.getIDs = function () {
-    var tbl = this;
-    this.ids = this.records.map(function (rec) {
-        return rec.fields[tbl.getPK()].value;
-    });
-};
-
-Table.prototype.getDataObjectWithRecords = function () {
-    var tbl = this;
-    var recs = [];
-    this.records.forEach(function (rec) {
-        recs.push(rec.toDataObject());
-    });
-    var tblObj = this.toDataObj();
-    tblObj["records"] = recs;
-    return tblObj;
-};
-
 Table.prototype.getPK = function () {
-    if (this.pk) {
-        return this.pk;
-    } else {
-        var pk = this.setPKFromFields();
-        if (pk) {
-            return this.pk;
-        } else {
-            console.log("No pk found, got " + pk);
-            return false;
+    var rec = this.records[0];
+    for (var f in rec.fields) {
+        var field = rec.fields[f];
+        if (field.isPK) {
+            return field.name;
         }
     }
-};
-
-Table.prototype.getOpenBy = function () {
-    if (this.openBy) {
-        return this.openBy;
-    } else {
-        this.setOpenByFromFields();
-        return this.openBy;
-    }
-};
-
-Table.prototype.setOpenByFromFields = function () {
-    var tbl = this;
-    var ret = false;
-    Object.keys(this.records[0].fields).forEach(function (f) {
-        var field = tbl.records[0].fields[f];
-        if (field.isOpenBy) {
-            tbl.openBy = field.name;
-            ret = true
-        }
-    });
-    if (!tbl.openBy) {
-        var pk = this.getPK();
-        if (pk) {
-            ret = true;
-            tbl.openBy = pk;
-        } else {
-            ret = false;
-        }
-    }
-    return ret;
+    return false;
 };
 
 Table.prototype.getID = function () {
@@ -131,31 +41,25 @@ Table.prototype.getID = function () {
     }
 };
 
+Table.prototype.getOpenBy = function () {
+    var rec = this.records[0];
+    for (var f in rec.fields) {
+        var field = rec.fields[f];
+        if (field.isOpenBy) {
+            return field.name;
+        }
+    }
+    return this.getPK();
+};
+
 Table.prototype.getOpenByValue = function () {
     var ob = this.getOpenBy();
     if (ob) {
         return this.records[0].fields[ob].value;
     } else {
-        console.log("Error no ob, got " + ob);
+        console.log("Error no open by field, got " + ob);
         return 0;
     }
-};
-
-Table.prototype.toDataObj = function () {
-    return {
-        Name: this.name,
-        Table: this.name,
-        PK: this.getPK(),
-        OpenBy: this.getOpenBy(),
-        OpenByValue: this.getOpenByValue(),
-        ID: this.getID(),
-        IsMain: this.isMain,
-        Connection: this.connection
-    };
-};
-
-Table.prototype.toDataString = function () {
-    return "Form=" + encodeURIComponent(JSON.stringify(this.toDataObj()));
 };
 
 Table.prototype.open = function () {
@@ -164,19 +68,14 @@ Table.prototype.open = function () {
     this.form.http({
         method: "POST",
         url: "/scripts/php/Form.php",
-        data: tbl.toDataString() + "&Function=Open",
+        data: "Function=Query&Query=SELECT * FROM ["+tbl.name+"] WHERE ["+tbl.getOpenBy()+"]=?&ASSOC=true&Connection="+tbl.connection+"&Params="+JSON.stringify([tbl.getOpenByValue()]),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     .success(function (resp) {
-        if (resp.length == 0) {
-            alert(tbl.name + " number " + tbl.getOpenByValue() + " does not exist.");
-            tbl.clear();
-            tbl.form.hasRecord = false;
-            return;
-        }
         tbl.clear();
         if (!(resp instanceof Array)) {
-            alert("Invalid data returned: expected Array.");
+            tbl.form.hasRecord = false;
+            alert(resp[Object.keys(resp)[0]]);
             return;
         }
         resp.forEach(function (row, rowi) {
@@ -210,11 +109,25 @@ Table.prototype.addRecord = function () {
 Table.prototype.copyRecord = function (i) {
     var newRec = this.records[i].makeCopy();
     this.records.push(newRec);
-    this.records[this.records.length - 1].getAllFKInfo();
+    this.records[this.records.length - 1].getAllFKData();
 };
 
-Table.prototype.addDefaultRecords = function () {
-    while (this.records.length < this.minRecordCount) {
-        this.copyRecord(0);
-    }
+Table.prototype.makeQueryObjects = function () {
+    var queries = this.records.map(function (r) {
+        return r.makeAppropriateQueryObject();
+    });
+    return queries;
+};
+
+
+Table.prototype.getAllFKData = function () {
+    this.records.forEach(function (r) {
+        r.getAllFKData();
+    });
+};
+
+Table.prototype.clearRecords = function () {
+    this.records.forEach(function (r) {
+        r.clearFields();
+    });
 };

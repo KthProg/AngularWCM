@@ -1,159 +1,125 @@
 ﻿function Form($scope, $http) {
     $scope.form = this;
+    window.form = this;
 
     this.scope = $scope;
     this.http = $http;
+
     this.name = "";
-    this.view = "";
     this.emailBody = "";
-    this.hasRecord = false;
-    this.tables = {};
     this.mainTable = "";
 
-    $scope.tables = this.tables;
-    //$scope.records = [];
+    this.tables = $scope.tables = {};
     $scope.fields = {};
+
+    this.hasRecord = false;
+    this.viewing = false;
+
+    this.INVALID_CONNECTION = -1;
+    this.EXECUTION_FAILED = -2;
+    this.NO_ROWS = -3;
 }
 
-Form.prototype.initialize = function (name, connection, tables, view, tableRecordCount, defaultValues) {
-    tableRecordCount = tableRecordCount || {};
-
-    // given connection name, should fetch data from xml file?
+Form.prototype.initialize = function (name, connection, tables, tableRecordCount, defaultValues) {
     this.connection = connection;
     this.name = name;
-    // only appears to be used for searching...
-    this.view = view;
-    // may not be neccessary
-    this.mainTable = tables[0];
-    var form = this;
-    tables.forEach(function (tbl, i) {
-        form.tables[tbl] = new Table(form, tbl, connection, undefined, [], (i == 0), Number(tableRecordCount[tbl] || 1))
-        form.tables[tbl].addRecord();
-    });
+
+    //this.mainTable = tables[0];
+
+    this.createInitialTablesAndRecords(tables, tableRecordCount || {}, connection);
+    this.createInitialFields(tables, tableRecordCount || {}, defaultValues);
 
     // if there is only one table, add the fields to the scope for convenience
     // since there won't be any name conflicts anyways
     if (tables.length == 1) {
-        form.scope.fields = form.tables[this.mainTable].records[0].fields;
+        this.scope.fields = this.getMainTable().records[0].fields;
     }
-
-    var tblStr = "'" + tables.join("','") + "'";
-    form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
-    .success(function (resp) {
-        resp.forEach(function (f) {
-            form.tables[f.TABLE_NAME].records[0].fields[f.COLUMN_NAME] = new Field(form, form.tables[f.TABLE_NAME], form.tables[f.TABLE_NAME].records[0],
-                                                        f.COLUMN_NAME, f.DATA_TYPE, f.COLUMN_DEFAULT,
-                                                        (f.IsPK == "1"), (f.IsFK == "1"), f.REF_TABLE,
-                                                        f.REF_COLUMN, f.IS_NULLABLE == "YES",
-                                                        (f.REF_TABLE ? (tblStr.indexOf("'"+f.REF_TABLE+"'") > -1 ? "values" : "options") : "none"),
-                                                        (f.IS_IDENTITY == "1"), 0);
-        });
-        form.getAllFKData();
-        form.addDefaultRecords();
-        form.setDefaultValues(defaultValues);
-        //form.tables[form.mainTable].getMaxID();
-        form.tables[form.mainTable].watchIDForOpen();
-    });
-    this.scope.$on('$viewContentLoaded', function () {
-        form.setRightClickEventToSearch();
-    });
-    this.watchForImageUpload();
 };
 
-Form.prototype.watchForImageUpload = function () {
-    this.scope.$on("saveImage", function (event, args) {
-        var field = event.targetScope.$eval(args.target.id);
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            field.value = e.target.result.replace(/ /g, "+");
-            field.resizeImage();
-            event.targetScope.$apply(function () { });
-        };
-        reader.readAsDataURL(args.target.files[0]);
+Form.prototype.createInitialTablesAndRecords = function (tables, tableRecordCount, connection) {
+    var form = this;
+    tables.forEach(function (tbl, i) {
+        form.tables[tbl] = new Table(form, tbl, connection, (i == 0), Number(tableRecordCount[tbl] || 1))
+        for (var j = 0, l = Number(tableRecordCount[tbl] || 1) ; j < l; ++j) {
+            form.tables[tbl].addRecord();
+        }
+    });
+};
+
+Form.prototype.createInitialFields = function (tables, tableRecordCount, defaultValues) {
+    var form = this;
+    var tblStr = "'" + tables.join("','") + "'";
+    form.http.get("/scripts/php/Form.php?Function=Query&Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
+    .success(function (resp) {
+        if (!(resp instanceof Array)) { alert("Something went wrong!"); }
+        resp.forEach(function (f) {
+            for (var i = 0, l = Number(tableRecordCount[f.TABLE_NAME] || 1) ; i < l; ++i) {
+                var table = form.tables[f.TABLE_NAME];
+                var rec = table.records[i];
+                var isPK = (f.IsPK == "1");
+                var isFK = (f.IsFK == "1");
+                var nullable = (f.IS_NULLABLE == "YES");
+                var bindingType;
+                // it is bound to the value of another field
+                // in the form if its reference table (fk)
+                // is in this form. if its reference table
+                // is not in this form, then its options
+                // are retrieved via info given by its
+                // reference table and column
+                // if it has no reference table, then
+                // it is not bound to any other field
+                if (f.REF_TABLE) {
+                    if (tables.indexOf(f.REF_TABLE) > -1) {
+                        bindingType = "values";
+                    } else {
+                        bindingType = "options";
+                    }
+                } else {
+                    bindingType = "none";
+                }
+                var isID = (f.IS_IDENTITY == "1");
+                form.tables[f.TABLE_NAME].records[i].fields[f.COLUMN_NAME] = new Field(form, table, rec,
+                                                                                f.COLUMN_NAME, f.DATA_TYPE, f.COLUMN_DEFAULT,
+                                                                                isPK, isFK, f.REF_TABLE, f.REF_COLUMN,
+                                                                                nullable, bindingType, isID);
+            }
+        });
+        form.getAllFKData();
+        form.setDefaultValues(defaultValues);
+        form.getMainTable().watchIDForOpen();
     });
 };
 
 Form.prototype.setDefaultValues = function (defaultValues) {
     var form = this;
-    if (defaultValues) {
-        Object.keys(defaultValues).forEach(function (t) {
-            Object.keys(defaultValues[t]).forEach(function (r) {
-                Object.keys(defaultValues[t][r]).forEach(function (f) {
-                    form.tables[t].records[r].fields[f].defaultValue = defaultValues[t][r][f];
-                    form.tables[t].records[r].fields[f].setValue(defaultValues[t][r][f]);
-                });
-            })
-        });
-    }
-};
-
-Form.prototype.addDefaultRecords = function () {
-    this.applyToAllTables("addDefaultRecords");
-};
-
-Form.prototype.setRightClickEventToSearch = function () {
-    var form = this;
-    $("select, input, textarea").each(function () {
-        this.oncontextmenu = function () { return false; };
-        $(this).mousedown(function (e) {
-            if (e.which != 3) { return true; }
-            var field = $(e.target).attr("ng-model").split("'")[1];
-            var ops = e.target.options;
-            var optionText = "";
-            if (ops) {
-                for (var i = 0, l = ops.length; i < l; ++i) {
-                    optionText += ops[i].text + " : " + ops[i].value + "\n";
-                }
-            }
-            var searchFor = prompt("Enter a search term.\nFor drop-downs, a list of possible search terms are below (use the number, not the text).\n" + (optionText || ""));
-            if (searchFor) {
-                form.searchForms(field, searchFor);
-            } else {
-                alert("Empty or invalid search term.");
-            }
-            return false;
-        });
+    if (!defaultValues) { return; }
+    Object.keys(defaultValues).forEach(function (t) {
+        Object.keys(defaultValues[t]).forEach(function (r) {
+            Object.keys(defaultValues[t][r]).forEach(function (f) {
+                var field = form.tables[t].records[r].fields[f];
+                field.defaultValue = defaultValues[t][r][f];
+                field.setValue(defaultValues[t][r][f]);
+            });
+        })
     });
 };
 
-Form.prototype.searchForms = function (field, searchFor) {
-    this.http.get("/scripts/php/Form.php?Function=Query&Query=SearchForm&Params=" + JSON.stringify([this.tables[this.mainTable].getPK(), this.view, field, searchFor]))
-    .success(function (resp) {
-        var objectValuesToArray = function (obj) {
-            return Object.keys(obj).map(function (key) {
-                return obj[key];
-            });
-        };
-        var ids = objectValuesToArray(resp);
-        if (ids.length > 0) {
-            var userFriendlyIDs = ids.reduce(function (prev, curr) {
-                return prev + ", " + curr;
-            });
-            alert(userFriendlyIDs);
-        } else {
-            alert("No results.");
-        }
-    });
+Form.prototype.getMainTable = function () {
+    return this.tables[Object.keys(this.tables)[0]];
 };
 
 Form.prototype.getAllFKData = function () {
-    this.applyToAllFields("getFKTableInfo", null);
-};
-
-Form.prototype.applyToAllFields = function (funcStr) {
-    var form = this;
-    Object.keys(form.tables).forEach(function (t) {
-        form.tables[t].records.forEach(function (rec) {
-            Object.keys(rec.fields).forEach(function (f) {
-                var field = rec.fields[f];
-                field[funcStr]();
-            });
-        });
+    var f = this;
+    Object.keys(this.tables).forEach(function (tk) {
+        f.tables[tk].getAllFKData();
     });
 };
 
 Form.prototype.clearAll = function () {
-    this.applyToAllFields("clearValue");
+    var f = this;
+    Object.keys(this.tables).forEach(function (tk) {
+        f.tables[tk].clearRecords();
+    });
     this.hasRecord = false;
 };
 
@@ -162,131 +128,134 @@ Form.prototype.reset = function () {
 };
 
 Form.prototype.open = function () {
-    this.applyToAllTables("open");
-};
-
-Form.prototype.applyToAllTables = function (funcStr) {
-    var form = this;
-    Object.keys(form.tables).forEach(function (t) {
-        var tbl = form.tables[t];
-        tbl[funcStr]();
+    var f = this;
+    Object.keys(this.tables).forEach(function (tk) {
+        f.tables[tk].open();
     });
-};
-
-Form.prototype.setPKs = function () {
-    this.applyToAllTables("setPKFromFields");
-};
-
-Form.prototype.getFormDataObjectWithTables = function () {
-    var formDataObj = this.toDataObj();
-    var tblsDataObj = this.getTablesDataObj();
-    formDataObj["tables"] = tblsDataObj;
-    return formDataObj;
-};
-
-Form.prototype.getFormDataStringWithTables = function () {
-    return "Form=" + encodeURIComponent(JSON.stringify(this.getFormDataObjectWithTables()));
-};
-
-Form.prototype.toDataObj = function () {
-    return {
-        Name: this.name,
-        View: this.view,
-        EmailBody: this.emailBody
-    };
-};
-
-Form.prototype.getTablesDataObj = function () {
-    var tblsDataObj = [];
-    var form = this;
-    Object.keys(form.tables).forEach(function (t) {
-        tblsDataObj.push(form.tables[t].getDataObjectWithRecords());
-    });
-    return tblsDataObj;
-};
-
-Form.prototype.getTablesDataString = function () {
-    return "Tables=" + encodeURIComponent(JSON.stringify(this.getTablesDataObj()));
 };
 
 Form.prototype.update = function () {
-    this.updateOrSubmit(true);
+    this.executeQueries();
 };
 
 Form.prototype.submit = function () {
-    this.updateOrSubmit(false);
+    this.executeQueries();
 };
 
-Form.prototype.updateOrSubmit = function (updating) {
-    var form = this;
-    if (this.formIsValid()) {
-        this.emailBody = this.alterHTMLForEmail();
-        this.http({
-            method: "POST",
-            url: "/scripts/php/Form.php",
-            data: form.getFormDataStringWithTables() + "&Function=" + (updating ? "Update" : "Submit"),
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .success(function (resp) {
-            $(document.body).html(resp);
-        });
-    } else {
-        alert("Some inputs are not valid, these should appear highlighted in red. Fill these out to submit the form.");
-    }
-};
-
-Form.prototype.formIsValid = function () {
-    return $.makeArray($("select, input, textarea")).reduce(
-        function (p, c) {
-            return (p && (([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1) || $(c).is(':hidden')));
+Form.prototype.isValid = function () {
+    return [].slice.call(document.querySelectorAll("select, input, textarea"))
+        .reduce(function (p, c) {
+            return p
+                && (
+                    ([].indexOf.call(document.querySelectorAll(":invalid"), c) == -1)
+                    || ([].indexOf.call(document.querySelectorAll("[type='hidden']"), c) > -1)
+                );
         }, true);
 };
 
 Form.prototype.alterHTMLForEmail = function () {
 
-    var getAllCSS = function () {
-        var allCSS = "";
-        for (var i = 0, l = document.styleSheets.length; i < l; ++i) {
-            if (document.styleSheets[i].cssRules) { // if this css doc has any rules (sometimes it's null)
-                for (var j = 0, l2 = document.styleSheets[i].cssRules.length; j < l2; ++j) {
-                    allCSS += document.styleSheets[i].cssRules[j].cssText;
-                }
-            }
-        }
-        return allCSS;
-    }
+    this.viewing = true;
+    //this.scope.$apply();
 
-    var getInputValue = function (jqEl) {
-        switch (jqEl.prop("tagName")) {
-            case "SELECT":
-                return jqEl.children("option:selected").text();
-                break;
-            case "INPUT":
-            case "TEXTAREA":
-                return jqEl.val()
-                break;
+    var allCSS = [].slice.call(document.styleSheets).reduce(function (prev, styleSheet) {
+        if (styleSheet.cssRules) {
+            return prev +
+                [].slice.call(styleSheet.cssRules).reduce(function (prev, cssRule) {
+                    return prev + cssRule.cssText;
+                }, "");
+        } else {
+            return prev;
         }
-    };
+    }, "");
 
     var currentHTML = "<html>\r\n\t<head>\r\n\t\t<style>\r\n";
     //add style rules
-    currentHTML += getAllCSS();
+    currentHTML += allCSS;
+    currentHTML += "\r\n button { display: none; }\r\n";
     currentHTML += "\t\t</style>\r\n\t</head>\r\n\t<body>\r\n";
-    currentHTML += $(document.body).html();
-    $("input, select, textarea").each(function () {
-        var model = $(this).parent().attr("name");
-        if (model) {
-            //regex is basically: <field(anything)field['whatever'](anything)</field>
-            //which essentially finds the element that's bound to that model field
-            //the replace(],\\]) and replace([, \\[) are to escape the special characters [ and ] in the regex.
-            var thisRegex = "<field.*" + model.replace(/\]/g, "\\]").replace(/\[/g, "\\[") + ".*</field>";
-            //the input is replaced with a textarea containing its value (if a select, then the selected text)
-            currentHTML = currentHTML.replace(new RegExp(thisRegex, "i"), "<textarea>" + getInputValue($(this)) + "</textarea>");
-        }
-    });
+    currentHTML += document.body.innerHTML;
     currentHTML += "\t</body>\r\n</html>";
 
     return currentHTML;
-}
+};
+
+Form.prototype.makeQueryObjects = function () {
+    var form = this;
+    var queries = Object.keys(form.tables).map(function (tk) {
+        var t = form.tables[tk];
+        return t.makeQueryObjects();
+    }).reduce(function (prev, curr) { return prev.concat(curr); });
+
+    return queries;
+};
+
+Form.prototype.executeQueries = function () {
+    if (!this.isValid()) {
+        alert("Some fields are still empty or invalid, these should be highlighted in red.\r\nFill these out to submit the form.");
+        return;
+    }
+    var form = this;
+    var queries = this.makeQueryObjects();
+    var success = true;
+    var responses = [];
+    queries.forEach(function (qry) {
+        console.log(qry);
+        form.http({
+            method: "POST",
+            url: "/scripts/php/Form.php",
+            data: "Function=Query&Query=" + qry.query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(function (resp) {
+            if ((resp instanceof Array) && ("-3" in resp)) {
+                success = success && true;
+            } else {
+                responses.push(resp[Object.keys(resp)[0]]);
+                success = false;
+            }
+        });
+    });
+    if (success) {
+        this.addEmail();
+        document.body.innerHTML = "All changes were successful.";
+    } else {
+        document.body.innerHTML = "Not all changes were successful.<br />Messages:<br />" + responses.join("<br />");
+    }
+};
+
+Form.prototype.addEmail = function () {
+    var mt = this.getMainTable();
+    var params = {
+        Subj: this.hasRecord ? this.name + " number " + mt.getID() + " updated." : "New " + this.name + " submitted.",
+        Body: this.alterHTMLForEmail(),
+        //FormID: this.getMainTable().getID(),
+        TableName: mt.name,
+        New: this.hasRecord ? 0 : 1
+    };
+    if (this.hasRecord) {
+        var query = "INSERT INTO Emails ([Subj], [Body], [FormID], [TableName], [New]) VALUES (:Subj, :Body, :FormID, :TableName, :New)";
+        params["FormID"] = this.getMainTable().getID();
+    } else {
+        var query = "INSERT INTO Emails ([Subj], [Body], [FormID], [TableName], [New]) VALUES (:Subj, :Body, (SELECT MAX([" + mt.getPK() + "]) FROM [" + mt.name + "]), :TableName, :New)";
+    }
+
+    // send query to insert email into the emails table
+    this.http({
+        method: "POST",
+        url: "/scripts/php/Form.php",
+        data: "Function=Query&Query=" + query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(params)),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }).success(function (resp) {
+        if (!(resp instanceof Array)) {
+            if ("-3" in resp) {
+                document.body.innerHTML += "<br />Email sent.";
+            } else {
+                document.body.innerHTML += "<br />Email not sent.";
+            }
+        } else {
+            document.body.innerHTML += resp;
+        }
+    });
+};
 
 app.controller("Form", Form);
