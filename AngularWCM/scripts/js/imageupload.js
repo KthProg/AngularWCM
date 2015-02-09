@@ -45,7 +45,7 @@ ImageUpload.prototype.save = function () {
         fu.uri = e.target.result.replace(/ /g, "+");
         fu.resize();
         // register changes in angular
-        angular.element(document.querySelector('[ng-app=wcm]')).scope().$apply();
+        angular.element(fileInput).scope().$apply();
     };
     reader.readAsDataURL(fileInput.files[0]);
 };

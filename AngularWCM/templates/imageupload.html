@@ -7,6 +7,6 @@
            id="tables['{{field.table.name}}'].records[{{field.getRecordNumber()}}].fields['{{field.name}}']" />
 </span>
 <span ng-if="field.value">
-    <img style="height: 50px; width: 50px; cursor: pointer;" src="{{field.value}}" 
-         onclick="if (this.style.width == '50px') { this.style.width = '800px'; this.style.height = '600px' } else { this.style.width = '50px'; this.style.height = '50px'; }" />
+    <img style="height: 50px; cursor: pointer;" src="{{field.value}}" 
+         onclick="if (this.style.height == '50px') { this.style.width = 'auto'; this.style.height = 'auto' } else { this.style.height = '50px'; }" />
 </span>

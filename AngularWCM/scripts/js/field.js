@@ -48,11 +48,11 @@
         this.sketch = new Sketch(this.getIDString());
     } catch (e) {
         //console.log(e.message);
-        try {
-            this.image = new ImageUpload(this.getIDString());
-        } catch (e) {
-            //console.log(e.message);
-        }
+    }
+    try {
+        this.image = new ImageUpload(this.getIDString());
+    } catch (e) {
+        //console.log(e.message);
     }
 
     this.watchSketchOrImage();
@@ -85,18 +85,13 @@ Field.prototype.getIDString = function (tbl, recNum, field) {
 
 Field.prototype.watchSketchOrImage = function () {
     var f = this;
-    var se = this.getSketchOrImageEl();
-    if (!se) { return; }
     var idStr = this.getIDString();
-    if (this.sketch) {
-        this.form.scope.$watch(idStr + ".sketch.uri", function (n) {
-            f.setValue(n);
-        });
-    } else if (this.image) {
-        this.form.scope.$watch(idStr + ".image.uri", function (n) {
-            f.setValue(n);
-        });
-    }
+    this.form.scope.$watch(idStr + ".sketch.uri", function (n) {
+        f.setValue(n);
+    });
+    this.form.scope.$watch(idStr + ".image.uri", function (n) {
+        f.setValue(n);
+    });
 };
 
 Field.prototype.clearValue = function () {

@@ -1,34 +1,29 @@
 <?php
 
-if(isset($_POST["Function"]) || isset($_GET["Function"])){
-    $is_post = isset($_POST["Function"]);
-    $func = $is_post ? $_POST["Function"] : $_GET["Function"];
-    switch($func){
-        case "Query":
-            $named = null;
-            if(isset($_POST["Named"])){
-                $named = $_POST["Named"];
-            }else if(isset($_GET["Named"])){
-                $named = $_GET["Named"];
-            }
-            $connection = null;
-            if(isset($_POST["Connection"])){
-                $connection = $_POST["Connection"];
-            }else if(isset($_GET["Connection"])){
-                $connection = $_GET["Connection"];
-            }
-            $qry = $is_post ? $_POST["Query"] : $_GET["Query"];
-            $params = $is_post ? $_POST["Params"] : $_GET["Params"];
-            $assoc = null;
-            if(isset($_POST["ASSOC"])){
-                $assoc = $_POST["ASSOC"];
-            }else if(isset($_GET["ASSOC"])){
-                $assoc = $_GET["ASSOC"];
-            }
-            $res = execute_query($qry, $connection, ($named != null), json_decode($params), (($assoc != null) ? PDO::FETCH_ASSOC : PDO::FETCH_NUM));
-            echo json_encode($res);
-            break;
+if(!(empty($_POST) && empty($_GET))){
+    $is_post = !empty($_POST);
+    $named = null;
+    if(isset($_POST["Named"])){
+        $named = $_POST["Named"];
+    }else if(isset($_GET["Named"])){
+        $named = $_GET["Named"];
     }
+    $connection = null;
+    if(isset($_POST["Connection"])){
+        $connection = $_POST["Connection"];
+    }else if(isset($_GET["Connection"])){
+        $connection = $_GET["Connection"];
+    }
+    $qry = $is_post ? $_POST["Query"] : $_GET["Query"];
+    $params = $is_post ? $_POST["Params"] : $_GET["Params"];
+    $assoc = null;
+    if(isset($_POST["ASSOC"])){
+        $assoc = $_POST["ASSOC"];
+    }else if(isset($_GET["ASSOC"])){
+        $assoc = $_GET["ASSOC"];
+    }
+    $res = execute_query($qry, $connection, ($named != null), json_decode($params), (($assoc != null) ? PDO::FETCH_ASSOC : PDO::FETCH_NUM));
+    exit(json_encode($res));
 }
 
 function get_connection($connection_name){
