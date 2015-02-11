@@ -386,7 +386,7 @@
                 </select>
             </div>
             <div id="{{ chart.query }}" style="height: 90%; width: 90%;">
-                <div ng-show="chart.status === 'loading'" class="spinner">
+                <div ng-show="chart.status === chart.statusTypes.LOADING" class="spinner">
                     <div class="circle1 circle"></div>
                     <div class="circle2 circle"></div>
                     <div class="circle3 circle"></div>
@@ -400,7 +400,7 @@
                     <div class="circle11 circle"></div>
                     <div class="circle12 circle"></div>
                 </div>
-                <h1 ng-show="chart.status === 'No Data'">Error: No Data</h1>
+                <h1 ng-show="chart.status === chart.statusTypes.NO_DATA">Error: No Data</h1>
             </div>
         </div>
     </div>

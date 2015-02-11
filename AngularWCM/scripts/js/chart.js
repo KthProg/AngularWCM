@@ -2,13 +2,18 @@ function Chart(query, params, type, sortOrder, firstCol, options, elID, showTren
     // non-empty
     this.query = query;
     this.sortOrder = sortOrder;
-    this.firstCol = firstCol
+    this.firstCol = firstCol;
     this.options = options;
     this.params = params;
     this.type = type;
     this.elID = elID;
     this.showTrendline = showTrendline;
-    this.status = "new";
+    this.statusTypes = {
+        INITIALIZING: -1,
+        NO_DATA: 0,
+        LOADING: 1
+    };
+    this.status = this.statusTypes.INITIALIZING;
     // default empty values
     this.showParams = false;
     this.showTypes = false;
@@ -26,8 +31,6 @@ Chart.prototype.chartData = function () {
         return prm.value;
     });
 
-    console.log(params);
-
     var chart = this;
     $http({
         method: "POST",
@@ -36,16 +39,20 @@ Chart.prototype.chartData = function () {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).success(function (resp) {
         console.log(resp);
+        if ("-3" in resp) {
+            chart.status = chart.statusTypes.NO_DATA;
+            return;
+        }
         chart.renderChartData(resp);
     });
 
-    this.status = "loading";
+    this.status = this.status.LOADING;
 };
 
 Chart.prototype.renderChartData = function (data) {
     this.data = data;
     if (this.data.length === 0) {
-        this.status = "No Data";
+        this.status = this.statusTypes.NO_DATA;
         return;
     }
     // options for google vis
@@ -78,6 +85,7 @@ Chart.prototype.getColData = function () {
     // only move first col
     // reorder columns so that the x axis
     // labels are first
+
     var keys = Object.keys(this.data[0]);
     keys.splice(keys.indexOf(this.firstCol), 1);
     keys.unshift(this.firstCol);

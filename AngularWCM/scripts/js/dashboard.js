@@ -16,8 +16,8 @@
             if (el.options) {
                 opsCopy = [].slice.call(el.options).map(function (op) {
                     return {
-                        text: el.options[i].text,
-                        value: el.options[i].value
+                        text: op.text,
+                        value: op.value
                     }
                 });
             }
@@ -30,7 +30,13 @@
         });
 
         var cq = document.getElementById('chart_query');
-        var cqOp = cq.querySelector('option[selected]');
+        var cqOp;
+        [].slice.call(cq.options).forEach(function (op) {
+            console.log(op);
+            if (op.value == cq.value) {
+                cqOp = op;
+            }
+        });
 
         var ch = new Chart(
             cq.value,
@@ -227,10 +233,10 @@
                     url: "/scripts/php/Query.php",
                     data: "Query=" + prm.query + "&Named=true&Params=[]",
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-                .success(
-                function (resp) {
-                    prm.options = resp;
+                }).success(function (resp) {
+                    prm.options = resp.map(function (row) {
+                        return { value: row[0], text: row[1] };
+                    });
                 });
             }
         });
