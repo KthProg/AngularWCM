@@ -273,7 +273,7 @@
                         <input type="{{ param.type }}" ng-model="param.value" />
                     </div>
                     <div ng-if="param.type=='select'">
-                        <select ng-model="param.value" ng-options="k as v for (k,v) in param.options"></select>
+                        <select ng-model="param.value" ng-options="op.value as op.text for op in param.options"></select>
                     </div>
                     <div ng-if="param.type=='textarea'">
                         <textarea ng-model="param.value"></textarea>

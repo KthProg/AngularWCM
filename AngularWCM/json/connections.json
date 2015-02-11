@@ -1,10 +1,9 @@
 {
-	"Safety" : {
-		"__comment" : "host has two escaped backslashes, equivalent to two normal backslashes",
+	"WCM" : {
 		"host": "10.1.10.50\\SQL2008",
 		"user": "safety1",
 		"password": "Safety",
-		"database": "Safety"
+		"database": "WCM"
 	},
 	"Mattec" : {
 		"host": "192.9.200.26",

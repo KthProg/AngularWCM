@@ -74,7 +74,7 @@
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="form.initialize('LPA', 'Safety', ['LPA', 'LPALine'], {'LPALine' : 52},
+      ng-init="form.initialize('LPA', 'WCM', ['LPA', 'LPALine'], {'LPALine' : 52},
     {'LPALine' : {
         0 : { 'CategoryID' : 17, 'SubCategoryID' : 91 }, 1 : { 'CategoryID' : 17, 'SubCategoryID' : 92 }, 2 : { 'CategoryID' : 18, 'SubCategoryID' : 93 },
         3 : { 'CategoryID' : 18, 'SubCategoryID' : 94 }, 4 : { 'CategoryID' : 18, 'SubCategoryID' : 142 }, 5 : { 'CategoryID' : 19, 'SubCategoryID' : 95 },
@@ -170,7 +170,7 @@
                 <span>1.{{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}</span>
             </td>
             <td>
-                <field name="rec.fields['Rating']" options="{ '-1' : 'N/A', '0' : 'No', '1' : 'Yes' }"></field><!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
+                <field name="rec.fields['Rating']" options="[{ k: -1, v: 'N/A'}, {k: 0, v: 'No'}, {k : 1, v: 'Yes' }]"></field><!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
             </td>
             <td>
                 <field name="rec.fields['Remarks']"></field>

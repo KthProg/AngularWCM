@@ -20,7 +20,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var scope = angular.element($("[ng-app='wcm']")).scope();
+            var scope = angular.element(document.querySelector("[ng-app='wcm']")).scope();
 
             scope.showLines = [];
             var zonesList = {
@@ -96,7 +96,7 @@
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="form.initialize('5T', 'Safety', ['FiveT', 'FiveTLine'], {'FiveTLine' : 23},
+      ng-init="form.initialize('5T', 'WCM', ['FiveT', 'FiveTLine'], {'FiveTLine' : 23},
         {'FiveTLine':
             {
                 0:{'Line':68,'DetailsID':1},1:{'Line':69,'DetailsID':2},2:{'Line':70,'DetailsID':3},3:{'Line':71,'DetailsID':4},
@@ -170,7 +170,7 @@
             </td>
             <td>
                 <field name="rec.fields['Rating']"></field> <!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
-                <div class="helpButton" onclick="$(this).next().toggle()">?</div>
+                <div class="helpButton" onclick="var d = this.nextSibling.nextSibling.style.display; this.nextSibling.nextSibling.style.display = (d == 'none') ? 'block' : 'none'">?</div>
                 <div style="display: none; background-color: skyblue; border: 1px dashed grey;">
                     {{rec.fields['DetailsID'].getOptionText(rec.fields['DetailsID'].value)}}
                 </div>

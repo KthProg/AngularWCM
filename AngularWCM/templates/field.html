@@ -1,5 +1,5 @@
 ﻿<span ng-if="field.form.viewing == false">
-    <select ng-if="field.bindingType == 'options'" ng-model="field.value" ng-options="o.k as o.v for o in field.options | orderBy: 'v'" required><option value=""></option></select>
+    <select ng-if="field.bindingType == 'options'" ng-model="field.value" ng-options="o.k as o.v for o in field.options | orderBy: 'v'"><option value=""></option></select>
     <!-- if the ops object is an array of values -->
     <select ng-if="ops && !ops[0].k" ng-model="field.value" ng-options="op for op in ops | orderBy : '+'"><option value=""></option></select>
     <!-- if the ops object is an array of objects -->

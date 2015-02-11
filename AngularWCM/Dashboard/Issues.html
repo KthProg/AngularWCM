@@ -24,7 +24,7 @@
         <h3>Safety Issues Dashboard</h3>
     </header>
     <div>
-        <div ng-controller="Form" ng-init="form.initialize('Issues Filter', 'Safety', ['DummyIssuesTable'], '')">
+        <div ng-controller="Form" ng-init="form.initialize('Issues Filter', 'WCM', ['DummyIssuesTable'], '')">
             <form>
                 <div class="filter">Plant:<field id="Plant" name="fields['PlantID']"></field></div>
                 <div class="filter">Department:<field id="Department" name="fields['DepartmentID']"></field></div>
@@ -58,7 +58,7 @@
             <div id="open_issues">
                 <span class="toggleButton" ng-click="showOpen = !showOpen">{{showOpen ? '-' : '+'}}</span><h3>Open Issues</h3>
                 <div id="open_issues_div" ng-repeat="i in openIssues | orderBy : ['Severity', 'Name', 'ID', 'SubCategory', 'Compliancy']" ng-show="showOpen">
-                    <div class="issue" onclick="$(this).next().toggle()">
+                    <div class="issue" onclick="var d = this.nextSibling.nextSibling.style.display; this.nextSibling.nextSibling.style.display = (d == 'none') ? 'block' : 'none'">
                         <issueheader issue="i"></issueheader>
                         <input type="checkbox" ng-click="closeIssue(i.Name,i.ID,i.SubCategoryID)" style="float: right;" onclick="return false" />
                         <issueseverity issue="i"></issueseverity>
@@ -71,7 +71,7 @@
             <div id="closed_issues">
                 <span class="toggleButton" ng-click="showClosed = !showClosed">{{showClosed ? '-' : '+'}}</span><h3>Closed Issues</h3>
                 <div id="closed_issues_div" ng-repeat="i in closedIssues | orderBy : ['Severity', 'Name', 'ID', 'LineNum', 'Compliancy']" ng-show="showClosed">
-                    <div class="issue" onclick="$(this).next().toggle()">
+                    <div class="issue" onclick="var d = this.nextSibling.nextSibling.style.display; this.nextSibling.nextSibling.style.display = (d == 'none') ? 'block' : 'none'">
                         <issueheader issue="i"></issueheader>
                         <input type="checkbox" ng-click="openIssue(i.Name,i.ID,i.SubCategoryID)" style="float: right;" checked onclick="return false"/>
                         <issueseverity issue="i"></issueseverity>

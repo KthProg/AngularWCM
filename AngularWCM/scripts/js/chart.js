@@ -10,34 +10,33 @@ function Chart(query, params, type, sortOrder, firstCol, options, elID, showTren
     this.showTrendline = showTrendline;
     this.status = "new";
     // default empty values
-    this.showParams = this.showTypes = this.minimized = this.maximized = false;
-    this.dataTable = this.data = this.vis = this.imgURI = null;
+    this.showParams = false;
+    this.showTypes = false;
+    this.minimized = false;
+    this.maximized = false;
+    this.dataTable = null;
+    this.data = null;
+    this.vis = null;
+    this.imgURI = null;
     this.csv = "";
 };
 
 Chart.prototype.chartData = function () {
-    var params = this.params.map(function (cur) {
-        return cur.value;
+    var params = this.params.map(function (prm) {
+        return prm.value;
     });
 
-    // execute query with params
-    // if successful call renderChartData
-    $.ajax({
-        url: "/scripts/php/Form.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-            Query: this.query,
-            Params: JSON.stringify(params),
-            ASSOC: "true",
-            Function: "Query"
-        },
-        success: function (resp) {
-            console.log(resp);
-            this.renderChartData(resp);
-        },
-        error: logError,
-        context: this
+    console.log(params);
+
+    var chart = this;
+    $http({
+        method: "POST",
+        url: "/scripts/php/Query.php",
+        data: "Query="+this.query+"&Named=true&ASSOC=true&Params="+encodeURIComponent(JSON.stringify(params)),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }).success(function (resp) {
+        console.log(resp);
+        chart.renderChartData(resp);
     });
 
     this.status = "loading";
@@ -245,8 +244,8 @@ Chart.prototype.toCSV = function () {
 };
 
 Chart.prototype.userChart = function () {
-    $("#" + this.elID).html("");
-    var chartEl = $("#" + this.elID)[0];
+    var chartEl = document.getElementById(this.elID);
+    chartEl.innerHTML = "";
     switch (this.type) {
         case "bar":
             this.vis = new google.visualization.ColumnChart(chartEl);

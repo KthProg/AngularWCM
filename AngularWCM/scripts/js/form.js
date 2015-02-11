@@ -1,9 +1,8 @@
 ﻿function Form($scope, $http) {
     $scope.form = this;
-    window.form = this;
 
-    this.scope = $scope;
-    this.http = $http;
+    window.$scope = $scope;
+    window.$http = $http;
 
     this.name = "";
     this.emailBody = "";
@@ -32,7 +31,7 @@ Form.prototype.initialize = function (name, connection, tables, tableRecordCount
     // if there is only one table, add the fields to the scope for convenience
     // since there won't be any name conflicts anyways
     if (tables.length == 1) {
-        this.scope.fields = this.getMainTable().records[0].fields;
+        $scope.fields = this.getMainTable().records[0].fields;
     }
 };
 
@@ -49,7 +48,7 @@ Form.prototype.createInitialTablesAndRecords = function (tables, tableRecordCoun
 Form.prototype.createInitialFields = function (tables, tableRecordCount, defaultValues) {
     var form = this;
     var tblStr = "'" + tables.join("','") + "'";
-    form.http.get("/scripts/php/Form.php?Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
+    $http.get("/scripts/php/Query.php?Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify([tblStr])))
     .success(function (resp) {
         if (!(resp instanceof Array)) {
             alert("Something went wrong!");
@@ -64,14 +63,6 @@ Form.prototype.createInitialFields = function (tables, tableRecordCount, default
                 var isFK = (f.IsFK == "1");
                 var nullable = (f.IS_NULLABLE == "YES");
                 var bindingType;
-                // it is bound to the value of another field
-                // in the form if its reference table (fk)
-                // is in this form. if its reference table
-                // is not in this form, then its options
-                // are retrieved via info given by its
-                // reference table and column
-                // if it has no reference table, then
-                // it is not bound to any other field
                 if (f.REF_TABLE) {
                     if (tables.indexOf(f.REF_TABLE) > -1) {
                         bindingType = "values";
@@ -205,10 +196,10 @@ Form.prototype.executeQueries = function () {
     var responses = [];
     queries.forEach(function (qry) {
         console.log(qry);
-        form.http({
+        $http({
             method: "POST",
-            url: "/scripts/php/Form.php",
-            data: "Query=" + qry.query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
+            url: "/scripts/php/Query.php",
+            data: "Query=" + encodeURIComponent(qry.query) + "&Connection=WCM&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).success(function (resp) {
             if ((resp instanceof Array) && ("-3" in resp)) {
@@ -244,10 +235,10 @@ Form.prototype.addEmail = function () {
     }
 
     // send query to insert email into the emails table
-    this.http({
+    $http({
         method: "POST",
-        url: "/scripts/php/Form.php",
-        data: "Query=" + query + "&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(params)),
+        url: "/scripts/php/Query.php",
+        data: "Query=" + encodeURIComponent(query) + "&Connection=WCM&Params=" + encodeURIComponent(JSON.stringify(params)),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).success(function (resp) {
         if (!(resp instanceof Array)) {

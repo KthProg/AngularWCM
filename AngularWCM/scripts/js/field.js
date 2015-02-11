@@ -2,7 +2,7 @@
     //this.scope = scope;
     //this.http = http;
 
-    this.connection = "Safety";
+    this.connection = form.connection;
 
     this.form = form;
     this.record = record;
@@ -36,10 +36,10 @@
     this.boundColumn = "";
 
     // field which this field is bound to
-    this.boundField = {}
+    this.boundField = {};
     // field in the foreign key table which has
     // the text vallues for the options for this field 
-    this.fkTextField = ""
+    this.fkTextField = "";
 
     this.defaultValue = defaultValue ? defaultValue : null;
     this.setValue(defaultValue || "");
@@ -86,10 +86,10 @@ Field.prototype.getIDString = function (tbl, recNum, field) {
 Field.prototype.watchSketchOrImage = function () {
     var f = this;
     var idStr = this.getIDString();
-    this.form.scope.$watch(idStr + ".sketch.uri", function (n) {
+    $scope.$watch(idStr + ".sketch.uri", function (n) {
         f.setValue(n);
     });
-    this.form.scope.$watch(idStr + ".image.uri", function (n) {
+    $scope.$watch(idStr + ".image.uri", function (n) {
         f.setValue(n);
     });
 };
@@ -173,7 +173,7 @@ Field.prototype.getFKTableData = function () {
     if (!this.isFK) { return false; }
     if (this.bindingType == "options") {
         var field = this;
-        this.form.http.get("/scripts/php/Form.php?Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'" + this.fkTable + "'"])))
+        $http.get("/scripts/php/Query.php?Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'" + this.fkTable + "'"])))
         .success(function (resp) {
             resp.forEach(function (f) {
                 if (f.IsFK == "1") {
@@ -229,7 +229,7 @@ Field.prototype.watchDependency = function () {
     var watchText = this.boundField.getIDString() + ".value";
     // if the bound field does not exist for this record, 
     // then watch the bound field in the first record (record 0)
-    if (!field.form.scope.$eval(watchText)) {
+    if ($scope.$eval(watchText)) {
         watchText = this.boundField.getIDString(undefined, 0) + ".value";
     }
 
@@ -239,7 +239,7 @@ Field.prototype.watchDependency = function () {
         var bindingFunc = function (n) { field.value = n; };
     }
 
-    field.form.scope.$watch(watchText, bindingFunc);
+    $scope.$watch(watchText, bindingFunc);
 };
 
 Field.prototype.getOptions = function (val) {
@@ -264,7 +264,7 @@ Field.prototype.getOptions = function (val) {
         return;
     }
 
-    this.form.http.get("/scripts/php/Form.php?Query="+encodeURIComponent(query)+"&Connection=Safety&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
+    $http.get("/scripts/php/Query.php?Query="+encodeURIComponent(query)+"&Connection=WCM&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
 };
 
 Field.prototype.getOptionText = function (key) {

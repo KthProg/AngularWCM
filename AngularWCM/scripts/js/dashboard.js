@@ -1,5 +1,7 @@
 ﻿function Dashboard($scope, $http) {
 
+    window.$http = $http;
+
     $scope.charts = [];
     $scope.query = "";
     $scope.parameters = [];
@@ -7,43 +9,45 @@
     $scope.layout = "";
 
     $scope.addChart = function () {
-        var paramsArr = [];
-        $('#params input, #params select, #params textarea').each(function () {
-            var elType = $(this).attr("type") || $(this).prop("tagName").toLowerCase();
-            var value = formatValue($(this).val(), elType);
-            var optionsCopy = [];
-            if (this.options) {
-                for (var i = 0, l = this.options.length; i < l; ++i) {
-                    optionsCopy.push({
-                        text: this.options[i].text,
-                        value: this.options[i].value
-                    });
-                }
+        var paramsArr = [].slice.call(document.getElementById('params').querySelectorAll('input, select, textarea')).map(function (el) {
+            var elType = el.getAttribute("type") || el.tagName.toLowerCase();
+            var value = formatValue(el.value, elType);
+            var opsCopy = [];
+            if (el.options) {
+                opsCopy = [].slice.call(el.options).map(function (op) {
+                    return {
+                        text: el.options[i].text,
+                        value: el.options[i].value
+                    }
+                });
             }
-            paramsArr.push({
-                name: $(this).attr("name"),
+            return {
+                name: el.getAttribute("name"),
                 type: elType,
                 value: value,
-                options: optionsCopy
-            });
+                options: opsCopy
+            };
         });
 
+        var cq = document.getElementById('chart_query');
+        var cqOp = cq.querySelector('option[selected]');
+
         var ch = new Chart(
-            $('#chart_query').val(),
+            cq.value,
             paramsArr,
-            $("#chart_type").val(),
-            $("sort_order").val(),
-            $('#chart_query option:selected').attr("data-firstcol"),
+            document.getElementById("chart_type").value,
+            document.getElementById("sort_order").value,
+            cqOp.getAttribute("data-firstcol"),
             {
-                height: $('#chart_height').val() + 'px',
-                width: $('#chart_width').val() + '%',
+                height: document.getElementById('chart_height').value + 'px',
+                width: document.getElementById('chart_width').value + '%',
                 //chartArea: { left: 0, top: 0, width: $('#chart_width').val(), height: $('#chart_height').val() },
-                title: $('#chart_query option:selected').text(),
+                title: cqOp.innerText,
                 backgroundColor: 'transparent',
                 curveType: 'function',
                 isStacked: true
             },
-            $('#chart_query').val(),
+            cq.value,
             false);
 
         $scope.charts.push(ch);
@@ -78,7 +82,7 @@
     };
 
     $scope.openLayout = function () {
-        $http.get("/scripts/php/Form.php?ASSOC=true&Query=OpenDashboardLayout&Params=" + encodeURIComponent(JSON.stringify([$("#open_layout").val()])))
+        $http.get("/scripts/php/Query.php?ASSOC=true&Query=OpenDashboardLayout&Named=trueParams=" + encodeURIComponent(JSON.stringify([document.getElementById("open_layout").value])))
         .success(
         function (resp) {
             var newChartsArr = JSON.parse(resp[0]["LayoutJSON"]);
@@ -102,11 +106,11 @@
 
     $scope.saveOrUpdateLayout = function (updating){
         var chartsCopy = makeChartsCopyForDatabase();
-        var secondParam = (updating ? $("#open_layout").val() : $("#layout_name").val());
+        var secondParam = (updating ? document.getElementById("open_layout").value : document.getElementById("layout_name").value);
         $http({
             method: "POST",
-            url: "/scripts/php/Form.php",
-            data: "Query=" + (updating ? "Update" : "Save") + "DashboardLayout&Params=" + encodeURIComponent(JSON.stringify([JSON.stringify(chartsCopy), secondParam])),
+            url: "/scripts/php/Query.php",
+            data: "Query=" + (updating ? "Update" : "Save") + "DashboardLayout&Named=true&Params=" + encodeURIComponent(JSON.stringify([JSON.stringify(chartsCopy), secondParam])),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
         .success(
@@ -199,29 +203,17 @@
     };
 
     $scope.getParams = function () {
-        $http.get("/xml/queries.xml")
+        $http.get("/json/queries.json")
         .success(function (resp) {
-            var xml = $.parseXML(resp);
-            var parametersXML = $(xml).find("query[name='" + $scope.query + "'] parameter");
-            var parameters = [];
-            parametersXML.each(function () {
-                parameters.push({});
-                var thisParam = parameters[parameters.length - 1];
-                thisParam["name"] = this.getAttribute("name");
-                var properties = $(this).children();
-                properties.each(function () {
-                    if (this.tagName != "options") {
-                        thisParam[this.tagName] = this.textContent;
-                    } else {
-                        var optionsXML = $(this).children();
-                        var options = {};
-                        optionsXML.each(function () {
-                            options[this.getAttribute("value")] = this.textContent;
-                        });
-                        thisParam["options"] = options;
-                    }
-                });
-                $scope.parameters = parameters;
+            var prms = resp[$scope.query].parameters;
+            if (!prms) {
+                $scope.parameters = [];
+                return;
+            }
+            $scope.parameters = Object.keys(prms).map(function (prmk) {
+                var newPrm = prms[prmk];
+                newPrm["name"] = prmk;
+                return newPrm;
             });
             $scope.getParameterOptions();
         });
@@ -230,38 +222,29 @@
     $scope.getParameterOptions = function () {
         $scope.parameters.forEach(function (prm) {
             if (prm.query) {
-                $.ajax({
-                    type: "POST",
-                    data: {
-                        Query: prm.query,
-                        Params: "[]",
-                        Function: "Query"
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        prm.options = data;
-                        $scope.$apply();
-                    },
-                    url: "/scripts/php/Form.php"
+                $http({
+                    method: "POST",
+                    url: "/scripts/php/Query.php",
+                    data: "Query=" + prm.query + "&Named=true&Params=[]",
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .success(
+                function (resp) {
+                    prm.options = resp;
                 });
             }
         });
     };
 
     $scope.getLayouts = function () {
-        $.ajax({
-            type: "POST",
-            data: {
-                Query: "GetDashboardLayouts",
-                Params: "[]",
-                Function: "Query"
-            },
-            dataType: "json",
-            success: function (data) {
-                $scope.layouts = data;
-                $scope.$apply();
-            },
-            url: "/scripts/php/Form.php"
+        $http({
+            method: "POST",
+            url: "/scripts/php/Query.php",
+            data: "Query=GetDashboardLayouts&Named=true&Params=[]",
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        }).success(
+        function (resp) {
+            $scope.layouts = resp;
         });
     };
 

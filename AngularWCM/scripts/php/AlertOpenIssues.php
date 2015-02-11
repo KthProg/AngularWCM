@@ -3,9 +3,9 @@
 require_once("\\smtp\\class.phpmailer.php");
 require_once("\\smtp\\class.smtp.php");
 
-require_once("Form.php");
+require_once("Query.php");
 
-$emails = execute_query("SELECT * FROM vTopIssues", array(), PDO::FETCH_ASSOC);
+$emails = execute_query("SELECT * FROM vTopIssues", "Safety", null, array(), PDO::FETCH_ASSOC);
 if($emails){
     for($i = 0, $l = count($emails); $i < $l; ++$i){
 		$email = $emails[$i];

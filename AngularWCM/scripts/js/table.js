@@ -11,7 +11,7 @@
 
 Table.prototype.watchIDForOpen = function () {
     var tbl = this;
-    this.form.scope.$watch("tables['" + this.name + "'].records[0].fields['" + tbl.getPK() + "'].value", function (n, o) {
+    $scope.$watch("tables['" + this.name + "'].records[0].fields['" + tbl.getPK() + "'].value", function (n, o) {
         if (n) {
             tbl.form.open();
         } else {
@@ -65,9 +65,9 @@ Table.prototype.getOpenByValue = function () {
 Table.prototype.open = function () {
     var tbl = this;
 
-    this.form.http({
+    $http({
         method: "POST",
-        url: "/scripts/php/Form.php",
+        url: "/scripts/php/Query.php",
         data: "Query=SELECT * FROM ["+tbl.name+"] WHERE ["+tbl.getOpenBy()+"]=?&ASSOC=true&Connection="+tbl.connection+"&Params="+JSON.stringify([tbl.getOpenByValue()]),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })

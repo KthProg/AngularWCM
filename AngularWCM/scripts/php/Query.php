@@ -1,5 +1,9 @@
 <?php
 
+define("INVALID_CONNECTION", -1);
+define("EXECUTION_FAILED", -2);
+define("NO_ROWS", -3);
+
 if(!(empty($_POST) && empty($_GET))){
     $is_post = !empty($_POST);
     $named = null;
@@ -80,9 +84,6 @@ function ms_escape_string($data) {
 }
 
 function execute_query($query, $connection, $named, $params, $fetch_type = PDO::FETCH_NUM) {
-    define("INVALID_CONNECTION", -1);
-    define("EXECUTION_FAILED", -2);
-    define("NO_ROWS", -3);
     
     if($named){
         $qry_obj = get_query($query);
@@ -116,7 +117,7 @@ function execute_query($query, $connection, $named, $params, $fetch_type = PDO::
 }
 
 function send_error($error_info){
-    print_r($error_info);
+    //print_r($error_info);
     notify("hooks@njt-na.com", "An error occurred.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>ERROR: ".print_r($error_info, true));
 }
 
