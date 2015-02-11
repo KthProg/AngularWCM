@@ -30,6 +30,39 @@ if(!(empty($_POST) && empty($_GET))){
     exit(json_encode($res));
 }
 
+function execute_query($query, $connection, $named, $params, $fetch_type = PDO::FETCH_NUM) {
+    
+    if($named){
+        $qry_obj = get_query($query);
+        $query_string = $qry_obj->qstring;
+        $connection_string = $qry_obj->connection;
+        $conn = get_connection($connection_string);
+    }else{
+        $query_string = $query; //ms_escape_string($query);
+        $conn = get_connection($connection);
+    }
+
+    if(!$conn){
+        //send_error(array("Invalid Connection"));
+        return array(INVALID_CONNECTION => "Error: Invalid Connection");
+    }
+    
+    $stmt = $conn->prepare($query_string);
+
+    if(!$stmt->execute((array)$params)){
+        //send_error($stmt->errorInfo());
+        return array(EXECUTION_FAILED => "Error: Could not execute statement");
+    }
+    
+    $rows = $stmt->fetchAll($fetch_type);
+    
+    if(!$rows){
+        return array(NO_ROWS => "Error: No rows");
+    }
+
+    return $rows;
+}
+
 function get_connection($connection_name){
     $con = (string)$connection_name;
     
@@ -83,54 +116,21 @@ function ms_escape_string($data) {
     return $data;
 }
 
-function execute_query($query, $connection, $named, $params, $fetch_type = PDO::FETCH_NUM) {
-    
-    if($named){
-        $qry_obj = get_query($query);
-        $query_string = $qry_obj->qstring;
-        $connection_string = $qry_obj->connection;
-        $conn = get_connection($connection_string);
-    }else{
-        $query_string = $query;
-        $conn = get_connection($connection);
-    }
+//function send_error($error_info){
+//    //print_r($error_info);
+//    notify("hooks@njt-na.com", "An error occurred.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>ERROR: ".print_r($error_info, true));
+//}
 
-    if($conn){
-        $stmt = $conn->prepare($query_string);
-    }else{
-        send_error(array("Invalid Connection"));
-        return array(INVALID_CONNECTION => "Error: Invalid Connection");
-    }
-
-    if(!$stmt->execute((array)$params)){
-        send_error($stmt->errorInfo());
-        return array(EXECUTION_FAILED => "Error: Could not execute statement");
-    }
-    
-    $rows = $stmt->fetchAll($fetch_type);
-    
-    if(!$rows){
-        return array(NO_ROWS => "Error: No rows");
-    }
-
-    return $rows;
-}
-
-function send_error($error_info){
-    //print_r($error_info);
-    notify("hooks@njt-na.com", "An error occurred.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>ERROR: ".print_r($error_info, true));
-}
-
-// another script sends the emails every 5 minutes
-// this is to prevent browsers hanging on mobile devices
-function notify($contacts, $subject, $body){
-    $conn = get_connection("Safety");
-    $stmt = $conn->prepare("INSERT INTO Emails (Contacts, Subj, Body) VALUES(?, ?, ?)");
-    if($stmt->execute(array($contacts, $subject, $subject."<br>".$body))){
-        echo "Email query executed (Email will send in 0-5 minutes)<br>";
-    }else{
-        echo "Email query not executed<br>";
-    }
-}
+//// another script sends the emails every 5 minutes
+//// this is to prevent browsers hanging on mobile devices
+//function notify($contacts, $subject, $body){
+//    $conn = get_connection("WCM");
+//    $stmt = $conn->prepare("INSERT INTO Emails (Contacts, Subj, Body) VALUES(?, ?, ?)");
+//    if($stmt->execute(array($contacts, $subject, $subject."<br>".$body))){
+//        echo "Email query executed (Email will send in 0-5 minutes)<br>";
+//    }else{
+//        echo "Email query not executed<br>";
+//    }
+//}
 
 ?>

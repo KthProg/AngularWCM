@@ -9,8 +9,15 @@
     $scope.closedIssues = [{ Name: "Initializing" }];
 
     $scope.$on('filter', function (event, args) {
-        [].slice.call(document.querySelectorAll("select option[selected]")).forEach(function (op) {
-            $scope.filter[op.parentNode.parentNode.id] = op.innerText;
+        [].slice.call(document.querySelectorAll("select")).forEach(function (sel) {
+            var opText;
+            [].slice.call(sel.querySelectorAll("option")).some(function (op) {
+                if (op.value == sel.value) {
+                    opText = op.innerText;
+                    return true;
+                }
+            });
+            $scope.filter[sel.parentNode.parentNode.id] = opText;
         });
         console.log($scope.filter);
         $scope.getAllIssues();
@@ -86,7 +93,7 @@
     };
 
     $scope.openIssue = function (name, id, subcategory) {
-        $http.get("/scripts/php/Query.php?Query=OpenIssue&Params=" + JSON.stringify([name, id, subcategory]))
+        $http.get("/scripts/php/Query.php?Query=OpenIssue&Named=true&Params=" + encodeURIComponent(JSON.stringify([name, id, subcategory])))
         .success(function (resp) {
             $scope.getAllIssues();
         });
@@ -95,7 +102,7 @@
     $scope.closeIssue = function (name, id, subcategory) {
         var actionTaken = prompt("Enter in the action taken to close this issue.");
         if (actionTaken) {
-            $http.get("/scripts/php/Query.php?Query=CloseIssue&Params=" + JSON.stringify([name, id, subcategory, actionTaken]))
+            $http.get("/scripts/php/Query.php?Query=CloseIssue&Named=true&Params=" + encodeURIComponent(JSON.stringify([name, id, subcategory, actionTaken])))
             .success(function (resp) {
                 $scope.getAllIssues();
             });

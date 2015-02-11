@@ -151,7 +151,7 @@ Form.prototype.isValid = function () {
 Form.prototype.alterHTMLForEmail = function () {
 
     this.viewing = true;
-    //this.scope.$apply();
+    $scope.$apply();
 
     var allCSS = [].slice.call(document.styleSheets).reduce(function (prev, styleSheet) {
         if (styleSheet.cssRules) {
@@ -195,7 +195,6 @@ Form.prototype.executeQueries = function () {
     var success = true;
     var responses = [];
     queries.forEach(function (qry) {
-        console.log(qry);
         $http({
             method: "POST",
             url: "/scripts/php/Query.php",

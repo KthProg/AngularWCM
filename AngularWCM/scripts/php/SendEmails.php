@@ -16,7 +16,7 @@ $DEFAULT_CONTACTS = array(
     );
 $GREG_AND_I = array("hooks@njt-na.com","gwilloughby@mayco-mi.com");
 
-$emails = execute_query("SELECT * FROM Emails", "Safety", null, array(), PDO::FETCH_ASSOC);
+$emails = execute_query("SELECT * FROM Emails", "WCM", null, array(), PDO::FETCH_ASSOC);
 if(isset($emails[INVALID_CONNECTION]) || isset($emails[EXECUTION_FAILED]) || isset($emails[NO_ROWS])) { exit("No emails."); }
 foreach($emails as $email){
     $table_info = execute_query("GetTablesData", null, true, array("'{$email["TableName"]}'"), PDO::FETCH_ASSOC);
@@ -27,7 +27,7 @@ foreach($emails as $email){
         return $el["SupervisorEmail"];
     }, $contacts);
     
-    $record_info = execute_query("EXEC('SELECT * FROM [' + ? + '] WHERE [' + ? + ']=' + ?)", "Safety", false, array($email["TableName"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
+    $record_info = execute_query("EXEC('SELECT * FROM [' + ? + '] WHERE [' + ? + ']=' + ?)", "WCM", false, array($email["TableName"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
     //add mound contacts if a new tool repair form
     if($email["TableName"] == "ToolIssues" && $email["New"] == 1 && $record_info[0]["RepairedLocation"] == "Mound"){
         $contacts_arr = array_merge($contacts_arr, $MOUND_CONTACTS);
@@ -101,7 +101,7 @@ function send_email($email, $contacts){
         echo "Mailer Error: " . $mail->ErrorInfo;
     else:
         echo "Message has been sent";
-		execute_query("DELETE FROM Emails WHERE ID=?", "Safety", false, array($email["ID"]), PDO::FETCH_ASSOC);
+		execute_query("DELETE FROM Emails WHERE ID=?", "WCM", false, array($email["ID"]), PDO::FETCH_ASSOC);
     endif;
 }
 
