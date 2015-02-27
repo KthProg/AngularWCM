@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -21,7 +21,7 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('Quick Kaizen', 'WCM', ['Kaizens'])">
+    ng-init="initialize('Quick Kaizen', 'WCM', ['Kaizens'])">
     <table>
         <tr>
             <td style="width: 6%;"></td>
@@ -36,41 +36,41 @@
             <td style="width: 11%;"></td>
         </tr>
         <tr>
-            <td colspan="2" rowspan="2"><field name="fields['KaizenNumber']"></field></td>
+            <td colspan="2" rowspan="2"><field field="fields['KaizenNumber']"></field></td>
             <td colspan="5" rowspan="3" class="dkgrey whitetext" style="text-align: center;"><h1>Quick Kaizen</h1></td>
             <td class="ltgrey">Department</td>
             <td colspan="2">
-                <field name="fields['DepartmentID']"></field>
+                <field field="fields['DepartmentID']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey">Zone</td>
             <td colspan="2">
-                <field name="fields['ZoneID']"></field>
+                <field field="fields['ZoneID']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey">Pillar</td>
             <td>
-                <field name="fields['Pillar']" options="['SA','CD','FI','WO','AM','PM','QA','LO','PD']"></field>
+                <field field="fields['Pillar']" options="['SA','CD','FI','WO','AM','PM','QA','LO','PD']"></field>
             </td>
             <td class="ltgrey">Machine</td>
             <td colspan="2">
-                <field name="fields['MachineID']"></field>
+                <field field="fields['MachineID']"></field>
             </td>
         </tr>
         <tr>
-            <td colspan="6" style="height: 100px;"><field name="fields['Plan']"></field></td>
-            <td colspan="4" rowspan="2"><field name="fields['Do']"></field></td>
+            <td colspan="6" style="height: 100px;"><field field="fields['Plan']"></field></td>
+            <td colspan="4" rowspan="2"><field field="fields['Do']"></field></td>
         </tr>
         <tr>
             <td colspan="6" style="height: 100px;">
-                <sketch name="fields['SketchURL']"></sketch>
+                <sketch field="fields['SketchURL']"></sketch>
             </td>
         </tr>
         <tr style="height: 200px;">
-            <td colspan="5"><field name="fields['Act']"></field></td>
-            <td colspan="5"><field name="fields['Check']"></field></td>
+            <td colspan="5"><field field="fields['Act']"></field></td>
+            <td colspan="5"><field field="fields['Check']"></field></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="2">Originator of the improvement</td>
@@ -84,15 +84,15 @@
             <td>Verification</td>
         </tr>
         <tr style="height: 50px;">
-            <td colspan="2"><field name="fields['Originator']"></field></td>
-            <td><field name="fields['StartDate']"></field></td>
-            <td><field name="fields['Responsible']"></field></td>
-            <td><field name="fields['EndDate']"></field></td>
-            <td><field name="fields['Costs']"></field></td>
-            <td><field name="fields['Benefits']"></field></td>
-            <td><field name="fields['Results']"></field></td>
+            <td colspan="2"><field field="fields['Originator']"></field></td>
+            <td><field field="fields['StartDate']"></field></td>
+            <td><field field="fields['Responsible']"></field></td>
+            <td><field field="fields['EndDate']"></field></td>
+            <td><field field="fields['Costs']"></field></td>
+            <td><field field="fields['Benefits']"></field></td>
+            <td><field field="fields['Results']"></field></td>
             <td>{{fields['Costs'].value/fields['Benefits'].value}}</td>
-            <td><field name="fields['Verification']"></field></td>
+            <td><field field="fields['Verification']"></field></td>
         </tr>
         <tr>
             <td colspan="10">

@@ -48,6 +48,7 @@
     <Folder Include="scripts\php\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\charts.css" />
     <Content Include="css\Checklist.css" />
     <Content Include="css\dashboard.css" />
     <Content Include="css\FormClasses.css" />

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -27,17 +27,17 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('Blue Tag', 'WCM', ['BlueTags'])">
+    ng-init="initialize('Blue Tag', 'WCM', ['BlueTags'])">
     <table>
         <tr class="dkblue whitetext">
             <td colspan="5">
                 <style>
-                    [name*='[\'ID\']'] input {
+                    [field*='[\'ID\']'] input {
                         background-color: inherit;
                         border: none;
                     }
                 </style>
-                <h1>Blue Tag Number <field name="fields['ID']"></field></h1>
+                <h1>Blue Tag Number <field field="fields['ID']"></field></h1>
             </td>
         </tr>
         <tr>
@@ -47,12 +47,12 @@
             <td class="ltgrey">Name</td>
         </tr>
         <tr>
-            <td><field name="fields['TagNo']" html='required="required"'></field></td>
-            <td><field name="fields['WONo']"></field></td>
+            <td><field field="fields['TagNo']" html='required="required"'></field></td>
+            <td><field field="fields['WONo']"></field></td>
             <td>
-                <field name="fields['TagType']" options="['WO','AM']"></field>
+                <field field="fields['TagType']" options="['WO','AM']"></field>
             </td>
-            <td><field name="fields['Name']"></field></td>
+            <td><field field="fields['Name']"></field></td>
         </tr>
         <tr>
             <td class="ltgrey">Date Opened</td>
@@ -61,15 +61,15 @@
             <td class="ltgrey">Zone</td>
         </tr>
         <tr>
-            <td><field name="fields['OpenDate']" html='required="required"'></field></td>
+            <td><field field="fields['OpenDate']" html='required="required"'></field></td>
             <td>
-                <field name="fields['Shift']" options="[1,2,3]"></field>
+                <field field="fields['Shift']" options="[1,2,3]"></field>
             </td>
             <td>
-                <field name="fields['DepartmentID']"></field>
+                <field field="fields['DepartmentID']"></field>
             </td>
             <td>
-                <field name="fields['ZoneID']"></field>
+                <field field="fields['ZoneID']"></field>
             </td>
         </tr>
         <tr>
@@ -80,20 +80,20 @@
         </tr>
         <tr>
             <td>
-                <field name="fields['MachineID']"></field>
+                <field field="fields['MachineID']"></field>
             </td>
             <td>
-                <field name="fields['ProblemType']" options="['Oil leak','Water leak','Grease/lube leak','Air leak','Contamination','Out of operating range',
+                <field field="fields['ProblemType']" options="['Oil leak','Water leak','Grease/lube leak','Air leak','Contamination','Out of operating range',
                     'Vibration','Wrong temperature','Wrong pressure','Difficult to lube','Difficult to clean','Irregular function','Loose/missing fastener','Other']"></field>
             </td>
-            <td><field name="fields['CompletedDate']"></field></td>
-            <td><field name="fields['CompletedBy']"></field></td>
+            <td><field field="fields['CompletedDate']"></field></td>
+            <td><field field="fields['CompletedBy']"></field></td>
         </tr>
         <tr>
             <td colspan="4" class="ltgrey">Details</td>
         </tr>
         <tr>
-            <td colspan="4" height="100"><field name="fields['Details']"></field></td>
+            <td colspan="4" height="100"><field field="fields['Details']" multiline="true"></field></td>
         </tr>
         <tr>
             <td colspan="4">

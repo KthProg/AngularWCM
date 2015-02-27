@@ -4,7 +4,7 @@
     <title>Job Safety Risk Assessment</title>
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -42,7 +42,7 @@
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="form.initialize('JSRA', 'WCM', ['JSRA', 'JSRALine', 'JSRAPPERequirements', 'JSRAPersonnel'], {'JSRALine' : 56},
+      ng-init="initialize('JSRA', 'WCM', ['JSRA', 'JSRALine', 'JSRAPPERequirements', 'JSRAPersonnel'], {'JSRALine' : 56},
         {'JSRALine':
             {
             0:{'CategoryID':1,'SubCategoryID':1,'DetailsID':1},1:{'CategoryID':1,'SubCategoryID':2,'DetailsID':2},2:{'CategoryID':1,'SubCategoryID':3,'DetailsID':3},
@@ -69,51 +69,51 @@
     <table>
         <tr>
             <style>
-                [name*='[\'ID\']'] input {
+                [field*='[\'ID\']'] input {
                     background-color: inherit;
                     border: none;
                     color: lightpink;
                     width: 3em;
                 }
             </style>
-            <td colspan="16"><h1>JSRA Number <field name="tables['JSRA'].records[0].fields['ID']"></field></h1></td>
+            <td colspan="16"><h1>JSRA Number <field field="tables['JSRA'].records[0].fields['ID']"></field></h1></td>
         </tr>
         <tr>
             <td colspan="16">
                 <div class="inputPlusLabel">
                     <strong>Date</strong>
-                    <field name="tables['JSRA'].records[0].fields['JSRADate']"></field>
+                    <field field="tables['JSRA'].records[0].fields['JSRADate']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Plant</strong>
-                    <field name="tables['JSRA'].records[0].fields['PlantID']"></field>
+                    <field field="tables['JSRA'].records[0].fields['PlantID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Department</strong>
-                    <field name="tables['JSRA'].records[0].fields['DepartmentID']"></field>
+                    <field field="tables['JSRA'].records[0].fields['DepartmentID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Zone</strong>
-                    <field name="tables['JSRA'].records[0].fields['ZoneID']"></field>
+                    <field field="tables['JSRA'].records[0].fields['ZoneID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Work Cell</strong>
-                    <field name="tables['JSRA'].records[0].fields['WorkCellID']"></field>
+                    <field field="tables['JSRA'].records[0].fields['WorkCellID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Machine</strong>
-                    <field name="tables['JSRA'].records[0].fields['MachineID']"></field>
+                    <field field="tables['JSRA'].records[0].fields['MachineID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Shift</strong>
-                    <field name="tables['JSRA'].records[0].fields['Shift']" options="[1,2,3]"></field>
+                    <field field="tables['JSRA'].records[0].fields['Shift']" options="[1,2,3]"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Supervisor</strong>
-                    <field name="tables['JSRA'].records[0].fields['SupervisorID']"></field>
+                    <field field="tables['JSRA'].records[0].fields['SupervisorID']"></field>
                 </div>
                 <style>
-                    [name*='TaskAnalyzed'] textarea {
+                    [field='TaskAnalyzed'] textarea {
                         height: 1.7em;
                         width: 9.8em;
                     }
@@ -121,11 +121,11 @@
 
                 <div class="inputPlusLabel">
                     <strong>Task Analyzed</strong>
-                    <field name="tables['JSRA'].records[0].fields['TaskAnalyzed']"></field>
+                    <field field="tables['JSRA'].records[0].fields['TaskAnalyzed']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Total Hours</strong>
-                    <field name="tables['JSRA'].records[0].fields['TotalHours']"></field>
+                    <field field="tables['JSRA'].records[0].fields['TotalHours']"></field>
                 </div>
             </td>
         </tr>
@@ -153,7 +153,7 @@
                 {{rec.fields['DetailsID'].getOptionText(rec.fields['DetailsID'].value)}}
             </td>
             <td colspan="2">
-                <field name="rec.fields['Applies']"></field>
+                <field field="rec.fields['Applies']"></field>
             </td>
         </tr>
         <tr>
@@ -174,10 +174,10 @@
             <td colspan="4">Pre-Mitigation</td>
         </tr>
         <tr ng-show="rec.fields['Applies'].value == 1">
-            <td colspan="4"><field name="rec.fields['Controllable']"></field></td>
-            <td colspan="4"><field name="rec.fields['PreSeverity']" options='[{ k :1 , v : "No near misses have occurred, injury is unlikely"},{ k : 2 , v : "Near miss has occurred / first aid possible"},{ k : 3 , v : "First aid has occurred / recordable is possible"},{ k : 4 , v : "Recordable injury has occurred / serious injury is possible"},{ k : 5 , v : "Serious injury resulting in lost time has occurred"}]'></field></td>
-            <td colspan="4"><field name="rec.fields['PreProbability']" options='[{ k :1 , v : "Worker is not subjected to any risk of injury"},{ k : 2 , v : "There is a slight chance of injury to the worker"},{ k : 3 , v : "The worker will be injured if no counter-measures are implemented"}]'></field></td>
-            <td colspan="4"><field name="rec.fields['PreMitigation']" options='[{ k :1 , v : "Controls meet or exceed standards"},{ k : 2 , v : "Current controls are not sufficient"},{ k : 3 , v : "No controls exist - operator is exposed to hazard"}]'></field></td>
+            <td colspan="4"><field field="rec.fields['Controllable']"></field></td>
+            <td colspan="4"><field field="rec.fields['PreSeverity']" options='[{ k :1 , v : "No near misses have occurred, injury is unlikely"},{ k : 2 , v : "Near miss has occurred / first aid possible"},{ k : 3 , v : "First aid has occurred / recordable is possible"},{ k : 4 , v : "Recordable injury has occurred / serious injury is possible"},{ k : 5 , v : "Serious injury resulting in lost time has occurred"}]'></field></td>
+            <td colspan="4"><field field="rec.fields['PreProbability']" options='[{ k :1 , v : "Worker is not subjected to any risk of injury"},{ k : 2 , v : "There is a slight chance of injury to the worker"},{ k : 3 , v : "The worker will be injured if no counter-measures are implemented"}]'></field></td>
+            <td colspan="4"><field field="rec.fields['PreMitigation']" options='[{ k :1 , v : "Controls meet or exceed standards"},{ k : 2 , v : "Current controls are not sufficient"},{ k : 3 , v : "No controls exist - operator is exposed to hazard"}]'></field></td>
         </tr>
         <tr class="rowheader" ng-show="rec.fields['Applies'].value == 1">
             <td colspan="4">Corrective Action</td>
@@ -186,10 +186,10 @@
             <td colspan="4">Post-Mitigation</td>
         </tr>
         <tr ng-repeat-end ng-show="rec.fields['Applies'].value == 1">
-            <td colspan="4"><field name="rec.fields['ActionTaken']"></field></td>
-            <td colspan="4"><field name="rec.fields['PostSeverity']" options='[{ k :1 , v : "No near misses have occurred, injury is unlikely"},{ k : 2 , v : "Near miss has occurred / first aid possible"},{ k : 3 , v : "First aid has occurred / recordable is possible"},{ k : 4 , v : "Recordable injury has occurred / serious injury is possible"},{ k : 5 , v : "Serious injury resulting in lost time has occurred"}]'></field></td>
-            <td colspan="4"><field name="rec.fields['PostProbability']" options='[{ k :1 , v : "Worker is not subjected to any risk of injury"},{ k : 2 , v : "There is a slight chance of injury to the worker"},{ k : 3 , v : "The worker will be injured if no counter-measures are implemented"}]'></field></td>
-            <td colspan="4"><field name="rec.fields['PostMitigation']" options='[{ k :1 , v : "Controls meet or exceed standards"},{ k : 2 , v : "Current controls are not sufficient"},{ k : 3 , v : "No controls exist - operator is exposed to hazard"}]'></field></td>
+            <td colspan="4"><field field="rec.fields['ActionTaken']"></field></td>
+            <td colspan="4"><field field="rec.fields['PostSeverity']" options='[{ k :1 , v : "No near misses have occurred, injury is unlikely"},{ k : 2 , v : "Near miss has occurred / first aid possible"},{ k : 3 , v : "First aid has occurred / recordable is possible"},{ k : 4 , v : "Recordable injury has occurred / serious injury is possible"},{ k : 5 , v : "Serious injury resulting in lost time has occurred"}]'></field></td>
+            <td colspan="4"><field field="rec.fields['PostProbability']" options='[{ k :1 , v : "Worker is not subjected to any risk of injury"},{ k : 2 , v : "There is a slight chance of injury to the worker"},{ k : 3 , v : "The worker will be injured if no counter-measures are implemented"}]'></field></td>
+            <td colspan="4"><field field="rec.fields['PostMitigation']" options='[{ k :1 , v : "Controls meet or exceed standards"},{ k : 2 , v : "Current controls are not sufficient"},{ k : 3 , v : "No controls exist - operator is exposed to hazard"}]'></field></td>
         </tr>
         <tr>
             <td colspan="16">
@@ -209,18 +209,18 @@
         </tr>
         <tr>
             <td colspan="10">Hot Work</td>
-            <td colspan="3"><field name="tables['JSRA'].records[0].fields['HotWorkPermitRequired']"></field></td>
-            <td colspan="3"><field name="tables['JSRA'].records[0].fields['HotWorkPermitAcquired']"></field></td>
+            <td colspan="3"><field field="tables['JSRA'].records[0].fields['HotWorkPermitRequired']"></field></td>
+            <td colspan="3"><field field="tables['JSRA'].records[0].fields['HotWorkPermitAcquired']"></field></td>
         </tr>
         <tr>
             <td colspan="10">Electrical</td>
-            <td colspan="3"><field name="tables['JSRA'].records[0].fields['ElectricalPermitRequired']"></field></td>
-            <td colspan="3"><field name="tables['JSRA'].records[0].fields['ElectricalPermitAcquired']"></field></td>
+            <td colspan="3"><field field="tables['JSRA'].records[0].fields['ElectricalPermitRequired']"></field></td>
+            <td colspan="3"><field field="tables['JSRA'].records[0].fields['ElectricalPermitAcquired']"></field></td>
         </tr>
         <tr>
             <td colspan="10">Confined Space</td>
-            <td colspan="3"><field name="tables['JSRA'].records[0].fields['ConfinedSpacePermitRequired']"></field></td>
-            <td colspan="3"><field name="tables['JSRA'].records[0].fields['ConfinedSpacePermitAcquired']"></field></td>
+            <td colspan="3"><field field="tables['JSRA'].records[0].fields['ConfinedSpacePermitRequired']"></field></td>
+            <td colspan="3"><field field="tables['JSRA'].records[0].fields['ConfinedSpacePermitAcquired']"></field></td>
         </tr>
         <tr>
             <td colspan="16">
@@ -234,7 +234,7 @@
         </tr>
         <tr ng-repeat="rec in tables['JSRAPPERequirements'].records">
             <td colspan="16">
-                <field name="rec.fields['PPEID']"></field>
+                <field field="rec.fields['PPEID']"></field>
             </td>
         </tr>
         <tr>
@@ -266,16 +266,16 @@
         </tr>
         <tr ng-repeat="rec in tables['JSRAPersonnel'].records">
             <td colspan="5">
-                <field name="rec.fields['Name']"></field>
+                <field field="rec.fields['Name']"></field>
             </td>
             <td colspan="5">
-                <field name="rec.fields['Signature']"></field>
+                <field field="rec.fields['Signature']"></field>
             </td>
             <td colspan="2">
-                <field name="rec.fields['TimeIn']"></field>
+                <field field="rec.fields['TimeIn']"></field>
             </td>
             <td colspan="2">
-                <field name="rec.fields['TimeOut']"></field>
+                <field field="rec.fields['TimeOut']"></field>
             </td>
             <td colspan="2">
                 {{(rec.fields['TimeOut'].value - rec.fields['TimeIn'].value)/(1000*60*60)  | number : 2}}
@@ -304,13 +304,13 @@
         </tr>
         <tr>
             <td colspan="6">
-                <field name="tables['JSRA'].records[0].fields['SupervisorName']"></field>
+                <field field="tables['JSRA'].records[0].fields['SupervisorName']"></field>
             </td>
             <td colspan="5">
-                <field name="tables['JSRA'].records[0].fields['SupervisorSignature']"></field>
+                <field field="tables['JSRA'].records[0].fields['SupervisorSignature']"></field>
             </td>
             <td colspan="5">
-                <field name="tables['JSRA'].records[0].fields['SupervisorDate']"></field>
+                <field field="tables['JSRA'].records[0].fields['SupervisorDate']"></field>
             </td>
         </tr>
         <tr>

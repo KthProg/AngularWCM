@@ -3,7 +3,7 @@
 <head>
     
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -34,7 +34,7 @@
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="form.initialize('WCC', 'WCM', ['WCC', 'WCCLine'], {'WCCLine' : 37},
+      ng-init="initialize('WCC', 'WCM', ['WCC', 'WCCLine'], {'WCCLine' : 37},
       {'WCCLine' : {
         0 : { 'SubCategoryID' : 1, 'CategoryID' : 1, 'Severity' : 'High'}, 1 : {'SubCategoryID' : 2, 'CategoryID' : 1, 'Severity' : 'High'},
         2 : {'SubCategoryID' : 3, 'CategoryID' : 1, 'Severity' : 'High'}, 3 : {'SubCategoryID' : 5, 'CategoryID' : 1, 'Severity' : 'Medium'},
@@ -61,56 +61,56 @@
         <tr>
             <td colspan="3">
                 <style>
-                    [name*='[\'ID\']'] input {
+                    [field*='[\'ID\']'] input {
                         background-color: inherit;
                         border: none;
                         color: skyblue;
                     }
                 </style>
-                <h1>Work Cell Observation Checklist No. <field name="tables['WCC'].records[0].fields['ID']"></field></h1>
+                <h1>Work Cell Observation Checklist No. <field field="tables['WCC'].records[0].fields['ID']"></field></h1>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <div class="inputPlusLabel">
                     <strong>Date</strong>
-                    <field name="tables['WCC'].records[0].fields['WCDate']"></field>
+                    <field field="tables['WCC'].records[0].fields['WCDate']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Shift</strong>
-                    <field name="tables['WCC'].records[0].fields['Shift']" options="[1,2,3]"></field>
+                    <field field="tables['WCC'].records[0].fields['Shift']" options="[1,2,3]"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Auditor's Name</strong>
-                    <field name="tables['WCC'].records[0].fields['AuditorID']"></field>
+                    <field field="tables['WCC'].records[0].fields['AuditorID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Plant</strong>
-                    <field name="tables['WCC'].records[0].fields['PlantID']"></field>
+                    <field field="tables['WCC'].records[0].fields['PlantID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Department</strong>
-                    <field name="tables['WCC'].records[0].fields['DepartmentID']"></field>
+                    <field field="tables['WCC'].records[0].fields['DepartmentID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Zone</strong>
-                    <field name="tables['WCC'].records[0].fields['ZoneID']"></field>
+                    <field field="tables['WCC'].records[0].fields['ZoneID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Machine</strong>
-                    <field name="tables['WCC'].records[0].fields['MachineID']"></field>
+                    <field field="tables['WCC'].records[0].fields['MachineID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Work Cell</strong>
-                    <field name="tables['WCC'].records[0].fields['WorkCellID']"></field>
+                    <field field="tables['WCC'].records[0].fields['WorkCellID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Tool No.</strong>
-                    <field name="tables['WCC'].records[0].fields['MoldNo']"></field>
+                    <field field="tables['WCC'].records[0].fields['MoldNo']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Supervisor</strong>
-                    <field name="tables['WCC'].records[0].fields['SupervisorID']"></field>
+                    <field field="tables['WCC'].records[0].fields['SupervisorID']"></field>
                 </div>
             </td>
         </tr>
@@ -137,10 +137,10 @@
                 </span>
             </td>
             <td>
-                <imageupload name="rec.fields['ImageURL']"></imageupload>
+                <imageupload field="rec.fields['ImageURL']"></imageupload>
             </td>
             <td>
-                <field name="rec.fields['Compliant']" options="['Satisfactory','Unsafe Condition','Unsafe Act','Both']"></field>
+                <field field="rec.fields['Compliant']" options="['Satisfactory','Unsafe Condition','Unsafe Act','Both']"></field>
             </td>
         </tr>
         <tr>
@@ -152,7 +152,7 @@
         <!-- makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
         <tr>
             <td colspan="2">
-                <field name="tables['WCC'].records[0].fields['Comments']" placeholder="Comments"></field><br />
+                <field field="tables['WCC'].records[0].fields['Comments']" multiline="true"></field><br />
             </td>
             <td>
                 <button ng-click="form.reset()">Reset</button>

@@ -59,7 +59,6 @@ Sketch.prototype.save = function () {
 };
 
 //update mouse for sketches
-
 var mouse = { x: 0, y: 0, prevX: 0, prevY: 0, leftDown: false, leftUp: false };
 
 document.addEventListener('mousemove', function (e) {

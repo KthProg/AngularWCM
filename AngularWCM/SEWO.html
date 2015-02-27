@@ -4,7 +4,7 @@
     <title>SEWO</title>
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -20,7 +20,7 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('SEWO', 'WCM', ['ESEWOs'])">
+    ng-init="initialize('SEWO', 'WCM', ['ESEWOs'])">
     <table style="width: 100%;">
         <tr>
             <td colspan="5" class="dkgrey whitetext">
@@ -28,12 +28,12 @@
             </td>
             <td colspan="3" class="ltgrey">
                 <style>
-                    [name*='[\'SEWONumber\']'] input {
+                    [field*='[\'SEWONumber\']'] input {
                         background-color: inherit;
                         border: none;
                     }
                 </style>
-                <h2>SEWO Number<field name="fields['SEWONumber']"></field></h2>
+                <h2>SEWO Number<field field="fields['SEWONumber']"></field></h2>
             </td>
         </tr>
         <tr>
@@ -45,7 +45,7 @@
             </td>
             <td class="ltgrey">Sex</td>
             <td colspan="2">
-                <field name="fields['Sex']" options="['Male', 'Female']"></field>
+                <field field="fields['Sex']" options="['Male', 'Female']"></field>
             </td>
             <td class="ltgrey">Accident Type</td>
             <td class="ltgrey">Position Type</td>
@@ -54,19 +54,19 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['InjuredName']"></field>
+                <field field="fields['InjuredName']"></field>
             </td>
             <td>
-                <field name="fields['AccidentTypeID']"></field>
+                <field field="fields['AccidentTypeID']" required="true"></field>
             </td>
             <td>
-                <field name="fields['TypeOfPosition']" options="['Permanent','Temporary']"></field>
+                <field field="fields['TypeOfPosition']" options="['Permanent','Temporary']"></field>
             </td>
             <td>
-                <field name="fields['PPESupplied']" options='["Yes","No"]'></field>
+                <field field="fields['PPESupplied']" options='["Yes","No"]'></field>
             </td>
             <td>
-                <field name="fields['PPEInUse']" options='["Yes","No"]'></field>
+                <field field="fields['PPEInUse']" options='["Yes","No"]'></field>
             </td>
         </tr>
         <tr class="ltgrey">
@@ -78,19 +78,19 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['InjuredJob']"></field>
+                <field field="fields['InjuredJob']"></field>
             </td>
             <td>
-                <field name="fields['ReportedBy']"></field>
+                <field field="fields['ReportedBy']"></field>
             </td>
             <td>
-                <field name="fields['Shift']" options="[1,2,3]"></field>
+                <field field="fields['Shift']" options="[1,2,3]"></field>
             </td>
             <td>
-                <field name="fields['InjuryDate']"></field>
+                <field field="fields['InjuryDate']" required="true"></field>
             </td>
             <td>
-                <field name="fields['InjuryTime']"></field>
+                <field field="fields['InjuryTime']"></field>
             </td>
         </tr>
         <tr class="ltgrey">
@@ -103,23 +103,22 @@
         </tr>
         <tr>
             <td colspan="2">
-                <field name="fields['InjuryTypeID']"></field>
+                <field field="fields['InjuryTypeID']" required="true"></field>
             </td>
             <td>
-                <field name="fields['TypeofPosition']"></field>
-                <field name="fields['UsualWork']" options='["Yes","No"]'></field>
+                <field field="fields['UsualWork']" options='["Yes","No"]'></field>
             </td>
             <td>
-                <field name="fields['PlantID']"></field>
+                <field field="fields['PlantID']" required="true"></field>
             </td>
             <td>
-                <field name="fields['DepartmentID']"></field>
+                <field field="fields['DepartmentID']" required="true"></field>
             </td>
             <td>
-                <field name="fields['ZoneID']"></field>
+                <field field="fields['ZoneID']" required="true"></field>
             </td>
             <td>
-                <field name="fields['MachineID']"></field>
+                <field field="fields['MachineID']"></field>
             </td>
         </tr>
         <tr>
@@ -133,23 +132,23 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['WWhat']"></field>
+                <field field="fields['WWhat']" multiline="true"></field>
             </td>
             <td colspan="2" rowspan="11">
                 <style>
-                    [name*="BodyPartID"] select {
+                    [field*="BodyPartID"] select {
                         height: 20%;
                         /*change to select when done*/
                     }
                 </style>
-                <img src="http://192.9.200.62:8080/res/BodyChart.png" style="width: 200px; height: 200px;" />
-                <field name="fields['BodyPartID']"></field>
+                <img src="https://192.9.200.62/res/BodyChart.png" style="width: 200px; height: 200px;" />
+                <field field="fields['BodyPartID']"></field>
             </td>
             <td rowspan="11">
-                <sketch name="fields['SketchURL']"></sketch>
+                <sketch field="fields['SketchURL']"></sketch>
             </td>
             <td rowspan="11">
-                <field name="fields['ActionDescription']"></field>
+                <field field="fields['ActionDescription']" multiline="true"></field>
             </td>
         </tr>
         <tr>
@@ -157,7 +156,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['WWhen']"></field>
+                <field field="fields['WWhen']" multiline="true"></field>
             </td>
         </tr>
         <tr>
@@ -165,7 +164,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['WWhere']"></field>
+                <field field="fields['WWhere']" multiline="true"></field>
             </td>
 
         </tr>
@@ -174,7 +173,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['WWho']"></field>
+                <field field="fields['WWho']" multiline="true"></field>
             </td>
         </tr>
         <tr>
@@ -182,7 +181,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['WWhich']"></field>
+                <field field="fields['WWhich']" multiline="true"></field>
             </td>
         </tr>
         <tr>
@@ -190,7 +189,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <field name="fields['HHow']"></field>
+                <field field="fields['HHow']" multiline="true"></field>
             </td>
         </tr>
         <tr>
@@ -199,37 +198,37 @@
         <tr>
             <td class="ltgreen whitetext">1</td>
             <td colspan="7">
-                <field name="fields['FiveWhy1']"></field>
+                <field field="fields['FiveWhy1']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">..2</td>
             <td colspan="7">
-                <field name="fields['FiveWhy2']"></field>
+                <field field="fields['FiveWhy2']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">....3</td>
             <td colspan="7">
-                <field name="fields['FiveWhy3']"></field>
+                <field field="fields['FiveWhy3']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">......4</td>
             <td colspan="7">
-                <field name="fields['FiveWhy4']"></field>
+                <field field="fields['FiveWhy4']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">........5</td>
             <td colspan="7">
-                <field name="fields['FiveWhy5']"></field>
+                <field field="fields['FiveWhy5']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">Root Cause</td>
             <td colspan="7">
-                <field name="fields['FiveWhyRootCause']"></field>
+                <field field="fields['FiveWhyRootCause']"></field>
             </td>
         </tr>
         <tr>
@@ -238,25 +237,25 @@
         <tr>
             <td class="ltgreen whitetext">Root Cause Type</td>
             <td colspan="7">
-                <field name="fields['RootCauseID']"></field>
+                <field field="fields['RootCauseID']" required="true"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">2nd Root Cause</td>
             <td colspan="7">
-                <field name="fields['SecondaryCauseID']"></field>
+                <field field="fields['SecondaryCauseID']" required="true"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">Micro Root Cause</td>
             <td colspan="7">
-                <field name="fields['MicroCauseID']"></field>
+                <field field="fields['MicroCauseID']" required="true"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgreen whitetext">Action</td>
             <td colspan="7">
-                <field name="fields['ActionID']"></field>
+                <field field="fields['ActionID']"></field>
             </td>
         </tr>
         <tr>
@@ -272,19 +271,19 @@
         </tr>
         <tr>
             <td colspan="3" height="100px">
-                <field name="fields['ActionPlan']"></field>
+                <field field="fields['ActionPlan']" multiline="true"></field>
             </td>
             <td>
-                <field name="fields['Responsible']"></field>
+                <field field="fields['Responsible']" multiline="true"></field>
             </td>
             <td>
-                <field name="fields['DueDate']"></field>
+                <field field="fields['DueDate']" multiline="true"></field>
             </td>
             <td>
-                <field name="fields['CloseDate']"></field>
+                <field field="fields['CloseDate']" multiline="true"></field>
             </td>
             <td>
-                <field name="fields['Notes']"></field>
+                <field field="fields['Notes']" multiline="true"></field>
             </td>
         </tr>
         <tr>
@@ -311,15 +310,15 @@
                             <table style="width: 100%; height: 150px;">
                                 <tr>
                                     <td>
-                                        <field name="fields['ExpansionPlan']" options='["Yes","No"]'></field>
+                                        <field field="fields['ExpansionPlan']" options='["Yes","No"]'></field>
                                     </td>
                                     <td>
-                                        <field name="fields['Location']"></field>
+                                        <field field="fields['Location']" multiline="true"></field>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <field name="fields['Act']"></field>
+                                        <field field="fields['Act']" multiline="true"></field>
                                     </td>
                                 </tr>
                             </table>
@@ -343,64 +342,64 @@
                     <tr>
                         <td class="ltgrey">Name</td>
                         <td>
-                            <field name="fields['EmployeeName']"></field>
+                            <field field="fields['EmployeeName']"></field>
                         </td>
                         <td>
-                            <field name="fields['TeamLeadName']"></field>
+                            <field field="fields['TeamLeadName']"></field>
                         </td>
                         <td>
-                            <field name="fields['SupervisorName']"></field>
+                            <field field="fields['SupervisorName']"></field>
                         </td>
                         <td>
-                            <field name="fields['DeptManagerName']"></field>
+                            <field field="fields['DeptManagerName']"></field>
                         </td>
                         <td>
-                            <field name="fields['SafetyMgrName']"></field>
+                            <field field="fields['SafetyMgrName']"></field>
                         </td>
                         <td>
-                            <field name="fields['PlantMgrName']"></field>
+                            <field field="fields['PlantMgrName']"></field>
                         </td>
                     </tr>
                     <tr>
                         <td class="ltgrey">Date</td>
                         <td>
-                            <field name="fields['EmployeeDate']"></field>
+                            <field field="fields['EmployeeDate']"></field>
                         </td>
                         <td>
-                            <field name="fields['TeamLeadDate']"></field>
+                            <field field="fields['TeamLeadDate']"></field>
                         </td>
                         <td>
-                            <field name="fields['SupervisorDate']"></field>
+                            <field field="fields['SupervisorDate']"></field>
                         </td>
                         <td>
-                            <field name="fields['DeptManagerDate']"></field>
+                            <field field="fields['DeptManagerDate']"></field>
                         </td>
                         <td>
-                            <field name="fields['SafetyMgrDate']"></field>
+                            <field field="fields['SafetyMgrDate']"></field>
                         </td>
                         <td>
-                            <field name="fields['PlantMgrDate']"></field>
+                            <field field="fields['PlantMgrDate']"></field>
                         </td>
                     </tr>
                     <tr>
                         <td class="ltgrey">Signature</td>
                         <td>
-                            <field name="fields['EmployeeSignature']"></field>
+                            <field field="fields['EmployeeSignature']"></field>
                         </td>
                         <td>
-                            <field name="fields['TeamLeadSignature']"></field>
+                            <field field="fields['TeamLeadSignature']"></field>
                         </td>
                         <td>
-                            <field name="fields['SupervisorSignature']"></field>
+                            <field field="fields['SupervisorSignature']"></field>
                         </td>
                         <td>
-                            <field name="fields['DeptManagerSignature']"></field>
+                            <field field="fields['DeptManagerSignature']"></field>
                         </td>
                         <td>
-                            <field name="fields['SafetyMgrSignature']"></field>
+                            <field field="fields['SafetyMgrSignature']"></field>
                         </td>
                         <td>
-                            <field name="fields['PlantMgrSignature']"></field>
+                            <field field="fields['PlantMgrSignature']"></field>
                         </td>
                     </tr>
                 </table>
@@ -416,24 +415,24 @@
         </tr>
         <tr style="height: 200px;">
             <td colspan="6">
-                <field name="fields['InjuredStatement']"></field>
+                <field field="fields['InjuredStatement']" multiline="true"></field>
             </td>
             <td colspan="2">
-                <field name="fields['WitnessStatement']"></field>
+                <field field="fields['WitnessStatement']" multiline="true"></field>
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <field name="fields['InjuredSignature']"></field>
+                <field field="fields['InjuredSignature']"></field>
             </td>
             <td colspan="2">
-                <field name="fields['InjuredDate']"></field>
+                <field field="fields['InjuredDate']"></field>
             </td>
             <td>
-                <field name="fields['WitnessSignature']"></field>
+                <field field="fields['WitnessSignature']"></field>
             </td>
             <td>
-                <field name="fields['WitnessDate']"></field>
+                <field field="fields['WitnessDate']"></field>
             </td>
         </tr>
         <tr>

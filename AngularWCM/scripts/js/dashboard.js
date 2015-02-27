@@ -32,7 +32,6 @@
         var cq = document.getElementById('chart_query');
         var cqOp;
         [].slice.call(cq.options).forEach(function (op) {
-            console.log(op);
             if (op.value == cq.value) {
                 cqOp = op;
             }
@@ -53,7 +52,7 @@
                 curveType: 'function',
                 isStacked: true
             },
-            cq.value,
+            cq.value + $scope.charts.length,
             false);
 
         $scope.charts.push(ch);
@@ -88,9 +87,10 @@
     };
 
     $scope.openLayout = function () {
-        $http.get("/scripts/php/Query.php?ASSOC=true&Query=OpenDashboardLayout&Named=trueParams=" + encodeURIComponent(JSON.stringify([document.getElementById("open_layout").value])))
+        $http.get("/scripts/php/Query.php?ASSOC=true&Query=OpenDashboardLayout&Named=true&Params=" + encodeURIComponent(JSON.stringify([$scope.layout])))
         .success(
         function (resp) {
+            console.log(resp);
             var newChartsArr = JSON.parse(resp[0]["LayoutJSON"]);
             // format values
             newChartsArr.forEach(function (el) {
@@ -112,7 +112,7 @@
 
     $scope.saveOrUpdateLayout = function (updating){
         var chartsCopy = makeChartsCopyForDatabase();
-        var secondParam = (updating ? document.getElementById("open_layout").value : document.getElementById("layout_name").value);
+        var secondParam = (updating ? $scope.layout : document.getElementById("layout_name").value);
         $http({
             method: "POST",
             url: "/scripts/php/Query.php",
@@ -250,7 +250,9 @@
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).success(
         function (resp) {
-            $scope.layouts = resp;
+            $scope.layouts = resp.map(function (row) {
+                return { value: row[0], text: row[1] };
+            });
         });
     };
 

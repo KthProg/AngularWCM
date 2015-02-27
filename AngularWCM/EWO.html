@@ -6,7 +6,7 @@
     <title>EWO</title>
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -23,7 +23,7 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('EWO', 'WCM', ['EWOs'])">
+    ng-init="initialize('EWO', 'WCM', ['EWOs'])">
     <table>
         <tr>
             <td width="2.3%"></td>
@@ -54,56 +54,64 @@
             <td colspan="2">Date/Time Finished</td>
         </tr>
         <tr>
-            <td colspan="3"><field name="fields['ID']"></field></td>
+            <td colspan="3"><field field="fields['ID']"></field></td>
             <td>
-                <field name="fields['DepartmentID']"></field>
+                <field field="fields['DepartmentID']"></field>
             </td>
             <td>
-                <field name="fields['MachineID']"></field>
+                <field field="fields['MachineID']"></field>
             </td>
             <td colspan="2">
-                <field name="fields['FailureType']" options="['Electrical','Mechanical','Both']"></field>
+                <field field="fields['FailureType']" options="['Electrical','Mechanical','Both']"></field>
             </td>
             <td>
-                <field name="fields['Shift']" options="[1,2,3]"></field>
+                <field field="fields['Shift']" options="[1,2,3]"></field>
             </td>
-            <td colspan="2"><field name="fields['DateTimeOccurred']"></field></td>
-            <td><field name="fields['DateTimeStarted']"></field></td>
-            <td colspan="2"><field name="fields['DateTimeCompleted']"></field></td>
+            <td colspan="2"><field field="fields['DateTimeOccurred']"></field></td>
+            <td><field field="fields['DateTimeStarted']"></field></td>
+            <td colspan="2"><field field="fields['DateTimeCompleted']"></field></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="3" height="10px">Maintenance Person(s)</td>
             <td>Operation</td>
             <td>Sub-system</td>
             <td colspan="3">Component</td>
-            <td colspan="2"></td>
+            <td colspan="2">Reviews</td>
             <td></td>
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="3"><field name="fields['MaintenancePersons']"></field>
+            <td colspan="3"><field field="fields['MaintenancePersons']"></field>
             <td>
-                <field name="fields['ZoneID']"></field>
+                <field field="fields['ZoneID']"></field>
             </td>
             <td>
-                <field name="fields['SubSystemID']"></field>
+                <field field="fields['SubSystemID']"></field>
             </td>
             <td colspan="3">
-                <field name="fields['Component']"></field>
+                <field field="fields['Component']"></field>
             </td>
-            <td colspan="2"></td> <!-- time occurred -->
+            <td colspan="2">
+                <field field="fields['ReviewCount']"></field>
+            </td> <!-- time occurred -->
             <td></td><!-- time started -->
             <td colspan="2"></td><!-- time completed -->
         </tr>
         <tr>
-            <td colspan="6" rowspan="2" height="150px"><field name="fields['ProblemDescription']"></field><!-- Description of failure and sketch (if possible) --></td>
-            <td colspan="6"><field name="fields['ActivitiesDescription']"></field><!-- Description of activites --></td>
+            <td colspan="6" rowspan="2" height="150px"><field field="fields['ProblemDescription']"></field><!-- Description of failure and sketch (if possible) --></td>
+            <td colspan="6"><field field="fields['ActivitiesDescription']"></field><!-- Description of activites --></td>
             <td rowspan="2">
-                <label for="tempRepairCB">Check if Temp. Repair</label><field name="fields['TempRepair']"></field>
+                <label for="tempRepairCB">Check if Temp. Repair</label>
+                <style>
+                    [field*='[\'TempRepair\']'] input {
+                        height: 70%;
+                    }
+                </style>
+                <field field="fields['TempRepair']"></field>
             </td>
         </tr>
         <tr>
-            <td colspan="6"><field name="fields['SpareParts']"></field><!-- Spare parts used (part number if available). --></td>
+            <td colspan="6"><field field="fields['SpareParts']"></field><!-- Spare parts used (part number if available). --></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="13" height="10px">Analysis of root causes</td>
@@ -114,34 +122,34 @@
         </tr>
         <tr>
             <td rowspan="20" class="dkgrey whitetext">D<br />e<br />f<br />i<br />n<br />i<br />t<br />i<br />o<br />n<br /> <br />o<br />f<br /> <br />p<br />r<br />o<br />b<br />l<br />e<br />m<br /> <br />a<br />n<br />d<br /> <br />a<br />n<br />a<br />l<br />y<br />s<br />i<br />s<br /> <br />o<br />f<br /> <br />r<br />o<br />o<br />t<br /> <br />c<br />a<br />u<br />s<br />e<br />s</td>
-            <td colspan="7" height="30px"><field name="fields['What']"></field></td>
+            <td colspan="7" height="30px"><field field="fields['What']"></field></td>
             <td class="ltgrey">1</td>
-            <td colspan="4"><field name="fields['Cause1']"></field></td>
+            <td colspan="4"><field field="fields['Cause1']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><field name="fields['When']"></field></td>
+            <td colspan="7" height="30px"><field field="fields['When']"></field></td>
             <td class="ltgrey">2</td>
-            <td colspan="4"><field name="fields['Cause2']"></field></td>
+            <td colspan="4"><field field="fields['Cause2']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><field name="fields['Where']"></field></td>
+            <td colspan="7" height="30px"><field field="fields['Where']"></field></td>
             <td class="ltgrey">3</td>
-            <td colspan="4"><field name="fields['Cause3']"></field></td>
+            <td colspan="4"><field field="fields['Cause3']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><field name="fields['Who']"></field></td>
+            <td colspan="7" height="30px"><field field="fields['Who']"></field></td>
             <td class="ltgrey">4</td>
-            <td colspan="4"><field name="fields['Cause4']"></field></td>
+            <td colspan="4"><field field="fields['Cause4']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><field name="fields['Why']"></field></td>
+            <td colspan="7" height="30px"><field field="fields['Why']"></field></td>
             <td class="ltgrey">5</td>
-            <td colspan="4"><field name="fields['Cause5']"></field></td>
+            <td colspan="4"><field field="fields['Cause5']"></field></td>
         </tr>
         <tr>
-            <td colspan="7" height="30px"><field name="fields['How']"></field></td>
+            <td colspan="7" height="30px"><field field="fields['How']"></field></td>
             <td class="ltgrey">6</td>
-            <td colspan="4"><field name="fields['Cause6']"></field></td>
+            <td colspan="4"><field field="fields['Cause6']"></field></td>
         </tr>
         <tr>
             <td colspan="6" class="ltgrey" height="30px">Check on Possible Causes (Should only be one)</td>
@@ -149,61 +157,61 @@
         </tr>
         <tr>
             <td class="ltgrey" height="30px">1</td>
-            <td colspan="5"><field name="fields['CheckCause1']" type="text" /></td>
+            <td colspan="5"><field field="fields['CheckCause1']" type="text" /></td>
             <td colspan="6">
-                <field name="fields['RootCause']"></field>
+                <field field="fields['RootCause']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">2</td>
-            <td colspan="5"><field name="fields['CheckCause2']"></field></td>
+            <td colspan="5"><field field="fields['CheckCause2']"></field></td>
             <td colspan="6">
-                <field name="fields['SecondaryRootCause']"></field>
+                <field field="fields['SecondaryRootCause']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">3</td>
-            <td colspan="5"><field name="fields['CheckCause3']"></field>
+            <td colspan="5"><field field="fields['CheckCause3']"></field>
             <td colspan="6">
-                <field name="fields['ActionType']"></field>
+                <field field="fields['ActionType']"></field>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">4</td>
-            <td colspan="5"><field name="fields['CheckCause4']"></field></td>
+            <td colspan="5"><field field="fields['CheckCause4']"></field></td>
             <td colspan="6" rowspan="19">
-                <sketch name="fields['SketchURL']"></sketch>
+                <sketch field="fields['SketchURL']"></sketch>
             </td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">5</td>
-            <td colspan="5"><field name="fields['CheckCause5']"></field></td>
+            <td colspan="5"><field field="fields['CheckCause5']"></field></td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">6</td>
-            <td colspan="5"><field name="fields['CheckCause6']"></field></td>
+            <td colspan="5"><field field="fields['CheckCause6']"></field></td>
         </tr>
         <tr>
             <td class="ltgrey" height="30px">No.</td>
-            <td colspan="5"><field name="fields['CauseNum']"></field></td>
+            <td colspan="5"><field field="fields['CauseNum']"></field></td>
         </tr>
         <tr>
             <td colspan="6" class="ltgrey" height="10px">5 Why Analysis</td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><field name="fields['FiveWhy1']"></field><!-- Why 1 --></td>
+            <td colspan="6" height="20px"><field field="fields['FiveWhy1']"></field><!-- Why 1 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><field name="fields['FiveWhy2']"></field><!-- Why 2 --></td>
+            <td colspan="6" height="20px"><field field="fields['FiveWhy2']"></field><!-- Why 2 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><field name="fields['FiveWhy3']"></field><!-- Why 3 --></td>
+            <td colspan="6" height="20px"><field field="fields['FiveWhy3']"></field><!-- Why 3 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><field name="fields['FiveWhy4']"></field><!-- Why 4 --></td>
+            <td colspan="6" height="20px"><field field="fields['FiveWhy4']"></field><!-- Why 4 --></td>
         </tr>
         <tr>
-            <td colspan="6" height="20px"><field name="fields['FiveWhy5']"></field><!-- Why 5 --></td>
+            <td colspan="6" height="20px"><field field="fields['FiveWhy5']"></field><!-- Why 5 --></td>
         </tr>
         <tr>
             <td rowspan="11" class="dkgrey whitetext">A<br />c<br />t<br />i<br />o<br />n<br />s<br /> <br />T<br />a<br />k<br />e<br />n</td>
@@ -213,21 +221,21 @@
         </tr>
         <tr>
             <td height="20px" class="ltgrey">1</td>
-            <td colspan="3"><field name="fields['ARC1']"></field></td>
-            <td><field name="fields['ARCWho1']"></field></td>
-            <td><field name="fields['ARCWhen1']"></field></td>
+            <td colspan="3"><field field="fields['ARC1']"></field></td>
+            <td><field field="fields['ARCWho1']"></field></td>
+            <td><field field="fields['ARCWhen1']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">2</td>
-            <td colspan="3"><field name="fields['ARC2']"></field></td>
-            <td><field name="fields['ARCWho2']"></field></td>
-            <td><field name="fields['ARCWhen2']"></field></td>
+            <td colspan="3"><field field="fields['ARC2']"></field></td>
+            <td><field field="fields['ARCWho2']"></field></td>
+            <td><field field="fields['ARCWhen2']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">3</td>
-            <td colspan="3"><field name="fields['ARC3']"></field></td>
-            <td><field name="fields['ARCWho3']"></field></td>
-            <td><field name="fields['ARCWhen3']"></field></td>
+            <td colspan="3"><field field="fields['ARC3']"></field></td>
+            <td><field field="fields['ARCWho3']"></field></td>
+            <td><field field="fields['ARCWhen3']"></field></td>
         </tr>
         <tr>
             <td colspan="4" class="ltgrey" height="10px">Actions To Sustain Equipment Conditions</td>
@@ -236,27 +244,27 @@
         </tr>
         <tr>
             <td height="20px" class="ltgrey">1</td>
-            <td colspan="3"><field name="fields['ASEC1']"></field></td>
-            <td><field name="fields['ASECWho1']"></field></td>
-            <td><field name="fields['ASECWhen1']"></field></td>
+            <td colspan="3"><field field="fields['ASEC1']"></field></td>
+            <td><field field="fields['ASECWho1']"></field></td>
+            <td><field field="fields['ASECWhen1']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">2</td>
-            <td colspan="3"><field name="fields['ASEC2']"></field></td>
-            <td><field name="fields['ASECWho2']"></field></td>
-            <td><field name="fields['ASECWhen2']"></field></td>
+            <td colspan="3"><field field="fields['ASEC2']"></field></td>
+            <td><field field="fields['ASECWho2']"></field></td>
+            <td><field field="fields['ASECWhen2']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">3</td>
-            <td colspan="3"><field name="fields['ASEC3']"></field></td>
-            <td><field name="fields['ASECWho3']"></field></td>
-            <td><field name="fields['ASECWhen3']"></field></td>
+            <td colspan="3"><field field="fields['ASEC3']"></field></td>
+            <td><field field="fields['ASECWho3']"></field></td>
+            <td><field field="fields['ASECWhen3']"></field></td>
         </tr>
         <tr>
             <td height="20px" class="ltgrey">4</td>
-            <td colspan="3"><field name="fields['ASEC4']"></field></td>
-            <td><field name="fields['ASECWho4']"></field></td>
-            <td><field name="fields['ASECWhen4']"></field></td>
+            <td colspan="3"><field field="fields['ASEC4']"></field></td>
+            <td><field field="fields['ASECWho4']"></field></td>
+            <td><field field="fields['ASECWhen4']"></field></td>
         </tr>
         <tr>
             <td colspan="2" class="ltgrey" height="10px">Analysis performed by</td>
@@ -267,12 +275,12 @@
             <td class="ltgrey">Date</td>
         </tr>
         <tr>
-            <td colspan="2" height="20px"><field name="fields['Responsible']"></field></td>
-            <td colspan="3"><field name="fields['Results']"></field></td>
-            <td><field name="fields['DateComplete']"></field></td>
-            <td colspan="2"><field name="fields['CheckedBy']"></field></td>
-            <td colspan="3"><field name="fields['Signature']"></field></td>
-            <td><field name="fields['DateChecked']"></field></td>
+            <td colspan="2" height="20px"><field field="fields['Responsible']"></field></td>
+            <td colspan="3"><field field="fields['Results']"></field></td>
+            <td><field field="fields['DateComplete']"></field></td>
+            <td colspan="2"><field field="fields['CheckedBy']"></field></td>
+            <td colspan="3"><field field="fields['Signature']"></field></td>
+            <td><field field="fields['DateChecked']"></field></td>
         </tr>
         <tr>
             <td colspan="13">

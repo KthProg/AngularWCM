@@ -18,8 +18,9 @@ Formatter.stringToJSObj = function (val, type) {
             d.setMinutes(Number(timePieces[1]));
             d.setSeconds(Number(secPieces[0]));
             d.setMilliseconds(Number(secPieces[1]));
+            return d;
         } catch (e) {
-            console.log(e.message);
+            console.log(e);
             return null;
         }
         return d;
@@ -29,7 +30,7 @@ Formatter.stringToJSObj = function (val, type) {
             d = this.fromLocalDateTime(d);
             return d;
         } catch (e) {
-            console.log(e.message);
+            console.log(e);
             return null;
         }
     } else if (type == 'datetime') {
@@ -37,7 +38,7 @@ Formatter.stringToJSObj = function (val, type) {
             var d = new Date(Date.parse(val));
             return d;
         } catch (e) {
-            console.log(e.message);
+            console.log(e);
             return null;
         }
     } else {
@@ -53,11 +54,12 @@ Formatter.jsObjToString = function (val, type) {
         return String(val);
     } else if (['date', 'time', 'datetime'].indexOf(type) > -1) {
         try {
-            var d = new Date(val.getTime());
+            var tm = val.getTime();
+            var d = new Date(tm);
             d = this.toLocalDateTime(d);
             var datetimeStr = d.toISOString().replace("T", " ").replace("Z", "");
         } catch (e) {
-            console.log(e.message);
+            console.log(e);
             return null;
         }
 
@@ -79,21 +81,14 @@ Formatter.getDefaultValueForType = function (type) {
     } else if (['double', 'float', 'int', 'bit', 'money'].indexOf(type) > -1) {
         return 0;
     } else if (['time','date','datetime'].indexOf(type) > -1) {
-        return (new Date());
+        return new Date();
     }
 };
 
 Formatter.preventNullsIfNeccessary = function (val, type, nullable) {
-    if (val !== null) {
-        return val;
-    }
-
-    if (!nullable) {
-        return Formatter.getDefaultValueForType(type);
-    } else {
-        return val;
-    }
-    
+    if (val !== null) return val;
+    if (!nullable) return Formatter.getDefaultValueForType(type);
+    return val;
 };
 
 Formatter.toLocalDateTime = function (UTCDateTime) {

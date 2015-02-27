@@ -4,7 +4,7 @@
     
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -34,7 +34,7 @@
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="form.initialize('EHS', 'WCM', ['EHS', 'EHSLine'], {'EHSLine' : 48},
+      ng-init="initialize('EHS', 'WCM', ['EHS', 'EHSLine'], {'EHSLine' : 48},
         {'EHSLine':
             {
                 '0':{'SubCategoryID':1,'CategoryID':1,'Severity':'High'},'1':{'SubCategoryID':2,'CategoryID':1,'Severity':'High'},'2':{'SubCategoryID':3,'CategoryID':1,'Severity':'High'},
@@ -59,56 +59,56 @@
         <tr>
             <td colspan="3">
                 <style>
-                    [name*='[\'ID\']'] input {
+                    [field*='[\'ID\']'] input {
                         background-color: inherit;
                         border: none;
                         color: rgb(204, 255, 153);
                     }
                 </style>
-                <h1>EHS No. <field name="tables['EHS'].records[0].fields['ID']"></h1>
+                <h1>EHS No. <field field="tables['EHS'].records[0].fields['ID']"></h1>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <div class="inputPlusLabel">
                     <strong>Date</strong>
-                    <field name="tables['EHS'].records[0].fields['EHSDate']">
+                    <field field="tables['EHS'].records[0].fields['EHSDate']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Shift</strong>
-                    <field name="tables['EHS'].records[0].fields['Shift']" options="['1','2','3']"></field>
+                    <field field="tables['EHS'].records[0].fields['Shift']" options="['1','2','3']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Auditor's Name</strong>
-                    <field name="tables['EHS'].records[0].fields['AuditorID']">
+                    <field field="tables['EHS'].records[0].fields['AuditorID']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Plant</strong>
-                    <field name="tables['EHS'].records[0].fields['PlantID']">
+                    <field field="tables['EHS'].records[0].fields['PlantID']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Department</strong>
-                    <field name="tables['EHS'].records[0].fields['DepartmentID']">
+                    <field field="tables['EHS'].records[0].fields['DepartmentID']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Zone</strong>
-                    <field name="tables['EHS'].records[0].fields['ZoneID']">
+                    <field field="tables['EHS'].records[0].fields['ZoneID']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Machine</strong>
-                    <field name="tables['EHS'].records[0].fields['MachineID']">
+                    <field field="tables['EHS'].records[0].fields['MachineID']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Work Cell</strong>
-                    <field name="tables['EHS'].records[0].fields['WorkCellID']">
+                    <field field="tables['EHS'].records[0].fields['WorkCellID']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Tool No.</strong>
-                    <field name="tables['EHS'].records[0].fields['MoldNo']">
+                    <field field="tables['EHS'].records[0].fields['MoldNo']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Supervisor</strong>
-                    <field name="tables['EHS'].records[0].fields['SupervisorID']">
+                    <field field="tables['EHS'].records[0].fields['SupervisorID']">
                 </div>
             </td>
         </tr>
@@ -135,10 +135,10 @@
                 </span>
             </td>
             <td>
-                <imageupload name="rec.fields['ImageURL']"></imageupload>
+                <imageupload field="rec.fields['ImageURL']"></imageupload>
             </td>
             <td>
-                <field name="rec.fields['Compliant']" options="['Satisfactory','Unsafe Condition','Unsafe Act','Both']"></field>
+                <field field="rec.fields['Compliant']" options="['Satisfactory','Unsafe Condition','Unsafe Act','Both']"></field>
             </td>
         </tr>
         <tr>
@@ -150,7 +150,7 @@
         <tr></tr>
         <tr>
             <td colspan="2">
-                <field name="fields['Comments']"></field><br />
+                <field field="tables['EHS'].records[0].fields['Comments']" multiline="true"></field><br />
             </td>
             <td>
                 <button ng-click="form.reset()">Reset</button>

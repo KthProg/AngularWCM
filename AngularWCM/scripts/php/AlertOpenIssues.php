@@ -23,31 +23,40 @@ if($emails){
 }
 
 function send_email($email, $body){
-    $mail = new PHPMailer;
-    $mail->isSMTP();
-    $mail->Host = "smtp.gmail.com";
-    $mail->SMTPSecure = "tls";
-    $mail->Port = 587;
-    $mail->SMTPAuth = true;
-    $mail->Username = "formalert@gmail.com";
-    $mail->Password = "t05kwp456";
-    $mail->From = "formalert@gmail.com";
-    $mail->FromName = "FormAlert";
-    $mail->isHTML(true);
-    $mail->addAddress($email);
-	$mail->addAddress("phelps@njt-na.com");
-    $mail->addAddress("hooks@njt-na.com");
-    $mail->Subject = "The top ten open issues in your area";
-    $mail->Body = $body;
-	if(!$mail->Send()):
-        echo "Mailer Error: ".$mail->ErrorInfo."<br>";
-    else:
-        echo "Message has been sent.<br>";
-    endif;
+    $mail = new PHPMailer(true);
+    try{
+        $mail->isSMTP();
+        //$mail->Host = "mailna-com01b.mail.eo.outlook.com";
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPSecure = "tls";
+        $mail->Port = 587;
+        //$mail->Port = 25; // 465, 587
+        $mail->SMTPAuth = true;
+        //$mail->Username = "hooks@njt-na.com";
+        $mail->Username = "formalert@gmail.com";
+        $mail->Password = "t05kwp456";
+        $mail->From = "formalert@gmail.com";
+        //$mail->From = "hooks@njt-na.com";
+        $mail->FromName = "WCM Form Alert";
+        $mail->isHTML(true);
+        $mail->addAddress($email);
+	    $mail->addAddress("phelps@njt-na.com");
+        $mail->addAddress("hooks@njt-na.com");
+        $mail->Subject = "The top ten open issues in your area";
+        $mail->Body = $body;
+	    if(!$mail->Send()):
+            echo "Mailer Error: ".$mail->ErrorInfo."<br>";
+        else:
+            echo "Message has been sent.<br>";
+        endif;
+    }
+    catch (phpmailerException $e) {
+        exit("Mailer Error: " . $e->errorMessage());
+    }
 }
 
 function get_introduction($supervisor_name){
-$introduction = 
+    $introduction = 
 <<<EOT
 <table style="width: 100%; border: dashed 1px grey;">
     <tr>
@@ -59,7 +68,7 @@ $introduction =
         <td>
             &nbsp;&nbsp;&nbsp;&nbsp;The top ten open issues for your area are listed below, please take care of these issues as soon as possible. You may have less than ten.<br><br>
 
-            &nbsp;&nbsp;&nbsp;&nbsp;Visit the <a href="http://192.9.200.62/Dashboard/Issues.html">Open Issues Safety App</a> in your internet browser to view your issues (Click on the link - you must be connected to the company network). Select your name from the supervisors drop-down then press 'apply' to filter.<br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;Visit the <a href="https://192.9.200.62/Dashboard/Issues.html">Open Issues Safety App</a> in your internet browser to view your issues (Click on the link - you must be connected to the company network). Select your name from the supervisors drop-down then press 'apply' to filter.<br><br>
 
             &nbsp;&nbsp;&nbsp;&nbsp;To close an issue, click on the checkbox for that issue. You will be prompted to enter the action taken to close the issue. Once the action is entered, the issue is closed.
         </td>
@@ -67,11 +76,11 @@ $introduction =
 </table>
 EOT;
 
-return $introduction;
+    return $introduction;
 }
 
 function issue_to_description($issue){
-$description = 
+    $description = 
 <<<EOT
 <table style="width: 100%;">
     <tr>
@@ -105,7 +114,7 @@ $description =
 </table>
 EOT;
 
-return $description;
+    return $description;
 }
 
 ?>

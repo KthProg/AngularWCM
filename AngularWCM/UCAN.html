@@ -4,11 +4,12 @@
     <meta charset="utf-8">
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
     <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/imageupload.js"></script>
     <script src="/scripts/js/field.js"></script>
     <script src="/scripts/js/format.js"></script>
 
@@ -27,17 +28,17 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('UCAN', 'WCM', ['UCANs'])">
+    ng-init="initialize('UCAN', 'WCM', ['UCANs'])">
     <table>
         <tr>
             <td colspan="3" class="dkgrey whitetext"><h1>Unsafe Conditions And Acts Form</h1></td>
             <td class="ltgrey">
                 <style>
-                    [name*='ID'] input {
+                    [field*='ID'] input {
                         background-color: inherit;
                     }
                 </style>
-                <h2>UCAN Number<field name="fields['ID']"></field></h2>
+                <h2>UCAN Number<field field="fields['ID']"></field></h2>
             </td>
         </tr>
         <tr>
@@ -48,15 +49,15 @@
         </tr>
         <tr>
             <td>
-                <field name="fields['UCANType']" options="['Unsafe Condition', 'Unsafe Act']"></field>
+                <field field="fields['UCANType']" options="['Unsafe Condition', 'Unsafe Act']"></field>
             </td>
             <td>
-                <field name="fields['PlantID']"></field>
+                <field field="fields['PlantID']"></field>
             </td>
             <td>
-                <field name="fields['DepartmentID']"></field>
+                <field field="fields['DepartmentID']"></field>
             </td>
-            <td rowspan="7"><field name="fields['UCANDescription']"></field></td>
+            <td rowspan="7"><field field="fields['UCANDescription']" multiline="true"></field></td>
         </tr>
         <tr>
             <td class="ltgrey"><h3>Reported By</h3></td>
@@ -64,10 +65,10 @@
             <td class="ltgrey"><h3>Zone</h3></td>
         </tr>
         <tr>
-            <td><field name="fields['UCANReportedBy']"></field></td>
-            <td rowspan="3"><field name="fields['UCANPersons']"></field></td>
+            <td><field field="fields['UCANReportedBy']"></field></td>
+            <td rowspan="3"><field field="fields['UCANPersons']" multiline="true"></field></td>
             <td>
-                <field name="fields['ZoneID']"></field>
+                <field field="fields['ZoneID']"></field>
             </td>
         </tr>
         <tr>
@@ -76,10 +77,10 @@
         </tr>
         <tr>
             <td>
-                <field name="fields['IsSafetyTag']"></field>
+                <field field="fields['IsSafetyTag']"></field>
             </td>
             <td>
-                <field name="fields['MachineID']"></field>
+                <field field="fields['MachineID']"></field>
             </td>
         </tr>
         <tr>
@@ -89,18 +90,18 @@
         </tr>
         <tr>
             <td>
-                <field name="fields['UCANCompleted']"></field>
+                <field field="fields['UCANCompleted']"></field>
             </td>
-            <td><field name="fields['UCANDate']"></field></td>
-            <td><field name="fields['OrigTagNo']"></field></td>
+            <td><field field="fields['UCANDate']"></field></td>
+            <td><field field="fields['OrigTagNo']"></field></td>
         </tr>
         <tr>
             <td class ="ltgrey">Upload Image(s)</td>
             <td colspan="3" class="ltgrey"><h3>Action Plan</h3></td>
         </tr>
         <tr>
-            <td><imageupload name="fields['ImageURL']"></imageupload></td>
-            <td colspan="3" height="100px"><field name="fields['UCANActionPlan']"></field></td>
+            <td><imageupload field="fields['ImageURL']"></imageupload></td>
+            <td colspan="3" height="100px"><field field="fields['UCANActionPlan']" multiline="true"></field></td>
         </tr>
         <tr>
             <td colspan="4">

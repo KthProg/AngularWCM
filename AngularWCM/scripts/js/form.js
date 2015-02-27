@@ -1,15 +1,20 @@
-﻿function Form($scope, $http) {
-    $scope.form = this;
-
+﻿function FormController($scope, $http) {
     window.$scope = $scope;
     window.$http = $http;
 
-    this.name = "";
+    $scope.initialize = function (name, connection, tables, tableRecordCount, defaultValues) {
+        $scope.form = new Form(name, connection, tables, tableRecordCount, defaultValues);
+    };
+}
+
+function Form(name, connection, tables, tableRecordCount, defaultValues) {
     this.emailBody = "";
     this.mainTable = "";
 
-    this.tables = $scope.tables = {};
+    $scope.tables = {};
     $scope.fields = {};
+
+    this.tables = $scope.tables;
 
     this.hasRecord = false;
     this.viewing = false;
@@ -17,23 +22,18 @@
     this.INVALID_CONNECTION = -1;
     this.EXECUTION_FAILED = -2;
     this.NO_ROWS = -3;
-}
 
-Form.prototype.initialize = function (name, connection, tables, tableRecordCount, defaultValues) {
     this.connection = connection;
     this.name = name;
-
-    //this.mainTable = tables[0];
 
     this.createInitialTablesAndRecords(tables, tableRecordCount || {}, connection);
     this.createInitialFields(tables, tableRecordCount || {}, defaultValues);
 
     // if there is only one table, add the fields to the scope for convenience
-    // since there won't be any name conflicts anyways
     if (tables.length == 1) {
         $scope.fields = this.getMainTable().records[0].fields;
     }
-};
+}
 
 Form.prototype.createInitialTablesAndRecords = function (tables, tableRecordCount, connection) {
     var form = this;
@@ -62,21 +62,18 @@ Form.prototype.createInitialFields = function (tables, tableRecordCount, default
                 var isPK = (f.IsPK == "1");
                 var isFK = (f.IsFK == "1");
                 var nullable = (f.IS_NULLABLE == "YES");
-                var bindingType;
-                if (f.REF_TABLE) {
-                    if (tables.indexOf(f.REF_TABLE) > -1) {
-                        bindingType = "values";
-                    } else {
-                        bindingType = "options";
-                    }
-                } else {
-                    bindingType = "none";
-                }
+                var getBindingType = function (refTable, tableList) {
+                    if (!refTable) return "none";
+                    if (tableList.indexOf(refTable) > -1) return "values";
+                    return "options";
+                };
+                var bindingType = getBindingType(f.REF_TABLE, tables);
+                
                 var isID = (f.IS_IDENTITY == "1");
-                form.tables[f.TABLE_NAME].records[i].fields[f.COLUMN_NAME] = new Field(form, table, rec,
-                                                                                f.COLUMN_NAME, f.DATA_TYPE, f.COLUMN_DEFAULT,
-                                                                                isPK, isFK, f.REF_TABLE, f.REF_COLUMN,
-                                                                                nullable, bindingType, isID);
+
+                form.tables[f.TABLE_NAME].records[i].fields[f.COLUMN_NAME] =
+                    new Field(form, table, rec, f.COLUMN_NAME, f.DATA_TYPE, f.COLUMN_DEFAULT,
+                        isPK, isFK, f.REF_TABLE, f.REF_COLUMN, nullable, bindingType, isID);
             }
         });
         form.getAllFKData();
@@ -149,7 +146,6 @@ Form.prototype.isValid = function () {
 };
 
 Form.prototype.alterHTMLForEmail = function () {
-
     this.viewing = true;
     $scope.$apply();
 
@@ -198,23 +194,19 @@ Form.prototype.executeQueries = function () {
         $http({
             method: "POST",
             url: "/scripts/php/Query.php",
-            data: "Query=" + encodeURIComponent(qry.query) + "&Connection=WCM&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
+            data: "Query=" + encodeURIComponent(qry.query) + "&Connection="+form.connection+"&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).success(function (resp) {
             if ((resp instanceof Array) && ("-3" in resp)) {
                 success = success && true;
-            } else {
-                responses.push(resp[Object.keys(resp)[0]]);
-                success = false;
+                return;
             }
+            responses.push(resp[Object.keys(resp)[0]]);
+            success = false;
         });
     });
-    if (success) {
-        this.addEmail();
-        document.body.innerHTML = "All changes were successful.";
-    } else {
-        document.body.innerHTML = "Not all changes were successful.<br />Messages:<br />" + responses.join("<br />");
-    }
+    if (success) this.addEmail();
+    document.body.innerHTML = success ? "All changes were successful." : "Not all changes were successful.<br />Messages:<br />" + responses.join("<br />");;
 };
 
 Form.prototype.addEmail = function () {
@@ -222,34 +214,33 @@ Form.prototype.addEmail = function () {
     var params = {
         Subj: this.hasRecord ? this.name + " number " + mt.getID() + " updated." : "New " + this.name + " submitted.",
         Body: this.alterHTMLForEmail(),
-        //FormID: this.getMainTable().getID(),
         TableName: mt.name,
         New: this.hasRecord ? 0 : 1
     };
     if (this.hasRecord) {
-        var query = "INSERT INTO Emails ([Subj], [Body], [FormID], [TableName], [New]) VALUES (:Subj, :Body, :FormID, :TableName, :New)";
         params["FormID"] = this.getMainTable().getID();
-    } else {
-        var query = "INSERT INTO Emails ([Subj], [Body], [FormID], [TableName], [New]) VALUES (:Subj, :Body, (SELECT MAX([" + mt.getPK() + "]) FROM [" + mt.name + "]), :TableName, :New)";
     }
+    var query = this.hasRecord ?
+        "INSERT INTO Emails ([Subj], [Body], [FormID], [TableName], [New]) VALUES (:Subj, :Body, :FormID, :TableName, :New)"
+        : "INSERT INTO Emails ([Subj], [Body], [FormID], [TableName], [New]) VALUES (:Subj, :Body, (SELECT MAX([" + mt.getPK() + "]) FROM [" + mt.name + "]), :TableName, :New)";
 
     // send query to insert email into the emails table
     $http({
         method: "POST",
         url: "/scripts/php/Query.php",
-        data: "Query=" + encodeURIComponent(query) + "&Connection=WCM&Params=" + encodeURIComponent(JSON.stringify(params)),
+        data: "Query=" + encodeURIComponent(query) + "&Connection="+this.connection+"&Params=" + encodeURIComponent(JSON.stringify(params)),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).success(function (resp) {
         if (!(resp instanceof Array)) {
             if ("-3" in resp) {
                 document.body.innerHTML += "<br />Email sent.";
-            } else {
-                document.body.innerHTML += "<br />Email not sent.";
+                return;
             }
-        } else {
-            document.body.innerHTML += resp;
-        }
+            document.body.innerHTML += "<br />Email not sent.";
+            return;
+        } 
+        document.body.innerHTML += resp;
     });
 };
 
-app.controller("Form", Form);
+app.controller("Form", FormController);

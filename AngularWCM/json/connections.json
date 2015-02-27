@@ -1,8 +1,8 @@
 {
 	"WCM" : {
 		"host": "10.1.10.50\\SQL2008",
-		"user": "safety1",
-		"password": "Safety",
+		"user": "WCM",
+		"password": "Safety1",
 		"database": "WCM"
 	},
 	"Mattec" : {

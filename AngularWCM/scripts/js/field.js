@@ -1,15 +1,13 @@
 ﻿function Field(form, table, record, name, type, defaultValue, isPK, isFK, fkTable, fkColumn, nullable, bindingType, isID) {
-    //this.scope = scope;
-    //this.http = http;
-
-    this.connection = form.connection;
-
     this.form = form;
     this.record = record;
     this.table = table;
 
     this.name = name;
     this.type = type;
+
+    // this.getHTMLInputType();
+    // TODO: implement this
 
     this.options = [];
 
@@ -59,8 +57,7 @@
 }
 
 Field.prototype.setValue = function (val) {
-    this.value = val;
-    this.format();
+    this.format(val);
     this.updateSketchOrImage();
 };
 
@@ -98,8 +95,9 @@ Field.prototype.clearValue = function () {
     this.setValue(this.defaultValue);
 };
 
-Field.prototype.format = function () {
-    this.value = Formatter.stringToJSObj(this.value, this.type);
+Field.prototype.format = function (val) {
+    val = (val === undefined ? this.value : val);
+    this.value = Formatter.stringToJSObj(val, this.type);
     this.value = Formatter.preventNullsIfNeccessary(this.value, this.type, this.nullable);
 };
 
@@ -117,10 +115,6 @@ Field.prototype.getSketchOrImageEl = function () {
         return false;
     }
 };
-
-//Field.prototype.isImageURI = function () {
-//    return (String(this.value).indexOf("data:image") > -1);
-//};
 
 Field.prototype.makeCopy = function () {
     var field = new Field(this.form, this.table, this.record,
@@ -144,22 +138,24 @@ Field.prototype.getBoundField = function () {
         if (f1.form.tables[t].records[recNum] == undefined) { recNum = 0; }
         return Object.keys(f1.form.tables[t].records[recNum].fields).some(function (f) {
             var f2 = f1.form.tables[t].records[recNum].fields[f];
-            if (f1.isFK && f2.isFK) {
-                if (f2.fkTable != "" && f1.boundTable != ""
-                    && f2.fkColumn != "" && f1.boundColumn != "") {
-                    // if the foreign key of the field f2 points to the
-                    // table which the field f1 has as it's own foreign
-                    // key, the by extension the field f1 is bound to
-                    // the field f2, the converse is also true (else if)
-                    if (f2.fkTable == f1.boundTable
-                        && f2.fkColumn == f1.boundColumn) {
-                        f1.boundField = f2;
-                        return true;
-                    } else if (f1.fkTable == f2.boundTable
-                        && f1.fkColumn == f2.boundColumn) {
-                        f2.boundField = f1;
-                    }
-                }
+            if (!(f1.isFK && f2.isFK)) {
+                return false;
+            }
+            if (f2.fkTable == "" || f1.boundTable == ""
+                && f2.fkColumn == "" || f1.boundColumn == "") {
+                return false;
+            }
+            // if the foreign key of the field f2 points to the
+            // table which the field f1 has as it's own foreign
+            // key, the by extension the field f1 is bound to
+            // the field f2, the converse is also true (else if)
+            if (f2.fkTable == f1.boundTable
+                && f2.fkColumn == f1.boundColumn) {
+                f1.boundField = f2;
+                return true;
+            } else if (f1.fkTable == f2.boundTable
+                && f1.fkColumn == f2.boundColumn) {
+                f2.boundField = f1;
             }
         });
     });
@@ -193,7 +189,7 @@ Field.prototype.getFKTableData = function () {
         Object.keys(f1.form.tables).some(function (t) {
             var recNum = f1.getRecordNumber();
             if (f1.form.tables[t].records[recNum] == undefined) { recNum = 0; }
-            return Object.keys(f1.form.tables[t].records[recNum].fields).forEach(function (f) {
+            return Object.keys(f1.form.tables[t].records[recNum].fields).some(function (f) {
                 var f2 = f1.form.tables[t].records[recNum].fields[f];
                 if (f2.table.name == f1.fkTable
                     && f2.name == f1.fkColumn) {
@@ -202,12 +198,12 @@ Field.prototype.getFKTableData = function () {
                     // of another table which exists in this form (not external)
                     // then it must be the field which the records are filtered by
                     // for instance, TBL_1 is the main table with PK_1 as the primary key
-                    // TBL_2 also has an ID field, but it will be opened by FK_2_PK_1
-                    // which is a foreign key pointing to the PK_1 field of TBL_1
+                    // TBL_2 also has an ID field, but it will be 'opened' by
+                    // a foreign key (FK_2_PK_1) pointing to the PK_1 field of TBL_1
                     // since FK_2_PK_1 then determines what record in TBL_1 each
                     // record in TBL_2 is associated with. thus the distinction
                     // between the primary key, and the field which the records are
-                    // actually 'opened by'
+                    // actually 'opened' by in secondary tables
                     if (f2.isPK) {
                         f1.isOpenBy = true;
                     }
@@ -221,18 +217,18 @@ Field.prototype.getFKTableData = function () {
 
 Field.prototype.watchDependency = function () {
     if (Object.keys(this.boundField).length == 0) { return false; }
-    var field = this;
 
-    if (this.boundField.table.name == undefined || this.boundField.name == undefined) { return; }
+    if (this.boundField.table.name == undefined || this.boundField.name == undefined) { return false; }
 
     // watch the bound field associated with the same record number
     var watchText = this.boundField.getIDString() + ".value";
     // if the bound field does not exist for this record, 
     // then watch the bound field in the first record (record 0)
-    if ($scope.$eval(watchText)) {
+    if (!$scope.$eval(watchText)) {
         watchText = this.boundField.getIDString(undefined, 0) + ".value";
     }
 
+    var field = this;
     if (this.bindingType == "options") {
         var bindingFunc = function (n) { field.getOptions(n); };
     } else if (this.bindingType == "values") {
@@ -264,7 +260,7 @@ Field.prototype.getOptions = function (val) {
         return;
     }
 
-    $http.get("/scripts/php/Query.php?Query="+encodeURIComponent(query)+"&Connection=WCM&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
+    $http.get("/scripts/php/Query.php?Query="+encodeURIComponent(query)+"&Connection="+this.form.connection+"&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
 };
 
 Field.prototype.getOptionText = function (key) {
@@ -283,8 +279,10 @@ app.directive('field', function () {
         restrict: "E",
         templateUrl: "/templates/field.html",
         scope : {
-            field: "=name",
-            ops: "=options"
+            field: "=field",
+            ops: "=options",
+            req: "=required",
+            multiline: "=multiline"
         }
     };
 });
@@ -294,7 +292,7 @@ app.directive('sketch', function () {
         restrict: "E",
         templateUrl: "/templates/sketch.html",
         scope: {
-            field: "=name"
+            field: "=field"
         }
     };
 });
@@ -304,7 +302,7 @@ app.directive('imageupload', function () {
         restrict: "E",
         templateUrl: "/templates/imageupload.html",
         scope: {
-            field: "=name"
+            field: "=field"
         }
     };
 });

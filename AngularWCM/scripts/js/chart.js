@@ -40,13 +40,14 @@ Chart.prototype.chartData = function () {
     }).success(function (resp) {
         console.log(resp);
         if ("-3" in resp) {
+            alert("No Data");
             chart.status = chart.statusTypes.NO_DATA;
             return;
         }
         chart.renderChartData(resp);
     });
 
-    this.status = this.status.LOADING;
+    this.status = this.statusTypes.LOADING;
 };
 
 Chart.prototype.renderChartData = function (data) {

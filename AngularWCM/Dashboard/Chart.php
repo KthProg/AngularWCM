@@ -14,166 +14,7 @@
     <script src="/scripts/js/chart.js"></script>
     <script src="/scripts/js/dashboard.js"></script>
     <link href="/css/reporting.css" type="text/css" rel="stylesheet" />
-    <style>
-        .spinner {
-            margin: 100px auto;
-            width: 22px;
-            height: 22px;
-            position: relative;
-        }
-
-        .circle {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-            .circle:before {
-                content: '';
-                display: block;
-                margin: 0 auto;
-                width: 20%;
-                height: 20%;
-                background-color: #333;
-                border-radius: 100%;
-                -webkit-animation: bouncedelay 1.2s infinite ease-in-out both;
-                animation: bouncedelay 1.2s infinite ease-in-out both;
-            }
-
-        .circle2 {
-            -webkit-transform: rotate(30deg);
-            transform: rotate(30deg);
-        }
-
-        .circle3 {
-            -webkit-transform: rotate(60deg);
-            transform: rotate(60deg);
-        }
-
-        .circle4 {
-            -webkit-transform: rotate(90deg);
-            transform: rotate(90deg);
-        }
-
-        .circle5 {
-            -webkit-transform: rotate(120deg);
-            transform: rotate(120deg);
-        }
-
-        .circle6 {
-            -webkit-transform: rotate(150deg);
-            transform: rotate(150deg);
-        }
-
-        .circle7 {
-            -webkit-transform: rotate(180deg);
-            transform: rotate(180deg);
-        }
-
-        .circle8 {
-            -webkit-transform: rotate(210deg);
-            transform: rotate(210deg);
-        }
-
-        .circle9 {
-            -webkit-transform: rotate(240deg);
-            transform: rotate(240deg);
-        }
-
-        .circle10 {
-            -webkit-transform: rotate(270deg);
-            transform: rotate(270deg);
-        }
-
-        .circle11 {
-            -webkit-transform: rotate(300deg);
-            transform: rotate(300deg);
-        }
-
-        .circle12 {
-            -webkit-transform: rotate(330deg);
-            transform: rotate(330deg);
-        }
-
-        .circle2:before {
-            -webkit-animation-delay: -1.1s;
-            animation-delay: -1.1s;
-        }
-
-        .circle3:before {
-            -webkit-animation-delay: -1.0s;
-            animation-delay: -1.0s;
-        }
-
-        .circle4:before {
-            -webkit-animation-delay: -0.9s;
-            animation-delay: -0.9s;
-        }
-
-        .circle5:before {
-            -webkit-animation-delay: -0.8s;
-            animation-delay: -0.8s;
-        }
-
-        .circle6:before {
-            -webkit-animation-delay: -0.7s;
-            animation-delay: -0.7s;
-        }
-
-        .circle7:before {
-            -webkit-animation-delay: -0.6s;
-            animation-delay: -0.6s;
-        }
-
-        .circle8:before {
-            -webkit-animation-delay: -0.5s;
-            animation-delay: -0.5s;
-        }
-
-        .circle9:before {
-            -webkit-animation-delay: -0.4s;
-            animation-delay: -0.4s;
-        }
-
-        .circle10:before {
-            -webkit-animation-delay: -0.3s;
-            animation-delay: -0.3s;
-        }
-
-        .circle11:before {
-            -webkit-animation-delay: -0.2s;
-            animation-delay: -0.2s;
-        }
-
-        .circle12:before {
-            -webkit-animation-delay: -0.1s;
-            animation-delay: -0.1s;
-        }
-
-        @-webkit-keyframes bouncedelay {
-            0%, 80%, 100% {
-                -webkit-transform: scale(0.0);
-            }
-
-            40% {
-                -webkit-transform: scale(1.0);
-            }
-        }
-
-        @keyframes bouncedelay {
-            0%, 80%, 100% {
-                -webkit-transform: scale(0.0);
-                transform: scale(0.0);
-            }
-
-            40% {
-                -webkit-transform: scale(1.0);
-                transform: scale(1.0);
-            }
-        }
-    </style>
+    <link href="/css/charts.css" type="text/css" rel="stylesheet" />
 </head>
 <body ng-app="wcm" ng-controller="Dashboard">
     <div id="header">
@@ -184,6 +25,7 @@
             <label style="display: block; margin: 8px; text-align: center; color: white;">Create Dashboard</label>
             <select id="chart_query" ng-model="query" ng-change="getParams()">
                 <option value="" selected="selected">Select a Query</option>
+                <?php if($_GET["Pillar"] === "PM") { ?>
                 <optgroup label="PM"></optgroup>
                 <optgroup label="Averages">
                     <option value="MachMTBF" data-firstcol="MachID">MTBF by Machine </option>
@@ -203,7 +45,7 @@
                     <option value="MoldOEE" data-firstcol="MoldID">Tool OEE </option>
                 </optgroup>
                 <optgroup label="Oil">
-                    <option value="OilPerPress" data-firstcol="Press">Oil per Press </option>
+                    <option value="OilPerPress" data-firstcol="Machine">Oil per Press </option>
                 </optgroup>
                 <optgroup label="EWOs">
                     <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table) </option>
@@ -217,7 +59,11 @@
                 <optgroup label="Tools">
                     <option value="PMDue" data-firstcol="MoldID">PM Due per Tool (Table)</option>
                 </optgroup>
+                <?php } else if($_GET["Pillar"] === "SA") { ?>
                 <optgroup label="Safety"></optgroup>
+                <optgroup label="SEWO">
+                    <option value="InjuriesPerZoneByShift" data-firstcol="Location">Injuries Per Zone By Shift</option>
+                </optgroup>
                 <optgroup label="WCC">
                     <option value="WCCPerAuditor" data-firstcol="AuditorName">Number of Audits by Auditor </option>
                     <option value="WCCPerWorkCell" data-firstcol="WorkCell">Number of Audits by Work Cell </option>
@@ -243,6 +89,7 @@
                 <optgroup label="UCANs">
                     <option value="UCANDetail" data-firstcol="ID">UCAN Detail (Table)</option>
                 </optgroup>
+                <?php } else if($_GET["Pillar"] === "LO") { ?>
                 <optgroup label="LO"></optgroup>
                 <optgroup label="5T">
                     <option value="5TScoreByMachine" data-firstcol="Machine">Audit Score by Machine per Month </option>
@@ -250,10 +97,15 @@
                     <option value="5TScoreByDept" data-firstcol="Department">Audit Score by Department per Month </option>
                     <option value="5TAuditScores" data-firstcol="ID">Audit Scores and Details (Table)</option>
                 </optgroup>
+                <?php } else if($_GET["Pillar"] === "QA") { ?>
                 <optgroup label="QA"></optgroup>
                 <optgroup label="LPA">
-                    <option value="LPAAuditsByAuditorThisWeek" data-firstcol="AuditorName">LPAs by Auditor this Week</option>
+                    <option value="LPAAuditsByAuditorPerWeek" data-firstcol="AuditorName">LPAs by Auditor by Week</option>
+                    <option value="LPALineItems" data-firstcol="SubCategory">LPAs Issues by Line Item</option>
                 </optgroup>
+                <?php
+                   }
+                ?>
             </select>
             <select id="chart_type">
                 <option value="" selected="selected">Choose a Chart Type</option>
@@ -300,14 +152,18 @@
                 <option value="150">150px</option>
                 <option value="200">200px</option>
                 <option value="250">250px</option>
+                <option value="300">300px</option>
+                <option value="350">350px</option>
+                <option value="400">400px</option>
+                <option value="450">450px</option>
             </select>
             <button ng-click="addChart()">Add Chart</button>
         </div>
         <div id="edit_layout">
             <label style="display: block; margin: 8px; text-align: center; color: white;">Edit Layout</label>
-            <input id="layout_name" type="text" placeholder="Layout name" required />
+            <input id="layout_name" type="text"  required />
             <button ng-click="saveOrUpdateLayout(false)">Save Layout</button>
-            <select id="open_layout" ng-model="layout" ng-options="k as v for (k,v) in layouts"></select>
+            <select id="open_layout" ng-model="layout" ng-options="l.value as l.text for l in layouts"></select>
             <button ng-click="openLayout()">Open Layout</button>
             <button ng-click="saveOrUpdateLayout(true)">Update Layout</button>
         </div>
@@ -352,9 +208,7 @@
                     <input type="{{ param.type }}" ng-model="param.value" />
                 </div>
                 <div ng-if="param.type=='select'">
-                    <select ng-model="param.value">
-                        <option ng-repeat="op in param.options" value="{{op.value}}">{{ op.text }}</option>
-                    </select>
+                    <select ng-model="param.value" ng-options="op.value as op.text for op in param.options"></select>
                 </div>
                 <div ng-if="param.type=='textarea'">
                     <textarea ng-model="param.value"></textarea>
@@ -385,7 +239,7 @@
                     <option value="250px">250px</option>
                 </select>
             </div>
-            <div id="{{ chart.query }}" style="height: 90%; width: 90%;">
+            <div id="{{ chart.query + $index }}" style="height: 90%; width: 90%;">
                 <div ng-show="chart.status === chart.statusTypes.LOADING" class="spinner">
                     <div class="circle1 circle"></div>
                     <div class="circle2 circle"></div>

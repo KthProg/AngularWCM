@@ -74,7 +74,7 @@
 </head>
 <body ng-app="wcm"
       ng-controller="Form"
-      ng-init="form.initialize('LPA', 'WCM', ['LPA', 'LPALine'], {'LPALine' : 52},
+      ng-init="initialize('LPA', 'WCM', ['LPA', 'LPALine'], {'LPALine' : 52},
     {'LPALine' : {
         0 : { 'CategoryID' : 17, 'SubCategoryID' : 91 }, 1 : { 'CategoryID' : 17, 'SubCategoryID' : 92 }, 2 : { 'CategoryID' : 18, 'SubCategoryID' : 93 },
         3 : { 'CategoryID' : 18, 'SubCategoryID' : 94 }, 4 : { 'CategoryID' : 18, 'SubCategoryID' : 142 }, 5 : { 'CategoryID' : 19, 'SubCategoryID' : 95 },
@@ -100,54 +100,54 @@
         <tr>
             <td colspan="3">
                 <style>
-                    [name*='[\'ID\']'] input {
+                    [field*='[\'ID\']'] input {
                         background-color: inherit;
                         border: none;
                         color: rgb(204, 255, 204);
                     }
                 </style>
-                <h1>Layered Process Audit No. <field name="tables['LPA'].records[0].fields['ID']"></h1>
+                <h1>Layered Process Audit No. <field field="tables['LPA'].records[0].fields['ID']"></h1>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <div class="inputPlusLabel">
                     <strong>Date</strong>
-                    <field name="tables['LPA'].records[0].fields['AuditDate']">
+                    <field field="tables['LPA'].records[0].fields['AuditDate']">
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Auditor's Name</strong>
-                    <field name="tables['LPA'].records[0].fields['AuditorID']"></field>
+                    <field field="tables['LPA'].records[0].fields['AuditorID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Supervisor's Name</strong>
-                    <field name="tables['LPA'].records[0].fields['SupervisorID']"></field>
+                    <field field="tables['LPA'].records[0].fields['SupervisorID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Operator(s)</strong>
                     <style>
-                        [name*='Operator'] textarea {
+                        [field='Operator'] textarea {
                             height: 1.7em;
                             width: 9.8em;
                         }
                     </style>
-                    <field name="tables['LPA'].records[0].fields['Operator']" />
+                    <field field="tables['LPA'].records[0].fields['Operator']" />
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Department</strong>
-                    <field name="tables['LPA'].records[0].fields['DepartmentID']"></field>
+                    <field field="tables['LPA'].records[0].fields['DepartmentID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Zone</strong>
-                    <field name="tables['LPA'].records[0].fields['ZoneID']"></field>
+                    <field field="tables['LPA'].records[0].fields['ZoneID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Machine</strong>
-                    <field name="tables['LPA'].records[0].fields['MachineID']"></field>
+                    <field field="tables['LPA'].records[0].fields['MachineID']"></field>
                 </div>
                 <div class="inputPlusLabel">
                     <strong>Tool No.</strong>
-                    <field name="tables['LPA'].records[0].fields['MoldNo']"></field>
+                    <field field="tables['LPA'].records[0].fields['MoldNo']"></field>
                 </div>
             </td>
         </tr>
@@ -170,10 +170,10 @@
                 <span>1.{{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}</span>
             </td>
             <td>
-                <field name="rec.fields['Rating']" options="[{ k: -1, v: 'N/A'}, {k: 0, v: 'No'}, {k : 1, v: 'Yes' }]"></field><!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
+                <field field="rec.fields['Rating']" options="[{ k: -1, v: 'N/A'}, {k: 0, v: 'No'}, {k : 1, v: 'Yes' }]"></field><!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
             </td>
             <td>
-                <field name="rec.fields['Remarks']"></field>
+                <field field="rec.fields['Remarks']" multiline="true"></field>
             </td>
         </tr>
         <tr>
@@ -185,7 +185,7 @@
         <!-- makes sure the next (last) row is blue, becaue of the nth-of-type rule-->
         <tr>
             <td colspan="2">
-                <textarea maxlength="1000" ng-model="fields['Comments']" rows="6" cols="50" placeholder="Comments"></textarea><br />
+                <textarea maxlength="1000" ng-model="fields['Comments']" rows="6" cols="50" ></textarea><br />
             </td>
             <td>
                 <button ng-click="form.reset()">Reset</button>

@@ -1,12 +1,9 @@
 ﻿function Table(form, name, connection, isMain, recCount) {
     this.form = form;
-
     this.name = name;
-    this.connection = connection;
-    this.openBy = "";
     this.isMain = isMain;
-    this.records = [];
     this.minRecordCount = recCount;
+    this.records = [];
 }
 
 Table.prototype.watchIDForOpen = function () {
@@ -68,10 +65,9 @@ Table.prototype.open = function () {
     $http({
         method: "POST",
         url: "/scripts/php/Query.php",
-        data: "Query=SELECT * FROM ["+tbl.name+"] WHERE ["+tbl.getOpenBy()+"]=?&ASSOC=true&Connection="+tbl.connection+"&Params="+JSON.stringify([tbl.getOpenByValue()]),
+        data: "Query=SELECT * FROM ["+tbl.name+"] WHERE ["+tbl.getOpenBy()+"]=?&ASSOC=true&Connection="+tbl.form.connection+"&Params="+JSON.stringify([tbl.getOpenByValue()]),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })
-    .success(function (resp) {
+    }).success(function (resp) {
         tbl.clear();
         if (!(resp instanceof Array)) {
             tbl.form.hasRecord = false;
@@ -101,7 +97,6 @@ Table.prototype.clear = function () {
     });
 };
 
-
 Table.prototype.addRecord = function () {
     this.records.push(new Record(this.form, this));
 };
@@ -118,7 +113,6 @@ Table.prototype.makeQueryObjects = function () {
     });
     return queries;
 };
-
 
 Table.prototype.getAllFKData = function () {
     this.records.forEach(function (r) {

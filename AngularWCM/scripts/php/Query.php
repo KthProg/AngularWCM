@@ -43,15 +43,13 @@ function execute_query($query, $connection, $named, $params, $fetch_type = PDO::
     }
 
     if(!$conn){
-        //send_error(array("Invalid Connection"));
         return array(INVALID_CONNECTION => "Error: Invalid Connection");
     }
     
     $stmt = $conn->prepare($query_string);
 
     if(!$stmt->execute((array)$params)){
-        //send_error($stmt->errorInfo());
-        return array(EXECUTION_FAILED => "Error: Could not execute statement");
+        return array(EXECUTION_FAILED => $stmt->errorInfo());
     }
     
     $rows = $stmt->fetchAll($fetch_type);
@@ -66,7 +64,7 @@ function execute_query($query, $connection, $named, $params, $fetch_type = PDO::
 function get_connection($connection_name){
     $con = (string)$connection_name;
     
-    $json = file_get_contents("http://192.9.200.62/json/connections.json");
+    $json = file_get_contents("https://192.9.200.62/json/connections.json");
     if($json === false) { exit("Could not load json file."); }
     $con_obj = json_decode($json);
     if(!isset($con_obj->$con)) { exit("Could not find connection ".$con."."); }
@@ -84,7 +82,7 @@ function get_connection($connection_name){
 function get_query($query_name){
     $qry = (string)$query_name;
     
-    $json = file_get_contents("http://192.9.200.62/json/queries.json");
+    $json = file_get_contents("https://192.9.200.62/json/queries.json");
     if($json === false) { exit("Could not load json file."); }
     $qry_obj = json_decode($json);
     if(!isset($qry_obj->$qry)) { exit("Could not find query ".$qry."."); }
@@ -94,43 +92,26 @@ function get_query($query_name){
 }
 
 // this is from stackoverflow
-function ms_escape_string($data) {
-    if (!isset($data) or empty($data)){
-        return '';
-    }
-    if (is_numeric($data)){
-        return $data;
-    }
-    $non_displayables = array(
-        '/%0[0-8bcef]/',            // url encoded 00-08, 11, 12, 14, 15
-        '/%1[0-9a-f]/',             // url encoded 16-31
-        '/[\x00-\x08]/',            // 00-08
-        '/\x0b/',                   // 11
-        '/\x0c/',                   // 12
-        '/[\x0e-\x1f]/'             // 14-31
-    );
-    foreach ( $non_displayables as $regex ){
-        $data = preg_replace( $regex, '', $data );
-    }
-    $data = str_replace("'", "''", $data );
-    return $data;
-}
-
-//function send_error($error_info){
-//    //print_r($error_info);
-//    notify("hooks@njt-na.com", "An error occurred.", "GET: ".print_r($_GET, true)."<br>POST: ".print_r($_POST, true)."<br>ERROR: ".print_r($error_info, true));
-//}
-
-//// another script sends the emails every 5 minutes
-//// this is to prevent browsers hanging on mobile devices
-//function notify($contacts, $subject, $body){
-//    $conn = get_connection("WCM");
-//    $stmt = $conn->prepare("INSERT INTO Emails (Contacts, Subj, Body) VALUES(?, ?, ?)");
-//    if($stmt->execute(array($contacts, $subject, $subject."<br>".$body))){
-//        echo "Email query executed (Email will send in 0-5 minutes)<br>";
-//    }else{
-//        echo "Email query not executed<br>";
+//function ms_escape_string($data) {
+//    if (!isset($data) or empty($data)){
+//        return '';
 //    }
+//    if (is_numeric($data)){
+//        return $data;
+//    }
+//    $non_displayables = array(
+//        '/%0[0-8bcef]/',            // url encoded 00-08, 11, 12, 14, 15
+//        '/%1[0-9a-f]/',             // url encoded 16-31
+//        '/[\x00-\x08]/',            // 00-08
+//        '/\x0b/',                   // 11
+//        '/\x0c/',                   // 12
+//        '/[\x0e-\x1f]/'             // 14-31
+//    );
+//    foreach ( $non_displayables as $regex ){
+//        $data = preg_replace( $regex, '', $data );
+//    }
+//    $data = str_replace("'", "''", $data );
+//    return $data;
 //}
 
 ?>

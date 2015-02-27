@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -20,7 +20,7 @@
 
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('Tool Repair', 'WCM', ['ToolIssues', 'ToolIssueRepairTypes'], {'ToolIssueRepairTypes': 1},{'ToolIssues': {0: {'IsService' : 0 }}})">
+    ng-init="initialize('Tool Repair', 'WCM', ['ToolIssues', 'ToolIssueRepairTypes'], {'ToolIssueRepairTypes': 1},{'ToolIssues': {0: {'IsService' : 0 }}})">
     <table id="repairTable">
         <tr>
             <td width="10%"></td>
@@ -32,11 +32,11 @@
             <td colspan="3" class="dkgrey whitetext"><h1>Tool Repair Form</h1></td>
             <td class="dkgrey whitetext">
                 <style>
-                    [name*='ID'] input {
+                    [field*='ID'] input {
                         background-color: inherit;
                     }
                 </style>
-                <h2>Tool Repair #<field name="tables['ToolIssues'].records[0].fields['ID']"></field></h2>
+                <h2>Tool Repair #<field field="tables['ToolIssues'].records[0].fields['ID']"></field></h2>
             </td>
         </tr>
         <tr>
@@ -47,15 +47,15 @@
         </tr>
         <tr>
             <td>{{tables['ToolIssues'].records[0].fields['MoldDescID'].getOptionText(tables['ToolIssues'].records[0].fields['ToolNumber'].value)}}</td><!-- ng-model="fields['ToolName']" -->
-            <td rowspan="11"><field name="tables['ToolIssues'].records[0].fields['Problems']"></field></td>
+            <td rowspan="11"><field field="tables['ToolIssues'].records[0].fields['Problems']"></field></td>
             <td rowspan="11">
                 <style>
-                    [name*='RepairTypeID'] select {
+                    [field*='RepairTypeID'] select {
                         height: auto;
                         width: auto;
                     }
                 </style>
-                <field ng-repeat-start="rec in tables['ToolIssueRepairTypes'].records" name="rec.fields['RepairTypeID']"></field><br ng-repeat-end />
+                <field ng-repeat-start="rec in tables['ToolIssueRepairTypes'].records" field="rec.fields['RepairTypeID']"></field><br ng-repeat-end />
                 <button ng-click="tables['ToolIssueRepairTypes'].copyRecord(0)">Add Repair</button>
             </td><!-- multiple -->
         </tr>
@@ -64,7 +64,7 @@
         </tr>
         <tr>
             <td>
-                <field name="tables['ToolIssues'].records[0].fields['ToolNumber']"></field>
+                <field field="tables['ToolIssues'].records[0].fields['ToolNumber']" required="true"></field>
             </td>
         </tr>
         <tr>
@@ -72,7 +72,7 @@
         </tr>
         <tr>
             <td>
-                <field name="tables['ToolIssues'].records[0].fields['DepartmentID']"></field>
+                <field field="tables['ToolIssues'].records[0].fields['DepartmentID']"></field>
             </td>
         </tr>
         <tr>
@@ -80,7 +80,7 @@
         </tr>
         <tr>
             <td>
-                <field name="tables['ToolIssues'].records[0].fields['ZoneID']"></field>
+                <field field="tables['ToolIssues'].records[0].fields['ZoneID']"></field>
             </td>
         </tr>
         <tr>
@@ -88,7 +88,7 @@
         </tr>
         <tr>
             <td>
-                <field name="tables['ToolIssues'].records[0].fields['MachineID']"></field>
+                <field field="tables['ToolIssues'].records[0].fields['MachineID']"></field>
             </td>
         </tr>
         <tr>
@@ -96,7 +96,7 @@
         </tr>
         <tr>
             <td>
-                <field name="tables['ToolIssues'].records[0].fields['ReportedBy']"></field>
+                <field field="tables['ToolIssues'].records[0].fields['ReportedBy']"></field>
             </td>
         </tr>
         <tr>
@@ -105,19 +105,19 @@
             <td class="red">Notes</td>
         </tr>
         <tr>
-            <td><field name="tables['ToolIssues'].records[0].fields['DateShipped']" /></td>
+            <td><field field="tables['ToolIssues'].records[0].fields['DateShipped']" required="true" /></td>
             <td>
-                <field name="tables['ToolIssues'].records[0].fields['RepairedLocation']" options="['Mayco','Mound']"></field>
+                <field field="tables['ToolIssues'].records[0].fields['RepairedLocation']" options="['Mayco','Mound']" required="true"></field>
             </td>
-            <td rowspan="3"><field name="tables['ToolIssues'].records[0].fields['Notes']"></field></td>
+            <td rowspan="3"><field field="tables['ToolIssues'].records[0].fields['Notes']"></field></td>
         </tr>
         <tr>
             <td class="red">Due Date/Repair Date</td>
             <td class="red">Service</td>
         </tr>
         <tr>
-            <td><field name="tables['ToolIssues'].records[0].fields['DateReceived']"></field></td>
-            <td><field name="tables['ToolIssues'].records[0].fields['IsService']"></field></td>
+            <td><field field="tables['ToolIssues'].records[0].fields['DateReceived']"></field></td>
+            <td><field field="tables['ToolIssues'].records[0].fields['IsService']"></field></td>
         </tr>
         <tr>
             <td colspan="4">

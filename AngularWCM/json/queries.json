@@ -1,7 +1,7 @@
 { 
 	"GetTablesData":{ 
 		"connection":"WCM",
-		"qstring":" SELECT col.TABLE_NAME, col.COLUMN_NAME, col.DATA_TYPE, col.IS_NULLABLE, REPLACE(REPLACE(col.COLUMN_DEFAULT, '(', ''), ')', '') AS COLUMN_DEFAULT, CASE tc.CONSTRAINT_TYPE WHEN 'PRIMARY KEY' THEN 1 ELSE 0 END AS IsPK, CASE tc.CONSTRAINT_TYPE WHEN 'FOREIGN KEY' THEN 1 ELSE 0 END AS IsFK, COLUMNPROPERTY(OBJECT_ID(col.TABLE_NAME), col.COLUMN_NAME, 'IsIdentity') as IsID, OBJECT_NAME(fki.object_id) AS REF_TABLE, fki.name AS REF_COLUMN FROM INFORMATION_SCHEMA.COLUMNS col LEFT JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE ccu ON col.TABLE_NAME = ccu.TABLE_NAME AND col.COLUMN_NAME = ccu.COLUMN_NAME LEFT JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc ON tc.CONSTRAINT_NAME = ccu.CONSTRAINT_NAME LEFT JOIN ( select * from sys.foreign_key_columns fkc join sys.all_columns ac on ac.object_id = fkc.referenced_object_id and ac.column_id = fkc.referenced_column_id ) fki ON OBJECT_NAME(fki.constraint_object_id) = ccu.CONSTRAINT_NAME WHERE ? LIKE '%'''+col.TABLE_NAME+'''%' "
+		"qstring":"SELECT * FROM vTableData WHERE ? LIKE '%'''+TABLE_NAME+'''%'"
 	},
 	"GetContactsFromTableAndID":{ 
 		"connection":"WCM",
@@ -165,150 +165,98 @@
 	},
 	"MachMTBF":{ 
 		"connection":"WCM",
-		"qstring":"EXEC pMachMTBF @startDate=?, @endDate=?, @failureType=?",
+		"qstring":"EXEC pMachMTBF @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		},
-		"Failure Type":{ 
-			"type":"select",
-			"options":[ 
-					{ 
-					"value":"major",
-					"text":"major"
-					},
-					{ 
-					"value":"minor",
-					"text":"minor"
-					}
-				]
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"MachMTTR":{ 
 		"connection":"WCM",
-		"qstring":"EXEC pMachMTTR @startDate=?, @endDate=?, @failureType=?",
+		"qstring":"EXEC pMachMTTR @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		},
-		"Failure Type":{ 
-			"type":"select",
-			"options":[ 
-					{ 
-					"value":"major",
-					"text":"major"
-					},
-					{ 
-					"value":"minor",
-					"text":"minor"
-					}
-				]
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"MachDowntime":{ 
 		"connection":"WCM",
-		"qstring":"EXEC pMachDowntime @startDate=?, @endDate=?, @failureType=?",
+		"qstring":"EXEC pMachDowntime @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		},
-		"Failure Type":{ 
-			"type":"select",
-			"options":[ 
-					{ 
-					"value":"major",
-					"text":"major"
-					},
-					{ 
-					"value":"minor",
-					"text":"minor"
-					}
-				]
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"MaintDowntime":{ 
 		"connection":"WCM",
-		"qstring":"EXEC pMaintDowntime @startDate=?, @endDate=?, @failureType=?",
+		"qstring":"EXEC pMaintDowntime @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		},
-		"Failure Type":{ 
-			"type":"select",
-			"options":[ 
-					{ 
-					"value":"major",
-					"text":"major"
-					},
-					{ 
-					"value":"minor",
-					"text":"minor"
-					}
-				]
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"MachScrap":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pMachScrap @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"MoldOEE":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pAllMoldOEE @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"MachOEE":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pAllMachOEE @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"ToolMTBF":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pMoldMTBF @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"PMDue":{ 
@@ -379,34 +327,34 @@
 		"connection":"WCM",
 		"qstring":"EXEC pOilUsage @start=?, @end=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"TagTrend":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pTagTrend @userYear=?",
 		"parameters":{ 
-		"Year":{ 
-			"type":"number"
-		}
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
 	"TagTrendMach":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pTagTrendMach @userYear=?, @mach=?",
 		"parameters":{ 
-		"Year":{ 
-			"type":"number"
-		},
-		"Machine":{ 
-			"type":"select",
-			"query":"AllMachines"
-		}
+			"Year":{ 
+				"type":"number"
+			},
+			"Machine":{ 
+				"type":"select",
+				"query":"AllMachines"
+			}
 		}
 	},
 	"PressStratification":{ 
@@ -417,38 +365,38 @@
 		"connection":"WCM",
 		"qstring":"EXEC pEWOsVsBreakdowns @startDate=?, @endDate=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		}
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
 		}
 	},
 	"PMTagDetail":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pPMTagDetail @mach=?, @year=?",
 		"parameters":{ 
-		"Machine":{ 
-			"type":"select",
-			"query":"AllMachines"
-		},
-		"Year":{ 
-			"type":"number"
-		}
+			"Machine":{ 
+				"type":"select",
+				"query":"AllMachines"
+			},
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
 	"UCANDetail":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pUCANDetail @mach=?, @year=?",
 		"parameters":{ 
-		"Machine":{ 
-			"type":"select",
-			"query":"AllMachines"
-		},
-		"Year":{ 
-			"type":"number"
-		}
+			"Machine":{ 
+				"type":"select",
+				"query":"AllMachines"
+			},
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
 	"NumberOfIssuesByLine":{ 
@@ -459,90 +407,134 @@
 		"connection":"WCM",
 		"qstring":"EXEC pMachOEEByMonth @year=?",
 		"parameters":{ 
-		"Year":{ 
-			"type":"number"
-		}
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
 	"MachDownCodesByMonth":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pMachDownTimeByMonth @startDate=?, @endDate=?, @machine=?, @failureType=?",
 		"parameters":{ 
-		"Start Date":{ 
-			"type":"date"
-		},
-		"End Date":{ 
-			"type":"date"
-		},
-		"Machine":{ 
-			"type":"select",
-			"query":"AllMachinesMattec"
-		},
-		"Failure Type":{ 
-			"type":"select",
-			"options":[ 
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			},
+			"Machine":{ 
+				"type":"select",
+				"query":"AllMachinesMattec"
+			},
+			"Failure Type":{ 
+				"type":"select",
+				"options":[ 
 					{ 
-					"value":"major",
-					"text":"major"
+						"value":"major",
+						"text":"major"
 					},
 					{ 
-					"value":"minor",
-					"text":"minor"
+						"value":"minor",
+						"text":"minor"
 					}
 				]
-		}
+			}
 		}
 	},
 	"5TScoreByMachine":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pFiveTScoreByMachinePerMonth @machine=?, @year=?",
 		"parameters":{ 
-		"Machine":{ 
-			"type":"select",
-			"query":"AllMachines"
-		},
-		"Year":{ 
-			"type":"number"
-		}
+			"Machine":{ 
+				"type":"select",
+				"query":"AllMachines"
+			},
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
 	"5TScoreByZone":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pFiveTScoreByZonePerMonth @zone=?, @year=?",
 		"parameters":{ 
-		"Zone":{ 
-			"type":"select",
-			"query":"AllZones"
-		},
-		"Year":{ 
-			"type":"number"
-		}
+			"Zone":{ 
+				"type":"select",
+				"query":"AllZones"
+			},
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
 	"5TScoreByDept":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pFiveTScoreByDeptPerMonth @dept=?, @year=?",
 		"parameters":{ 
-		"Department":{ 
-			"type":"select",
-			"query":"AllDepartments"
-		},
-		"Year":{ 
-			"type":"number"
-		}
+			"Department":{ 
+				"type":"select",
+				"query":"AllDepartments"
+			},
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
 	"5TAuditScores":{ 
 		"connection":"WCM",
 		"qstring":"SELECT ID, AuditDate, Plant, Department, Zone, Machine, [Total Score], [Total Possible] FROM vFiveT WHERE YEAR(AuditDate)=?",
 		"parameters":{ 
-		"Year":{ 
-			"type":"number"
-		}
+			"Year":{ 
+				"type":"number"
+			}
 		}
 	},
-	"LPAAuditsByAuditorThisWeek":{ 
+	"LPAAuditsByAuditorPerWeek":{ 
 		"connection":"WCM",
-		"qstring":" SELECT au.AuditorName, COUNT(*) AS Audits FROM LPA l JOIN Auditor au ON au.ID = l.AuditorID WHERE DATEPART(wk, l.AuditDate)=DATEPART(wk, GETDATE()) GROUP BY au.AuditorName "
+		"qstring":"EXEC LPAAuditsPerAuditorByWeek @startDate=?, @auditorLevel=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"Auditor Level":{
+				"type":"select",
+				"options":[
+					{
+						"value":1,
+						"text":"Level 1"
+					},{
+						"value":2,
+						"text":"Level 2"
+					},{
+						"value":3,
+						"text":"Level 3"
+					}
+				]
+			}
+		}
+	},
+	"LPALineItems":{ 
+		"connection":"WCM",
+		"qstring":"EXEC LPALineItems @startDate=?, @endDate=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			}
+		}
+	},
+	"InjuriesPerZoneByShift":{
+		"connection":"WCM",
+		"qstring":"EXEC InjuriesPerZoneByShift @startDate=?, @endDate=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			}
+		}
 	}
 }

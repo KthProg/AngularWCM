@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     
     
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.3/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
     <script src="/scripts/js/wcm.js"></script>
     <script src="/scripts/js/form.js"></script>
     <script src="/scripts/js/table.js"></script>
@@ -27,72 +27,67 @@
 </head>
 <body ng-app="wcm" 
     ng-controller="Form" 
-    ng-init="form.initialize('PM Tag', 'WCM', ['PMTags'])">
+    ng-init="initialize('PM Tag', 'WCM', ['PMTags'])">
     <table>
         <tr>
             <td colspan="3" class="dkgrey whitetext"><h1>PM Tag Form</h1></td>
             <td class="ltgrey">
                 <style>
-                    [name*='[\'TagNo\']'] input {
+                    [field*='[\'TagNo\']'] input {
                         background-color: inherit;
                         border: none;
                     }
                 </style>
-                <h2>Tag No <field name="fields['TagNo']"></field></h2>
+                <h2>Tag No <field field="fields['TagNo']"></field></h2>
             </td>
         </tr>
         <tr class="ltgrey">
             <td>Original Tag No</td>
-            <td>Date</td>
-            <td>Department</td>
+            <td>Date Opened</td>
+            <td>Date Completed</td>
             <td>Problem</td>
         </tr>
         <tr>
-            <td><field name="fields['OldTagNo']"></field></td>
-            <td><field name="fields['Date']"></field></td>
-            <td>
-                <field name="fields['DepartmentID']"></field>
-            </td>
+            <td><field field="fields['OldTagNo']"></field></td>
+            <td><field field="fields['Date']"></field></td>
+            <td><field field="fields['WorkCompletedDate']"></field></td>
             <td rowspan="7">
-                <field name="fields['Problem']"></field>
+                <field field="fields['Problem']" multiline="true"></field>
             </td>
         </tr>
         <tr class="ltgrey">
             <td>Reported By</td>
             <td>Notes</td>
-            <td>Zone</td>
+            <td>Department</td>
         </tr>
         <tr>
-            <td><field name="fields['SignedBy']"></field></td>
-            <td rowspan="5"><field name="fields['Notes']"></field></td>
-            <td>
-                <field name="fields['ZoneID']"></field>
-            </td>
+            <td><field field="fields['SignedBy']"></field></td>
+            <td rowspan="5"><field field="fields['Notes']" multiline="true"></field></td>
+            <td><field field="fields['DepartmentID']"></field></td>
+            
         </tr>
         <tr class="ltgrey">
             <td>Completed By</td>
+            <td>Zone</td>
+        </tr>
+        <tr>
+            <td rowspan="3"><field field="fields['WorkCompletedBy']"></field></td>
+            <td><field field="fields['ZoneID']"></field></td>
+        </tr>
+        <tr class="ltgrey">
+            <!-- <td>Status</td> -->
             <td>Machine</td>
         </tr>
         <tr>
-            <td><field name="fields['WorkCompletedBy']"></field></td>
-            <td>
-                <field name="fields['MachineID']"></field>
-            </td>
-        </tr>
-        <tr class="ltgrey">
-            <td>Status</td>
-            <td>Date Completed</td>
-        </tr>
-        <tr>
-            <td><field name="fields['Status']" options="['Open','Complete','Missing']"></field></td>
-            <td><field name="fields['WorkCompletedDate']"></field></td>
+            <!-- <td><field field="fields['Status']" options="['Open','Complete','Missing']"></field></td> -->
+            <td><field field="fields['MachineID']"></field></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="4">Repair Description</td>
         </tr>
         <tr>
             <td colspan="4">
-                <field name="fields['RepairDescription']"></field>
+                <field field="fields['RepairDescription']"></field>
             </td>
         </tr>
         <tr>
