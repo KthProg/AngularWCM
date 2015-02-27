@@ -263,9 +263,9 @@ Field.prototype.getOptions = function (val) {
     $http.get("/scripts/php/Query.php?Query="+encodeURIComponent(query)+"&Connection="+this.form.connection+"&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
 };
 
-Field.prototype.getOptionText = function (key) {
+Field.prototype.getOptionText = function (key, ops) {
     var text = "";
-    this.options.some(function (op) {
+    (ops || this.options).some(function (op) {
         if (op.k == key) {
             text = op.v;
             return true;

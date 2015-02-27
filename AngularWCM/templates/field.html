@@ -37,7 +37,8 @@
     </span>
 </span>
 <span ng-if="field.form.viewing == true">
-    <span ng-if="field.bindingType == 'options' || ops[0].k">{{field.getOptionText(field.value)}}</span>
+    <span ng-if="field.bindingType == 'options'">{{field.getOptionText(field.value)}}</span>
+    <span ng-if="ops[0].k">{{field.getOptionText(field.value, ops)}}</span>
     <span ng-if="ops && !ops[0].k">{{field.value}}</span>
     <span ng-if="field.bindingType != 'options' && !ops">
         <span ng-if="(['date','time','datetime'].indexOf(field.type) == -1)">{{field.value}}</span>
