@@ -45,7 +45,7 @@
                     <option value="MoldOEE" data-firstcol="MoldID">Tool OEE </option>
                 </optgroup>
                 <optgroup label="Oil">
-                    <option value="OilPerPress" data-firstcol="Machine">Oil per Press </option>
+                    <option value="OilPerPress" data-firstcol="Machine">Oil per Press</option>
                 </optgroup>
                 <optgroup label="EWOs">
                     <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table) </option>
@@ -85,6 +85,7 @@
                     <option value="SeverityReport" data-firstcol="Severity">Number of Issues By Severity </option>
                     <option value="IssuesBySeverity" data-firstcol="Issue">Issues By Severity </option>
                     <option value="NumberOfIssuesByLine" data-firstcol="Line Item">Number of Issues by Line</option>
+                    <option value="TopFiveIssuesByZone" data-firstcol="Location">Top Five Issues by Zone</option>
                 </optgroup>
                 <optgroup label="UCANs">
                     <option value="UCANDetail" data-firstcol="ID">UCAN Detail (Table)</option>

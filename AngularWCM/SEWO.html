@@ -37,7 +37,7 @@
             </td>
         </tr>
         <tr>
-            <td rowspan="31" class="vert-text green whitetext">
+            <td rowspan="33" class="vert-text green whitetext">
                 P<br>
                 L<br>
                 A<br>
@@ -96,10 +96,10 @@
         <tr class="ltgrey">
             <td colspan="2">Injury Type</td>
             <td>Usual Work</td>
-            <td>Plant</td>
-            <td>Department</td>
-            <td>Zone</td>
-            <td>Machine</td>
+            <td>Work Plant</td>
+            <td>Work Department</td>
+            <td>Work Zone</td>
+            <td>Work Machine</td>
         </tr>
         <tr>
             <td colspan="2">
@@ -119,6 +119,26 @@
             </td>
             <td>
                 <field field="fields['MachineID']"></field>
+            </td>
+        </tr>
+        <tr class="ltgrey">
+            <td colspan="2">Injury Plant</td>
+            <td colspan="2">Injury Department</td>
+            <td colspan="2">Injury Zone</td>
+            <td>Injury Machine</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <field field="fields['InjuryPlantID']" required="true"></field>
+            </td>
+            <td colspan="2">
+                <field field="fields['InjuryDepartmentID']" required="true"></field>
+            </td>
+            <td colspan="2">
+                <field field="fields['InjuryZoneID']" required="true"></field>
+            </td>
+            <td>
+                <field field="fields['InjuryMachineID']"></field>
             </td>
         </tr>
         <tr>

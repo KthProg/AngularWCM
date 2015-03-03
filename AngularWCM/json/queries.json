@@ -1,7 +1,7 @@
 { 
 	"GetTablesData":{ 
 		"connection":"WCM",
-		"qstring":"SELECT * FROM vTableData WHERE ? LIKE '%'''+TABLE_NAME+'''%'"
+		"qstring":"EXEC pTableData ?"
 	},
 	"GetContactsFromTableAndID":{ 
 		"connection":"WCM",
@@ -536,5 +536,9 @@
 				"type":"date"
 			}
 		}
+	},
+	"TopFiveIssuesByZone":{
+		"connection":"WCM",
+		"qstring":"EXEC pTopFiveIssuesByZone"
 	}
 }
