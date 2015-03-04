@@ -73,7 +73,9 @@ Form.prototype.createInitialFields = function (tables, tableRecordCount, default
 
                 form.tables[f.TABLE_NAME].records[i].fields[f.COLUMN_NAME] =
                     new Field(form, table, rec, f.COLUMN_NAME, f.DATA_TYPE, f.COLUMN_DEFAULT,
-                        isPK, isFK, f.REF_TABLE, f.REF_COLUMN, nullable, bindingType, isID);
+                        isPK, isFK, f.REF_TABLE, f.REF_COLUMN, nullable, bindingType, isID,
+                        f.REF_REF_TABLE, f.REF_REF_COLUMN, f.REF_TEXT_COLUMN, f.REF_FILTER_COLUMN,
+                        f.BOUND_TABLE, f.BOUND_COLUMN);
             }
         });
         form.getAllFKData();

@@ -1,4 +1,4 @@
-﻿function Field(form, table, record, name, type, defaultValue, isPK, isFK, fkTable, fkColumn, nullable, bindingType, isID) {
+﻿function Field(form, table, record, name, type, defaultValue, isPK, isFK, fkTable, fkColumn, nullable, bindingType, isID, fkfkTable, fkfkColumn, textColumn, filterColumn, boundTable, boundColumn) {
     this.form = form;
     this.record = record;
     this.table = table;
@@ -26,18 +26,24 @@
 
     // column which the results from the foreign
     // key table are filtered on
-    this.fkFilterColumn = "";
+    this.fkFilterColumn = filterColumn;
 
     // table and column which the foreign key table itself
-    // refers to as a foreign key
-    this.boundTable = "";
-    this.boundColumn = "";
+    // refers to from its own foreign key
+    this.fkfkTable = fkfkTable;
+    this.fkfkColumn = fkfkColumn;
+
+    // table and column this field is bound to
+    // (receives updated values from)
+    this.boundTable = boundTable;
+    this.boundColumn = boundColumn;
 
     // field which this field is bound to
     this.boundField = {};
+
     // field in the foreign key table which has
-    // the text vallues for the options for this field 
-    this.fkTextField = "";
+    // the text values for the options for this field 
+    this.fkTextField = textColumn;
 
     this.defaultValue = defaultValue ? defaultValue : null;
     this.setValue(defaultValue || "");
@@ -121,7 +127,9 @@ Field.prototype.makeCopy = function () {
                           this.name, this.type, this.defaultValue,
                           this.isPK, this.isFK, this.fkTable,
                           this.fkColumn, this.nullable, this.bindingType,
-                          this.isID);
+                          this.isID, this.fkfkTable, this.fkfkColumn,
+                          this.fkFilterColumn, this.boundTable,
+                          this.boundColumn);
     for (var k in this) {
         field[k] = this[k];
     }
@@ -129,36 +137,14 @@ Field.prototype.makeCopy = function () {
 };
 
 Field.prototype.getBoundField = function () {
-    var f1 = this;
     // bound field already set
-    if(Object.keys(f1.boundField).length > 0){ return true; }
+    if(Object.keys(this.boundField).length > 0){ return true; }
 
-    Object.keys(f1.form.tables).some(function (t) {
-        var recNum = f1.getRecordNumber();
-        if (f1.form.tables[t].records[recNum] == undefined) { recNum = 0; }
-        return Object.keys(f1.form.tables[t].records[recNum].fields).some(function (f) {
-            var f2 = f1.form.tables[t].records[recNum].fields[f];
-            if (!(f1.isFK && f2.isFK)) {
-                return false;
-            }
-            if (f2.fkTable == "" || f1.boundTable == ""
-                && f2.fkColumn == "" || f1.boundColumn == "") {
-                return false;
-            }
-            // if the foreign key of the field f2 points to the
-            // table which the field f1 has as it's own foreign
-            // key, the by extension the field f1 is bound to
-            // the field f2, the converse is also true (else if)
-            if (f2.fkTable == f1.boundTable
-                && f2.fkColumn == f1.boundColumn) {
-                f1.boundField = f2;
-                return true;
-            } else if (f1.fkTable == f2.boundTable
-                && f1.fkColumn == f2.boundColumn) {
-                f2.boundField = f1;
-            }
-        });
-    });
+    var recNum = this.getRecordNumber();
+    if (this.form.tables[this.boundTable].records[recNum] == undefined) { recNum = 0; }
+
+    var f2 = this.form.tables[this.boundTable].records[recNum].fields[this.boundColumn];
+    this.boundField = f2;
 };
 
 Field.prototype.getRecordNumber = function () {
@@ -168,49 +154,28 @@ Field.prototype.getRecordNumber = function () {
 Field.prototype.getFKTableData = function () {
     if (!this.isFK) { return false; }
     if (this.bindingType == "options") {
-        var field = this;
-        $http.get("/scripts/php/Query.php?Query=GetTablesData&Named=true&ASSOC=true&Params=" + encodeURIComponent(JSON.stringify(["'" + this.fkTable + "'"])))
-        .success(function (resp) {
-            resp.forEach(function (f) {
-                if (f.IsFK == "1") {
-                    field.boundTable = f.REF_TABLE;
-                    field.boundColumn = f.REF_COLUMN;
-                    field.fkFilterColumn = f.COLUMN_NAME;
-                } else if (f.IsPK != "1") {
-                    field.fkTextField = f.COLUMN_NAME;
-                }
-            });
-            field.getBoundField();
-            field.getOptions();
-            field.watchDependency();
-        });
+        if(this.boundTable && this.boundColumn) this.getBoundField();
+        this.getOptions();
+        this.watchDependency();
     } else if (this.bindingType == "values") {
         var f1 = this;
-        Object.keys(f1.form.tables).some(function (t) {
-            var recNum = f1.getRecordNumber();
-            if (f1.form.tables[t].records[recNum] == undefined) { recNum = 0; }
-            return Object.keys(f1.form.tables[t].records[recNum].fields).some(function (f) {
-                var f2 = f1.form.tables[t].records[recNum].fields[f];
-                if (f2.table.name == f1.fkTable
-                    && f2.name == f1.fkColumn) {
-                    f1.boundField = f2;
-                    // if this field is bound to the primary key
-                    // of another table which exists in this form (not external)
-                    // then it must be the field which the records are filtered by
-                    // for instance, TBL_1 is the main table with PK_1 as the primary key
-                    // TBL_2 also has an ID field, but it will be 'opened' by
-                    // a foreign key (FK_2_PK_1) pointing to the PK_1 field of TBL_1
-                    // since FK_2_PK_1 then determines what record in TBL_1 each
-                    // record in TBL_2 is associated with. thus the distinction
-                    // between the primary key, and the field which the records are
-                    // actually 'opened' by in secondary tables
-                    if (f2.isPK) {
-                        f1.isOpenBy = true;
-                    }
-                    return true;
-                }
-            });
-        });
+        var recNum = this.getRecordNumber();
+        if (this.form.tables[this.fkTable].records[recNum] == undefined) { recNum = 0; }
+            var f2 = this.form.tables[this.fkTable].records[recNum].fields[this.fkColumn];
+            this.boundField = f2;
+            // if this field is bound to the primary key
+            // of another table which exists in this form (not external)
+            // then it must be the field which the records are filtered by
+            // for instance, TBL_1 is the main table with PK_1 as the primary key
+            // TBL_2 also has an ID field, but it will be 'opened' by
+            // a foreign key (FK_2_PK_1) pointing to the PK_1 field of TBL_1
+            // since FK_2_PK_1 then determines what record in TBL_1 each
+            // record in TBL_2 is associated with. thus the distinction
+            // between the primary key, and the field which the records are
+            // actually 'opened' by in secondary tables
+            if (f2.isPK) {
+                this.isOpenBy = true;
+            }
         this.watchDependency();
     }
 };
