@@ -79,7 +79,9 @@ Table.prototype.open = function () {
                 tbl.copyRecord(0);
             }
             for (var f in row) {
-                tbl.records[rowi].fields[f].setValue(row[f]);
+                if (f in tbl.records[rowi].fields) {
+                    tbl.records[rowi].fields[f].setValue(row[f]);
+                }
             }
         });
         tbl.form.hasRecord = true;

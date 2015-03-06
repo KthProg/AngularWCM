@@ -61,7 +61,7 @@ Form.prototype.createInitialFields = function (tables, tableRecordCount, default
                 var rec = table.records[i];
                 var isPK = (f.IsPK == "1");
                 var isFK = (f.IsFK == "1");
-                var nullable = (f.IS_NULLABLE == "YES");
+                var nullable = (f.IS_NULLABLE == "1");
                 var getBindingType = function (refTable, tableList) {
                     if (!refTable) return "none";
                     if (tableList.indexOf(refTable) > -1) return "values";
@@ -190,28 +190,32 @@ Form.prototype.executeQueries = function () {
     }
     var form = this;
     var queries = this.makeQueryObjects();
-    var success = true;
     var responses = [];
-    queries.forEach(function (qry) {
+    var success = true;
+    for (var i = 0, l = queries.length; i < l; ++i) {
+        var qry = queries[i];
         $http({
             method: "POST",
             url: "/scripts/php/Query.php",
-            data: "Query=" + encodeURIComponent(qry.query) + "&Connection="+form.connection+"&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
+            data: "Query=" + encodeURIComponent(qry.query) + "&Connection=" + form.connection + "&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).success(function (resp) {
-            if ((resp instanceof Array) && ("-3" in resp)) {
+            if (resp[form.NO_ROWS] !== undefined) {
                 success = success && true;
-                return;
+            } else {
+                responses.push(resp[Object.keys(resp)[0]]);
+                success = false; // success && false, which is always false
             }
-            responses.push(resp[Object.keys(resp)[0]]);
-            success = false;
+            if (i === l) {
+                if (success) form.addEmail();
+                document.body.innerHTML = success ? "<h1>All changes were successful.</h1>" : "<h1>Not all changes were successful.</h1><h2><br />Messages:<br />" + responses.join("<br />") + "</h2>";
+            }
         });
-    });
-    if (success) this.addEmail();
-    document.body.innerHTML = success ? "All changes were successful." : "Not all changes were successful.<br />Messages:<br />" + responses.join("<br />");;
+    }
 };
 
 Form.prototype.addEmail = function () {
+    var form = this;
     var mt = this.getMainTable();
     var params = {
         Subj: this.hasRecord ? this.name + " number " + mt.getID() + " updated." : "New " + this.name + " submitted.",
@@ -234,14 +238,14 @@ Form.prototype.addEmail = function () {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).success(function (resp) {
         if (!(resp instanceof Array)) {
-            if ("-3" in resp) {
-                document.body.innerHTML += "<br />Email sent.";
+            if (resp[form.NO_ROWS]) {
+                document.body.innerHTML += "<h2><br />Email sent.</h2>";
                 return;
             }
-            document.body.innerHTML += "<br />Email not sent.";
+            document.body.innerHTML += "<h2><br />Email not sent.</h2>";
             return;
         } 
-        document.body.innerHTML += resp;
+        document.body.innerHTML += "<h2>" + resp + "</h2>";
     });
 };
 
