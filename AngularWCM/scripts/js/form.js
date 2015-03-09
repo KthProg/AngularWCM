@@ -194,7 +194,7 @@ Form.prototype.executeQueries = function () {
     var success = true;
     for (var i = 0, l = queries.length; i < l; ++i) {
         var qry = queries[i];
-        $http({
+        var httpPromise = $http({
             method: "POST",
             url: "/scripts/php/Query.php",
             data: "Query=" + encodeURIComponent(qry.query) + "&Connection=" + form.connection + "&Params=" + encodeURIComponent(JSON.stringify(qry.values)),
@@ -206,12 +206,13 @@ Form.prototype.executeQueries = function () {
                 responses.push(resp[Object.keys(resp)[0]]);
                 success = false; // success && false, which is always false
             }
-            if (i === l) {
-                if (success) form.addEmail();
-                document.body.innerHTML = success ? "<h1>All changes were successful.</h1>" : "<h1>Not all changes were successful.</h1><h2><br />Messages:<br />" + responses.join("<br />") + "</h2>";
-            }
         });
     }
+
+    httpPromise.then(function () {
+        if (success) form.addEmail();
+        document.body.innerHTML = success ? "<h1>All changes were successful.</h1>" : "<h1>Not all changes were successful.</h1><h2><br />Messages:<br />" + responses.join("<br />") + "</h2>";
+    });
 };
 
 Form.prototype.addEmail = function () {
