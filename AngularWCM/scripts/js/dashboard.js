@@ -8,51 +8,39 @@
     $scope.layouts = [];
     $scope.layout = "";
 
+    $scope.chartType = "table";
+    $scope.sortOrder = "Asc";
+    $scope.chartHeight = "400";
+    $scope.chartWidth = "100";
+
     $scope.addChart = function () {
-        var paramsArr = [].slice.call(document.getElementById('params').querySelectorAll('input, select, textarea')).map(function (el) {
-            var elType = el.getAttribute("type") || el.tagName.toLowerCase();
-            var value = formatValue(el.value, elType);
-            var opsCopy = [];
-            if (el.options) {
-                opsCopy = [].slice.call(el.options).map(function (op) {
-                    return {
-                        text: op.text,
-                        value: op.value
-                    }
-                });
-            }
-            return {
-                name: el.getAttribute("name"),
-                type: elType,
-                value: value,
-                options: opsCopy
-            };
+        var params = $scope.parameters.map(function (prm) {
+            return prm;
         });
 
-        var cq = document.getElementById('chart_query');
-        var cqOp;
-        [].slice.call(cq.options).forEach(function (op) {
-            if (op.value == cq.value) {
-                cqOp = op;
-            }
-        });
+        var cqOp = document.querySelector("#chart_query option[value=" + $scope.query + "]");
+        //[].slice.call(document.getElementById('chart_query').options).forEach(function (op) {
+        //    if (op.value == $scope.chartQuery) {
+        //        cqOp = op;
+        //    }
+        //});
 
         var ch = new Chart(
-            cq.value,
-            paramsArr,
-            document.getElementById("chart_type").value,
-            document.getElementById("sort_order").value,
+            String($scope.query),
+            params,
+            String($scope.chartType),
+            String($scope.sortOrder),
             cqOp.getAttribute("data-firstcol"),
             {
-                height: document.getElementById('chart_height').value + 'px',
-                width: document.getElementById('chart_width').value + '%',
+                height: $scope.chartHeight + 'px',
+                width: $scope.chartWidth + '%',
                 //chartArea: { left: 0, top: 0, width: $('#chart_width').val(), height: $('#chart_height').val() },
                 title: cqOp.innerText,
                 backgroundColor: 'transparent',
                 curveType: 'function',
                 isStacked: true
             },
-            cq.value + $scope.charts.length,
+            $scope.query + $scope.charts.length,
             false);
 
         $scope.charts.push(ch);

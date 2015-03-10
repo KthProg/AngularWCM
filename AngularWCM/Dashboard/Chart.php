@@ -116,14 +116,14 @@
                    }
                 ?>
             </select>
-            <select id="chart_type">
+            <select ng-model="chartType" id="chart_type">
                 <option value="" selected="selected">Choose a Chart Type</option>
                 <option value="table">Table</option>
                 <option value="bar">Bar</option>
                 <option value="line">Line</option>
                 <option value="pie">Pie</option>
             </select>
-            <select id="sort_order">
+            <select ng-model="sortOrder" id="sort_order">
                 <option value="Asc">Ascending</option>
                 <option value="Desc">Descending</option>
             </select>
@@ -143,7 +143,7 @@
             </div>
             <!-- use existing code to render parameters -->
             <!-- maybe add chart options here automatically -->
-            <select id="chart_width" required>
+            <select ng-model="chartWidth" id="chart_width" required>
                 <option value="">Set Width</option>
                 <option value="25">25%</option>
                 <option value="33">33%</option>
@@ -154,7 +154,7 @@
                 <option value="75">75%</option>
                 <option value="100">100%</option>
             </select>
-            <select id="chart_height" required>
+            <select ng-model="chartHeight" id="chart_height" required>
                 <option value="">Set Height</option>
                 <option value="50">50px</option>
                 <option value="100">100px</option>

@@ -20,7 +20,7 @@ Formatter.stringToJSObj = function (val, type) {
             d.setMilliseconds(Number(secPieces[1]));
             return d;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             return null;
         }
         return d;
@@ -30,7 +30,7 @@ Formatter.stringToJSObj = function (val, type) {
             d = this.fromLocalDateTime(d);
             return d;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             return null;
         }
     } else if (type == 'datetime') {
@@ -38,7 +38,7 @@ Formatter.stringToJSObj = function (val, type) {
             var d = new Date(Date.parse(val));
             return d;
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             return null;
         }
     } else {
@@ -59,7 +59,7 @@ Formatter.jsObjToString = function (val, type) {
             d = this.toLocalDateTime(d);
             var datetimeStr = d.toISOString().replace("T", " ").replace("Z", "");
         } catch (e) {
-            console.log(e);
+            //console.log(e);
             return null;
         }
 
