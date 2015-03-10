@@ -87,15 +87,15 @@ Form.prototype.createInitialFields = function (tables, tableRecordCount, default
 Form.prototype.setDefaultValues = function (defaultValues) {
     var form = this;
     if (!defaultValues) { return; }
-    Object.keys(defaultValues).forEach(function (t) {
-        Object.keys(defaultValues[t]).forEach(function (r) {
-            Object.keys(defaultValues[t][r]).forEach(function (f) {
+    for(var t in defaultValues){
+        for (var r in defaultValues[t]) {
+            for (var f in defaultValues[t][r]) {
                 var field = form.tables[t].records[r].fields[f];
                 field.defaultValue = defaultValues[t][r][f];
                 field.setValue(defaultValues[t][r][f]);
-            });
-        })
-    });
+            }
+        }
+    }
 };
 
 Form.prototype.getMainTable = function () {
@@ -103,17 +103,15 @@ Form.prototype.getMainTable = function () {
 };
 
 Form.prototype.getAllFKData = function () {
-    var f = this;
-    Object.keys(this.tables).forEach(function (tk) {
-        f.tables[tk].getAllFKData();
-    });
+    for(var tk in this.tables){
+        this.tables[tk].getAllFKData();
+    }
 };
 
 Form.prototype.clearAll = function () {
-    var f = this;
-    Object.keys(this.tables).forEach(function (tk) {
-        f.tables[tk].clearRecords();
-    });
+    for(var tk in this.tables){
+        this.tables[tk].clearRecords();
+    }
     this.hasRecord = false;
 };
 
@@ -122,18 +120,9 @@ Form.prototype.reset = function () {
 };
 
 Form.prototype.open = function () {
-    var f = this;
-    Object.keys(this.tables).forEach(function (tk) {
-        f.tables[tk].open();
-    });
-};
-
-Form.prototype.update = function () {
-    this.executeQueries();
-};
-
-Form.prototype.submit = function () {
-    this.executeQueries();
+    for(var tk in this.tables){
+        this.tables[tk].open();
+    }
 };
 
 Form.prototype.isValid = function () {
@@ -151,6 +140,7 @@ Form.prototype.alterHTMLForEmail = function () {
     this.viewing = true;
     $scope.$apply();
 
+    // get all css, also add csss to hide buttons
     var allCSS = [].slice.call(document.styleSheets).reduce(function (prev, styleSheet) {
         if (styleSheet.cssRules) {
             return prev +
@@ -160,15 +150,14 @@ Form.prototype.alterHTMLForEmail = function () {
         } else {
             return prev;
         }
-    }, "");
+    }, "") + " button { display: none; } ";
 
-    var currentHTML = "<html>\r\n\t<head>\r\n\t\t<style>\r\n";
+    var currentHTML = "<html><head><style>";
     //add style rules
     currentHTML += allCSS;
-    currentHTML += "\r\n button { display: none; }\r\n";
-    currentHTML += "\t\t</style>\r\n\t</head>\r\n\t<body>\r\n";
+    currentHTML += "</style></head><body>";
     currentHTML += document.body.innerHTML;
-    currentHTML += "\t</body>\r\n</html>";
+    currentHTML += "</body></html>";
 
     return currentHTML;
 };
@@ -188,12 +177,16 @@ Form.prototype.executeQueries = function () {
         alert("Some fields are still empty or invalid, these should be highlighted in red.\r\nFill these out to submit the form.");
         return;
     }
+
     var form = this;
     var queries = this.makeQueryObjects();
+
     var responses = [];
     var success = true;
+
     for (var i = 0, l = queries.length; i < l; ++i) {
         var qry = queries[i];
+
         var httpPromise = $http({
             method: "POST",
             url: "/scripts/php/Query.php",

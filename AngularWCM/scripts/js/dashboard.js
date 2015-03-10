@@ -235,7 +235,7 @@
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 }).success(function (resp) {
                     prm.options = resp.map(function (row) {
-                        return { value: row[0], text: row[1] };
+                        return { value: Number(row[0]), text: row[1] };
                     });
                 });
             }
@@ -251,7 +251,7 @@
         }).success(
         function (resp) {
             $scope.layouts = resp.map(function (row) {
-                return { value: row[0], text: row[1] };
+                return { value: Number(row[0]), text: row[1] };
             });
         });
     };

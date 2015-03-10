@@ -8,6 +8,7 @@
 
     // this.getHTMLInputType();
     // TODO: implement this
+    // TONOTDO: never mind
 
     this.options = [];
 
@@ -18,6 +19,21 @@
     this.isFK = isFK;
     this.isID = isID;
     this.isOpenBy = false;
+
+    /*
+    These attributes work under very strict circumstances
+    The field must be a foreign key pointing to another
+    table. That table must have a primary key, and a text
+    field describing what the primary key identifies. The
+    table MAY have another foreign key pointing to some
+    other table, which is subject to the same restrictions.
+    If the table does have a foreign key pointing to some
+    other table, and another foreign key field in this table 
+    points to THAT table, then the application will infer
+    that the options for the second foreign key field are
+    the values and text field of the second table, which
+    is filtered based on the value of the first field.
+    */
 
     // table and column which the foriegn key
     // points to
@@ -50,16 +66,18 @@
 
     try {
         this.sketch = new Sketch(this.getIDString());
+        this.watchSketch();
     } catch (e) {
         //console.log(e.message);
     }
     try {
         this.image = new ImageUpload(this.getIDString());
+        this.watchImage();
     } catch (e) {
         //console.log(e.message);
     }
 
-    this.watchSketchOrImage();
+    
 }
 
 Field.prototype.setValue = function (val) {
@@ -86,14 +104,25 @@ Field.prototype.getIDString = function (tbl, recNum, field) {
     return "tables['" + table + "'].records[" + rec + "].fields['" + f + "']";
 };
 
-Field.prototype.watchSketchOrImage = function () {
+Field.prototype.watchSketch = function () {
     var f = this;
     var idStr = this.getIDString();
     $scope.$watch(idStr + ".sketch.uri", function (n) {
-        f.setValue(n);
+        var se = f.getSketchOrImageEl();
+        if (se) {
+            f.setValue(n);
+        }
     });
+};
+
+Field.prototype.watchImage = function () {
+    var f = this;
+    var idStr = this.getIDString();
     $scope.$watch(idStr + ".image.uri", function (n) {
-        f.setValue(n);
+        var se = f.getSketchOrImageEl();
+        if (se) {
+            f.setValue(n);
+        }
     });
 };
 
@@ -115,11 +144,7 @@ Field.prototype.getAsString = function () {
 
 Field.prototype.getSketchOrImageEl = function () {
     var se = document.getElementById(this.getIDString());
-    if (se) {
-        return se;
-    } else {
-        return false;
-    }
+    return se ? se : false;
 };
 
 Field.prototype.makeCopy = function () {
@@ -128,11 +153,17 @@ Field.prototype.makeCopy = function () {
                           this.isPK, this.isFK, this.fkTable,
                           this.fkColumn, this.nullable, this.bindingType,
                           this.isID, this.fkfkTable, this.fkfkColumn,
-                          this.fkFilterColumn, this.boundTable,
-                          this.boundColumn);
+                          this.fkTextField, this.fkFilterColumn,
+                          this.boundTable, this.boundColumn);
     for (var k in this) {
-        field[k] = this[k];
+        if (!field[k])
+            field[k] = this[k];
     }
+
+    // so if it's in a new record, it will fetch
+    // the bound field of that record later
+    field.boundField = {};
+
     return field;
 };
 
@@ -141,7 +172,7 @@ Field.prototype.getBoundField = function () {
     if(Object.keys(this.boundField).length > 0){ return true; }
 
     var recNum = this.getRecordNumber();
-    if (this.form.tables[this.boundTable].records[recNum] == undefined) { recNum = 0; }
+    if (this.form.tables[this.boundTable].records[recNum] === undefined) { recNum = 0; }
 
     var f2 = this.form.tables[this.boundTable].records[recNum].fields[this.boundColumn];
     this.boundField = f2;
@@ -158,24 +189,13 @@ Field.prototype.getFKTableData = function () {
         this.getOptions();
         this.watchDependency();
     } else if (this.bindingType == "values") {
-        var f1 = this;
         var recNum = this.getRecordNumber();
         if (this.form.tables[this.fkTable].records[recNum] == undefined) { recNum = 0; }
-            var f2 = this.form.tables[this.fkTable].records[recNum].fields[this.fkColumn];
-            this.boundField = f2;
-            // if this field is bound to the primary key
-            // of another table which exists in this form (not external)
-            // then it must be the field which the records are filtered by
-            // for instance, TBL_1 is the main table with PK_1 as the primary key
-            // TBL_2 also has an ID field, but it will be 'opened' by
-            // a foreign key (FK_2_PK_1) pointing to the PK_1 field of TBL_1
-            // since FK_2_PK_1 then determines what record in TBL_1 each
-            // record in TBL_2 is associated with. thus the distinction
-            // between the primary key, and the field which the records are
-            // actually 'opened' by in secondary tables
-            if (f2.isPK) {
-                this.isOpenBy = true;
-            }
+        var f2 = this.form.tables[this.fkTable].records[recNum].fields[this.fkColumn];
+        this.boundField = f2;
+        if (f2.isPK) {
+            this.isOpenBy = true;
+        }
         this.watchDependency();
     }
 };
@@ -183,7 +203,7 @@ Field.prototype.getFKTableData = function () {
 Field.prototype.watchDependency = function () {
     if (Object.keys(this.boundField).length == 0) { return false; }
 
-    if (this.boundField.table.name == undefined || this.boundField.name == undefined) { return false; }
+    if (this.boundField.table.name === undefined || this.boundField.name === undefined) { return false; }
 
     // watch the bound field associated with the same record number
     var watchText = this.boundField.getIDString() + ".value";
@@ -197,7 +217,7 @@ Field.prototype.watchDependency = function () {
     if (this.bindingType == "options") {
         var bindingFunc = function (n) { field.getOptions(n); };
     } else if (this.bindingType == "values") {
-        var bindingFunc = function (n) { field.value = n; };
+        var bindingFunc = function (n) { field.setValue(n); };
     }
 
     $scope.$watch(watchText, bindingFunc);
@@ -215,7 +235,7 @@ Field.prototype.getOptions = function (val) {
         });
     };
 
-    if (val) {
+    if (!(val == undefined || val == null)) {
         var query = "EXEC('SELECT ' + ? + ', ' + ? + ' FROM ' + ? + ' WHERE ' + ? + '=' + ?)";
         var params = [this.fkColumn, this.fkTextField, this.fkTable, this.fkFilterColumn, val];
     } else if (Object.keys(this.boundField).length == 0) {

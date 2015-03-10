@@ -357,6 +357,28 @@
 			}
 		}
 	},
+	"AMTagTrend":{ 
+		"connection":"WCM",
+		"qstring":"EXEC pAMTagTrend @userYear=?",
+		"parameters":{ 
+			"Year":{ 
+				"type":"number"
+			}
+		}
+	},
+	"AMTagTrendMach":{ 
+		"connection":"WCM",
+		"qstring":"EXEC pAMTagTrendMach @userYear=?, @mach=?",
+		"parameters":{ 
+			"Year":{ 
+				"type":"number"
+			},
+			"Machine":{ 
+				"type":"select",
+				"query":"AllMachines"
+			}
+		}
+	},
 	"PressStratification":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pPressStratification"
@@ -376,6 +398,19 @@
 	"PMTagDetail":{ 
 		"connection":"WCM",
 		"qstring":"EXEC pPMTagDetail @mach=?, @year=?",
+		"parameters":{ 
+			"Machine":{ 
+				"type":"select",
+				"query":"AllMachines"
+			},
+			"Year":{ 
+				"type":"number"
+			}
+		}
+	},
+	"AMTagDetail":{ 
+		"connection":"WCM",
+		"qstring":"EXEC pAMTagDetail @mach=?, @year=?",
 		"parameters":{ 
 			"Machine":{ 
 				"type":"select",
@@ -540,5 +575,17 @@
 	"TopFiveIssuesByZone":{
 		"connection":"WCM",
 		"qstring":"EXEC pTopFiveIssuesByZone"
+	},
+	"OilDetails":{
+		"connection":"WCM",
+		"qstring":"EXEC pOilDetails @startDate=?, @endDate=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			}
+		}
 	}
 }

@@ -189,8 +189,7 @@
             </td>
             <td>
                 <button ng-click="form.reset()">Reset</button>
-                <button ng-click="form.submit()" ng-show="!form.hasRecord">Submit</button>
-                <button ng-click="form.update()" ng-show="form.hasRecord">Update</button>
+                <button ng-click="form.executeQueries()">{{form.hasRecord ? "Update" : "Submit"}}</button>
             </td>
         </tr>
     </table>

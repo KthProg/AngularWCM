@@ -46,6 +46,7 @@
                 </optgroup>
                 <optgroup label="Oil">
                     <option value="OilPerPress" data-firstcol="Machine">Oil per Press</option>
+                    <option value="OilDetails" data-firstcol="ODLDate">Oil Details by Date</option>
                 </optgroup>
                 <optgroup label="EWOs">
                     <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table) </option>
@@ -103,6 +104,13 @@
                 <optgroup label="LPA">
                     <option value="LPAAuditsByAuditorPerWeek" data-firstcol="AuditorName">LPAs by Auditor by Week</option>
                     <option value="LPALineItems" data-firstcol="SubCategory">LPAs Issues by Line Item</option>
+                </optgroup>
+                <?php } else if($_GET["Pillar"] === "AM") { ?>
+                <optgroup label="AM"></optgroup>
+                <optgroup label="Tags">
+                    <option value="AMTagTrend" data-firstcol="OpenDate">AM Tag Trend </option>
+                    <option value="AMTagTrendMach" data-firstcol="OpenDate">AM Tag Trend By Machine </option>
+                    <option value="AMTagDetail" data-firstcol="TagNo">AM Tag Details (Table)</option>
                 </optgroup>
                 <?php
                    }

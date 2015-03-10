@@ -1,5 +1,7 @@
 <?php
 
+define("DEV_MODE", true);
+
 define("INVALID_CONNECTION", -1);
 define("EXECUTION_FAILED", -2);
 define("NO_ROWS", -3);
@@ -64,7 +66,9 @@ function execute_query($query, $connection, $named, $params, $fetch_type = PDO::
 function get_connection($connection_name){
     $con = (string)$connection_name;
     
-    $json = file_get_contents("https://192.9.200.62/json/connections.json");
+    $json_file = DEV_MODE ? "http://192.9.200.62:8080/json/connections.json": "https://192.9.200.62/json/connections.json";
+    
+    $json = file_get_contents($json_file);
     if($json === false) { exit("Could not load json file."); }
     $con_obj = json_decode($json);
     if(!isset($con_obj->$con)) { exit("Could not find connection ".$con."."); }
@@ -82,7 +86,9 @@ function get_connection($connection_name){
 function get_query($query_name){
     $qry = (string)$query_name;
     
-    $json = file_get_contents("https://192.9.200.62/json/queries.json");
+    $json_file = DEV_MODE ? "http://192.9.200.62:8080/json/queries.json": "https://192.9.200.62/json/queries.json";
+    
+    $json = file_get_contents($json_file);
     if($json === false) { exit("Could not load json file."); }
     $qry_obj = json_decode($json);
     if(!isset($qry_obj->$qry)) { exit("Could not find query ".$qry."."); }

@@ -5,27 +5,22 @@
 }
 
 Record.prototype.makeCopy = function () {
-    var rec = this;
     var recCopy = new Record(this.form, this.table);
     var fields = {};
-    Object.keys(this.fields).forEach(function (f) {
-        fields[f] = rec.fields[f].makeCopy();
-        // don't copy values
-        fields[f].setValue(null)
-        fields[f].form = recCopy.form;
-        fields[f].table = recCopy.table;
+    for(var f in this.fields){
+        fields[f] = this.fields[f].makeCopy();
+        // reset value
+        fields[f].clearValue();
         fields[f].record = recCopy;
-    });
+    }
     recCopy.fields = fields;
     return recCopy;
 };
 
 Record.prototype.getAllFKData = function () {
-    var rec = this;
-    Object.keys(this.fields).forEach(function (f) {
-        var field = rec.fields[f];
-        field.getFKTableData();
-    });
+    for(var f in this.fields){
+        this.fields[f].getFKTableData();
+    }
 };
 
 Record.prototype.makeAppropriateQueryObject = function () {
@@ -100,8 +95,7 @@ Record.prototype.isNew = function () {
 };
 
 Record.prototype.clearFields = function () {
-    var r = this;
-    Object.keys(this.fields).forEach(function (fk) {
-        r.fields[fk].clearValue();
-    });
+    for (var fk in this.fields) {
+        this.fields[fk].clearValue();
+    }
 };

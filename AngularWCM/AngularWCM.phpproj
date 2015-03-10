@@ -68,6 +68,7 @@
     <Content Include="json\connections.json" />
     <Content Include="json\queries.json" />
     <Content Include="JSRA.html" />
+    <Content Include="OilLog.html" />
     <Content Include="res\5t.gif" />
     <Content Include="res\am_header.png" />
     <Content Include="res\bluetag.gif" />
