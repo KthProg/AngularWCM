@@ -550,7 +550,23 @@
 	},
 	"LPALineItems":{ 
 		"connection":"WCM",
-		"qstring":"EXEC LPALineItems @startDate=?, @endDate=?",
+		"qstring":"EXEC LPALineItems @startDate=?, @endDate=?, @deptID=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			},
+			"Department":{ 
+				"type":"select",
+				"query":"AllDepartments"
+			}
+		}
+	},
+	"LPALineItemDetails":{ 
+		"connection":"WCM",
+		"qstring":"EXEC LPALineItemDetails @startDate=?, @endDate=?",
 		"parameters":{
 			"Start Date":{
 				"type":"date"

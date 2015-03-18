@@ -119,6 +119,7 @@
     <Content Include="scripts\js\record.js" />
     <Content Include="scripts\js\sketch.js" />
     <Content Include="scripts\js\table.js" />
+    <Content Include="scripts\js\wcm_test.js" />
     <Content Include="SEWO.html" />
     <Content Include="scripts\js\chart.js" />
     <Content Include="scripts\js\wcm.js" />
@@ -126,5 +127,6 @@
     <Content Include="templates\imageupload.html" />
     <Content Include="templates\sketch.html" />
     <Content Include="templates\field.html" />
+    <Content Include="WCMTest.html" />
   </ItemGroup>
 </Project>

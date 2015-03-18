@@ -6,15 +6,25 @@
         <!-- if the ops object is an array of objects -->
         <select ng-if="ops && ops[0].k" ng-model="field.value" ng-options="o.k as o.v for o in ops" required></select>
         <span ng-if="field.bindingType != 'options' && !ops">
-            <span ng-if="(['text','ntext','nvarchar','varchar'].indexOf(field.type)> -1)">
+            <span ng-if="(['char', 'nchar','text','ntext','nvarchar','varchar'].indexOf(field.type)> -1)">
                 <textarea ng-if="multiline" placeholder="{{field.name}}" ng-model="field.value" required></textarea>
-                <input ng-if="!multiline" ng-model="field.value" type="text" required />
+                <input ng-if="!multiline" placeholder="{{field.name}}" ng-model="field.value" type="text" required />
             </span>
-            <input ng-if="(['double','float','int','money'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" required />
+            <input ng-if="(['decimal','numeric','float','real'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" required />
+            <input ng-if="field.type == 'bigint'" type="number" ng-model="field.value" step="1" min="-9223372036854775808" max="9223372036854775807" required />
+            <input ng-if="field.type == 'int'" type="number" ng-model="field.value" step="1" min="-2147483648" max="2147483647" required />
+            <input ng-if="field.type == 'smallint'" type="number" ng-model="field.value" step="1" min="-32768" max="32767" required />
+            <input ng-if="field.type == 'tinyint'" type="number" ng-model="field.value" step="1" min="0" max="255" required />
+            <span ng-if="field.type=='money'">
+                $<input type="number" ng-model="field.value" step="0.01" min="-922337203685477.58" max="922337203685477.58" required />
+            </span>
+            <span ng-if="field.type=='smallmoney'">
+                $<input type="number" ng-model="field.value" step="0.01" min="-214748.36" max="214748.36" required />
+            </span>
             <input ng-if="field.type == 'bit'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" required />
             <input ng-if="field.type == 'date'" type="date" ng-model="field.value" required />
             <input ng-if="field.type == 'time'" type="time" ng-model="field.value" required />
-            <input ng-if="field.type == 'datetime'" type="datetime-local" ng-model="field.value" required />
+            <input ng-if="(['datetime', 'datetime2', 'datetimeoffset', 'smalldatetime'].indexOf(field.type) > -1)" type="datetime-local" ng-model="field.value" required />
         </span>
     </span>
     <span ng-if="!req">
@@ -24,15 +34,25 @@
         <!-- if the ops object is an array of objects -->
         <select ng-if="ops && ops[0].k" ng-model="field.value" ng-options="o.k as o.v for o in ops"></select>
         <span ng-if="field.bindingType != 'options' && !ops">
-            <span ng-if="(['text','ntext','nvarchar','varchar'].indexOf(field.type)> -1)">
+            <span ng-if="(['char', 'nchar','text','ntext','nvarchar','varchar'].indexOf(field.type)> -1)">
                 <textarea ng-if="multiline" placeholder="{{field.name}}" ng-model="field.value"></textarea>
-                <input ng-if="!multiline" ng-model="field.value" type="text" />
+                <input ng-if="!multiline" placeholder="{{field.name}}" ng-model="field.value" type="text" />
             </span>
-            <input ng-if="(['double','float','int','money'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any" />
-            <input ng-if="field.type == 'bit'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" />
+            <input ng-if="(['decimal','numeric','float','real'].indexOf(field.type) > -1)" type="number" ng-model="field.value" step="any"  />
+            <input ng-if="field.type == 'bigint'" type="number" ng-model="field.value" step="1" min="-9223372036854775000" max="9223372036854775000"  />
+            <input ng-if="field.type == 'int'" type="number" ng-model="field.value" step="1" min="-2147483648" max="2147483647"  />
+            <input ng-if="field.type == 'smallint'" type="number" ng-model="field.value" step="1" min="-32768" max="32767"  />
+            <input ng-if="field.type == 'tinyint'" type="number" ng-model="field.value" step="1" min="0" max="255"  />
+            <span ng-if="field.type=='money'">
+                $<input type="number" ng-model="field.value" step="0.01" min="-922337203685477" max="922337203685477" />
+            </span>
+            <span ng-if="field.type=='smallmoney'">
+                $<input type="number" ng-model="field.value" step="0.01" min="-214748.36" max="214748.36" />
+            </span>
+            <input ng-if="field.type=='bit'" type="checkbox" ng-model="field.value" ng-true-value="1" ng-false-value="0" />
             <input ng-if="field.type == 'date'" type="date" ng-model="field.value" />
             <input ng-if="field.type == 'time'" type="time" ng-model="field.value" />
-            <input ng-if="field.type == 'datetime'" type="datetime-local" ng-model="field.value" />
+            <input ng-if="(['datetime', 'datetime2', 'datetimeoffset', 'smalldatetime'].indexOf(field.type) > -1)" type="datetime-local" ng-model="field.value" />
         </span>
     </span>
 </span>
@@ -41,8 +61,9 @@
     <span ng-if="ops[0].k">{{field.getOptionText(field.value, ops)}}</span>
     <span ng-if="ops && !ops[0].k">{{field.value}}</span>
     <span ng-if="field.bindingType != 'options' && !ops">
-        <span ng-if="(['date','time','datetime'].indexOf(field.type) == -1)">{{field.value}}</span>
-        <span ng-if="field.type =='datetime'">{{field.value.toLocaleString()}}</span>
+        <span ng-if="(['date','time','datetime', 'datetime2', 'datetimeoffset', 'smalldatetime', 'money', 'smallmoney'].indexOf(field.type) == -1)">{{field.value}}</span>
+        <span ng-if="['money', 'smallmoney'].indexOf(field.type) > -1">${{field.value}}</span>
+        <span ng-if="(['datetime', 'datetime2', 'datetimeoffset', 'smalldatetime'].indexOf(field.type) > -1)">{{field.value.toLocaleString()}}</span>
         <span ng-if="field.type =='date'">{{field.value.toLocaleDateString()}}</span>
         <span ng-if="field.type =='time'">{{field.value.toLocaleTimeString()}}</span>
     </span>

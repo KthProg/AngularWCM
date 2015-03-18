@@ -227,6 +227,7 @@ Field.prototype.getOptions = function (val) {
     var field = this;
     var optionsSuccess = function (resp) {
         if (!(resp instanceof Array)) {
+            field.options = {};
             console.log(resp);
             return [];
         }
@@ -245,7 +246,7 @@ Field.prototype.getOptions = function (val) {
         return;
     }
 
-    $http.get("/scripts/php/Query.php?Query="+encodeURIComponent(query)+"&Connection="+this.form.connection+"&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
+    return $http.get("/scripts/php/Query.php?Query="+encodeURIComponent(query)+"&Connection="+this.form.connection+"&Params=" + encodeURIComponent(JSON.stringify(params))).success(optionsSuccess);
 };
 
 Field.prototype.getOptionText = function (key, ops) {

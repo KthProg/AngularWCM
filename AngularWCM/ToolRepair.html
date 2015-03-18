@@ -47,7 +47,7 @@
         </tr>
         <tr>
             <td>{{tables['ToolIssues'].records[0].fields['MoldDescID'].getOptionText(tables['ToolIssues'].records[0].fields['ToolNumber'].value)}}</td><!-- ng-model="fields['ToolName']" -->
-            <td rowspan="11"><field field="tables['ToolIssues'].records[0].fields['Problems']"></field></td>
+            <td rowspan="11"><field field="tables['ToolIssues'].records[0].fields['Problems']" multiline="true"></field></td>
             <td rowspan="11">
                 <style>
                     [field*='RepairTypeID'] select {
@@ -109,7 +109,7 @@
             <td>
                 <field field="tables['ToolIssues'].records[0].fields['RepairedLocation']" options="['Mayco','Mound']" required="true"></field>
             </td>
-            <td rowspan="3"><field field="tables['ToolIssues'].records[0].fields['Notes']"></field></td>
+            <td rowspan="3"><field field="tables['ToolIssues'].records[0].fields['Notes']" multiline="true"></field></td>
         </tr>
         <tr>
             <td class="red">Due Date/Repair Date</td>

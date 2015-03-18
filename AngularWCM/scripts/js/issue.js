@@ -17,7 +17,7 @@
                     return true;
                 }
             });
-            $scope.filter[sel.parentNode.parentNode.id] = opText;
+            $scope.filter[sel.parentNode.parentNode.parentNode.id] = opText;
         });
         console.log($scope.filter);
         $scope.getAllIssues();

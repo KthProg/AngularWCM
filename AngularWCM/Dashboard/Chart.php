@@ -104,6 +104,7 @@
                 <optgroup label="LPA">
                     <option value="LPAAuditsByAuditorPerWeek" data-firstcol="AuditorName">LPAs by Auditor by Week</option>
                     <option value="LPALineItems" data-firstcol="SubCategory">LPAs Issues by Line Item</option>
+                    <option value="LPALineItemDetails" data-firstcol="AuditorName">LPAs Issues Details</option>
                 </optgroup>
                 <?php } else if($_GET["Pillar"] === "AM") { ?>
                 <optgroup label="AM"></optgroup>

@@ -5,9 +5,9 @@ Formatter.stringToJSObj = function (val, type) {
     if (val === "null" || val === null || val === undefined) {
         return null;
     }
-    if (['text', 'ntext', 'nvarchar', 'varchar'].indexOf(type) > -1) {
+    if (['char', 'nchar', 'text', 'ntext', 'nvarchar', 'varchar'].indexOf(type) > -1) {
         return String(val);
-    } else if (['double', 'float', 'int', 'bit', 'money'].indexOf(type) > -1) {
+    } else if (['decimal', 'numeric', 'float', 'real', 'int', 'bigint', 'smallint', 'tinyint', 'money', 'smallmoney', 'bit'].indexOf(type) > -1) {
         return Number(val);
     } else if (type == 'time') {
         try {
@@ -20,25 +20,25 @@ Formatter.stringToJSObj = function (val, type) {
             d.setMilliseconds(Number(secPieces[1]));
             return d;
         } catch (e) {
-            //console.log(e);
+            console.log(e);
             return null;
         }
         return d;
-    } else if (type == 'date') {
+    } else if (['date', 'datetimeoffset'].indexOf(type) > -1) {
         try {
             var d = new Date(Date.parse(val));
             d = this.fromLocalDateTime(d);
             return d;
         } catch (e) {
-            //console.log(e);
+            console.log(e);
             return null;
         }
-    } else if (type == 'datetime') {
+    } else if (['datetime', 'datetime2', 'smalldatetime'].indexOf(type) > -1) {
         try {
             var d = new Date(Date.parse(val));
             return d;
         } catch (e) {
-            //console.log(e);
+            console.log(e);
             return null;
         }
     } else {
@@ -50,9 +50,9 @@ Formatter.jsObjToString = function (val, type) {
     if (val === "null" || val === null || val === undefined) {
         return null;
     }
-    if (['text', 'ntext', 'nvarchar', 'varchar', 'double', 'float', 'int', 'bit', 'money'].indexOf(type) > -1) {
+    if (['char', 'nchar', 'text', 'ntext', 'nvarchar', 'varchar', 'decimal', 'numeric', 'float', 'real', 'int', 'bigint', 'smallint', 'tinyint', 'money', 'smallmoney', 'bit'].indexOf(type) > -1) {
         return String(val);
-    } else if (['date', 'time', 'datetime'].indexOf(type) > -1) {
+    } else if (['date', 'time', 'datetime', 'datetime2', 'datetimeoffset', 'smalldatetime'].indexOf(type) > -1) {
         try {
             var tm = val.getTime();
             var d = new Date(tm);
@@ -67,7 +67,7 @@ Formatter.jsObjToString = function (val, type) {
             return datetimeStr.split(" ")[0];
         } else if (type == 'time') {
             return datetimeStr.split(" ")[1];
-        } else if (type == 'datetime') {
+        } else if (['datetime', 'datetime2', 'datetimeoffset', 'smalldatetime'].indexOf(type) > -1) {
             return datetimeStr;
         }
     } else {
@@ -76,11 +76,11 @@ Formatter.jsObjToString = function (val, type) {
 };
 
 Formatter.getDefaultValueForType = function (type) {
-    if (['text', 'ntext', 'nvarchar', 'varchar'].indexOf(type) > -1) {
+    if (['char', 'nchar', 'text', 'ntext', 'nvarchar', 'varchar'].indexOf(type) > -1) {
         return "";
-    } else if (['double', 'float', 'int', 'bit', 'money'].indexOf(type) > -1) {
+    } else if (['decimal', 'numeric', 'float', 'real', 'int', 'bigint', 'smallint', 'tinyint', 'money', 'smallmoney', 'bit'].indexOf(type) > -1) {
         return 0;
-    } else if (['time','date','datetime'].indexOf(type) > -1) {
+    } else if (['time', 'date', 'datetime', 'datetime2', 'datetimeoffset', 'smalldatetime'].indexOf(type) > -1) {
         return new Date();
     }
 };

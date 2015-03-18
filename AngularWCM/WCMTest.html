@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>WCM Test Page</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+    <script src="/scripts/js/wcm.js"></script>
+    <script src="/scripts/js/form.js"></script>
+    <script src="/scripts/js/table.js"></script>
+    <script src="/scripts/js/record.js"></script>
+    <script src="/scripts/js/sketch.js"></script>
+    <script src="/scripts/js/imageupload.js"></script>
+    <script src="/scripts/js/field.js"></script>
+    <script src="/scripts/js/format.js"></script>
+
+    <script src="/scripts/js/wcm_test.js"></script>
+
+    <style>
+        body {
+            padding: 15px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+            table tr:nth-of-type(2n+1) {
+                background-color: lightgrey;
+            }
+
+            table td {
+                border: solid 1px grey;
+                padding: 5px;
+            }
+
+        *:invalid {
+            color: red;
+        }
+    </style>
+</head>
+<body ng-app="wcm"
+      ng-controller="Form"
+      ng-init="initialize('WCM Test', 'WCM', ['WCMTest', 'WCMTestLine'], {'WCMTestLine' : 3}, {'WCMTest' : { 0 : { 'SomeTime' : '12:00:00.000'}}})">
+    <style>
+        [field*='[\'ID\']'] input {
+            background-color: inherit;
+            border: none;
+            font: inherit;
+        }
+    </style>
+
+    <h1>WCM Test Form Number <field field="form.tables['WCMTest'].records[0].fields['ID']" /></h1>
+    <div>Integers of all types should not accept decimal numbers. Integers and money types should not accept numbers above or below their range. Bit type should appear as checkbox. Money types should show dollar sign.</div>
+    <table>
+        <tr>
+            <td>Plant - database default is Merrill</td>
+            <td>Department</td>
+            <td>Zone</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['PlantID']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['DepartmentID']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['ZoneID']" /></td>
+        </tr>
+        <tr>
+            <td>Machine</td>
+            <td>Date Created</td>
+            <td>SQL type 'date'</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['MachineID']" /></td>
+            <td>{{form.tables['WCMTest'].records[0].fields['DateCreated']}}<= should be undefined (calculated field).</td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeDate']" /></td>
+        </tr>
+        <tr>
+            <td>SQL type 'time'. User defined default is 12:00 PM</td>
+            <td>SQL type 'datetime'</td>
+            <td>SQL type 'datetime2'</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeTime']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeDateTime']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeDateTime2']" /></td>
+        </tr>
+        <tr>
+            <td>SQL type 'datetimeoffset'</td>
+            <td>SQL type 'smalldatetime'</td>
+            <td>SQL type 'char'</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeDateTimeOffset']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeSmallDateTime']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeChar']" /></td>
+        </tr>
+        <tr>
+            <td>SQL type 'varchar'</td>
+            <td>SQL type 'nchar' (unicode)</td>
+            <td>SQL type 'nvarchar' (unicode)</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeVarchar']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeNChar']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeNVarchar']" /></td>
+        </tr>
+        <tr>
+            <td>Field of SQL type 'text' (deprecated)</td>
+            <td>Field of SQL type 'ntext' (deprecated)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeText']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeNText']" /></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>SQL type 'int' (-2^31 to 2^31 - 1)</td>
+            <td>SQL type 'bigint' (-2^63 to 2^63 - 1)</td>
+            <td>SQL type 'smallint' (-2^15 to 2^15 - 1)</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeInt']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeBigInt']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeSmallInt']" /></td>
+        </tr>
+        <tr>
+            <td>SQL type 'tinyint' (0 to 255)</td>
+            <td>SQL type 'float' (variable)</td>
+            <td>SQL type 'real' (4 byte float)</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeTinyInt']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeFloat']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeReal']" /></td>
+        </tr>
+        <tr>
+            <td>SQL type 'decimal' (variable)</td>
+            <td>SQL type 'numeric' (variable)</td>
+            <td>SQL type 'money' (-922,337,203,685,477.5808 to 922,337,203,685,477.5807)</td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeDecimal']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeNumeric']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeMoney']" /></td>
+        </tr>
+        <tr>
+            <td>SQL type 'smallmoney' (- 214,748.3648 to 214,748.3647)</td>
+            <td>SQL type 'bit' (0 or 1)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeSmallMoney']" /></td>
+            <td><field field="form.tables['WCMTest'].records[0].fields['SomeBit']" /></td>
+            <td></td>
+        </tr>
+        <tr ng-repeat="rec in form.tables['WCMTestLine'].records track by $index">
+            <td>{{$index}}. The largest number should be 2.</td>
+            <td><sketch field="rec.fields['SketchURL']" /></td>
+            <td><imageupload field="rec.fields['ImageURL']" /></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <button ng-click="form.reset()">Reset</button>
+                <button ng-click="form.executeQueries()">{{form.hasRecord ? "Update" : "Submit"}}</button>
+                <button ng-click="form.viewing = !form.viewing">{{form.viewing ? "Edit Mode" : "Read Mode"}}</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

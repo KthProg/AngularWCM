@@ -82,9 +82,9 @@
             var newChartsArr = JSON.parse(resp[0]["LayoutJSON"]);
             // format values
             newChartsArr.forEach(function (el) {
-                el.params.forEach(function(pr){
+                el.params.forEach(function (pr) {
                     pr.value = formatValue(pr.value, pr.type);
-                })
+                });
             });
             //create new chart objects with db json info
             var chartsWithFuncsArr = newChartsArr.map(function (el) {

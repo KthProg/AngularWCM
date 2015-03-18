@@ -202,7 +202,9 @@ Form.prototype.executeQueries = function () {
         });
     }
 
-    httpPromise.then(function () {
+    // returns this promise in case you want to do something afterwards
+
+    return httpPromise.then(function () {
         if (success) form.addEmail();
         document.body.innerHTML = success ? "<h1>All changes were successful.</h1>" : "<h1>Not all changes were successful.</h1><h2><br />Messages:<br />" + responses.join("<br />") + "</h2>";
     });
@@ -225,7 +227,8 @@ Form.prototype.addEmail = function () {
         : "INSERT INTO Emails ([Subj], [Body], [FormID], [TableName], [New]) VALUES (:Subj, :Body, (SELECT MAX([" + mt.getPK() + "]) FROM [" + mt.name + "]), :TableName, :New)";
 
     // send query to insert email into the emails table
-    $http({
+    // return this in case you want 'then' it (it's a promise)
+    return $http({
         method: "POST",
         url: "/scripts/php/Query.php",
         data: "Query=" + encodeURIComponent(query) + "&Connection="+this.connection+"&Params=" + encodeURIComponent(JSON.stringify(params)),

@@ -1,6 +1,6 @@
 <?php
 
-define("DEV_MODE", true);
+define("DEV_MODE", false);
 
 define("INVALID_CONNECTION", -1);
 define("EXECUTION_FAILED", -2);
