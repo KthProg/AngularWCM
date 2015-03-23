@@ -1,4 +1,10 @@
 ﻿function FormController($scope, $http) {
+    // put in global scope so other 'classes'
+    // can use $scope and $http without being
+    // connected neccessarily to Angular
+    // ($http replaceable with XMLHttpRequest
+    // object, $scope gets replaced with model
+    // object)
     window.$scope = $scope;
     window.$http = $http;
 
@@ -8,6 +14,8 @@
 }
 
 function Form(name, connection, tables, tableRecordCount, defaultValues) {
+    this.devMode = false;
+
     this.emailBody = "";
     this.mainTable = "";
 
@@ -23,7 +31,7 @@ function Form(name, connection, tables, tableRecordCount, defaultValues) {
     this.EXECUTION_FAILED = -2;
     this.NO_ROWS = -3;
 
-    this.connection = connection;
+    this.connection = this.devMode ? "WCMBackup" : connection;
     this.name = name;
 
     this.createInitialTablesAndRecords(tables, tableRecordCount || {}, connection);
@@ -140,7 +148,7 @@ Form.prototype.alterHTMLForEmail = function () {
     this.viewing = true;
     $scope.$apply();
 
-    // get all css, also add csss to hide buttons
+    // get all css, also add css to hide buttons
     var allCSS = [].slice.call(document.styleSheets).reduce(function (prev, styleSheet) {
         if (styleSheet.cssRules) {
             return prev +

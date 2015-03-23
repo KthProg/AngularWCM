@@ -5,6 +5,8 @@ require_once("\\smtp\\class.smtp.php");
 
 require_once("Query.php");
 
+$db_connection = DEV_MODE ? "WCMBackup" : "WCM";
+
 $MOUND_CONTACTS = array("jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com","newberry@ventureglobalengineering.com");
 $DEFAULT_CONTACTS = array(
     "ESEWOs" => array("pittam@mayco-mi.com", "mbommarito@mayco-mi.com"),
@@ -17,7 +19,7 @@ $DEFAULT_CONTACTS = array(
     );
 $GREG_AND_I = array("hooks@njt-na.com","gwilloughby@mayco-mi.com");
 
-$emails = execute_query("SELECT * FROM Emails", "WCM", false, array(), PDO::FETCH_ASSOC);
+$emails = execute_query("SELECT * FROM Emails", $db_connection, false, array(), PDO::FETCH_ASSOC);
 
 if(isset($emails[INVALID_CONNECTION]) || isset($emails[EXECUTION_FAILED]) || isset($emails[NO_ROWS])) { exit("No emails."); }
 
@@ -38,7 +40,7 @@ foreach($emails as $email){
         $contacts_arr = array();
     }
     
-    $record_info = execute_query("EXEC('SELECT * FROM [' + ? + '] WHERE [' + ? + ']=' + ?)", "WCM", false, array($email["TableName"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
+    $record_info = execute_query("EXEC('SELECT * FROM [' + ? + '] WHERE [' + ? + ']=' + ?)", $db_connection, false, array($email["TableName"], $pk, $email["FormID"]), PDO::FETCH_ASSOC);
     
     //add mound contacts if a tool repair form
     if($email["TableName"] == "ToolIssues" /*&& $email["New"] == 1*/ && $record_info[0]["RepairedLocation"] == "Mound"){
@@ -119,7 +121,7 @@ function send_email($email, $contacts){
         exit("Mailer Error: " . $e->errorMessage());
     }
     echo "Message has been sent.<br />";
-	execute_query("DELETE FROM Emails WHERE ID=?", "WCM", false, array($email["ID"]), PDO::FETCH_ASSOC);
+	execute_query("DELETE FROM Emails WHERE ID=?", $db_connection, false, array($email["ID"]), PDO::FETCH_ASSOC);
 }
 
 ?>

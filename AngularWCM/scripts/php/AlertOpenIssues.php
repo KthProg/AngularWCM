@@ -5,7 +5,9 @@ require_once("\\smtp\\class.smtp.php");
 
 require_once("Query.php");
 
-$emails = execute_query("SELECT * FROM vTopIssues", "WCM", null, array(), PDO::FETCH_ASSOC);
+$db_connection = DEV_MODE ? "WCMBackup" : "WCM";
+
+$emails = execute_query("SELECT * FROM vTopIssues", $db_connection, null, array(), PDO::FETCH_ASSOC);
 if($emails){
     for($i = 0, $l = count($emails); $i < $l; ++$i){
 		$email = $emails[$i];
