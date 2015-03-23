@@ -2,9 +2,9 @@
     <span ng-if="req">
         <select ng-if="field.bindingType == 'options'" ng-model="field.value" ng-options="o.k as o.v for o in field.options | orderBy: 'v'" required></select>
         <!-- if the ops object is an array of values -->
-        <select ng-if="ops && !ops[0].k" ng-model="field.value" ng-options="op for op in ops | orderBy : '+'" required></select>
+        <select ng-if="ops && !ops[0].v" ng-model="field.value" ng-options="op for op in ops | orderBy : '+'" required></select>
         <!-- if the ops object is an array of objects -->
-        <select ng-if="ops && ops[0].k" ng-model="field.value" ng-options="o.k as o.v for o in ops" required></select>
+        <select ng-if="ops && ops[0].v" ng-model="field.value" ng-options="o.k as o.v for o in ops" required></select>
         <span ng-if="field.bindingType != 'options' && !ops">
             <span ng-if="(['char', 'nchar','text','ntext','nvarchar','varchar'].indexOf(field.type)> -1)">
                 <textarea ng-if="multiline" placeholder="{{field.name}}" ng-model="field.value" required></textarea>
@@ -30,9 +30,9 @@
     <span ng-if="!req">
         <select ng-if="field.bindingType == 'options'" ng-model="field.value" ng-options="o.k as o.v for o in field.options | orderBy: 'v'"></select>
         <!-- if the ops object is an array of values -->
-        <select ng-if="ops && !ops[0].k" ng-model="field.value" ng-options="op for op in ops | orderBy : '+'"></select>
+        <select ng-if="ops && !ops[0].v" ng-model="field.value" ng-options="op for op in ops | orderBy : '+'"></select>
         <!-- if the ops object is an array of objects -->
-        <select ng-if="ops && ops[0].k" ng-model="field.value" ng-options="o.k as o.v for o in ops"></select>
+        <select ng-if="ops && ops[0].v" ng-model="field.value" ng-options="o.k as o.v for o in ops"></select>
         <span ng-if="field.bindingType != 'options' && !ops">
             <span ng-if="(['char', 'nchar','text','ntext','nvarchar','varchar'].indexOf(field.type)> -1)">
                 <textarea ng-if="multiline" placeholder="{{field.name}}" ng-model="field.value"></textarea>

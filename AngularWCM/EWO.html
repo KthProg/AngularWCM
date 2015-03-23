@@ -97,8 +97,8 @@
             <td colspan="2"></td><!-- time completed -->
         </tr>
         <tr>
-            <td colspan="6" rowspan="2" height="150px"><field field="fields['ProblemDescription']"></field><!-- Description of failure and sketch (if possible) --></td>
-            <td colspan="6"><field field="fields['ActivitiesDescription']"></field><!-- Description of activites --></td>
+            <td colspan="6" rowspan="2" height="150px"><field field="fields['ProblemDescription']" multiline="true"></field><!-- Description of failure and sketch (if possible) --></td>
+            <td colspan="6"><field field="fields['ActivitiesDescription']" multiline="true"></field><!-- Description of activites --></td>
             <td rowspan="2">
                 <label for="tempRepairCB">Check if Temp. Repair</label>
                 <style>
@@ -110,7 +110,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="6"><field field="fields['SpareParts']"></field><!-- Spare parts used (part number if available). --></td>
+            <td colspan="6"><field field="fields['SpareParts']" multiline="true"></field><!-- Spare parts used (part number if available). --></td>
         </tr>
         <tr class="ltgrey">
             <td colspan="13" height="10px">Analysis of root causes</td>

@@ -169,14 +169,14 @@
                 <span>1.{{$index + 1}} {{rec.fields['Line'].getOptionText(rec.fields['Line'].value)}}</span>
             </td>
             <td>
-                <field field="rec.fields['Rating']"></field> <!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
+                <field field="rec.fields['Rating']" options="[{ k: 0, v: 'Low'}, {k: 2, v: 'Medium'}, {k : 4, v: 'High' }]"></field>
                 <div class="helpButton" onclick="var d = this.nextSibling.nextSibling.style.display; this.nextSibling.nextSibling.style.display = (d == 'none') ? 'block' : 'none'">?</div>
                 <div style="display: none; background-color: skyblue; border: 1px dashed grey;">
                     {{rec.fields['DetailsID'].getOptionText(rec.fields['DetailsID'].value)}}
                 </div>
             </td>
             <td>
-                <field field="rec.fields['Remark']" required="{{rec.fields['Rating'].value == 0 ? true : false}}" multiline="true"></field>
+                <field field="rec.fields['Remark']" required="rec.fields['Rating'].value == 0" multiline="true"></field>
             </td>
         </tr>
         <tr>

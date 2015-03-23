@@ -58,7 +58,7 @@
     <label>Image Upload</label><br />
     <imageupload field="fields['ImageURL']"></imageupload><br />
     <label>Comments</label><br />
-    <field field="fields['Comments']"></field>
+    <field field="fields['Comments']" multiline="true"></field>
     <button ng-click="form.reset()">Reset</button>
     <button ng-click="form.reset()">Reset</button>
     <button ng-click="form.executeQueries()">{{form.hasRecord ? "Update" : "Submit"}}</button>

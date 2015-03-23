@@ -163,10 +163,10 @@
                 <span>1.{{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}</span>
             </td>
             <td>
-                <field field="rec.fields['Rating']" options="[{ k: -1, v: 'N/A'}, {k: 0, v: 'No'}, {k : 1, v: 'Yes' }]"></field><!-- onchange="$(this).parent().next().children().first().attr('required', $(this).val() == 0);" -->
+                <field field="rec.fields['Rating']" options="[{ k: -1, v: 'N/A'}, {k: 0, v: 'No'}, {k : 1, v: 'Yes' }]"></field>
             </td>
             <td>
-                <field field="rec.fields['Remarks']" multiline="true"></field>
+                <field field="rec.fields['Remarks']" required="rec.fields['Rating'].value == 0" multiline="true"></field>
             </td>
         </tr>
         <tr>
