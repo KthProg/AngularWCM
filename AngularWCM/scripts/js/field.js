@@ -10,7 +10,7 @@
     // TODO: implement this
     // TONOTDO: never mind
 
-    this.options = [];
+    this.options = [{ k: -1, v: null}];
 
     this.nullable = nullable;
     this.bindingType = bindingType;
@@ -227,9 +227,8 @@ Field.prototype.getOptions = function (val) {
     var field = this;
     var optionsSuccess = function (resp) {
         if (!(resp instanceof Array)) {
-            field.options = {};
             console.log(resp);
-            return [];
+            return;
         }
         field.options = resp.map(function (row) {
             return { k: Number(row[0]), v: row[1] };
@@ -251,7 +250,7 @@ Field.prototype.getOptions = function (val) {
 
 Field.prototype.getOptionText = function (key, ops) {
     var text = "";
-    (ops || this.options || { k: -1, v: null }).some(function (op) {
+    (ops || this.options).some(function (op) {
         if (op.k == key) {
             text = op.v;
             return true;
