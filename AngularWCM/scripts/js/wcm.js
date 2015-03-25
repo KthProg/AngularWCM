@@ -1,4 +1,4 @@
-﻿var app = angular.module("wcm", ['ngSanitize']);
+﻿var app = angular.module("wcm", []);
 
 function logError(xhr, status, error) {
     console.log(xhr);

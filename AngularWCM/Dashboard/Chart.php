@@ -113,6 +113,10 @@
                     <option value="AMTagTrendMach" data-firstcol="OpenDate">AM Tag Trend By Machine </option>
                     <option value="AMTagDetail" data-firstcol="TagNo">AM Tag Details (Table)</option>
                 </optgroup>
+                <optgroup label="Machines">
+                    <option value="AllMachDowntimeByMonth" data-firstcol="Month">Machine Downtime Reasons by Month</option>
+                    <option value="AllMachDowntimeByWeek" data-firstcol="Week">Machine Downtime Reasons by Week</option>
+                </optgroup>
                 <?php
                    }
                 ?>

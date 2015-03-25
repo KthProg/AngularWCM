@@ -603,5 +603,53 @@
 				"type":"date"
 			}
 		}
+	},
+	"AllMachDowntimeByMonth":{
+		"connection":"WCM",
+		"qstring":"EXEC pAllMachDowntimeByMonth @startDate=?, @endDate=?, @failureType=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			},
+			"Failure Type":{
+				"type":"select",
+				"options": [
+					{
+						"value":"minor",
+						"text":"minor"
+					},{
+						"value":"major",
+						"text":"major"
+					}
+				]
+			}
+		}
+	},
+	"AllMachDowntimeByWeek":{
+		"connection":"WCM",
+		"qstring":"EXEC pAllMachDowntimeByWeek @startDate=?, @endDate=?, @failureType=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			},
+			"Failure Type":{
+				"type":"select",
+				"options": [
+					{
+						"value":"minor",
+						"text":"minor"
+					},{
+						"value":"major",
+						"text":"major"
+					}
+				]
+			}
+		}
 	}
 }
