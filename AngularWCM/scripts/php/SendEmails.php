@@ -59,7 +59,7 @@ foreach($emails as $email){
         $email["Subj"] .= " ("+$email["FormID"]+")";
     }
     
-    send_email($email, $contacts_arr);
+    send_email($email, $contacts_arr, $db_connection);
 }
 
 function get_location_fields ($table_info) {
@@ -92,7 +92,7 @@ function get_pk ($table_info) {
  * @param string $subject The subject of the email
  * @param string $body The body of the email
  */
-function send_email($email, $contacts){
+function send_email($email, $contacts, $db_connection){
     $mail = new PHPMailer(true);
     try{
         $mail->isSMTP();

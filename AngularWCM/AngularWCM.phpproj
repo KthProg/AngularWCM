@@ -65,6 +65,7 @@
     <Content Include="Dashboard\PM.html" />
     <Content Include="Dashboard\LO.html" />
     <Content Include="Dashboard\SA.html" />
+    <Content Include="GeneticPath.html" />
     <Content Include="json\connections.json" />
     <Content Include="json\queries.json" />
     <Content Include="JSRA.html" />
@@ -115,6 +116,7 @@
     <Content Include="scripts\js\field.js" />
     <Content Include="scripts\js\format.js" />
     <Content Include="scripts\js\form.js" />
+    <Content Include="scripts\js\genetic_path.js" />
     <Content Include="scripts\js\imageupload.js" />
     <Content Include="scripts\js\record.js" />
     <Content Include="scripts\js\sketch.js" />

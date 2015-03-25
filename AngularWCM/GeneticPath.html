@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Genetic Path</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-sanitize.js"></script>
+    <script src="scripts/js/wcm.js?id=1"></script>
+    <script src="/scripts/js/genetic_path.js?id=1"></script>
+    <style>
+        svg line {
+            stroke: rgb(255,0,0);
+            stroke-width: 2;
+        }
+    </style>
+</head>
+<body ng-app="wcm"
+      ng-controller="GeneticPath"
+      ng-init="initialize([
+        [0,10],[50,60],[70,90],[67,86],[34,67],[77,98],[63,89],[29,65]
+      ])">
+    <h3>Initial Points: {{initialPoints}}</h3>
+    <h3>Initial Distance: {{initialDistance}}</h3>
+    <svg id="svg1" height="100" width="100" ng-bind-html="initialsvgdata">
+    </svg>
+    <h3>Total Distance: {{totalDistance}}</h3>
+    <h3>Final Points: {{finalPoints}}</h3>
+    <svg id="svg2" height="100" width="100" ng-bind-html="svgdata">
+    </svg>
+    <button onclick="window.location.reload()">Run Again</button>
+</body>
+</html>
