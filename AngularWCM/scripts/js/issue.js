@@ -95,6 +95,7 @@
     $scope.openIssue = function (name, id, subcategory) {
         $http.get("/scripts/php/Query.php?Query=OpenIssue&Named=true&Params=" + encodeURIComponent(JSON.stringify([name, id, subcategory])))
         .success(function (resp) {
+            console.log(resp);
             $scope.getAllIssues();
         });
     };
@@ -104,6 +105,7 @@
         if (actionTaken) {
             $http.get("/scripts/php/Query.php?Query=CloseIssue&Named=true&Params=" + encodeURIComponent(JSON.stringify([name, id, subcategory, actionTaken])))
             .success(function (resp) {
+                console.log(resp);
                 $scope.getAllIssues();
             });
         } else {

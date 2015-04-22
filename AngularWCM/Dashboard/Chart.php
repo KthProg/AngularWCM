@@ -51,6 +51,7 @@
                 <optgroup label="EWOs">
                     <option value="EWOsVsBreakdowns" data-firstcol="MachID">EWOs Vs Breakdowns (Table) </option>
                     <option value="PressStratification" data-firstcol="Machine">Press Stratification for EWOs </option>
+                    <option value="EWODetails" data-firstcol="ID">EWO Details</option>
                 </optgroup>
                 <optgroup label="Tags">
                     <option value="TagTrend" data-firstcol="Date">PM Tag Trend </option>
@@ -114,6 +115,7 @@
                     <option value="AMTagDetail" data-firstcol="TagNo">AM Tag Details (Table)</option>
                 </optgroup>
                 <optgroup label="Machines">
+                    <option value="MachDowntimeMinorMajor" data-firstcol="MachID">Machine Downtime</option>
                     <option value="AllMachDowntimeByMonth" data-firstcol="Month">Machine Downtime Reasons by Month</option>
                     <option value="AllMachDowntimeByWeek" data-firstcol="Week">Machine Downtime Reasons by Week</option>
                 </optgroup>
@@ -135,7 +137,7 @@
             <div id="params">
                 <div ng-repeat="param in parameters">
                     <label>{{ param.name }}</label>
-                    <div ng-if="['text','date','datetime','datetime-local','time','range','number'].indexOf(param.type) > -1">
+                    <div ng-if="['text','date','datetime','datetime-local','time','range','number','checkbox'].indexOf(param.type) > -1">
                         <input type="{{ param.type }}" ng-model="param.value" />
                     </div>
                     <div ng-if="param.type=='select'">

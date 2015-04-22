@@ -410,8 +410,12 @@
 	},
 	"AMTagDetail":{ 
 		"connection":"WCM",
-		"qstring":"EXEC pAMTagDetail @mach=?, @year=?",
+		"qstring":"EXEC pAMTagDetail @dept=?, @mach=?, @year=?",
 		"parameters":{ 
+			"Department":{
+				"type":"select",
+				"query":"AllDepartments"
+			},
 			"Machine":{ 
 				"type":"select",
 				"query":"AllMachines"
@@ -649,6 +653,42 @@
 						"text":"major"
 					}
 				]
+			}
+		}
+	},
+	"MachDowntimeMinorMajor":{
+		"connection":"WCM",
+		"qstring":"EXEC pMachDowntimeMinorMajor @startDate=?, @endDate=?, @failureType=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			},
+			"Failure Type":{
+				"type":"select",
+				"options": [
+					{
+						"value":"minor",
+						"text":"minor"
+					},{
+						"value":"major",
+						"text":"major"
+					}
+				]
+			}
+		}
+	},
+	"EWODetails":{
+		"connection":"WCM",
+		"qstring":"SELECT ID, Department, Machine, FailureType, Shift, MaintenancePersons, ProblemDescription FROM vEWOs WHERE DateTimeOccurred BETWEEN ? AND ?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
 			}
 		}
 	}

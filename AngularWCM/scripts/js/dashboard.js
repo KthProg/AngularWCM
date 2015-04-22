@@ -199,6 +199,7 @@
     $scope.getParams = function () {
         $http.get("/json/queries.json")
         .success(function (resp) {
+            console.log(resp);
             var prms = resp[$scope.query].parameters;
             if (!prms) {
                 $scope.parameters = [];

@@ -31,31 +31,43 @@
                 "Thermoforming": [14, 15, 70],
                 "Shipping Receiving": [22, 99]
             };
+            var ipA = zonesList["IP Assembly"];
+            var seq = zonesList["Sequencing"];
+            var mold = zonesList["Molding"];
+            var therm = zonesList["Thermoforming"];
+            var ipW = zonesList["IP Warehouse"];
+            var shipRec = zonesList["Shipping Receiving"];
+
+            var patOne = ipA.concat(mold, seq);
+            var patTwo = ipA.concat(mold, seq, therm, ipW, shipRec);
+            var patThree = ipA.concat(seq);
+            var patFour = ipA.concat(mold, seq, ipW);
+
             scope.showList = [
                 [0],
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["Molding"].concat(zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["IP Warehouse"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["IP Warehouse"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"]),
-                zonesList["IP Assembly"].concat(zonesList["Molding"], zonesList["Sequencing"], zonesList["Thermoforming"], zonesList["IP Warehouse"], zonesList["Shipping Receiving"])
+                patOne,
+                patTwo,
+                mold.concat(therm, ipW, shipRec),
+                patTwo,
+                patTwo,
+                ipA.concat(seq, therm, shipRec),
+                patTwo,
+                patTwo,
+                patOne,
+                patOne,
+                patThree,
+                patThree,
+                patFour,
+                patFour,
+                patTwo,
+                patTwo,
+                patTwo,
+                patTwo,
+                patOne,
+                patThree,
+                patOne,
+                patTwo,
+                patTwo
             ]
             scope.$apply(
                 function () {
