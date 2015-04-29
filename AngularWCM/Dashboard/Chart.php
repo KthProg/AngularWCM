@@ -33,6 +33,7 @@
                 </optgroup>
                 <optgroup label="Downtime">
                     <option value="MachDowntime" data-firstcol="MachID">Downtime Reasons by Machine </option>
+                    <option value="MachDowntimeByShift" data-firstcol="MachID">Machine Downtime Reasons by Shift</option>
                     <option value="MachDownCodesByMonth" data-firstcol="Month">Machine Downtime Reasons by Month </option>
                     <option value="MaintDowntime" data-firstcol="MachID">Maintenance Downtime Reasons by Machine </option>
                 </optgroup>

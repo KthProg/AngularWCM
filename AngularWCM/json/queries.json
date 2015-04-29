@@ -691,5 +691,17 @@
 				"type":"date"
 			}
 		}
+	},
+	"MachDowntimeByShift":{
+		"connection":"WCM",
+		"qstring":"EXEC pDowntimeByPressShift @startDate=?, @endDate=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			}
+		}
 	}
 }
