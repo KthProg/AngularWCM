@@ -9,12 +9,12 @@ $db_connection = DEV_MODE ? "WCMBackup" : "WCM";
 
 $MOUND_CONTACTS = array("jmurphy@venturecorporation.net","pillars@ventureglobalengineering.com","dharper@mayco-mi.com","newberry@ventureglobalengineering.com");
 $DEFAULT_CONTACTS = array(
-    "ESEWOs" => array("pittam@mayco-mi.com", "mbommarito@mayco-mi.com"),
+    "ESEWOs" => array("grzyb@mayco-mi.com", "pittam@mayco-mi.com", "mbommarito@mayco-mi.com"),
     "ToolIssues" => array("thomason@mayco-mi.com"),
-    "UnsafeActs" => array("pittam@mayco-mi.com"),
-    "UCANs" => array("pittam@mayco-mi.com"),
-    "WCC" => array("pittam@mayco-mi.com"),
-    "EHS" => array("pittam@mayco-mi.com"),
+    "UnsafeActs" => array("grzyb@mayco-mi.com", "pittam@mayco-mi.com"),
+    "UCANs" => array("grzyb@mayco-mi.com", "pittam@mayco-mi.com"),
+    "WCC" => array("grzyb@mayco-mi.com", "pittam@mayco-mi.com"),
+    "EHS" => array("grzyb@mayco-mi.com", "pittam@mayco-mi.com"),
     "LPA" => array("tkranz@mayco-mi.com")
     );
 $GREG_AND_I = array("hooks@njt-na.com","gwilloughby@mayco-mi.com");

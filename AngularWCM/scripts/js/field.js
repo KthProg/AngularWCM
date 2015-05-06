@@ -251,7 +251,7 @@ Field.prototype.getOptions = function (val) {
 Field.prototype.getOptionText = function (key, ops) {
     var text = "";
     (ops || this.options).some(function (op) {
-        if (op.k == key) {
+        if (op.k === key) {
             text = op.v;
             return true;
         }
