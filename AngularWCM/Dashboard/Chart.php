@@ -87,7 +87,7 @@
                     <option value="AgingReport" data-firstcol="Issue">Days Open per Issue </option>
                     <option value="SeverityReport" data-firstcol="Severity">Number of Issues By Severity </option>
                     <option value="IssuesBySeverity" data-firstcol="Issue">Issues By Severity </option>
-                    <option value="NumberOfIssuesByLine" data-firstcol="Line Item">Number of Issues by Line</option>
+                    <option value="NumberOfIssuesBySubCategory" data-firstcol="SubCategory">Number of Issues by Line</option>
                     <option value="TopFiveIssuesByZone" data-firstcol="Location">Top Five Issues by Zone</option>
                 </optgroup>
                 <optgroup label="UCANs">

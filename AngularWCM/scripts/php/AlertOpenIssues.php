@@ -42,7 +42,7 @@ function send_email($email, $body){
         $mail->FromName = "WCM Form Alert";
         $mail->isHTML(true);
         $mail->addAddress($email);
-	    $mail->addAddress("phelps@njt-na.com");
+	    $mail->addAddress("grzyb@mayco-mi.com");
         $mail->addAddress("hooks@njt-na.com");
         $mail->Subject = "The top ten open issues in your area";
         $mail->Body = $body;

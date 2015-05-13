@@ -265,31 +265,31 @@
 	},
 	"WCCPerAuditor":{ 
 		"connection":"WCM",
-		"qstring":"SELECT AuditorName, COUNT(*) AS Audits FROM vWCC GROUP BY AuditorName"
+		"qstring":"SELECT  a.AuditorName, COUNT(*) AS Audits FROM WCC w JOIN Auditor a ON a.ID = w.AuditorID GROUP BY a.AuditorName"
 	},
 	"EHSPerAuditor":{ 
 		"connection":"WCM",
-		"qstring":"SELECT AuditorName, COUNT(*) AS Audits FROM vEHS GROUP BY AuditorName"
+		"qstring":"SELECT  a.AuditorName, COUNT(*) AS Audits FROM EHS e JOIN Auditor a ON a.ID = e.AuditorID GROUP BY a.AuditorName"
 	},
 	"WCCPerWorkCell":{ 
 		"connection":"WCM",
-		"qstring":"SELECT Department + ' - ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vWCC GROUP BY Department + ' - ' + WorkCell"
+		"qstring":"SELECT Department + ', ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vWCCShort GROUP BY Department + ', ' + WorkCell"
 	},
 	"EHSPerWorkCell":{ 
 		"connection":"WCM",
-		"qstring":"SELECT Department + ' - ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vEHS GROUP BY Department + ' - ' + WorkCell"
+		"qstring":"SELECT Department + ', ' + WorkCell AS WorkCell, COUNT(*) AS Audits FROM vEHSShort GROUP BY Department + ', ' + WorkCell"
 	},
 	"WCCPerZone":{ 
 		"connection":"WCM",
-		"qstring":"SELECT Department + ' - ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vWCC GROUP BY Department + ' - ' + Zone"
+		"qstring":"SELECT Department + ', ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vWCCShort GROUP BY Department + ', ' + Zone"
 	},
 	"EHSPerZone":{ 
 		"connection":"WCM",
-		"qstring":"SELECT Department + ' - ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vEHS GROUP BY Department + ' - ' + Zone"
+		"qstring":"SELECT Department + ', ' + Zone AS DeptZone, COUNT(*) AS Audits FROM vEHSShort GROUP BY Department + ', ' + Zone"
 	},
 	"AgingReport":{ 
 		"connection":"WCM",
-		"qstring":"SELECT Name + ' #' + CAST(ID AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, DaysOpen FROM vOpenIssues WHERE DaysOpen>0 ORDER By DaysOpen"
+		"qstring":"SELECT Name + ' #' + CAST(ID AS varchar(max)) + ' SubCategory ID:' + CAST(SubCategoryID AS varchar(max)) AS Issue, DaysOpen FROM vOpenIssues WHERE DaysOpen>0 ORDER By DaysOpen"
 	},
 	"SeverityReport":{ 
 		"connection":"WCM",
@@ -297,7 +297,7 @@
 	},
 	"IssuesBySeverity":{ 
 		"connection":"WCM",
-		"qstring":"SELECT Name + ' #' + CAST(ID AS varchar(max)) + ' Line:' + CAST(LineNum AS varchar(max)) AS Issue, Severity FROM vOpenIssues ORDER BY Severity"
+		"qstring":"SELECT Name + ' #' + CAST(ID AS varchar(max)) + ' SubCategory ID:' + CAST(SubCategoryID AS varchar(max)) AS Issue, Severity FROM vOpenIssues ORDER BY Severity"
 	},
 	"ZonesNotEHSd":{ 
 		"connection":"WCM",
@@ -438,9 +438,9 @@
 			}
 		}
 	},
-	"NumberOfIssuesByLine":{ 
+	"NumberOfIssuesBySubCategory":{ 
 		"connection":"WCM",
-		"qstring":" SELECT al.SubCategory AS [Line Item], COUNT(*) AS Total FROM vOpenIssues i JOIN vAuditLines al ON al.FormName=i.Name AND al.Line=i.LineNum GROUP BY al.SubCategory "
+		"qstring":"SELECT SubCategory, COUNT(*) AS Total FROM vOpenIssues GROUP BY SubCategory"
 	},
 	"MachOEEByMonth":{ 
 		"connection":"WCM",
@@ -594,7 +594,7 @@
 	},
 	"TopFiveIssuesByZone":{
 		"connection":"WCM",
-		"qstring":"EXEC pTopFiveIssuesByZone"
+		"qstring":"SELECT * FROM vTopFiveIssuesByZone"
 	},
 	"OilDetails":{
 		"connection":"WCM",
