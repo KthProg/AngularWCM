@@ -34,12 +34,12 @@ Each issue can be clicked on to expand the issue details.<br><br>
 To close an issue, press the checkbox and enter an action taken in the prompt.<br><br>
 
 <h3>Forms</h3><br>
-The forms are controlled by a generic back-end class called Form. Form is composed of a collection of Table objects. Table is in turn composed of a collection of Record objects. Record is composed of a collection of Field objects.
-Most of the operations that occur are done through the Field class or the Form class. The Record class does have the important job of creating an SQL query to be executed for the Fields that it contains.
+The forms are controlled by a generic back-end class called Form. Form is composed of a collection of Table objects. Table is in turn composed of a collection of Record objects. Record is composed of a collection of Field objects.<br><br>
+Most of the operations that occur are done through the Field class or the Form class. The Record class does have the important job of creating an SQL query to be executed for the Fields that it contains.<br><br>
 Submission of the form is done by the Form class. Updating of dependent fields is done through the Field class. All queries are routed through a Query PHP script. This script takes a named or full SQL query with json parameters and executes it, returning the result as json.<br><br>
 
 <h4>Special considerations</h4><br>
-On some of the audits, different values are displayed for different locations when selected. This is implemented in an embedded script. This script contains an array containing the data for which lines should be shown based on location. This array is looped through and outputs an array which contains true values for the indices of the lines that should be shown. 
+On some of the audits, different values are displayed for different locations when selected. This is implemented in an embedded script. This script contains an array containing the data for which lines should be shown based on location. This array is looped through and outputs an array which contains true values for the indices of the lines that should be shown. <br><br>
 Default values are specified for many forms. The format of these values is such:<br><br>
 <pre>{
 TableName:
