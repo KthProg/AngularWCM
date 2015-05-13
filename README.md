@@ -32,7 +32,7 @@ The forms are controlled by a generic back-end class called Form. Form is compos
 Most of the operations that occur are done through the Field class or the Form class. The Record class does have the important job of creating an SQL query to be executed for the Fields that it contains.
 Submission of the form is done by the Form class. Updating of dependent fields is done through the Field class. All queries are routed through a Query PHP script. This script takes a named or full SQL query with json parameters and executes it, returning the result as json.
 
-**Special considerations**
+**Special considerations**<br>
 On some of the audits, different values are displayed for different locations when selected. This is implemented in an embedded script. This script contains an array containing the data for which lines should be shown based on location. This array is looped through and outputs an array which contains true values for the indices of the lines that should be shown. 
 Default values are specified for many forms. The format of these values is such:<br>
 *{
@@ -51,20 +51,20 @@ The initialization function looks like this:
 initialize(FormName, ConnectionName, [Table1, Table2, …], {Tablex: recordCount}, {Defaults…});
 It is found in the body tag of every form.
 
-**SQL**
+**SQL**<br>
 Much of the important parts of the application are written in SQL. The backend contains many views and stored procedures which are used throughout the application. Careful examination of the scripts will show which queries are in use. For queries used in the dashboard reporting app, look up the name of the query found in the option element, it will have a matching query in the queries json file.
 Also, form layouts and dependent fields are decided via foreign key and primary key relations. The primary key for the main table is always the form that opens the table when it is changed.
 A foreign key to a table that is included in the form will cause one tables value to update from the other. I.e. a foreign key in table2.field to table1.field will update table2.field with table1.field’s value.
 A foreign key to a table that is not included in the form will cause the field to be shown as a dropdown, and it will fetch it values and text from the table which it points to. For this to work, it is required that the table pointed to by the foreign key has a primary key, and has exactly one field which is not a foreign key (this will be the text field).
 A string of foreign key relationships will create a series of dependent fields.
 
-**Sketches**
+**Sketches**<br>
 Sketches are implemented using a canvas and drawing lines on that canvas (as fast as the PC can render them). It essentially finds the relative position of the mouse in the canvas, and draws from the previous position to the current position each time the position changes. The sketch is saved each time the user exits the sketch area with the mouse. The sketch is saved as a base64 string.
 
-**Image Upload**
+**Image Upload**<br>
 The image upload actually takes and image and saves it as a base64 URI. Therefore, image uploads must refer to a varchar(max) field.
 
-**Finally**
+**Finally**<br>
 The rest of the forms code is in the implementation and has to be read and used to be understood. There is simply too much to go through to type it all out here.
 
 Add-ons
