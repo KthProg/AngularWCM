@@ -1,6 +1,3 @@
-# AngularWCM
-WCM App for submitting forms -- and a dashboard -- using AngularJS
-
 Angular WCM App Documentation
 =============================================
 I.	Components<br>
@@ -67,9 +64,9 @@ The image upload actually takes and image and saves it as a base64 URI. Therefor
 The rest of the forms code is in the implementation and has to be read and used to be understood. There is simply too much to go through to type it all out here.
 <br><br>
 <h2>Add-ons</h2>
-<h3>OPEN ISSUES ALERT</h3><br>
+<h3>Open Issues Alert</h3><br>
 This script sends an email for every open issue specified in a view in the WCM database. It sends each email to specific supervisors depending on the location of the email. The correlation between these two is in the Supervisor table.
 <br><br>
 <h3>Email Script</h3><br>
-This script is executed every five minutes on the server to send any emails in the Emails table. Forms are pushed to the Emails table on successful submission or update. Like the above script, it sends emails to different supervisors depending on the location of the form.
+This script is executed every five minutes on the server to send any emails in the Emails table. Forms are pushed to the Emails table on successful submission or update. Like the above script, it sends emails to different supervisors depending on the location of the form.<br><br>
 This script is currently executed with my permissions, which is a bit of an issue because it stops working when my password changes.
