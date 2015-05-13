@@ -3,14 +3,14 @@ WCM App for submitting forms -- and a dashboard -- using AngularJS
 
 Angular WCM App Documentation
 =============================================
-I.	Components
-A.	Reporting
-B.	Open Issues (Safety)
-C.	Forms
-II.	Add-ons
-A.	Open Issues Alert
-B.	Email Script
- 
+I.	Components<br>
+A.	Reporting<br>
+B.	Open Issues (Safety)<br>
+C.	Forms<br>
+II.	Add-ons<br>
+A.	Open Issues Alert<br>
+B.	Email Script<br>
+<br>
 Components
 =================
 REPORTING<br>
@@ -44,12 +44,12 @@ TableName:
  		},
  	…
  	}
-}*
+}*<br>
 Another consideration are the default Record counts which can be passed to the Form initialization function. Default Record counts are used when a form uses some sort of repetitive information, and you want to separate that into another table and normalize it.<br>
-Once the table is separated from the parent table, you can specify the number of time you want the repetitive information to appear using a default Record count.
-The initialization function looks like this:
-initialize(FormName, ConnectionName, [Table1, Table2, …], {Tablex: recordCount}, {Defaults…});
-It is found in the body tag of every form.
+Once the table is separated from the parent table, you can specify the number of time you want the repetitive information to appear using a default Record count.<br>
+The initialization function looks like this:<br>
+initialize(FormName, ConnectionName, [Table1, Table2, …], {Tablex: recordCount}, {Defaults…});<br>
+It is found in the body tag of every form.<br>
 
 **SQL**<br>
 Much of the important parts of the application are written in SQL. The backend contains many views and stored procedures which are used throughout the application. Careful examination of the scripts will show which queries are in use. For queries used in the dashboard reporting app, look up the name of the query found in the option element, it will have a matching query in the queries json file.
