@@ -35,7 +35,7 @@ Submission of the form is done by the Form class. Updating of dependent fields i
 **Special considerations**<br>
 On some of the audits, different values are displayed for different locations when selected. This is implemented in an embedded script. This script contains an array containing the data for which lines should be shown based on location. This array is looped through and outputs an array which contains true values for the indices of the lines that should be shown. 
 Default values are specified for many forms. The format of these values is such:<br>
-*{
+<pre>{
 TableName:
  	{
  		RecordNumber: {
@@ -44,11 +44,11 @@ TableName:
  		},
  	…
  	}
-}*<br>
+}</pre><br>
 Another consideration are the default Record counts which can be passed to the Form initialization function. Default Record counts are used when a form uses some sort of repetitive information, and you want to separate that into another table and normalize it.<br>
 Once the table is separated from the parent table, you can specify the number of time you want the repetitive information to appear using a default Record count.<br>
 The initialization function looks like this:<br>
-initialize(FormName, ConnectionName, [Table1, Table2, …], {Tablex: recordCount}, {Defaults…});<br>
+<pre>initialize(FormName, ConnectionName, [Table1, Table2, …], {Tablex: recordCount}, {Defaults…});,/pre><br>
 It is found in the body tag of every form.<br>
 
 **SQL**<br>
