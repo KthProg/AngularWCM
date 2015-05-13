@@ -1,12 +1,22 @@
 Angular WCM App Documentation
 =============================================
-I.	Components<br>
-A.	Reporting<br>
-B.	Open Issues (Safety)<br>
-C.	Forms<br>
-II.	Add-ons<br>
-A.	Open Issues Alert<br>
-B.	Email Script<br>
+<ol>
+	<li>
+		Components
+		<ol>
+			<li>Reporting</li>
+			<li>Open Issues (Safety)</li>
+			<li>Forms</li>
+		</ol>
+	</li>
+	<li>
+		Add-ons
+		<ol>
+			<li>Open Issues Alert</li>
+			<li>Email Script</li>
+		</ol>
+	</li>
+</ol>
 <br>
 <h2>Components</h2>
 <h3>Reporting</h3><br>
