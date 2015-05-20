@@ -16,7 +16,7 @@
     <link href="/css/reporting.css" type="text/css" rel="stylesheet" />
     <link href="/css/charts.css" type="text/css" rel="stylesheet" />
 
-    <link rel="shortcut icon" href="/res/favicon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="/res/3d_bar_chart.png" type="image/x-icon" />
 </head>
 <body ng-app="wcm" ng-controller="Dashboard">
     <div id="header">
