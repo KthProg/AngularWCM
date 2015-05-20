@@ -15,6 +15,8 @@
     <script src="/scripts/js/dashboard.js"></script>
     <link href="/css/reporting.css" type="text/css" rel="stylesheet" />
     <link href="/css/charts.css" type="text/css" rel="stylesheet" />
+
+    <link rel="shortcut icon" href="/res/favicon.png" type="image/x-icon" />
 </head>
 <body ng-app="wcm" ng-controller="Dashboard">
     <div id="header">
