@@ -69,6 +69,7 @@
     <Content Include="json\queries.json" />
     <Content Include="JSRA.html" />
     <Content Include="OilLog.html" />
+    <Content Include="res\3d_bar_chart.png" />
     <Content Include="res\5t.gif" />
     <Content Include="res\am_header.png" />
     <Content Include="res\bluetag.gif" />
@@ -89,6 +90,7 @@
     <Content Include="res\btn_wcc.gif" />
     <Content Include="res\cd.gif" />
     <Content Include="res\cd_header.png" />
+    <Content Include="res\error.png" />
     <Content Include="res\favicon.png" />
     <Content Include="res\fi.gif" />
     <Content Include="res\fi_header.png" />
