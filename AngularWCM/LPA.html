@@ -152,13 +152,13 @@
                 <h2>Remarks</h2>
             </td>
         </tr>
-        <tr ng-repeat-start="rec in tables['LPALine'].records track by $index" ng-show="!form.hasRecord ? showLines[$index + 1] : (rec.fields['Rating'].value != undefined)" class="header">
+        <tr ng-repeat-start="rec in tables['LPALine'].records track by $index" ng-if="!form.hasRecord ? showLines[$index + 1] : (rec.fields['Rating'].value != undefined)" class="header">
             <td colspan="3">
                 <h3>{{( rec.fields['CategoryID'].value != tables['LPALine'].records[$index - 1].fields['CategoryID'].value)  ? rec.fields['CategoryID'].getOptionText(rec.fields['CategoryID'].value)  : ''}}</h3>
             </td>
         </tr>
         <tr></tr>
-        <tr ng-repeat-end ng-show="!form.hasRecord ? showLines.indexOf($index + 1) > -1 : (rec.fields['Rating'].value != undefined)">
+        <tr ng-repeat-end ng-if="!form.hasRecord ? showLines.indexOf($index + 1) > -1 : (rec.fields['Rating'].value != undefined)">
             <td>
                 <span>1.{{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}</span>
             </td>

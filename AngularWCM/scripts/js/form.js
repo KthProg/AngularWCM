@@ -160,7 +160,7 @@ Form.prototype.alterHTMLForEmail = function () {
         }
     }, "") + " button, .ng-hide { display: none; } ";
 
-    console.log(allCSS);
+    //console.log(allCSS);
 
     var currentHTML = "<html><head><style>";
     //add style rules
