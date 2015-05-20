@@ -201,3 +201,76 @@
         margin: 3px;
     }
 }
+
+button {
+    -webkit-box-shadow: rgba(0, 0, 0, 0.14902) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.2) 0px 0px 6px 0px inset;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    background-color: rgb(230, 230, 230);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-left-style: none;
+    border-left-width: 0px;
+    border-right-color: rgba(0, 0, 0, 0);
+    border-right-style: none;
+    border-right-width: 0px;
+    border-top-color: rgba(0, 0, 0, 0);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-top-style: none;
+    border-top-width: 0px;
+    box-shadow: rgba(0, 0, 0, 0.14902) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.2) 0px 0px 6px 0px inset;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+    display: inline-block;
+    font-family: proxima-nova, sans-serif;
+    font-size: 16px;
+    height: 35px;
+    line-height: normal;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 8px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: baseline;
+    white-space: nowrap;
+    zoom: 1;
+}
+
+select {
+  background: linear-gradient(to bottom, #f7f7f8 0%,#ffffff 100%); /*url(../img/keyIcon.png) 12px 11px no-repeat, */
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+  transition: all 0.2s linear;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  color: #222222;
+  position: relative;
+  height: 36px;
+  display: block;
+  &::-webkit-input-placeholder {
+    color: #999999;
+  }
+  
+  &:-moz-placeholder {
+    color: #999999;
+  }
+
+  &:focus{
+    box-shadow: 0 1px 0 #2392F3 inset, 0 -1px 0 #2392F3 inset, 1px 0 0 #2392F3 inset, -1px 0 0 #2392F3 inset, 0 0 4px rgba(35,146,243,0.5);
+    outline: none;
+    background: #FFF; /*url(../img/keyIcon.png) 12px 11px no-repeat, */
+  }
+}
