@@ -190,15 +190,21 @@
 }
 
 @media print {
-    button {
+    button, input, select, textarea {
         display: none;
+        visibility: hidden;
     }
+
     .issue {
         color: black;
         background-color: white;
         border: none;
         padding: 0px;
         margin: 3px;
+    }
+
+    #filters, .toggleButton {
+        display: none;
     }
 }
 
