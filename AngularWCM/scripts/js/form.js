@@ -158,7 +158,9 @@ Form.prototype.alterHTMLForEmail = function () {
         } else {
             return prev;
         }
-    }, "") + " button { display: none; } ";
+    }, "") + " button, .ng-hide { display: none; } ";
+
+    console.log(allCSS);
 
     var currentHTML = "<html><head><style>";
     //add style rules
