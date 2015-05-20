@@ -176,7 +176,7 @@
                 <h3>5T</h3>
             </td>
         </tr>
-        <tr ng-repeat="rec in tables['FiveTLine'].records track by $index" ng-show="!form.hasRecord ? showLines[$index + 1] : (rec.fields['Rating'].value != undefined)">
+        <tr ng-repeat="rec in tables['FiveTLine'].records track by $index" ng-if="!form.hasRecord ? showLines[$index + 1] : (rec.fields['Rating'].value != undefined)">
             <td>
                 <span>1.{{$index + 1}} {{rec.fields['Line'].getOptionText(rec.fields['Line'].value)}}</span>
             </td>
