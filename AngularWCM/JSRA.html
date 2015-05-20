@@ -162,30 +162,30 @@
         <tr>
             <td colspan="16"><h2>Risks Identified</h2></td>
         </tr>
-        <tr ng-repeat-start="rec in tables['JSRALine'].records track by $index" ng-show="rec.fields['Applies'].value == 1">
+        <tr ng-repeat-start="rec in tables['JSRALine'].records track by $index" ng-if="rec.fields['Applies'].value == 1">
             <td colspan="16">
                 <h3>{{$index + 1}}. {{rec.fields['SubCategoryID'].getOptionText(rec.fields['SubCategoryID'].value)}}</h3>
             </td>
         </tr>
-        <tr class="rowheader" ng-show="rec.fields['Applies'].value == 1">
+        <tr class="rowheader" ng-if="rec.fields['Applies'].value == 1">
             <td colspan="4">Controllable</td>
             <td colspan="4">Pre-Severity</td>
             <td colspan="4">Pre-Probability</td>
             <td colspan="4">Pre-Mitigation</td>
         </tr>
-        <tr ng-show="rec.fields['Applies'].value == 1">
+        <tr ng-if="rec.fields['Applies'].value == 1">
             <td colspan="4"><field field="rec.fields['Controllable']"></field></td>
             <td colspan="4"><field field="rec.fields['PreSeverity']" options='[{ k :1 , v : "No near misses have occurred, injury is unlikely"},{ k : 2 , v : "Near miss has occurred / first aid possible"},{ k : 3 , v : "First aid has occurred / recordable is possible"},{ k : 4 , v : "Recordable injury has occurred / serious injury is possible"},{ k : 5 , v : "Serious injury resulting in lost time has occurred"}]'></field></td>
             <td colspan="4"><field field="rec.fields['PreProbability']" options='[{ k :1 , v : "Worker is not subjected to any risk of injury"},{ k : 2 , v : "There is a slight chance of injury to the worker"},{ k : 3 , v : "The worker will be injured if no counter-measures are implemented"}]'></field></td>
             <td colspan="4"><field field="rec.fields['PreMitigation']" options='[{ k :1 , v : "Controls meet or exceed standards"},{ k : 2 , v : "Current controls are not sufficient"},{ k : 3 , v : "No controls exist - operator is exposed to hazard"}]'></field></td>
         </tr>
-        <tr class="rowheader" ng-show="rec.fields['Applies'].value == 1">
+        <tr class="rowheader" ng-if="rec.fields['Applies'].value == 1">
             <td colspan="4">Corrective Action</td>
             <td colspan="4">Post-Severity</td>
             <td colspan="4">Post-Probability</td>
             <td colspan="4">Post-Mitigation</td>
         </tr>
-        <tr ng-repeat-end ng-show="rec.fields['Applies'].value == 1">
+        <tr ng-repeat-end ng-if="rec.fields['Applies'].value == 1">
             <td colspan="4"><field field="rec.fields['ActionTaken']"></field></td>
             <td colspan="4"><field field="rec.fields['PostSeverity']" options='[{ k :1 , v : "No near misses have occurred, injury is unlikely"},{ k : 2 , v : "Near miss has occurred / first aid possible"},{ k : 3 , v : "First aid has occurred / recordable is possible"},{ k : 4 , v : "Recordable injury has occurred / serious injury is possible"},{ k : 5 , v : "Serious injury resulting in lost time has occurred"}]'></field></td>
             <td colspan="4"><field field="rec.fields['PostProbability']" options='[{ k :1 , v : "Worker is not subjected to any risk of injury"},{ k : 2 , v : "There is a slight chance of injury to the worker"},{ k : 3 , v : "The worker will be injured if no counter-measures are implemented"}]'></field></td>
@@ -199,7 +199,7 @@
         <tr class="rowheader">
             <td colspan="10">
                 Type
-            </td>
+            </td>s
             <td colspan="3">
                 Required
             </td>

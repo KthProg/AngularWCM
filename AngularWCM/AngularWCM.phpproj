@@ -89,6 +89,7 @@
     <Content Include="res\btn_wcc.gif" />
     <Content Include="res\cd.gif" />
     <Content Include="res\cd_header.png" />
+    <Content Include="res\favicon.png" />
     <Content Include="res\fi.gif" />
     <Content Include="res\fi_header.png" />
     <Content Include="res\jsa.gif" />
