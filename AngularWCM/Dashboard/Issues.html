@@ -20,67 +20,76 @@
     <link rel="stylesheet" type="text/css" href="/css/issues.css">
 
     <link rel="shortcut icon" href="/res/error.png" type="image/x-icon" />
+
+    <script>
+        function toggleIssueDetails(issueEl) {
+            var togg = issueEl.querySelector(".toggleButton");
+            var details = issueEl.parentNode.querySelector(".issueDetails");
+            console.log(togg, details);
+            var disp = details.style.display;
+            details.style.display = (disp == 'none') ? 'block' : 'none';
+            togg.innerText = (togg.innerText == 'v') ? '^' : 'v';
+        }
+    </script>
 </head>
 <body ng-app="wcm">
     <header>
         <h3>Safety Issues Dashboard</h3>
     </header>
-    <div>
-        <div ng-controller="Form" ng-init="initialize('Issues Filter', 'WCM', ['DummyIssuesTable'], '')">
-            <form>
-                <div class="filter">Plant:<field id="Plant" field="fields['PlantID']"></field></div>
-                <div class="filter">Department:<field id="Department" field="fields['DepartmentID']"></field></div>
-                <div class="filter">Zone:<field id="Zone" field="fields['ZoneID']"></field></div>
-                <div class="filter">Machine:<field id="Machine" field="fields['MachineID']"></field></div>
-                <div class="filter">Supervisor:<field id="SupervisorName" field="fields['SupervisorID']"></field></div>
-                <div class="filter">Shift:<field id="Shift" field="fields['Shift']" options="[1,2,3]"></field></div>
-                <div class="filter">Severity:<field id="Severity" field="fields['Severity']" options="['Low','Medium','High']"></field></div>
-                <div class="filter">Category:<field id="Category" field="fields['Category']" options='["Housekeeping","None","Crane","Ergonomics","Emergency evacuation routes","Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></field></div>
-                <div class="filter">Form:<field id="Name" field="fields['Form']" options='["EHS","WCC","SEWO","UCAN","Unsafe Act"]'></field></div>
-                <div class="filter">
-                    <button type="button" onclick="angular.element(document.body).injector().get('$rootScope').$broadcast('filter');">Apply</button>
-                    <button type="button" onclick="window.location.reload()">Clear</button>
-                </div>
-                <div class="filter">
-                    <button type="button" onclick="window.print();">Print</button>
-                    <button type="button" onclick="angular.element(document.body).injector().get('$rootScope').$broadcast('export');">Export</button>
-                </div>
-            </form>
+    <div id="legend">
+        <h2>Legend</h2>
+        <div><div data-severity="Low"></div>Low Severity</div>
+        <div><div data-severity="Medium"></div>Medium Severity</div>
+        <div><div data-severity="High"></div>High Severity</div>
+        <br />
+        <div data-severity="Low" class="issue openIssue">
+            'Form Name' 'ID'.'SubCategoryID (Line Item ID)' - 'Issue Type'
         </div>
-        <div id="legend" >
-            <div><div id="lowseverity"></div>Low Severity</div>
-            <div><div id="mediumseverity"></div>Medium Severity</div>
-            <div><div id="highseverity"></div>High Severity</div>
-            <div><div><input type="checkbox" checked onclick="event.preventDefault();" /></div>Closed</div>
-            <div><div><input type="checkbox" onclick="event.preventDefault();" /></div>Open</div>
-            <br />
-            Click on an issue to view details.
+        <br />
+        Click on an issue to view details.
+    </div>
+    <div id="filters" ng-controller="Form" ng-init="initialize('Issues Filter', 'WCM', ['DummyIssuesTable'], '')">
+        <h2>Filters</h2>
+        <div class="filter">Plant:<field id="Plant" field="fields['PlantID']"></field></div>
+        <div class="filter">Department:<field id="Department" field="fields['DepartmentID']"></field></div>
+        <div class="filter">Zone:<field id="Zone" field="fields['ZoneID']"></field></div>
+        <div class="filter">Machine:<field id="Machine" field="fields['MachineID']"></field></div>
+        <div class="filter">Supervisor:<field id="SupervisorName" field="fields['SupervisorID']"></field></div>
+        <div class="filter">Shift:<field id="Shift" field="fields['Shift']" options="[1,2,3]"></field></div>
+        <div class="filter">Severity:<field id="Severity" field="fields['Severity']" options="['Low','Medium','High']"></field></div>
+        <div class="filter">Category:<field id="Category" field="fields['Category']" options='["Housekeeping","None","Crane","Ergonomics","Emergency evacuation routes","Equipment","Ladders","Chemical Usage & Storage","Forklift","Warehouse/PIT Drivers","Electrical","Material/Waste Handling","Respiratory Compliance","Welding","PPE","Continual Training","Timely Incident Reporting"]'></field></div>
+        <div class="filter">Form:<field id="Name" field="fields['Form']" options='["EHS","WCC","SEWO","UCAN","Unsafe Act"]'></field></div>
+        <div class="filterButtons">
+            <button type="button" onclick="angular.element(document.body).injector().get('$rootScope').$broadcast('filter');">Apply</button>
+            <button type="button" onclick="window.location.reload()">Clear</button>
+            <button type="button" onclick="window.print();">Print</button>
+            <button type="button" onclick="angular.element(document.body).injector().get('$rootScope').$broadcast('export');">Export</button>
         </div>
-        <div id="issues" ng-controller="Issues">
-            <div id="open_issues">
-                <span class="toggleButton" ng-click="showOpen = !showOpen">{{showOpen ? '-' : '+'}}</span><h3>Open Issues</h3>
-                <div id="open_issues_div" ng-repeat="i in openIssues | orderBy : ['Severity', 'Name', 'ID', 'SubCategory', 'Compliancy']" ng-show="showOpen">
-                    <div class="issue" onclick="var d = this.nextSibling.nextSibling.style.display; this.nextSibling.nextSibling.style.display = (d == 'none') ? 'block' : 'none'">
-                        <issueheader issue="i"></issueheader>
-                        <input type="checkbox" ng-click="closeIssue(i.Name,i.ID,i.SubCategoryID)" style="float: right;" onclick="return false" />
-                        <issueseverity issue="i"></issueseverity>
-                    </div>
-                    <div style="display: none;">
-                        <issuedetails issue="i"></issuedetails>
-                    </div>
+    </div>
+    <div id="issues" ng-controller="Issues">
+        <div id="open_issues">
+            <!--<span class="toggleButton" ng-click="showOpen = !showOpen">{{showOpen ? '^' : 'v'}}</span>--><h3>Open Issues</h3>
+            <div id="open_issues_div" ng-init="i['sNum'] = (i.Severity == 'Low' ? 3 : i.Severity == 'Medium' ? 2 : 1)" ng-repeat="i in openIssues | orderBy : ['sNum', 'Name', 'ID', 'SubCategory', 'Compliancy']" ng-show="showOpen">
+                <div data-severity="{{i.Severity}}" class="issue" onclick="toggleIssueDetails(this)">
+                    <span class="toggleButton">v</span>
+                    <issueheader issue="i"></issueheader>
+                    <button ng-click="closeIssue(i.Name, i.ID, i.SubCategoryID)" style="float: right;" onclick="return false">Close</button>
+                </div>
+                <div class="issueDetails" style="display: none;">
+                    <issuedetails issue="i"></issuedetails>
                 </div>
             </div>
-            <div id="closed_issues">
-                <span class="toggleButton" ng-click="showClosed = !showClosed">{{showClosed ? '-' : '+'}}</span><h3>Closed Issues</h3>
-                <div id="closed_issues_div" ng-repeat="i in closedIssues | orderBy : ['Severity', 'Name', 'ID', 'LineNum', 'Compliancy']" ng-show="showClosed">
-                    <div class="issue" onclick="var d = this.nextSibling.nextSibling.style.display; this.nextSibling.nextSibling.style.display = (d == 'none') ? 'block' : 'none'">
-                        <issueheader issue="i"></issueheader>
-                        <input type="checkbox" ng-click="openIssue(i.Name,i.ID,i.SubCategoryID)" style="float: right;" checked onclick="return false"/>
-                        <issueseverity issue="i"></issueseverity>
-                    </div>
-                    <div style="display: none;">
-                        <issuedetails issue="i"></issuedetails>
-                    </div>
+        </div>
+        <div id="closed_issues">
+            <!--<span class="toggleButton" ng-click="showClosed = !showClosed">{{showClosed ? '^' : 'v'}}</span>--><h3>Closed Issues</h3>
+            <div id="closed_issues_div" ng-init="i['sNum'] = (i.Severity == 'Low' ? 3 : i.Severity == 'Medium' ? 2 : 1)" ng-repeat="i in closedIssues | orderBy : ['sNum', 'Name', 'ID', 'LineNum', 'Compliancy']" ng-show="showClosed">
+                <div data-severity="{{i.Severity}}" class="issue" onclick="toggleIssueDetails(this)">
+                    <span class="toggleButton">v</span>
+                    <issueheader issue="i"></issueheader>
+                    <button ng-click="openIssue(i.Name, i.ID, i.SubCategoryID)" style="float: right;" checked onclick="return false">Re-Open</button>
+                </div>
+                <div class="issueDetails" style="display: none;">
+                    <issuedetails issue="i"></issuedetails>
                 </div>
             </div>
         </div>

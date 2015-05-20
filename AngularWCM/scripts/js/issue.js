@@ -117,7 +117,7 @@
 }
 
 app.directive('issueheader', function () {
-    var template = '{{i.Name}} {{i.ID}}.{{i.SubCategoryID}} - {{i.Compliancy}}';
+    var template = '<span class="issueHeader">{{i.Name}} {{i.ID}}.{{i.SubCategoryID}} - {{i.Compliancy}}</span> ';
 
     return {
         restrict: "E",
@@ -129,12 +129,27 @@ app.directive('issueheader', function () {
 });
 
 app.directive('issuedetails', function () {
-    var template = 'Line Item: {{i.SubCategory}}<br />';
-    template += 'Category:  {{i.Category}}<br />';
-    template += 'Location: {{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}<br />';
-    template += 'Created: {{i.OpenDate}}<br />';
-    template += 'Days Open: {{i.DaysOpen}}<br />';
-    template += 'Details: {{i.Details}}';
+    var
+    template = '<table>'
+    template += '   <tr>';
+    template += '      <td>Line Item</td><td>{{i.SubCategory}}</td>';
+    template += '   </tr>';
+    template += '   <tr>';
+    template += '       <td>Category</td><td>{{i.Category}}</td>';
+    template += '   </tr>';
+    template += '   <tr>';
+    template += '       <td>Location</td><td>{{i.Plant}}, {{i.Department}}, {{i.Zone}}, {{i.Machine}}</td>';
+    template += '   </tr>';
+    template += '   <tr>';
+    template += '       <td>Created</td><td>{{i.OpenDate}}</td>';
+    template += '   </tr>';
+    template += '   <tr>';
+    template += '       <td>Days Open</td><td>{{i.DaysOpen}}</td>';
+    template += '   </tr>';
+    template += '   <tr>';
+    template += '       <td>Details</td><td>{{i.Details}}</td>';
+    template += '   </tr>';
+    template += '</table>';
 
     return {
         restrict: "E",
@@ -144,23 +159,5 @@ app.directive('issuedetails', function () {
         }
     };
 });
-
-app.directive('issueseverity', function () {
-    var template = '<span ng-switch="i.Severity">';
-    template += '<div ng-switch-when="Low"> </div>';
-    template += '<div ng-switch-when="Medium"> </div>';
-    template += '<div ng-switch-when="High"> </div>';
-    template += '</span>';
-
-    return {
-        restrict: "E",
-        template: template,
-        scope: {
-            i: "=issue"
-        }
-    };
-});
-
-
 
 app.controller("Issues", Issues);

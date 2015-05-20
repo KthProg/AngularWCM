@@ -11,21 +11,50 @@
 
     .filter {
         float: left;
-        width: 25%;
+        width: 50%;
+        text-align: right;
+    }
+
+    .filterButtons {
+        clear: left;
+        padding: 15px;
     }
 
     select {
         float: right;
         width: 50%;
+        min-height: 30px;
     }
 
-    #issues, #legend {
+    #issues {
+        width: 96%;
+    }
+
+            #issues table tr td:first-of-type {
+                color: grey;
+                font-weight: bold;
+            }
+
+            #issues table tr * {
+                vertical-align: text-top;
+                padding-bottom: 15px;
+                padding-right: 20px;
+            }
+
+    .issueDetails {
+        padding: 15px;
+    }
+
+    #legend, #filters {
         width: 96%;
     }
 
     .toggleButton {
         float: left;
         clear: left;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        padding-left: 0px;
     }
 
     h1, h2, h3, p, span {
@@ -57,39 +86,48 @@
         font-size: 0.75em;
     }
 
-    #issues, #legend {
+    #issues, #legend, #filters {
         height: auto;
     }
 
     *[onclick]:hover, *[href]:hover, .activated, *[ng-click]:hover {
         cursor: pointer;
         opacity: 0.5;
-        background-color: white;
+        /*background-color: white;*/
         color: black;
     }
 
-    #issues, form, #current_issue, #legend {
+    #issues, #current_issue, #legend, #filters {
         float: left;
         margin: 2%;
-        clear: right;
+        /*clear: right;*/
     }
 
-    #open_issues .issue {
-        background-color: rgba(150,150,220,0.5);
-        color: black;
+    #open_issues .issue, .openIssue {
+        /*background-color: rgba(150,150,220,0.5);
+        color: black;*/
     }
 
     #closed_issues .issue {
-        background-color: rgba(220,150,150,0.5);
-        color: grey;
+        /*background-color: rgba(220,150,150,0.5);*/
+        /*color: grey;*/
     }
 
-    #open_issues, #closed_issues, #detailspane, #legend {
+    #open_issues, #closed_issues, #detailspane, #legend, #filters {
         background-color: white;
     }
 
     #open_issues, #closed_issues {
         margin-bottom: 20px;
+        width: 48%;
+    }
+
+    #open_issues {
+        float: left;
+    }
+
+    #closed_issues {
+        float: right;
     }
 
     #legend {
@@ -109,15 +147,13 @@
     .issue span {
         padding-left: 10px;
         vertical-align: middle;
+        font-size: 1em;
     }
 
-    [ng-switch='i.Severity'] > div, 
-    #legend #lowseverity, 
-    #legend #mediumseverity, 
-    #legend #highseverity {
-        width: 10px;
+    #legend > div > div[data-severity] {
+        width: 30px;
         height: 10px;
-        border-radius: 50%;
+        /*border-radius: 50%;*/
         margin-right: 30px;
     }
 
@@ -126,32 +162,22 @@
         margin-right: 30px;
     }
 
-    [ng-switch='i.Severity'] > div {
-        float: right;
+    [data-severity='Low'] {
+        background-color: rgb(168, 255, 159);
     }
 
-    [ng-switch-when='Low'], #legend #lowseverity {
-        background-color: green;
+    [data-severity='Medium'] {
+        background-color: rgb(254, 255, 132);
     }
 
-    [ng-switch-when='Medium'], #legend #mediumseverity {
-        background-color: yellow;
-    }
-
-    [ng-switch-when='High'], #legend #highseverity {
-        background-color: red;
+    [data-severity='High'] {
+        background-color: rgb(255, 139, 139);
     }
 }
 
 @media (max-width: 800px) {
     .filter {
-        float: left;
         width: 100%;
-    }
-
-    select {
-        float: right;
-        width: 50%;
     }
         
     input[type=checkbox] {
