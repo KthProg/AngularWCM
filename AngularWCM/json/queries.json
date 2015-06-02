@@ -265,11 +265,27 @@
 	},
 	"WCCPerAuditor":{ 
 		"connection":"WCM",
-		"qstring":"SELECT  a.AuditorName, COUNT(*) AS Audits FROM WCC w JOIN Auditor a ON a.ID = w.AuditorID GROUP BY a.AuditorName"
+		"qstring":"EXEC pAuditsPerAuditorWCC @startDate=?, @endDate=?",
+		"parameters":{ 
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
+		}
 	},
 	"EHSPerAuditor":{ 
 		"connection":"WCM",
-		"qstring":"SELECT  a.AuditorName, COUNT(*) AS Audits FROM EHS e JOIN Auditor a ON a.ID = e.AuditorID GROUP BY a.AuditorName"
+		"qstring":"EXEC pAuditsPerAuditorEHS @startDate=?, @endDate=?",
+		"parameters":{ 
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
+		}
 	},
 	"WCCPerWorkCell":{ 
 		"connection":"WCM",
@@ -297,7 +313,15 @@
 	},
 	"IssuesBySeverity":{ 
 		"connection":"WCM",
-		"qstring":"SELECT Name + ' #' + CAST(ID AS varchar(max)) + ' SubCategory ID:' + CAST(SubCategoryID AS varchar(max)) AS Issue, Severity FROM vOpenIssues ORDER BY Severity"
+		"qstring":"EXEC pIssuesBySeverity @startDate=?, @endDate=?",
+		"parameters":{ 
+			"Start Date":{ 
+				"type":"date"
+			},
+			"End Date":{ 
+				"type":"date"
+			}
+		}
 	},
 	"ZonesNotEHSd":{ 
 		"connection":"WCM",
@@ -594,7 +618,15 @@
 	},
 	"TopFiveIssuesByZone":{
 		"connection":"WCM",
-		"qstring":"SELECT * FROM vTopFiveIssuesByZone"
+		"qstring":"EXEC pTopFiveIssuesByZone @startDate=?, @endDate=?",
+		"parameters":{
+			"Start Date":{
+				"type":"date"
+			},
+			"End Date":{
+				"type":"date"
+			}
+		}
 	},
 	"OilDetails":{
 		"connection":"WCM",
