@@ -221,8 +221,13 @@ Form.prototype.executeQueries = function () {
 
     // returns this promise in case you want to do something afterwards
     return $q.all(promises).then(function () {
-        if (success) form.addEmail();
-        document.body.innerHTML = success ? "<h1>All changes were successful.</h1>" : "<h1>Not all changes were successful.</h1><h2><br />Messages:<br />" + responses.join("<br />") + "</h2>";
+        if (success) {
+            form.addEmail().then(function(){
+                document.body.innerHTML += "<h1>All changes were successful.</h1>";
+            });
+        } else {
+            document.body.innerHTML += "<h1>Not all changes were successful.</h1><h2><br />Messages:<br />" + responses.join("<br />") + "</h2>";
+        }
     });
 };
 
@@ -252,13 +257,13 @@ Form.prototype.addEmail = function () {
     }).success(function (resp) {
         if (!(resp instanceof Array)) {
             if (resp[form.NO_ROWS]) {
-                document.body.innerHTML += "<h2><br />Email sent.</h2>";
+                document.body.innerHTML = "<h2><br />Email sent.</h2>";
                 return;
             }
-            document.body.innerHTML += "<h2><br />Email not sent.</h2>";
+            document.body.innerHTML = "<h2><br />Email not sent.</h2>";
             return;
         } 
-        document.body.innerHTML += "<h2>" + resp + "</h2>";
+        document.body.innerHTML = "<h2>" + resp + "</h2>";
     });
 };
 
