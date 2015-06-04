@@ -5,6 +5,7 @@
     // ($http replaceable with XMLHttpRequest
     // object, $scope gets replaced with model
     // object)
+    // $q replaced with Promises?
     window.$scope = $scope;
     window.$http = $http;
     window.$q = $q;
