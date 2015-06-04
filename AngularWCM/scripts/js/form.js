@@ -1,4 +1,4 @@
-﻿function FormController($scope, $http) {
+﻿function FormController($scope, $http, $q) {
     // put in global scope so other 'classes'
     // can use $scope and $http without being
     // connected neccessarily to Angular
@@ -7,6 +7,7 @@
     // object)
     window.$scope = $scope;
     window.$http = $http;
+    window.$q = $q;
 
     $scope.initialize = function (name, connection, tables, tableRecordCount, defaultValues) {
         $scope.form = new Form(name, connection, tables, tableRecordCount, defaultValues);
@@ -194,6 +195,8 @@ Form.prototype.executeQueries = function () {
     var responses = [];
     var success = true;
 
+    var promises = [];
+
     for (var i = 0, l = queries.length; i < l; ++i) {
         var qry = queries[i];
 
@@ -210,11 +213,14 @@ Form.prototype.executeQueries = function () {
                 success = false; // success && false, which is always false
             }
         });
+
+        promises.push(httpPromise);
     }
 
-    // returns this promise in case you want to do something afterwards
 
-    return httpPromise.then(function () {
+
+    // returns this promise in case you want to do something afterwards
+    return $q.all(promises).then(function () {
         if (success) form.addEmail();
         document.body.innerHTML = success ? "<h1>All changes were successful.</h1>" : "<h1>Not all changes were successful.</h1><h2><br />Messages:<br />" + responses.join("<br />") + "</h2>";
     });
