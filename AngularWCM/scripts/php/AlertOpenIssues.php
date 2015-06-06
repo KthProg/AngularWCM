@@ -10,43 +10,39 @@ $db_connection = DEV_MODE ? "WCMBackup" : "WCM";
 $emails = execute_query("SELECT * FROM vTopIssues", $db_connection, null, array(), PDO::FETCH_ASSOC);
 if($emails){
     for($i = 0, $l = count($emails); $i < $l; ++$i){
-		$email = $emails[$i];
-		if(isset($last_supervisor_name) && ($email["SupervisorName"] == $last_supervisor_name)){
-			$body .= issue_to_description($email);
-		} else {
+	$email = $emails[$i];
+	if(isset($last_supervisor_name) && ($email["SupervisorName"] == $last_supervisor_name)){
+	    $body .= issue_to_description($email);
+	} else {
             if(isset($last_supervisor_email)){
-			    send_email($last_supervisor_email, get_introduction($last_supervisor_name).$body);
+		send_email($last_supervisor_email, get_introduction($last_supervisor_name).$body);
             }
-			$body = issue_to_description($email);
-		}
-		$last_supervisor_name = $email["SupervisorName"];
-		$last_supervisor_email = $email["SupervisorEmail"];
+	    $body = issue_to_description($email);
+	}
+	$last_supervisor_name = $email["SupervisorName"];
+	$last_supervisor_email = $email["SupervisorEmail"];
     }
 }
-
+// TODO: put email func in a separate file. Share with Email.php
 function send_email($email, $body){
     $mail = new PHPMailer(true);
     try{
         $mail->isSMTP();
-        //$mail->Host = "mailna-com01b.mail.eo.outlook.com";
         $mail->Host = "smtp.gmail.com";
         $mail->SMTPSecure = "tls";
         $mail->Port = 587;
-        //$mail->Port = 25; // 465, 587
         $mail->SMTPAuth = true;
-        //$mail->Username = "hooks@njt-na.com";
         $mail->Username = "formalert@gmail.com";
         $mail->Password = "t05kwp456";
         $mail->From = "formalert@gmail.com";
-        //$mail->From = "hooks@njt-na.com";
         $mail->FromName = "WCM Form Alert";
         $mail->isHTML(true);
         $mail->addAddress($email);
-	    $mail->addAddress("grzyb@mayco-mi.com");
+	$mail->addAddress("grzyb@mayco-mi.com");
         $mail->addAddress("hooks@njt-na.com");
         $mail->Subject = "The top ten open issues in your area";
         $mail->Body = $body;
-	    if(!$mail->Send()):
+	if(!$mail->Send()):
             echo "Mailer Error: ".$mail->ErrorInfo."<br>";
         else:
             echo "Message has been sent.<br>";
