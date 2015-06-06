@@ -6,10 +6,6 @@
     this.name = name;
     this.type = type;
 
-    // this.getHTMLInputType();
-    // TODO: implement this
-    // TONOTDO: never mind
-
     this.options = [{ k: -1, v: null}];
 
     this.nullable = nullable;
